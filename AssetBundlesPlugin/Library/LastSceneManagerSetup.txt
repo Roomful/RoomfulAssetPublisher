@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Plugins/Roomful/Props/RedCouch/RedCouch.unity
+- path: Assets/123.unity
   isLoaded: 1
   isActive: 1

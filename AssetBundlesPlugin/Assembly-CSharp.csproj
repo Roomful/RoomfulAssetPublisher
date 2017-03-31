@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_1;UNITY_5_5;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VIDEO;ENABLE_VR;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_2;UNITY_5_5;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VIDEO;ENABLE_VR;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -39,51 +39,55 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/Managed/UnityEngine.dll</HintPath>
+      <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
+      <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\UltimateLogger\Core\Logger.cs" />
-     <Compile Include="Assets\UltimateLogger\Core\LoggerPlatfromsSettings.cs" />
-     <Compile Include="Assets\UltimateLogger\Core\UnityMainThreadDispatcher.cs" />
-     <Compile Include="Assets\UltimateLogger\Enums\DefaultTags.cs" />
-     <Compile Include="Assets\UltimateLogger\Models\ILogMessageReceiver.cs" />
-     <Compile Include="Assets\UltimateLogger\Models\LogHandler.cs" />
-     <Compile Include="Assets\UltimateLogger\Models\Singletone.cs" />
-     <Compile Include="Assets\UltimateLogger\Models\UnityLog.cs" />
-     <Compile Include="Assets\UltimateLogger\Platfroms\AndroidBridge.cs" />
-     <Compile Include="Assets\UltimateLogger\Platfroms\AndroidLogHandler.cs" />
-     <Compile Include="Assets\UltimateLogger\Platfroms\AndroidProxyPool.cs" />
-     <Compile Include="Assets\UltimateLogger\Platfroms\EditorStub.cs" />
-     <Compile Include="Assets\UltimateLogger\Platfroms\ILogBridge.cs" />
-     <Compile Include="Assets\UltimateLogger\Platfroms\iOS_Bridge.cs" />
-     <Compile Include="Assets\UltimateLogger\Platfroms\iOS_LogHandler.cs" />
-     <Compile Include="Assets\UltimateLogger\xExamples\LoggerUseExampel.cs" />
-     <Compile Include="Assets\UltimateLogger\xExamples\PerformanceTest.cs" />
- <Reference Include="UnityEngine.UI">
- <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Networking">
- <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+     <Compile Include="Assets\Roomful\Scripts\Common\AssetBundlesSettings.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Common\FolderUtils.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Enums\InvokeTypes.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Enums\Placing.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Enums\WizzardTabs.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Models\AssetTemplate.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Models\PropAsset.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\RequestMethods.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\BaseWebPackage.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\CreateMetaData.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\GetAllAssets.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\GetAsset.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\GetAssetUrl.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\GetUploadLink.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\RemoveAsset.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\SignIn.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\UpdateAsset.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\UploadAsset.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\Requests\UploadConfirmation.cs" />
+     <Compile Include="Assets\Roomful\Scripts\Web\WebServer.cs" />
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.PlaymodeTestsRunner">
- <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+ <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
- <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.VR">
- <HintPath>/Applications/Unity5.5.1f1/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ <HintPath>/Applications/Unity5.5.2/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
- <Reference Include="UltimateLogger">
- <HintPath>/Users/Whisper/Development/UnityProjects/Asset Bundle Plugin/AssetBundlesPlugin/Assets/UltimateLogger/Core/UltimateLogger.dll</HintPath>
- </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{97A2FF09-AA8D-2497-DD10-3EF3152EB8FE}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

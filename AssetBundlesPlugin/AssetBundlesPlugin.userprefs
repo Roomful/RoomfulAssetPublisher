@@ -1,15 +1,15 @@
-﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj" RefactoringSettings.EnableRefactorings="True">
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Plugins/Roomful/Scripts/Editor/Windows/WizzardWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Roomful/Scripts/Editor/Windows/WizzardWindow.cs">
     <Files>
-      <File FileName="Assets/Plugins/Roomful/Scripts/Editor/Windows/WizzardWindow.cs" Line="85" Column="7" />
-      <File FileName="Assets/Plugins/Roomful/Scripts/Editor/Core/AssetBundlesSettings.cs" Line="1" Column="1" />
-      <File FileName="Assets/Plugins/Roomful/Scripts/Editor/Models/AssetRepresentation.cs" Line="1" Column="1" />
-      <File FileName="Assets/Plugins/Roomful/Scripts/Editor/Enums/WizzardTabs.cs" Line="1" Column="1" />
-      <File FileName="Assets/Plugins/Roomful/Scripts/Editor/Core/EditorUtils.cs" Line="1" Column="1" />
-      <File FileName="Assets/Plugins/Roomful/Scripts/Editor/Enums/Placing.cs" Line="1" Column="1" />
-      <File FileName="Assets/Plugins/Roomful/Scripts/Models/AssetTemplate.cs" Line="1" Column="1" />
-      <File FileName="Assets/Plugins/Roomful/Scripts/Models/Prop.cs" Line="1" Column="1" />
+      <File FileName="Assets/Roomful/Scripts/Editor/Windows/WizzardWindow.cs" Line="180" Column="39" />
+      <File FileName="Assets/Roomful/Scripts/Enums/WizzardTabs.cs" Line="9" Column="2" />
+      <File FileName="Assets/Roomful/Scripts/Web/Requests/SignIn.cs" Line="31" Column="4" />
+      <File FileName="Assets/Roomful/Scripts/Web/Requests/CreateMetaData.cs" Line="15" Column="74" />
+      <File FileName="Assets/Roomful/Scripts/Web/Requests/GetAllAssets.cs" Line="10" Column="40" />
+      <File FileName="Assets/Roomful/Scripts/Web/Requests/UpdateAsset.cs" Line="21" Column="80" />
+      <File FileName="Assets/Roomful/Scripts/Web/Requests/RemoveAsset.cs" Line="22" Column="4" />
+      <File FileName="Assets/Roomful/Scripts/Editor/Windows/CreateAssetWindow.cs" Line="35" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
