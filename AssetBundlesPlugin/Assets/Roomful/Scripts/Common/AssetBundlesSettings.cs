@@ -36,7 +36,7 @@ namespace RF.AssetWizzard {
 
 		public string _SessionId = "";
 
-		//public List<PropInfo> AvaliableProps 	= new List<PropInfo>();
+		private List<AssetTemplate> _LocalAssetTemplates = new List<AssetTemplate>();
 
 		private static AssetBundlesSettings _Instance = null;
 		public static AssetBundlesSettings Instance {
@@ -86,6 +86,32 @@ namespace RF.AssetWizzard {
 			AssetDatabase.SaveAssets();
 			#endif
 		}
+
+		public List<AssetTemplate> LocalAssetTemplates {
+			get {
+				return _LocalAssetTemplates;
+			}
+			set {
+				_LocalAssetTemplates = value;
+			}
+		}
+
+		public void RemoverFromLocalAssetTemplates(AssetTemplate tpl) {
+			_LocalAssetTemplates.Remove (tpl);
+
+		}
+
+		public bool IsAssetInLocal(string id) {
+			foreach (AssetTemplate at in _LocalAssetTemplates) {
+				if (at.Id.Equals (id)) {
+					return true;
+				}
+			}
+
+
+			return false;
+		}
+
 	}
 }
 

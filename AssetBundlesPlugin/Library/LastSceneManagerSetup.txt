@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/123.unity
+- path: Assets/Roomful/Scenes/AssetWorkshop.unity
   isLoaded: 1
   isActive: 1

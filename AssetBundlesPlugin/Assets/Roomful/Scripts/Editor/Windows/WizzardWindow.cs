@@ -8,7 +8,7 @@ namespace RF.AssetWizzard.Editor {
 	public class WizzardWindow : EditorWindow {
 		
 		private WizzardTabs _CurrentTab = WizzardTabs.All;
-		private string[] Tabs = new string[] {"Show all", "Edit current"};
+		private string[] Tabs = new string[] {"Assets", "Current"};
 
 		//Auth
 		private string Mail = string.Empty;
@@ -66,9 +66,6 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.BeginHorizontal();
 			CurrentTab = (WizzardTabs)GUILayout.Toolbar((int)CurrentTab, Tabs);
 
-			if(GUILayout.Button("Create new")) {
-				CreateNewAssetWindow ();
-			}
 			GUILayout.EndHorizontal();
 
 			GUILayout.EndVertical ();
@@ -85,13 +82,114 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
+		private Vector2 scrollPos;
+
 		private void AllPropsWindow() {
 			GUILayout.BeginVertical ();
 
 			EditorGUILayout.Space();
-			GUILayout.Label ("All existing props");
+
+			GUILayout.BeginHorizontal ();
+
+			if (GUILayout.Button ("Get all assets")) {
+				GetAllAssets ();
+			}
+
+			if(GUILayout.Button("Create new")) {
+				CreateNewAssetWindow ();
+			}
+
+			GUILayout.EndHorizontal ();
+			EditorGUILayout.Space();
+
+			scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+
+			foreach (AssetTemplate prop in AssetBundlesSettings.Instance.LocalAssetTemplates) {
+				
+				EditorGUILayout.BeginVertical (GUI.skin.box);
+				EditorGUILayout.BeginHorizontal();
+
+				if (prop.Thumbnail != null) {
+					GUILayout.Box (prop.Thumbnail, GUIStyle.none, new GUILayoutOption[]{ GUILayout.Width (18), GUILayout.Height (18) });
+				} else {
+					GUILayout.Box (new Texture2D(18, 18), GUIStyle.none, new GUILayoutOption[]{ GUILayout.Width (18), GUILayout.Height (18) });
+				}
+
+				EditorGUILayout.LabelField ("", prop.Title);
+				//prop.IsOpen = EditorGUILayout.Foldout(prop.IsOpen, prop.SceneName);
+				
+				if (GUILayout.Button("Edit", EditorStyles.miniButton, GUILayout.Width(50))) {
+	//				EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+	//				EditorSceneManager.OpenScene(prop.ScenePath);
+				}
+				bool ItemWasRemoved = false;
+
+				if (GUILayout.Button("Delete", EditorStyles.miniButton, GUILayout.Width(50))) {
+					if (EditorUtility.DisplayDialog ("Asset removing", "Are you sure you want to remove this asset?", "Remove", "Cancel")) {
+						ItemWasRemoved = true;
+
+						RF.AssetWizzard.Network.Request.RemoveAsset removeRequest = new RF.AssetWizzard.Network.Request.RemoveAsset (prop.Id);
+
+						removeRequest.PackageCallbackData = (removeCallback) => {
+							AssetBundlesSettings.Instance.RemoverFromLocalAssetTemplates(prop);
+						};
+
+						removeRequest.Send ();
+					}
+				}
+
+				SA.Common.Editor.Tools.SrotingButtons((object) prop, AssetBundlesSettings.Instance.LocalAssetTemplates);
+
+				if(ItemWasRemoved) {
+					return;
+				}
+
+				EditorGUILayout.EndHorizontal();
+	
+	//			if(prop.IsOpen) {
+	//
+	//				EditorGUILayout.BeginHorizontal();
+	//				EditorGUILayout.LabelField("Describtion");
+	//				EditorGUILayout.EndHorizontal();
+	//
+	//				EditorGUILayout.BeginHorizontal();
+	//				prop.Description	 = EditorGUILayout.TextArea(prop.Description,  new GUILayoutOption[]{GUILayout.Height(60), GUILayout.Width(200)} );
+	//				prop.Icon = (Texture2D) EditorGUILayout.ObjectField("", prop.Icon, typeof (Texture2D), false);
+	//				EditorGUILayout.EndHorizontal();
+	//
+	//			}
+	
+				EditorGUILayout.EndVertical();
+			}
+
+			EditorGUILayout.EndScrollView();
+
+			EditorGUILayout.Space();
+
+			if(GUILayout.Button("Add new")) {
+				//RoomEditorMenu.NewProp();
+			}
 
 			GUILayout.EndVertical ();
+		}
+
+		private void GetAllAssets() {
+			RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets ();
+			AssetBundlesSettings.Instance.LocalAssetTemplates.Clear ();
+
+			allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
+				
+				List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
+
+				foreach (object assetData in allAssetsList) {
+					AssetTemplate at = new AssetTemplate(new JSONData(assetData).RawData);
+
+					AssetBundlesSettings.Instance.LocalAssetTemplates.Add(at);
+				}
+
+			};
+
+			allAssetsRequest.Send ();
 		}
 
 		private void CurrentPropsWindow() {
@@ -129,7 +227,7 @@ namespace RF.AssetWizzard.Editor {
 				} else {
 					if (GUILayout.Button ("Update")) {
 						Debug.Log ("Update");
-						//UploadNewMetaData (EditableProp);
+						UploadNewMetaData (EditableProp);
 					}
 
 					if (GUILayout.Button ("Reset")) {
@@ -349,6 +447,7 @@ namespace RF.AssetWizzard.Editor {
 							Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(prop.Template.Id);
 
 							confirm.PackageCallbackText = (confirmCallback)=> {
+								CleanAssetBundleName(prop.Template.Title);
 								Debug.Log("Prop: "+prop.Template.Title+" uploaded!" );
 							};
 
@@ -372,7 +471,7 @@ namespace RF.AssetWizzard.Editor {
 			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + assetName+ ".prefab";
 
 			AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
-			assetImporter.assetBundleName = "None";
+			assetImporter.assetBundleName = assetName;
 
 			//here should be building for all platforms
 
@@ -383,7 +482,9 @@ namespace RF.AssetWizzard.Editor {
 			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + assetName+ ".prefab";
 
 			AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
-			assetImporter.assetBundleName = assetName;
+			assetImporter.assetBundleName = string.Empty;
+
+			AssetDatabase.RemoveUnusedAssetBundleNames ();
 		}
 
 		private void ClearInputFields() {

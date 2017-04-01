@@ -198,7 +198,7 @@ namespace SA.Common.Editor {
 
 
 
-		public static bool SrotingButtons(object currentObject, IList ObjectsList) {
+		public static void SrotingButtons(object currentObject, IList ObjectsList) {
 			
 			int ObjectIndex = ObjectsList.IndexOf(currentObject);
 			if(ObjectIndex == 0) {
@@ -225,15 +225,15 @@ namespace SA.Common.Editor {
 				ObjectsList[ObjectIndex] =  ObjectsList[ObjectIndex + 1];
 				ObjectsList[ObjectIndex + 1] = c;
 			}
+
 			
-			
-			GUI.enabled = true;
-			bool r 			= GUILayout.Button("-", EditorStyles.miniButtonRight, GUILayout.Width(20));
-			if(r) {
-				ObjectsList.Remove(currentObject);
-			}
-			
-			return r;
+//			GUI.enabled = true;
+//			bool r 			= GUILayout.Button("-", EditorStyles.miniButtonRight, GUILayout.Width(20));
+//			if(r) {
+//				ObjectsList.Remove(currentObject);
+//			}
+//			
+//			return r;
 		}
 
 
