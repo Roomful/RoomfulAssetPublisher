@@ -7,18 +7,18 @@ namespace RF.AssetWizzard.Network.Request {
 
 		public const string PackUrl = "/api/v0/asset/update";
 
-//		private string Id;
-//		private AssetTemplate Tpl;
+		private AssetTemplate Tpl;
 
-		public UpdateAsset(string id, AssetTemplate tpl):base(PackUrl) {
+		public UpdateAsset(AssetTemplate tpl):base(PackUrl) {
 			_Headers.Add("x-session-id", AssetBundlesSettings.Instance.SessionId);
 
-//			Id = id;
-//			Tpl = tpl;
+			Tpl = tpl;
 		}
 
 		public override Dictionary<string, object> GenerateData () {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
+
+			OriginalJSON.Add ("data", Tpl.ToDictionaryWithoutInfo ());
 
 			return OriginalJSON;
 		}

@@ -116,12 +116,23 @@ namespace RF.AssetWizzard.Editor {
 				}
 
 				EditorGUILayout.LabelField ("", prop.Title);
-				//prop.IsOpen = EditorGUILayout.Foldout(prop.IsOpen, prop.SceneName);
-				
+
 				if (GUILayout.Button("Edit", EditorStyles.miniButton, GUILayout.Width(50))) {
-	//				EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-	//				EditorSceneManager.OpenScene(prop.ScenePath);
+					PropAsset propOnScene = GameObject.FindObjectOfType<PropAsset> ();
+
+					if (propOnScene == null) {
+						LoadAssetBundle (prop);
+					} else {
+						if (EditorUtility.DisplayDialog (propOnScene.Template.Title+" in workshop", "There is an asset ("+propOnScene.Template.Title+") in the workshop, if you want to edit, you should save and remove it before. Save and remove?", "Save and remove", "Cancel")) {
+							SavePrefab(propOnScene);
+
+							DestroyImmediate(propOnScene.gameObject);
+
+							LoadAssetBundle (prop);
+						}
+					}
 				}
+
 				bool ItemWasRemoved = false;
 
 				if (GUILayout.Button("Delete", EditorStyles.miniButton, GUILayout.Width(50))) {
@@ -145,30 +156,10 @@ namespace RF.AssetWizzard.Editor {
 				}
 
 				EditorGUILayout.EndHorizontal();
-	
-	//			if(prop.IsOpen) {
-	//
-	//				EditorGUILayout.BeginHorizontal();
-	//				EditorGUILayout.LabelField("Describtion");
-	//				EditorGUILayout.EndHorizontal();
-	//
-	//				EditorGUILayout.BeginHorizontal();
-	//				prop.Description	 = EditorGUILayout.TextArea(prop.Description,  new GUILayoutOption[]{GUILayout.Height(60), GUILayout.Width(200)} );
-	//				prop.Icon = (Texture2D) EditorGUILayout.ObjectField("", prop.Icon, typeof (Texture2D), false);
-	//				EditorGUILayout.EndHorizontal();
-	//
-	//			}
-	
 				EditorGUILayout.EndVertical();
 			}
 
 			EditorGUILayout.EndScrollView();
-
-			EditorGUILayout.Space();
-
-			if(GUILayout.Button("Add new")) {
-				//RoomEditorMenu.NewProp();
-			}
 
 			GUILayout.EndVertical ();
 		}
@@ -187,6 +178,7 @@ namespace RF.AssetWizzard.Editor {
 					AssetBundlesSettings.Instance.LocalAssetTemplates.Add(at);
 				}
 
+				AssetBundlesSettings.Save();
 			};
 
 			allAssetsRequest.Send ();
@@ -198,6 +190,9 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUILayout.Space();
 
 			if (EditableProp != null) {
+
+				EditorGUI.BeginChangeCheck ();
+
 				EditableAssetName = EditorGUILayout.TextField ("Name: ", EditableAssetName);
 
 				CurrentPropPlacing = (Placing) EditorGUILayout.EnumPopup("Placing: ", CurrentPropPlacing);
@@ -212,13 +207,27 @@ namespace RF.AssetWizzard.Editor {
 
 				GUILayout.EndHorizontal ();
 
+				if (EditorGUI.EndChangeCheck ()) {
+					EditableProp.Template.Title = EditableAssetName;
+					EditableProp.Template.Placing = CurrentPropPlacing;
+					EditableProp.Template.InvokeType = CurrentPropInvoke;
+					EditableProp.Template.Thumbnail = CurrentPropThumbnail;
+
+					EditableProp.Template.MinScale = MinScale;
+					EditableProp.Template.MaxScale = MaxScale;
+
+					EditableProp.Template.FileName = EditableAssetName;
+
+					SavePrefab(EditableProp);
+				}
+
 				EditorGUILayout.Space();
 
 				GUILayout.BeginHorizontal ();
 
 				if (string.IsNullOrEmpty (EditableProp.Template.Id)) {
 					if (GUILayout.Button ("Upload")) {
-						UploadNewMetaData (EditableProp);
+						UploadAsset ();
 					}
 
 					if (GUILayout.Button ("Clear")) {
@@ -226,8 +235,7 @@ namespace RF.AssetWizzard.Editor {
 					}
 				} else {
 					if (GUILayout.Button ("Update")) {
-						Debug.Log ("Update");
-						UploadNewMetaData (EditableProp);
+						UpdateAsset ();
 					}
 
 					if (GUILayout.Button ("Reset")) {
@@ -236,7 +244,7 @@ namespace RF.AssetWizzard.Editor {
 
 					if (GUILayout.Button ("Delete")) {
 						Debug.Log ("Delete");
-						//LoadAssetBundle ();
+
 					}
 				}
 
@@ -248,25 +256,28 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.EndVertical ();
 		}
 
-		private void LoadAssetBundle() {
+		private void LoadAssetBundle(AssetTemplate prop) {
 			EditorApplication.delayCall = () => {
 				EditorApplication.delayCall = null;
 
-				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (EditableProp.Template.Id);
+				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id);
 
 				getAssetUrl.PackageCallbackText = (assetUrl) => {
 
 					Network.Request.GetAsset loadAsset = new RF.AssetWizzard.Network.Request.GetAsset (assetUrl);
 
 					loadAsset.PackageCallbackData = (loadCallback) => {
-						string bundlePath = AssetBundlesSettings.AssetBundlesPath+"/" + EditableAssetName.ToLower();
+						string bundlePath = AssetBundlesSettings.AssetBundlesPath+"/" + prop.Title.ToLower();
+
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
+
+						Caching.CleanCache();
 
 						AssetBundle assetBundle = AssetBundle.LoadFromFile(bundlePath);
 
-						RecreateProp(EditableAssetName, assetBundle.LoadAsset<Object>(EditableAssetName.ToLower()));
+						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title.ToLower()));
 
-						//assetBundle.Unload(false);
+						assetBundle.Unload(false);
 					};
 
 					loadAsset.Send ();
@@ -333,7 +344,13 @@ namespace RF.AssetWizzard.Editor {
 				if (propOnScene == null) {
 					CreateAsset (newAsset);
 				} else {
-					Debug.Log("Some prop is already in workshop!");
+					if (EditorUtility.DisplayDialog (propOnScene.Template.Title+" in workshop", "There is an asset ("+propOnScene.Template.Title+") in the workshop, if you want to create new, you should save and remove it before. Save and remove?", "Save and remove", "Cancel")) {
+						SavePrefab(propOnScene);
+
+						DestroyImmediate(propOnScene.gameObject);
+
+						CreateAsset (newAsset);
+					}
 				}
 			};
 		}
@@ -362,27 +379,25 @@ namespace RF.AssetWizzard.Editor {
 			//EditorSceneManager.MarkSceneDirty (EditorSceneManager.GetActiveScene ());
 		}
 
-		private void RecreateProp(string propName, Object prop) {
+		private void RecreateProp(AssetTemplate tpl, Object prop) {
 			if (prop == null) {
 				Debug.Log ("Prop is null");
 				return;
 			}
 
-			string scenePath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + propName + "/" + propName + ".unity";
-			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + propName + "/" + propName + ".prefab";
+			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + tpl.Title + ".prefab";
 
-			CreateWorkshopScene (scenePath);
+			OpenWorkshopScene ();
 
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
-			newGo.name = propName;
+			newGo.name = tpl.Title;
 
-//			Prop createdProp = new GameObject (propName).AddComponent<Prop> ();
-//			createdProp.Template.Title = propName;
+			newGo.AddComponent<PropAsset> ().SetTemplate (tpl);
 
 			GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, newGo);
 			PrefabUtility.ConnectGameObjectToPrefab (newGo, newPrfab);
 
-			EditorSceneManager.MarkSceneDirty (EditorSceneManager.GetActiveScene ());
+			CurrentTab = WizzardTabs.Current;
 		}
 
 		private void CreateWorkshopScene(string scenePath) {
@@ -392,63 +407,92 @@ namespace RF.AssetWizzard.Editor {
 			EditorSceneManager.SaveScene(newScene, scenePath, false);
 		}
 
-		private void UploadNewMetaData(PropAsset prop) {
-			prop.Template.Title = EditableAssetName;
-			prop.Template.Placing = CurrentPropPlacing;
-			prop.Template.InvokeType = CurrentPropInvoke;
-			prop.Template.Thumbnail = CurrentPropThumbnail;
-
-			prop.Template.MinScale = MinScale;
-			prop.Template.MaxScale = MaxScale;
-
-			prop.Template.FileName = EditableAssetName;
-
-			if (prop.Template.Placing == Placing.None) {
+		private void UpdateAsset() {
+			if (EditableProp.Template.Placing == Placing.None) {
 				Debug.Log ("Choose placing!");
 				return;
 			}
 
-			if (prop.Template.InvokeType == InvokeTypes.None) {
+			if (EditableProp.Template.InvokeType == InvokeTypes.None) {
 				Debug.Log ("Choose invoke type!");
 				return;
 			}
 
-			if (prop.Template.Thumbnail == null) {
+			if (EditableProp.Template.Thumbnail == null) {
 				Debug.Log ("Set asset's thumbnail!");
-				//return;
+				return;
 			}
 
-			if (prop.transform.childCount < 1) {
+			if (EditableProp.transform.childCount < 1) {
 				Debug.Log ("Prop asset is empty!");
 				return;
 			}
 
-			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (prop.Template);
+			RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (EditableProp.Template);
+
+			updateRequest.PackageCallbackText = (updateCalback) => {
+				EditableProp.SetTemplate(new AssetTemplate(updateCalback));
+				Debug.Log(EditableProp.Template.Placing);
+			};
+
+			updateRequest.Send ();
+		}
+
+		private void UploadAsset() {
+			if (EditableProp.Template.Placing == Placing.None) {
+				Debug.Log ("Choose placing!");
+				return;
+			}
+
+			if (EditableProp.Template.InvokeType == InvokeTypes.None) {
+				Debug.Log ("Choose invoke type!");
+				return;
+			}
+
+			if (EditableProp.Template.Thumbnail == null) {
+				Debug.Log ("Set asset's thumbnail!");
+				return;
+			}
+
+			if (EditableProp.transform.childCount < 1) {
+				Debug.Log ("Prop asset is empty!");
+				return;
+			}
+
+			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (EditableProp.Template);
 
 			createMeta.PackageCallbackText = (callback) => { 
-				prop.SetTemplate( new AssetTemplate(callback));
+				GameObject CachedPropObject = EditableProp.gameObject;
+				AssetTemplate CachedPropTempolate = new AssetTemplate(callback);
 
-				Repaint();
 
-				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (prop.Template.Id);
+				DestroyImmediate(EditableProp);
+				EditableProp = null;
+
+				SavePrefab(CachedPropTempolate.Title, CachedPropObject);
+
+				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (CachedPropTempolate.Id);
 
 				EditorApplication.delayCall = () => {
 					EditorApplication.delayCall = null;
 
-					BuildAssetBundleFor(prop.Template.Title);
+					BuildAssetBundleFor(CachedPropTempolate.Title);
 
 					getUploadLink.PackageCallbackText = (linkCallback) => {
 						
-						byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPath+"/"+EditableAssetName.ToLower());
+						byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPath+"/"+CachedPropTempolate.Title.ToLower());
 
 						Network.Request.UploadAsset uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset(linkCallback, assetBytes);
 
 						uploadRequest.PackageCallbackText = (uploadCallback)=> {
-							Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(prop.Template.Id);
+							Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(CachedPropTempolate.Id);
 
 							confirm.PackageCallbackText = (confirmCallback)=> {
-								CleanAssetBundleName(prop.Template.Title);
-								Debug.Log("Prop: "+prop.Template.Title+" uploaded!" );
+								CleanAssetBundleName(CachedPropTempolate.Title);
+								EditableProp = CachedPropObject.AddComponent<PropAsset>();
+								EditableProp.SetTemplate(CachedPropTempolate);
+
+								SavePrefab(EditableProp);
 							};
 
 							confirm.Send();
@@ -516,6 +560,20 @@ namespace RF.AssetWizzard.Editor {
 
 				CurrentPropThumbnail = EditableProp.Template.Thumbnail;
 			}
+		}
+
+		private void SavePrefab(PropAsset propOnScene) {
+			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.PROPS_ASSETS_LOCATION+propOnScene.Template.Title+".prefab", typeof(Object));
+
+			PrefabUtility.ReplacePrefab(propOnScene.gameObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
+
+			SavePrefab (propOnScene.Template.Title, propOnScene.gameObject);
+		}
+
+		private void SavePrefab(string propName, GameObject propObject) {
+			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.PROPS_ASSETS_LOCATION+propName+".prefab", typeof(Object));
+
+			PrefabUtility.ReplacePrefab(propObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
 		}
 
 		public WizzardTabs CurrentTab {

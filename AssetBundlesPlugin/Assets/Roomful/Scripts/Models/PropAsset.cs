@@ -32,7 +32,6 @@ namespace RF.AssetWizzard {
 		// Get / Set
 		//--------------------------------------
 
-
 		public AssetTemplate Template {
 			get {
 				if (_Template == null) {

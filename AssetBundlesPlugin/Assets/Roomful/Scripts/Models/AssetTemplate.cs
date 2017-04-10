@@ -77,6 +77,31 @@ namespace RF.AssetWizzard {
 			return OriginalJSON;
 		}
 
+		public Dictionary<string, object> ToDictionaryWithoutInfo () {
+			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
+
+			OriginalJSON.Add("id", Id);
+			//			OriginalJSON.Add("created", SA.Common.Util.General.DateTimeToRfc3339(_Created));
+			//			OriginalJSON.Add("updated", SA.Common.Util.General.DateTimeToRfc3339(_Updated));
+			OriginalJSON.Add("title", Title);
+			OriginalJSON.Add("placing", Placing.ToString());
+			OriginalJSON.Add("invokeType", InvokeType.ToString());
+
+			string thumbnailStr = "";
+			if (Thumbnail != null) {
+				byte[] bytes = Thumbnail.EncodeToPNG();
+
+				thumbnailStr = System.Convert.ToBase64String (bytes);
+			}
+
+			OriginalJSON.Add("thumbnail", thumbnailStr);
+
+			OriginalJSON.Add("minScale", MinScale);
+			OriginalJSON.Add("maxScale", MaxScale);
+
+			return OriginalJSON;
+		}
+
 		public void ParseData(JSONData assetData) {
 			Id = assetData.GetValue<string> ("id");
 			Created = assetData.GetValue<DateTime> ("created");

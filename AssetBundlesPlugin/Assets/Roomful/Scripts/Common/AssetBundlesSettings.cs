@@ -36,7 +36,7 @@ namespace RF.AssetWizzard {
 
 		public string _SessionId = "";
 
-		private List<AssetTemplate> _LocalAssetTemplates = new List<AssetTemplate>();
+		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
 
 		private static AssetBundlesSettings _Instance = null;
 		public static AssetBundlesSettings Instance {
@@ -59,9 +59,6 @@ namespace RF.AssetWizzard {
 						#endif
 					}
 
-//					foreach (PropInfo prop in _Instance.AvaliableProps) {
-//						prop.IsAvailable = pickedScenes.Contains(prop.ScenePath);
-//					}
 					
 				}
 
@@ -87,22 +84,14 @@ namespace RF.AssetWizzard {
 			#endif
 		}
 
-		public List<AssetTemplate> LocalAssetTemplates {
-			get {
-				return _LocalAssetTemplates;
-			}
-			set {
-				_LocalAssetTemplates = value;
-			}
-		}
 
 		public void RemoverFromLocalAssetTemplates(AssetTemplate tpl) {
-			_LocalAssetTemplates.Remove (tpl);
+			LocalAssetTemplates.Remove (tpl);
 
 		}
 
 		public bool IsAssetInLocal(string id) {
-			foreach (AssetTemplate at in _LocalAssetTemplates) {
+			foreach (AssetTemplate at in LocalAssetTemplates) {
 				if (at.Id.Equals (id)) {
 					return true;
 				}
