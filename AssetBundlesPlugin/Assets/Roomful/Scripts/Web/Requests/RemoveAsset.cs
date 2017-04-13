@@ -10,8 +10,6 @@ namespace RF.AssetWizzard.Network.Request {
 		private string Id;
 
 		public RemoveAsset(string id):base(PackUrl) {
-			_Headers.Add("x-session-id", AssetBundlesSettings.Instance.SessionId);
-
 			Id = id;
 		}
 

@@ -7,13 +7,19 @@ namespace RF.AssetWizzard.Network.Request {
 
 		private const string PackUrl = "/api/v0/asset/upload/link/complete";
 
-		public UploadConfirmation (string assetId) : base (PackUrl) {
-			_Headers.Add ("x-session-id", AssetBundlesSettings.Instance.SessionId);
-			_Headers.Add ("x-asset-id", assetId);
+		private string _AssetId;
+		private UnityEditor.BuildTarget _Platform;
+
+		public UploadConfirmation (string assetId, UnityEditor.BuildTarget platform) : base (PackUrl) {
+			_AssetId = assetId;
+			_Platform = platform;
 		}
 
 		public override Dictionary<string, object> GenerateData () {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
+
+			OriginalJSON.Add ("asset", _AssetId);
+			OriginalJSON.Add ("platform", _Platform.ToString());
 
 			return OriginalJSON;
 		}

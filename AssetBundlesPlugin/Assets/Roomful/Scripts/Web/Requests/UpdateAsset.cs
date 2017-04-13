@@ -10,15 +10,13 @@ namespace RF.AssetWizzard.Network.Request {
 		private AssetTemplate Tpl;
 
 		public UpdateAsset(AssetTemplate tpl):base(PackUrl) {
-			_Headers.Add("x-session-id", AssetBundlesSettings.Instance.SessionId);
-
 			Tpl = tpl;
 		}
 
 		public override Dictionary<string, object> GenerateData () {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
 
-			OriginalJSON.Add ("data", Tpl.ToDictionaryWithoutInfo ());
+			OriginalJSON.Add ("data", Tpl.ToDictionary ());
 
 			return OriginalJSON;
 		}

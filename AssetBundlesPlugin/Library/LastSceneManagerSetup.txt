@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Roomful/Scenes/AssetWorkshop.unity
+  isLoaded: 1
+  isActive: 1

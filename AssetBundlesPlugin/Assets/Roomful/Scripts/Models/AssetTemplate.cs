@@ -17,9 +17,6 @@ namespace RF.AssetWizzard {
 		public float MinScale = 0.5f;
 		public float MaxScale = 2f;
 
-		public string FileName = string.Empty;
-		public string ContentType = "asset";
-
 		public AssetTemplate() {
 			
 		}
@@ -34,7 +31,6 @@ namespace RF.AssetWizzard {
 			Thumbnail = origin.Thumbnail;
 			MinScale = origin.MinScale;
 			MaxScale = origin.MaxScale;
-			FileName = origin.FileName;
 		}
 
 		public AssetTemplate(JSONData assetData) {
@@ -48,41 +44,9 @@ namespace RF.AssetWizzard {
 		public Dictionary<string, object> ToDictionary () {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
 
-//			OriginalJSON.Add("id", _Id);
-//			OriginalJSON.Add("created", SA.Common.Util.General.DateTimeToRfc3339(_Created));
-//			OriginalJSON.Add("updated", SA.Common.Util.General.DateTimeToRfc3339(_Updated));
-			OriginalJSON.Add("title", Title);
-			OriginalJSON.Add("placing", Placing.ToString());
-			OriginalJSON.Add("invokeType", InvokeType.ToString());
-
-			string thumbnailStr = "";
-			if (Thumbnail != null) {
-				byte[] bytes = Thumbnail.EncodeToPNG();
-
-				thumbnailStr = System.Convert.ToBase64String (bytes);
-			}
-
-			OriginalJSON.Add("thumbnail", thumbnailStr);
-
-			OriginalJSON.Add("minScale", MinScale);
-			OriginalJSON.Add("maxScale", MaxScale);
-
-			Dictionary<string, object> fileInfo =  new Dictionary<string, object>();
-
-			fileInfo.Add ("fileName", FileName);
-//			fileInfo.Add ("contentType", "asset");
-
-			OriginalJSON.Add("fileInfo", fileInfo);
-
-			return OriginalJSON;
-		}
-
-		public Dictionary<string, object> ToDictionaryWithoutInfo () {
-			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
-
 			OriginalJSON.Add("id", Id);
-			//			OriginalJSON.Add("created", SA.Common.Util.General.DateTimeToRfc3339(_Created));
-			//			OriginalJSON.Add("updated", SA.Common.Util.General.DateTimeToRfc3339(_Updated));
+			OriginalJSON.Add("created", SA.Common.Util.General.DateTimeToRfc3339(Created));
+			OriginalJSON.Add("updated", SA.Common.Util.General.DateTimeToRfc3339(Updated));
 			OriginalJSON.Add("title", Title);
 			OriginalJSON.Add("placing", Placing.ToString());
 			OriginalJSON.Add("invokeType", InvokeType.ToString());
@@ -121,11 +85,6 @@ namespace RF.AssetWizzard {
 
 			MinScale = assetData.GetValue<float> ("minScale");
 			MaxScale = assetData.GetValue<float> ("maxScale");
-
-			JSONData fileInfo = new JSONData (assetData.GetValue<Dictionary<string, object>> ("fileInfo"));
-
-			FileName = fileInfo.GetValue<string> ("fileName");
-			ContentType = fileInfo.GetValue<string> ("contentType");
 		}
 	}
 }

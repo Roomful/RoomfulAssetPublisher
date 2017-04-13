@@ -13,6 +13,8 @@ namespace RF.AssetWizzard.Network {
 	internal class WebServer : SA.Common.Pattern.NonMonoSingleton<WebServer> {
 		private static List<Request.BaseWebPackage> DelayedPackages =  new List<Request.BaseWebPackage>();
 
+
+		public const string HeaderSessionId = "x-session-id";
 		//--------------------------------------
 		// Public Methods
 		//--------------------------------------

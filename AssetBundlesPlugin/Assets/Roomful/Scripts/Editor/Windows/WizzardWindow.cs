@@ -8,7 +8,7 @@ namespace RF.AssetWizzard.Editor {
 	public class WizzardWindow : EditorWindow {
 		
 		private WizzardTabs _CurrentTab = WizzardTabs.All;
-		private string[] Tabs = new string[] {"Assets", "Current"};
+		private string[] Tabs = new string[] {"Assets", "Current", "Settings"};
 
 		//Auth
 		private string Mail = string.Empty;
@@ -26,16 +26,20 @@ namespace RF.AssetWizzard.Editor {
 		private float MinScale = 0.5f;
 		private float MaxScale = 2f;
 
+		private Vector2 AllPropsScrollPos;
+
 		//--------------------------------------
 		//  Initialization
 		//--------------------------------------
 
 		public void Awake() {
 			CreateAssetWindow.NewAssetCreateClicked += CreateNewAssetHandler;
+			AddPlatformWindow.NewPlatformAdded += NewPlatfromAddedHandlre;
 		}
 
 		public void OnDestroy() {
 			CreateAssetWindow.NewAssetCreateClicked -= CreateNewAssetHandler;
+			AddPlatformWindow.NewPlatformAdded -= NewPlatfromAddedHandlre;
 		}
 
 		void OnGUI () {
@@ -79,10 +83,67 @@ namespace RF.AssetWizzard.Editor {
 				
 				CurrentPropsWindow ();
 				break;
+			case WizzardTabs.Settings:
+				SettingsWindow ();
+
+				break;
 			}
 		}
 
-		private Vector2 scrollPos;
+		private void SettingsWindow() {
+			GUILayout.BeginHorizontal ();
+
+			EditorGUILayout.BeginVertical (GUI.skin.box, GUILayout.Width (200));
+
+			EditorGUILayout.LabelField ("Taget Platfroms: ", EditorStyles.boldLabel);
+
+			EditorGUILayout.Space ();
+
+			foreach (var platform in AssetBundlesSettings.Instance.TargetPlatforms) {
+				EditorGUILayout.BeginVertical ();
+				EditorGUILayout.BeginHorizontal();
+
+				EditorGUILayout.LabelField ("", platform.ToString());
+
+				bool ItemWasRemoved = false;
+
+				if (GUILayout.Button("X", EditorStyles.miniButton, GUILayout.Width(18))) {
+					if (EditorUtility.DisplayDialog ("Platform removing", "Are you sure you want to remove this platform?", "Remove", "Cancel")) {
+						ItemWasRemoved = true;
+
+						AssetBundlesSettings.Instance.TargetPlatforms.Remove (platform);
+						AssetBundlesSettings.Save ();
+					}
+				}
+
+				if(ItemWasRemoved) {
+					return;
+				}
+
+				EditorGUILayout.EndHorizontal();
+				EditorGUILayout.EndVertical();
+			}
+
+			EditorGUILayout.Space ();
+
+			if (GUILayout.Button ("Add Platform", EditorStyles.miniButton, GUILayout.Width (100))) {
+				AddPlatformWindow.InitWindow ();
+			}
+
+			EditorGUILayout.EndVertical ();
+
+			GUILayout.EndHorizontal ();
+		}
+
+		private void NewPlatfromAddedHandlre(BuildTarget platfrom) {
+			if (AssetBundlesSettings.Instance.TargetPlatforms.Contains (platfrom)) {
+				return;
+			}
+
+			AssetBundlesSettings.Instance.TargetPlatforms.Add (platfrom);
+
+			AssetBundlesSettings.Save ();
+		}
 
 		private void AllPropsWindow() {
 			GUILayout.BeginVertical ();
@@ -102,7 +163,7 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.EndHorizontal ();
 			EditorGUILayout.Space();
 
-			scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+			AllPropsScrollPos = EditorGUILayout.BeginScrollView(AllPropsScrollPos);
 
 			foreach (AssetTemplate prop in AssetBundlesSettings.Instance.LocalAssetTemplates) {
 				
@@ -216,8 +277,6 @@ namespace RF.AssetWizzard.Editor {
 					EditableProp.Template.MinScale = MinScale;
 					EditableProp.Template.MaxScale = MaxScale;
 
-					EditableProp.Template.FileName = EditableAssetName;
-
 					SavePrefab(EditableProp);
 				}
 
@@ -227,7 +286,7 @@ namespace RF.AssetWizzard.Editor {
 
 				if (string.IsNullOrEmpty (EditableProp.Template.Id)) {
 					if (GUILayout.Button ("Upload")) {
-						UploadAsset ();
+						UploadAssets ();
 					}
 
 					if (GUILayout.Button ("Clear")) {
@@ -260,31 +319,31 @@ namespace RF.AssetWizzard.Editor {
 			EditorApplication.delayCall = () => {
 				EditorApplication.delayCall = null;
 
-				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id);
-
-				getAssetUrl.PackageCallbackText = (assetUrl) => {
-
-					Network.Request.GetAsset loadAsset = new RF.AssetWizzard.Network.Request.GetAsset (assetUrl);
-
-					loadAsset.PackageCallbackData = (loadCallback) => {
-						string bundlePath = AssetBundlesSettings.AssetBundlesPath+"/" + prop.Title.ToLower();
-
-						FolderUtils.WriteBytes(bundlePath, loadCallback);
-
-						Caching.CleanCache();
-
-						AssetBundle assetBundle = AssetBundle.LoadFromFile(bundlePath);
-
-						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title.ToLower()));
-
-						assetBundle.Unload(false);
-					};
-
-					loadAsset.Send ();
-
-				};
-
-				getAssetUrl.Send();
+//				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id);
+//
+//				getAssetUrl.PackageCallbackText = (assetUrl) => {
+//
+//					Network.Request.GetAsset loadAsset = new RF.AssetWizzard.Network.Request.GetAsset (assetUrl);
+//
+//					loadAsset.PackageCallbackData = (loadCallback) => {
+//						string bundlePath = AssetBundlesSettings.AssetBundlesPath+"/" + prop.Title.ToLower();
+//
+//						FolderUtils.WriteBytes(bundlePath, loadCallback);
+//
+//						Caching.CleanCache();
+//
+//						AssetBundle assetBundle = AssetBundle.LoadFromFile(bundlePath);
+//
+//						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title.ToLower()));
+//
+//						assetBundle.Unload(false);
+//					};
+//
+//					loadAsset.Send ();
+//
+//				};
+//
+//				getAssetUrl.Send();
 			};
 		}
 
@@ -413,11 +472,6 @@ namespace RF.AssetWizzard.Editor {
 				return;
 			}
 
-			if (EditableProp.Template.InvokeType == InvokeTypes.None) {
-				Debug.Log ("Choose invoke type!");
-				return;
-			}
-
 			if (EditableProp.Template.Thumbnail == null) {
 				Debug.Log ("Set asset's thumbnail!");
 				return;
@@ -438,14 +492,9 @@ namespace RF.AssetWizzard.Editor {
 			updateRequest.Send ();
 		}
 
-		private void UploadAsset() {
+		private void UploadAssets() {
 			if (EditableProp.Template.Placing == Placing.None) {
 				Debug.Log ("Choose placing!");
-				return;
-			}
-
-			if (EditableProp.Template.InvokeType == InvokeTypes.None) {
-				Debug.Log ("Choose invoke type!");
 				return;
 			}
 
@@ -471,28 +520,53 @@ namespace RF.AssetWizzard.Editor {
 
 				SavePrefab(CachedPropTempolate.Title, CachedPropObject);
 
-				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (CachedPropTempolate.Id);
+				int counter = 0;
+				AssetsUploadLoop(counter, CachedPropTempolate, () => {
+					
+					CleanAssetBundleName(CachedPropTempolate.Title);
+					EditableProp = CachedPropObject.AddComponent<PropAsset>();
+					EditableProp.SetTemplate(CachedPropTempolate);
+
+					SavePrefab(EditableProp);
+				});
+
+
+				Close();
+			};
+
+			createMeta.Send ();
+		}
+
+		private void AssetsUploadLoop(int i, AssetTemplate tpl, System.Action FinishHandler) {
+			
+			if (i < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
+				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [i];	
+
+				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (tpl.Id, pl, tpl.Title);
 
 				EditorApplication.delayCall = () => {
 					EditorApplication.delayCall = null;
 
-					BuildAssetBundleFor(CachedPropTempolate.Title);
+					BuildAssetBundleFor(tpl.Title, pl);
 
 					getUploadLink.PackageCallbackText = (linkCallback) => {
-						
-						byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPath+"/"+CachedPropTempolate.Title.ToLower());
+
+						byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPath+"/"+tpl.Title+"."+pl.ToString());
 
 						Network.Request.UploadAsset uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset(linkCallback, assetBytes);
 
 						uploadRequest.PackageCallbackText = (uploadCallback)=> {
-							Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(CachedPropTempolate.Id);
+							Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, pl);
 
 							confirm.PackageCallbackText = (confirmCallback)=> {
-								CleanAssetBundleName(CachedPropTempolate.Title);
-								EditableProp = CachedPropObject.AddComponent<PropAsset>();
-								EditableProp.SetTemplate(CachedPropTempolate);
+								i++;
 
-								SavePrefab(EditableProp);
+								if (i == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
+									FinishHandler();
+								} else {
+									AssetsUploadLoop(i, tpl, FinishHandler);
+								}
+
 							};
 
 							confirm.Send();
@@ -504,22 +578,18 @@ namespace RF.AssetWizzard.Editor {
 
 					getUploadLink.Send();
 				};
-
-				Close();
-			};
-
-			createMeta.Send ();
+			}
 		}
 
-		private void BuildAssetBundleFor(string assetName) {
+		private void BuildAssetBundleFor(string assetName, BuildTarget platform) {
 			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + assetName+ ".prefab";
 
 			AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
 			assetImporter.assetBundleName = assetName;
 
-			//here should be building for all platforms
+			BuildPipeline.BuildAssetBundles (AssetBundlesSettings.AssetBundlesPath, BuildAssetBundleOptions.UncompressedAssetBundle, platform);
 
-			BuildPipeline.BuildAssetBundles (AssetBundlesSettings.AssetBundlesPath, BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneOSXUniversal);
+			AssetDatabase.RenameAsset (AssetBundlesSettings.AssetBundlesPath+"/"+assetName.ToLower(), assetName+"."+platform.ToString());
 		}
 
 		private void CleanAssetBundleName(string assetName) {

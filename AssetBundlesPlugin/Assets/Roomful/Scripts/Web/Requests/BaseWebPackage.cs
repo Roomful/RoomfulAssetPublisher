@@ -24,20 +24,15 @@ namespace RF.AssetWizzard.Network.Request {
 		public BaseWebPackage(string url) {
 			_Url = url;
 			_TimeStamp = WebServer.CurrentTimeStamp;
+
+			_Headers.Add(WebServer.HeaderSessionId, AssetBundlesSettings.Instance.SessionId);
 		}
 
-		public BaseWebPackage(string url, RequestMethods methodName) {
-			_Url = url;
-			_TimeStamp = WebServer.CurrentTimeStamp;
-
+		public BaseWebPackage(string url, RequestMethods methodName) : this(url) {
 			_MethodName = methodName;
 		}
 
-		public BaseWebPackage(string url, RequestMethods methodName, byte[] bodyData) {
-			_Url = url;
-			_TimeStamp = WebServer.CurrentTimeStamp;
-
-			_MethodName = methodName;
+		public BaseWebPackage(string url, RequestMethods methodName, byte[] bodyData) : this(url, methodName) {
 			_PackData = bodyData;
 		}
 

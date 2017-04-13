@@ -11,8 +11,6 @@ namespace RF.AssetWizzard.Network.Request {
 
 		public CreateMetaData(AssetTemplate template):base(PackUrl) {
 			_Template = template;
-
-			_Headers.Add("x-session-id", AssetBundlesSettings.Instance.SessionId);
 		}
 
 		public override Dictionary<string, object> GenerateData () {

@@ -8,7 +8,7 @@ namespace RF.AssetWizzard.Network.Request {
 		private const RequestMethods PackMethodName = RequestMethods.GET;
 
 		public GetAsset (string url) : base (url, PackMethodName) {
-			_Headers.Add ("x-session-id", AssetBundlesSettings.Instance.SessionId);
+			
 		}
 
 		public override bool IsDataPack {

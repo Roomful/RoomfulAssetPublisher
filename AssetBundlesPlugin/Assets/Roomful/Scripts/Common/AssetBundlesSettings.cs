@@ -30,13 +30,19 @@ namespace RF.AssetWizzard {
 		private const string SettingsPath = "Roomful/Resources";
 		private const string SettingsAssetName = "AssetBundlesSettings";
 		private const string SettingsAssetExtension = ".asset";
+
 		public static string AssetBundlesPath = "Assets/Roomful/AssetBundles";
+
 		public static string AssetBundlesWorshopScene = "Assets/Roomful/Scenes/AssetWorkshop.unity";
 		public static string AssetBundlesWorshopSceneName = "AssetWorkshop";
 
 		public string _SessionId = "";
 
 		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
+
+		#if UNITY_EDITOR
+		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
+		#endif
 
 		private static AssetBundlesSettings _Instance = null;
 		public static AssetBundlesSettings Instance {

@@ -6,5 +6,6 @@ namespace RF.AssetWizzard {
 	public enum WizzardTabs {
 		All,
 		Current,
+		Settings
 	}
 }
