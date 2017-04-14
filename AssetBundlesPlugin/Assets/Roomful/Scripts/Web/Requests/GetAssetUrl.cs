@@ -9,10 +9,10 @@ namespace RF.AssetWizzard.Network.Request {
 
 		private const RequestMethods PackMethodName = RequestMethods.GET;
 
-		public GetAssetUrl (string assetId, UnityEditor.BuildTarget platform) : base (PackUrl, PackMethodName) {
+		public GetAssetUrl (string assetId, string platform) : base (PackUrl, PackMethodName) {
 			
 			AddToUrl (assetId);
-			AddToUrl ("/platform/"+platform.ToString());
+			AddToUrl ("/platform/"+platform);
 		}
 
 		public override Dictionary<string, object> GenerateData () {

@@ -8,9 +8,9 @@ namespace RF.AssetWizzard.Network.Request {
 		private const string PackUrl = "/api/v0/asset/upload/link/complete";
 
 		private string _AssetId;
-		private UnityEditor.BuildTarget _Platform;
+		private string _Platform;
 
-		public UploadConfirmation (string assetId, UnityEditor.BuildTarget platform) : base (PackUrl) {
+		public UploadConfirmation (string assetId, string platform) : base (PackUrl) {
 			_AssetId = assetId;
 			_Platform = platform;
 		}
@@ -19,7 +19,7 @@ namespace RF.AssetWizzard.Network.Request {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
 
 			OriginalJSON.Add ("asset", _AssetId);
-			OriginalJSON.Add ("platform", _Platform.ToString());
+			OriginalJSON.Add ("platform", _Platform);
 
 			return OriginalJSON;
 		}

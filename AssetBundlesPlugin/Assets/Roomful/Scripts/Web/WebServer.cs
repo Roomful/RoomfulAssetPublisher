@@ -55,10 +55,10 @@ namespace RF.AssetWizzard.Network {
 			case RequestMethods.POST:
 			case RequestMethods.PUT:
 				if (package.IsDataPack) {
-					UploadHandlerRaw uhr = new UploadHandlerRaw (package.GeneratedDataBytes);
+					UploadHandlerRaw uploadHandler = new UploadHandlerRaw (package.GeneratedDataBytes);
 
 					www = UnityWebRequest.Put (package.Url, package.GeneratedDataBytes);
-					www.uploadHandler = uhr;
+					www.uploadHandler = uploadHandler;
 
 				} else {
 					www = UnityWebRequest.Put(AssetBundlesSettings.WEB_SERVER_URL + package.Url, package.GeneratedDataText);
@@ -90,7 +90,7 @@ namespace RF.AssetWizzard.Network {
 			www.Send ();
 
 			while (www.responseCode == -1) {
-				//do something, or nothing while blocking
+				//do nothing while blocking
 			}
 
 			if(www.isError) {

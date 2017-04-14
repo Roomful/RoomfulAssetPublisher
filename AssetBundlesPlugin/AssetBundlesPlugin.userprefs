@@ -1,1 +1,15 @@
-﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj" />
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Roomful/Scripts/Editor/Windows/WizzardWindow.cs">
+    <Files>
+      <File FileName="Assets/Roomful/Scripts/Common/AssetBundlesSettings.cs" Line="14" Column="2" />
+      <File FileName="Assets/Roomful/Scripts/Editor/Windows/WizzardWindow.cs" Line="594" Column="4" />
+      <File FileName="Assets/Roomful/Scripts/Web/Requests/GetAssetUrl.cs" Line="6" Column="2" />
+      <File FileName="Assets/Roomful/Scripts/Web/WebServer.cs" Line="32" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -319,31 +319,33 @@ namespace RF.AssetWizzard.Editor {
 			EditorApplication.delayCall = () => {
 				EditorApplication.delayCall = null;
 
-//				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id);
-//
-//				getAssetUrl.PackageCallbackText = (assetUrl) => {
-//
-//					Network.Request.GetAsset loadAsset = new RF.AssetWizzard.Network.Request.GetAsset (assetUrl);
-//
-//					loadAsset.PackageCallbackData = (loadCallback) => {
-//						string bundlePath = AssetBundlesSettings.AssetBundlesPath+"/" + prop.Title.ToLower();
-//
-//						FolderUtils.WriteBytes(bundlePath, loadCallback);
-//
-//						Caching.CleanCache();
-//
-//						AssetBundle assetBundle = AssetBundle.LoadFromFile(bundlePath);
-//
-//						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title.ToLower()));
-//
-//						assetBundle.Unload(false);
-//					};
-//
-//					loadAsset.Send ();
-//
-//				};
-//
-//				getAssetUrl.Send();
+				string pl = EditorUserBuildSettings.activeBuildTarget.ToString();
+				Debug.Log ("load "+pl);
+				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id, pl);
+
+				getAssetUrl.PackageCallbackText = (assetUrl) => {
+
+					Network.Request.GetAsset loadAsset = new RF.AssetWizzard.Network.Request.GetAsset (assetUrl);
+
+					loadAsset.PackageCallbackData = (loadCallback) => {
+						string bundlePath = AssetBundlesSettings.AssetBundlesPath+"/"+prop.Title+"_"+pl;
+
+						FolderUtils.WriteBytes(bundlePath, loadCallback);
+
+						Caching.CleanCache();
+
+						AssetBundle assetBundle = AssetBundle.LoadFromFile(bundlePath);
+
+						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title.ToLower()));
+
+						assetBundle.Unload(false);
+					};
+
+					loadAsset.Send ();
+
+				};
+
+				getAssetUrl.Send();
 			};
 		}
 
@@ -514,7 +516,6 @@ namespace RF.AssetWizzard.Editor {
 				GameObject CachedPropObject = EditableProp.gameObject;
 				AssetTemplate CachedPropTempolate = new AssetTemplate(callback);
 
-
 				DestroyImmediate(EditableProp);
 				EditableProp = null;
 
@@ -540,9 +541,9 @@ namespace RF.AssetWizzard.Editor {
 		private void AssetsUploadLoop(int i, AssetTemplate tpl, System.Action FinishHandler) {
 			
 			if (i < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
-				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [i];	
-
-				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (tpl.Id, pl, tpl.Title);
+				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [i];
+				Debug.Log ("upload "+pl.ToString());
+				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (tpl.Id, pl.ToString(), tpl.Title);
 
 				EditorApplication.delayCall = () => {
 					EditorApplication.delayCall = null;
@@ -551,12 +552,12 @@ namespace RF.AssetWizzard.Editor {
 
 					getUploadLink.PackageCallbackText = (linkCallback) => {
 
-						byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPath+"/"+tpl.Title+"."+pl.ToString());
+						byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPath+"/"+tpl.Title+"_"+pl.ToString());
 
 						Network.Request.UploadAsset uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset(linkCallback, assetBytes);
 
 						uploadRequest.PackageCallbackText = (uploadCallback)=> {
-							Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, pl);
+							Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, pl.ToString());
 
 							confirm.PackageCallbackText = (confirmCallback)=> {
 								i++;
@@ -583,13 +584,15 @@ namespace RF.AssetWizzard.Editor {
 
 		private void BuildAssetBundleFor(string assetName, BuildTarget platform) {
 			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + assetName+ ".prefab";
+			string assetPath = AssetBundlesSettings.AssetBundlesPath + "/" + assetName.ToLower ();
 
 			AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
 			assetImporter.assetBundleName = assetName;
 
 			BuildPipeline.BuildAssetBundles (AssetBundlesSettings.AssetBundlesPath, BuildAssetBundleOptions.UncompressedAssetBundle, platform);
-
-			AssetDatabase.RenameAsset (AssetBundlesSettings.AssetBundlesPath+"/"+assetName.ToLower(), assetName+"."+platform.ToString());
+			Debug.Log (assetPath);
+			AssetDatabase.RenameAsset (assetPath, assetName+"_"+platform.ToString());
+			AssetDatabase.Refresh ();
 		}
 
 		private void CleanAssetBundleName(string assetName) {
