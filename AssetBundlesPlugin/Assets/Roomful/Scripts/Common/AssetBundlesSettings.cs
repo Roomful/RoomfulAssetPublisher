@@ -24,14 +24,18 @@ namespace RF.AssetWizzard {
 		//public const int SOCKET_TIMEOUT_TIME = 50;
 		//public const int MAX_PANNELS_PER_ROOM = 20; 
 
+
+		public const string ASSETS_LOCATION = "Roomful/Assets/";
+		public const string FULL_ASSETS_LOCATION = "Assets/" + ASSETS_LOCATION;
+
 		public const string SETTINGS_LOCATION = "Roomful/Settings/Editor/Resources/";
-		public const string PROPS_ASSETS_LOCATION = "Assets/Roomful/PropAssets/";
 
 		private const string SettingsPath = "Roomful/Resources";
 		private const string SettingsAssetName = "AssetBundlesSettings";
 		private const string SettingsAssetExtension = ".asset";
 
-		public static string AssetBundlesPath = "Assets/Roomful/AssetBundles";
+		public static string AssetBundlesPath = "Roomful/Bundles";
+		public static string AssetBundlesPathFull = "Assets/" + AssetBundlesPath;
 
 		public static string AssetBundlesWorshopScene = "Assets/Roomful/Scenes/AssetWorkshop.unity";
 		public static string AssetBundlesWorshopSceneName = "AssetWorkshop";

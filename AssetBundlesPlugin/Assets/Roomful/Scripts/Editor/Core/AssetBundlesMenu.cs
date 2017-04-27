@@ -6,7 +6,7 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public static class AssetBundlesMenu {
 
-		[MenuItem("Roomful/Modules/AssetBundlesWizzard", false, 400)]
+		[MenuItem("Roomful/Asset Wizzard", false, 400)]
 		public static void ShowWizzrd() {
 			EditorWindow window = EditorWindow.GetWindow<WizzardWindow>(true, "Asset Bundles Wizzard");
 

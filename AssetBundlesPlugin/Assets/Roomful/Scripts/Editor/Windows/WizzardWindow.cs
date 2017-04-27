@@ -335,7 +335,8 @@ namespace RF.AssetWizzard.Editor {
 					Network.Request.GetAsset loadAsset = new RF.AssetWizzard.Network.Request.GetAsset (assetUrl);
 
 					loadAsset.PackageCallbackData = (loadCallback) => {
-						string bundlePath = AssetBundlesSettings.AssetBundlesPath+"/"+prop.Title+"_"+pl;
+						string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
+
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 
@@ -343,8 +344,7 @@ namespace RF.AssetWizzard.Editor {
 
 						AssetBundle assetBundle = AssetBundle.LoadFromFile(bundlePath);
 
-						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title.ToLower()));
-
+						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title));
 						assetBundle.Unload(false);
 						AssetDatabase.DeleteAsset(bundlePath);
 					};
@@ -437,11 +437,13 @@ namespace RF.AssetWizzard.Editor {
 		private void CreateAsset(string assetName) {
 			EditableAssetName = assetName;
 
-			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + assetName + ".prefab";
+			string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + assetName + ".prefab";
 
 			PropAsset createdProp = new GameObject (assetName).AddComponent<PropAsset> ();
 			createdProp.Template.Title = assetName;
 
+
+			FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_LOCATION);
 			GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, createdProp.gameObject);
 			PrefabUtility.ConnectGameObjectToPrefab (createdProp.gameObject, newPrfab);
 
@@ -454,12 +456,29 @@ namespace RF.AssetWizzard.Editor {
 				return;
 			}
 
-			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + tpl.Title + ".prefab";
+			string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + tpl.Title + ".prefab";
 
 			OpenWorkshopScene ();
 
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
+
+
+			var renderers = newGo.GetComponentsInChildren<Renderer> ();
+
+			foreach (Renderer r in renderers) {
+				foreach(Material m in r.sharedMaterials) {
+					var shaderName = m.shader.name;
+					var newShader = Shader.Find(shaderName);
+					if(newShader != null){
+						m.shader = newShader;
+					} else {
+						Debug.LogWarning("unable to refresh shader: "+shaderName+" in material "+m.name);
+					}
+				}
+			}
+
+
 
 			newGo.AddComponent<PropAsset> ().SetTemplate (tpl);
 
@@ -503,40 +522,24 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void UploadAssets() {
-			if (EditableProp.Template.Placing == Placing.None) {
-				Debug.Log ("Choose placing!");
+
+			if(!AssetBundlesManager.ValidateAsset(EditableProp)) {
 				return;
 			}
 
-			if (EditableProp.Template.Thumbnail == null) {
-				Debug.Log ("Set asset's thumbnail!");
-				return;
-			}
-
-			if (EditableProp.transform.childCount < 1) {
-				Debug.Log ("Prop asset is empty!");
-				return;
-			}
 
 			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (EditableProp.Template);
 
 			createMeta.PackageCallbackText = (callback) => { 
-				GameObject CachedPropObject = EditableProp.gameObject;
-				AssetTemplate CachedPropTempolate = new AssetTemplate(callback);
 
-				DestroyImmediate(EditableProp);
-				EditableProp = null;
-
-				SavePrefab(CachedPropTempolate.Title, CachedPropObject);
+				EditableProp.Template.Id =  new AssetTemplate(callback).Id;
+				SavePrefab(EditableProp.Template.Title,  EditableProp.gameObject);
+				AssetBundlesManager.Clone(EditableProp);
 
 				int counter = 0;
 
-				AssetsUploadLoop(counter, CachedPropTempolate, () => {
-					EditableProp = CachedPropObject.AddComponent<PropAsset>();
-					EditableProp.SetTemplate(CachedPropTempolate);
-
-					SavePrefab(EditableProp);
-
+				AssetBundlesManager.AssetsUploadLoop(counter, EditableProp.Template, () => {
+					AssetBundlesManager.DelteTempFiles();
 					AssetDatabase.Refresh();
 					AssetDatabase.SaveAssets();
 
@@ -546,73 +549,17 @@ namespace RF.AssetWizzard.Editor {
 					};
 				});
 
-				Close();
+
+				EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
+
 			};
 
 			createMeta.Send ();
 		}
 
-		private void AssetsUploadLoop(int i, AssetTemplate tpl, System.Action FinishHandler) {
-			
-			if (i < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
-				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [i];
 
-				//BuildAssetBundleFor(tpl.Title, pl);
 
-				string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + tpl.Title+ ".prefab";
-				string assetBundleName = tpl.Title+"_"+pl.ToString().ToLower ();
 
-				AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
-				assetImporter.assetBundleName = assetBundleName;
-
-				BuildPipeline.BuildAssetBundles (AssetBundlesSettings.AssetBundlesPath, BuildAssetBundleOptions.UncompressedAssetBundle, pl);
-				AssetDatabase.Refresh ();
-
-				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (tpl.Id, pl.ToString(), tpl.Title);
-
-				getUploadLink.PackageCallbackText = (linkCallback) => {
-
-					byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPath+"/"+assetBundleName);
-
-					Network.Request.UploadAsset uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset(linkCallback, assetBytes);
-
-					uploadRequest.PackageCallbackText = (uploadCallback)=> {
-						Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, pl.ToString());
-
-						confirm.PackageCallbackText = (confirmCallback)=> {
-							i++;
-
-							CleanAssetBundleName(tpl.Title);
-
-							if (i == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
-								FinishHandler();
-							} else {
-								AssetsUploadLoop(i, tpl, FinishHandler);
-							}
-
-						};
-
-						confirm.Send();
-					};
-
-					uploadRequest.Send();
-
-				};
-				
-
-				getUploadLink.Send();
-				
-			}
-		}
-
-		private void CleanAssetBundleName(string assetName) {
-			string prefabPath = AssetBundlesSettings.PROPS_ASSETS_LOCATION + assetName+ ".prefab";
-
-			AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
-			assetImporter.assetBundleName = string.Empty;
-
-			AssetDatabase.RemoveUnusedAssetBundleNames ();
-		}
 
 		private void ClearInputFields() {
 			EditableAssetName = string.Empty;
@@ -646,7 +593,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void SavePrefab(PropAsset propOnScene) {
-			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.PROPS_ASSETS_LOCATION+propOnScene.Template.Title+".prefab", typeof(Object));
+			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.FULL_ASSETS_LOCATION+propOnScene.Template.Title+".prefab", typeof(Object));
 
 			PrefabUtility.ReplacePrefab(propOnScene.gameObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
 
@@ -654,7 +601,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void SavePrefab(string propName, GameObject propObject) {
-			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.PROPS_ASSETS_LOCATION+propName+".prefab", typeof(Object));
+			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.FULL_ASSETS_LOCATION+propName+".prefab", typeof(Object));
 
 			PrefabUtility.ReplacePrefab(propObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
 		}
