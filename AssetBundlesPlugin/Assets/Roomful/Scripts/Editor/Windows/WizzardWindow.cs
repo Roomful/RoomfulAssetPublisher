@@ -264,13 +264,17 @@ namespace RF.AssetWizzard.Editor {
 				CurrentPropInvoke = (InvokeTypes) EditorGUILayout.EnumPopup("Invoke Type: ", CurrentPropInvoke);
 
 				CurrentPropThumbnail = (Texture2D) EditorGUILayout.ObjectField("Thumbnail: ", CurrentPropThumbnail, typeof (Texture2D), false);
+				EditableProp.Template.CanStack = EditorGUILayout.Toggle ("CanStack", EditableProp.Template.CanStack);
 
 				GUILayout.BeginHorizontal ();
 
 				MinScale = EditorGUILayout.FloatField ("Min scale: ",MinScale);
 				MaxScale = EditorGUILayout.FloatField ("Max scale: ",MaxScale);
 
+
+
 				GUILayout.EndHorizontal ();
+
 
 				if (EditorGUI.EndChangeCheck ()) {
 					EditableProp.Template.Title = EditableAssetName;
@@ -280,6 +284,8 @@ namespace RF.AssetWizzard.Editor {
 
 					EditableProp.Template.MinScale = MinScale;
 					EditableProp.Template.MaxScale = MaxScale;
+
+
 
 					SavePrefab(EditableProp);
 				}
@@ -515,7 +521,6 @@ namespace RF.AssetWizzard.Editor {
 
 			updateRequest.PackageCallbackText = (updateCalback) => {
 				EditableProp.SetTemplate(new AssetTemplate(updateCalback));
-				Debug.Log(EditableProp.Template.Placing);
 			};
 
 			updateRequest.Send ();

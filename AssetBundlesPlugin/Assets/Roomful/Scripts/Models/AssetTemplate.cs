@@ -16,6 +16,13 @@ namespace RF.AssetWizzard {
 		public Texture2D Thumbnail = null;
 		public float MinScale = 0.5f;
 		public float MaxScale = 2f;
+		public bool CanStack = false;
+
+
+
+		private Vector3 Size =  Vector3.one;
+		private List<ContentType> ContentTypes =  new List<ContentType>();
+		private List<string> Tags =  new List<string>();
 
 		public AssetTemplate() {
 			
@@ -62,6 +69,17 @@ namespace RF.AssetWizzard {
 
 			OriginalJSON.Add("minScale", MinScale);
 			OriginalJSON.Add("maxScale", MaxScale);
+
+			var sizeData = new Dictionary<string, object> ();
+			sizeData.Add ("x", Size.x);
+			sizeData.Add ("y", Size.y);
+			sizeData.Add ("z", Size.z);
+			OriginalJSON.Add ("size", sizeData);
+
+			OriginalJSON.Add ("сanStack", CanStack);
+			OriginalJSON.Add ("contentType", ContentTypes);
+			OriginalJSON.Add ("tags", Tags);
+		
 
 			return OriginalJSON;
 		}
