@@ -4,38 +4,54 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public class CreateAssetWindow : EditorWindow {
 
-		public static event System.Action<string> NewAssetCreateClicked = delegate{};
-		private string AssetName = "";
+		private AssetTemplate Asset = new AssetTemplate();
 
-		public static CreateAssetWindow InitWindow() {
-			CreateAssetWindow window = ScriptableObject.CreateInstance<CreateAssetWindow>();
-			window.position = new Rect(Screen.width / 2, Screen.height / 2, 250, 100);
-			window.ShowPopup();
+	
+		void OnGUI() {
 
-			return window;
+			Texture2D wizardIcon = Resources.Load ("wizard") as Texture2D;
+			GUIContent wizardContent =  new GUIContent(wizardIcon, "");
+			EditorGUI.LabelField (new Rect (10, 10, 70, 70), wizardContent);
+
+
+			GUIContent headerContent = new GUIContent ("Please provide general information required \nfor a new Roomful Asset");
+			EditorGUI.LabelField (new Rect (100, 10, 300, 40), headerContent);
+
+
+			EditorGUI.LabelField (new Rect (100, 50, 300, 16), "Title:");
+			Asset.Title = EditorGUI.TextField (new Rect (160, 50, 190, 16), Asset.Title);
+
+
+			EditorGUI.LabelField (new Rect (100, 70, 300, 16), "Plasing:");
+			Asset.Placing = (Placing) EditorGUI.EnumPopup(new Rect (160, 70, 190, 16), Asset.Placing);
+
+
+
+			GUILayout.Space(110f);
+			GUILayout.BeginHorizontal (); {
+				GUILayout.FlexibleSpace ();
+				bool cancel = GUILayout.Button ("Cancel", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
+				if (cancel) {
+					
+					Dismiss ();
+				}
+
+				bool create = GUILayout.Button ("Create", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
+				if (create) {
+
+					AssetBundlesManager.CreateNewAsset (Asset);
+					Dismiss ();
+				}
+
+				GUILayout.Space (20f);
+
+			}GUILayout.EndHorizontal ();
+				
 		}
 
-		void OnGUI() {
-			GUILayout.BeginVertical ();
-
-			EditorGUILayout.Space();
-
-			GUILayout.Label ("Enter name:");
-			AssetName = EditorGUILayout.TextField ("", AssetName);
-
-			if (GUILayout.Button ("Create")) {
-				NewAssetCreateClicked (AssetName);
-
-				AssetName = "";
-				this.Close ();
-			}
-
-			if (GUILayout.Button ("Cancel")) {
-				AssetName = "";
-				this.Close ();
-			}
-
-			GUILayout.EndVertical ();
+		private void Dismiss() {
+			Asset = new AssetTemplate ();
+			this.Close ();
 		}
 	}
 }

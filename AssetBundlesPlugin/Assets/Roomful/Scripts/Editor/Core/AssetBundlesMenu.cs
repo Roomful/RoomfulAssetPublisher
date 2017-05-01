@@ -6,19 +6,23 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public static class AssetBundlesMenu {
 
+
+
+		//--------------------------------------
+		//  Top Menu
+		//--------------------------------------
+
+
 		[MenuItem("Roomful/Asset Wizzard &w", false, 0)]
-		//[MenuItem("Roomful/Asset Wizzard %w", false, 400)]
 		public static void ShowWizzrd() {
-
-
-			EditorWindow window = EditorWindow.GetWindow<WizzardWindow>(true, "Asset Bundles Wizzard");
-
-			window.minSize = new Vector2(600f, 400f);
-			window.maxSize = new Vector2(window.minSize.x, window.maxSize.y);
-			window.position = new Rect(new Vector2(100f, 100f), window.minSize);
-			window.Show();
-
+			WindowManager.ShowWizard ();
 		}
+
+
+
+		//--------------------------------------
+		//  Context Menu
+		//--------------------------------------
 
 
 		[MenuItem("GameObject/Roomful/Mark As Stand Surface", false, 0)]
@@ -46,8 +50,7 @@ namespace RF.AssetWizzard.Editor {
 			if(valid) {
 				Selection.activeGameObject.transform.parent = prop.GetLayer(HierarchyLayers.StandSurface);
 			}
-
-
+				
 		}
 
 

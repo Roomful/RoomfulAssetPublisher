@@ -47,11 +47,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 		public static bool ValidateAsset(RF.AssetWizzard.PropAsset asset) {
-			if (asset.Template.Placing == Placing.None) {
-				EditorUtility.DisplayDialog ("Error", "Choose Asset placing!", "Ok");
-				return false;
-			}
-
+			
 			if (asset.Template.Thumbnail == null) {
 				EditorUtility.DisplayDialog ("Error", "Set Asset thumbnail!", "Ok");
 				return false;
@@ -137,6 +133,28 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
+		public static void CreateNewAsset(AssetTemplate tpl) {
+			if (string.IsNullOrEmpty(tpl.Title)) {
+				Debug.Log ("Prop's name is empty");
+				return;
+			}
+
+			EditorApplication.delayCall = () => {
+
+				EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
+				WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
+
+				string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + tpl.Title + ".prefab";
+				PropAsset createdProp = new GameObject (tpl.Title).AddComponent<PropAsset> ();
+				createdProp.SetTemplate(tpl);
+
+				FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_LOCATION);
+				GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, createdProp.gameObject);
+				PrefabUtility.ConnectGameObjectToPrefab (createdProp.gameObject, newPrfab);
+
+			};
+		}
+			
 
 	}
 

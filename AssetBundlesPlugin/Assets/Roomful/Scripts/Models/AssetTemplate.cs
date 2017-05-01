@@ -11,7 +11,7 @@ namespace RF.AssetWizzard {
 		public DateTime Created = DateTime.MinValue;
 		public DateTime Updated = DateTime.MinValue;
 		public string Title = string.Empty;
-		public Placing Placing = Placing.None;
+		public Placing Placing = Placing.Floor;
 		public InvokeTypes InvokeType = InvokeTypes.None;
 		public Texture2D Thumbnail = null;
 		public float MinScale = 0.5f;

@@ -6,27 +6,11 @@ using UnityEditor.SceneManagement;
 
 namespace RF.AssetWizzard.Editor {
 	public class WizzardWindow : EditorWindow {
-		
-		private WizzardTabs _CurrentTab = WizzardTabs.All;
-		private string[] Tabs = new string[] {"Assets", "Current", "Settings"};
 
 		//Auth
 		private string Mail = string.Empty;
 		private string Password = string.Empty;
 
-		//prop creation
-		private string EditableAssetName = string.Empty;
-
-		//prop editing
-		private PropAsset EditableProp = null;
-
-		private Placing CurrentPropPlacing = Placing.Wall;
-		private InvokeTypes CurrentPropInvoke = InvokeTypes.None;
-		private Texture2D CurrentPropThumbnail;
-		private float MinScale = 0.5f;
-		private float MaxScale = 2f;
-
-		private Vector2 AllPropsScrollPos;
 
 
 		public GUIStyle sectionScrollView = "PreferencesSectionBox";
@@ -62,6 +46,8 @@ namespace RF.AssetWizzard.Editor {
 
 				this.sectionScrollView = new GUIStyle(this.sectionScrollView);
 				this.sectionScrollView.overflow.bottom++;
+
+
 				this.sectionHeader.fontStyle = FontStyle.Bold;
 				this.sectionHeader.fontSize = 18;
 				this.sectionHeader.margin.top = 10;
@@ -117,14 +103,11 @@ namespace RF.AssetWizzard.Editor {
 
 
 		private void OnEnable() {
-
-
 			this.m_Sections = new List<WizzardWindow.Section>();
-			this.m_Sections.Add(new WizzardWindow.Section("Wizard", new WizzardWindow.OnGUIDelegate(this.Wizard)));
+			this.m_Sections.Add(new WizzardWindow.Section("Wizzard", new WizzardWindow.OnGUIDelegate(this.Wizzard)));
 			this.m_Sections.Add(new WizzardWindow.Section("Assets", new WizzardWindow.OnGUIDelegate(this.Assets)));
 			this.m_Sections.Add(new WizzardWindow.Section("Platfroms", new WizzardWindow.OnGUIDelegate(this.Platforms)));
 			this.m_Sections.Add(new WizzardWindow.Section("Account", new WizzardWindow.OnGUIDelegate(this.Account)));
-
 		}
 
 
@@ -144,6 +127,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 			GUILayout.BeginHorizontal(new GUILayoutOption[0]);
+
 
 			m_SectionScrollPos = GUILayout.BeginScrollView(this.m_SectionScrollPos, WizzardWindow.constants.sectionScrollView, new GUILayoutOption[]{ GUILayout.Width(120f)});
 
@@ -212,6 +196,21 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
+		private PropAsset CurrentProp {
+			get {
+				return GameObject.FindObjectOfType<PropAsset> ();
+			}
+		}
+
+
+		//--------------------------------------
+		//  Public Methods
+		//--------------------------------------
+
+		public void SiwtchTab(WizzardTabs tab) {
+			selectedSectionIndex = (int)tab;
+		}
+
 
 		//--------------------------------------
 		//  Tabs
@@ -219,9 +218,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-		//--------------------------------------
-		//  Initialization
-		//--------------------------------------
+
 
 		/*
 
@@ -383,7 +380,7 @@ namespace RF.AssetWizzard.Editor {
 
 			bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
 			if(addnew) {
-				CreateNewAssetWindow ();
+				WindowManager.ShowCreateNewAsset ();
 			}
 
 
@@ -400,19 +397,15 @@ namespace RF.AssetWizzard.Editor {
 
 			GUILayout.EndHorizontal ();
 
-			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, WizzardWindow.constants.settingsBox,  new GUILayoutOption[] {GUILayout.Width(230)});
+			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, WizzardWindow.constants.settingsBox,  new GUILayoutOption[] {GUILayout.Width(230), GUILayout.Height(310)});
 			foreach(var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-
-				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[0])) {
+				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(230)})) {
 					SelectedAsset = asset;
 				}
 			}
 
 			GUILayout.EndScrollView();
 			GUILayout.EndVertical();
-
-
-
 
 
 			GUILayout.BeginVertical(GUILayout.Width(230));
@@ -431,23 +424,30 @@ namespace RF.AssetWizzard.Editor {
 				AssetInfoLable ("Can Stack", SelectedAsset.CanStack);
 				AssetInfoLable ("Max Scale", SelectedAsset.MaxScale);
 				AssetInfoLable ("Min Scale", SelectedAsset.MinScale);
+				EditorGUILayout.Space ();
+
+
+				bool edit = GUILayout.Button ("Edit Asset", EditorStyles.miniButton, GUILayout.Width(100));
+				if(edit) {
+
+					if (CurrentProp == null) {
+						LoadAssetBundle (SelectedAsset);
+					} else {
+						if (EditorUtility.DisplayDialog (CurrentProp.Template.Title+" in workshop", "There is an asset ("+CurrentProp.Template.Title+") in the workshop, if you want to edit, you should save and remove it before. Save and remove?", "Save and remove", "Cancel")) {
+							SavePrefab(CurrentProp);
+							DestroyImmediate(CurrentProp.gameObject);
+							LoadAssetBundle (SelectedAsset);
+						}
+					}
+				}
 
 			}
 
 
 			GUILayout.EndVertical();
 
-
 			GUILayout.Space(10f);
 			GUILayout.EndHorizontal();
-
-			GUILayout.Space(5f);
-			bool restoreDefaults = GUILayout.Button ("Restore Defaults", GUILayout.Width(150));
-			if(restoreDefaults) {
-				/*	Settings.Tags.Clear (); 
-				Settings.InitDefaultTags ();
-				LoggerWindow.RefreshUI ();*/
-			}
 
 		}
 
@@ -458,157 +458,56 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUILayout.SelectableLabel (msg.ToString(), EditorStyles.label, new GUILayoutOption[] {GUILayout.Height(15)});
 			GUILayout.EndHorizontal ();
 		}
-
-		private void Assets2() {
-			GUILayout.BeginVertical ();
-
-			EditorGUILayout.Space();
-
-			GUILayout.BeginHorizontal ();
-/*
-			if (GUILayout.Button ("Get all assets")) {
-				GetAllAssets ();
-			}
-
-			if(GUILayout.Button("Create new")) {
-				CreateNewAssetWindow ();
-			}*/
-
-
-
-			GUILayout.EndHorizontal ();
-			EditorGUILayout.Space();
-
-			AllPropsScrollPos = EditorGUILayout.BeginScrollView(AllPropsScrollPos);
-
-			foreach (AssetTemplate prop in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-				
-				EditorGUILayout.BeginVertical (GUI.skin.box);
-				EditorGUILayout.BeginHorizontal();
-
-				if (prop.Thumbnail != null) {
-					GUILayout.Box (prop.Thumbnail, GUIStyle.none, new GUILayoutOption[]{ GUILayout.Width (18), GUILayout.Height (18) });
-				} else {
-					GUILayout.Box (new Texture2D(18, 18), GUIStyle.none, new GUILayoutOption[]{ GUILayout.Width (18), GUILayout.Height (18) });
-				}
-
-				EditorGUILayout.LabelField ("", prop.Title);
-
-				if (GUILayout.Button("Edit", EditorStyles.miniButton, GUILayout.Width(50))) {
-					PropAsset propOnScene = GameObject.FindObjectOfType<PropAsset> ();
-
-					if (propOnScene == null) {
-						LoadAssetBundle (prop);
-					} else {
-						if (EditorUtility.DisplayDialog (propOnScene.Template.Title+" in workshop", "There is an asset ("+propOnScene.Template.Title+") in the workshop, if you want to edit, you should save and remove it before. Save and remove?", "Save and remove", "Cancel")) {
-							SavePrefab(propOnScene);
-
-							DestroyImmediate(propOnScene.gameObject);
-
-							LoadAssetBundle (prop);
-						}
-					}
-				}
-
-				bool ItemWasRemoved = false;
-
-				if (GUILayout.Button("Delete", EditorStyles.miniButton, GUILayout.Width(50))) {
-					if (EditorUtility.DisplayDialog ("Asset removing", "Are you sure you want to remove this asset?", "Remove", "Cancel")) {
-						ItemWasRemoved = true;
-
-						RF.AssetWizzard.Network.Request.RemoveAsset removeRequest = new RF.AssetWizzard.Network.Request.RemoveAsset (prop.Id);
-
-						removeRequest.PackageCallbackData = (removeCallback) => {
-							AssetBundlesSettings.Instance.RemoverFromLocalAssetTemplates(prop);
-						};
-
-						removeRequest.Send ();
-					}
-				}
-
-				SA.Common.Editor.Tools.SrotingButtons((object) prop, AssetBundlesSettings.Instance.LocalAssetTemplates);
-
-				if(ItemWasRemoved) {
-					return;
-				}
-
-				EditorGUILayout.EndHorizontal();
-				EditorGUILayout.EndVertical();
-			}
-
-			EditorGUILayout.EndScrollView();
-
-			GUILayout.EndVertical ();
-		}
-
-
-
+			
 
 		private void Account() {
 			
 		}
 
-		private void Wizard() {
+		private void Wizzard() {
 			GUILayout.BeginVertical ();
 
 			EditorGUILayout.Space();
 
-			if (EditableProp != null) {
+			if (CurrentProp != null) {
 
 				EditorGUI.BeginChangeCheck ();
 
-				EditableAssetName = EditorGUILayout.TextField ("Name: ", EditableAssetName);
+				CurrentProp.Template.Title = EditorGUILayout.TextField ("Name: ", CurrentProp.Template.Title);
 
-				CurrentPropPlacing = (Placing) EditorGUILayout.EnumPopup("Placing: ", CurrentPropPlacing);
-				CurrentPropInvoke = (InvokeTypes) EditorGUILayout.EnumPopup("Invoke Type: ", CurrentPropInvoke);
+				CurrentProp.Template.Placing = (Placing) EditorGUILayout.EnumPopup("Placing: ", CurrentProp.Template.Placing);
+				CurrentProp.Template.InvokeType = (InvokeTypes) EditorGUILayout.EnumPopup("Invoke Type: ", CurrentProp.Template.InvokeType);
 
-				CurrentPropThumbnail = (Texture2D) EditorGUILayout.ObjectField("Thumbnail: ", CurrentPropThumbnail, typeof (Texture2D), false);
-				EditableProp.Template.CanStack = EditorGUILayout.Toggle ("CanStack", EditableProp.Template.CanStack);
+				CurrentProp.Template.Thumbnail = (Texture2D) EditorGUILayout.ObjectField("Thumbnail: ", CurrentProp.Template.Thumbnail, typeof (Texture2D), false);
+				CurrentProp.Template.CanStack = EditorGUILayout.Toggle ("CanStack", CurrentProp.Template.CanStack);
+
 
 				GUILayout.BeginHorizontal ();
-
-				MinScale = EditorGUILayout.FloatField ("Min scale: ",MinScale);
-				MaxScale = EditorGUILayout.FloatField ("Max scale: ",MaxScale);
-
-
-
+				CurrentProp.Template.MinScale = EditorGUILayout.FloatField ("Min scale: ", CurrentProp.Template.MinScale);
+				CurrentProp.Template.MaxScale = EditorGUILayout.FloatField ("Max scale: ", CurrentProp.Template.MaxScale);
 				GUILayout.EndHorizontal ();
 
 
 				if (EditorGUI.EndChangeCheck ()) {
-					EditableProp.Template.Title = EditableAssetName;
-					EditableProp.Template.Placing = CurrentPropPlacing;
-					EditableProp.Template.InvokeType = CurrentPropInvoke;
-					EditableProp.Template.Thumbnail = CurrentPropThumbnail;
-
-					EditableProp.Template.MinScale = MinScale;
-					EditableProp.Template.MaxScale = MaxScale;
-
-
-
-					SavePrefab(EditableProp);
+					SavePrefab(CurrentProp);
 				}
+
 
 				EditorGUILayout.Space();
 
 				GUILayout.BeginHorizontal ();
 
-				if (string.IsNullOrEmpty (EditableProp.Template.Id)) {
+				if (string.IsNullOrEmpty (CurrentProp.Template.Id)) {
 					if (GUILayout.Button ("Upload")) {
 						UploadAssets ();
 					}
 
-					if (GUILayout.Button ("Clear")) {
-						ClearInputFields ();
-					}
 				} else {
 					if (GUILayout.Button ("Update")) {
 						UpdateAsset ();
 					}
 
-					if (GUILayout.Button ("Reset")) {
-						SetInputsByProp ();
-					}
+
 
 					if (GUILayout.Button ("Delete")) {
 						Debug.Log ("Delete");
@@ -621,7 +520,7 @@ namespace RF.AssetWizzard.Editor {
 				GUILayout.Label ("Can't find Prop on scene");
 
 				if(GUILayout.Button("Create new")) {
-					CreateNewAssetWindow ();
+					WindowManager.ShowCreateNewAsset ();
 				}
 			}
 
@@ -698,9 +597,6 @@ namespace RF.AssetWizzard.Editor {
 		//  AssetCreation
 		//--------------------------------------
 
-		private void CreateNewAssetWindow() {
-			CreateAssetWindow.InitWindow ();
-		}
 
 		private void CreateNewAssetHandler(string newAsset) {
 			if (string.IsNullOrEmpty(newAsset)) {
@@ -711,7 +607,7 @@ namespace RF.AssetWizzard.Editor {
 			EditorApplication.delayCall = () => {
 				OpenWorkshopScene ();
 
-				CurrentTab = WizzardTabs.Current;
+//				CurrentTab = WizzardTabs.Current;
 
 				PropAsset propOnScene = GameObject.FindObjectOfType<PropAsset> ();
 
@@ -740,7 +636,6 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void CreateAsset(string assetName) {
-			EditableAssetName = assetName;
 
 			string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + assetName + ".prefab";
 
@@ -790,7 +685,7 @@ namespace RF.AssetWizzard.Editor {
 			GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, newGo);
 			PrefabUtility.ConnectGameObjectToPrefab (newGo, newPrfab);
 
-			CurrentTab = WizzardTabs.Current;
+//			CurrentTab = WizzardTabs.Current;
 		}
 
 		private void CreateWorkshopScene(string scenePath) {
@@ -801,25 +696,21 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void UpdateAsset() {
-			if (EditableProp.Template.Placing == Placing.None) {
-				Debug.Log ("Choose placing!");
-				return;
-			}
-
-			if (EditableProp.Template.Thumbnail == null) {
+			
+			if (CurrentProp.Template.Thumbnail == null) {
 				Debug.Log ("Set asset's thumbnail!");
 				return;
 			}
 
-			if (EditableProp.transform.childCount < 1) {
+			if (CurrentProp.transform.childCount < 1) {
 				Debug.Log ("Prop asset is empty!");
 				return;
 			}
 
-			RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (EditableProp.Template);
+			RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (CurrentProp.Template);
 
 			updateRequest.PackageCallbackText = (updateCalback) => {
-				EditableProp.SetTemplate(new AssetTemplate(updateCalback));
+				CurrentProp.SetTemplate(new AssetTemplate(updateCalback));
 			};
 
 			updateRequest.Send ();
@@ -827,22 +718,22 @@ namespace RF.AssetWizzard.Editor {
 
 		private void UploadAssets() {
 
-			if(!AssetBundlesManager.ValidateAsset(EditableProp)) {
+			if(!AssetBundlesManager.ValidateAsset(CurrentProp)) {
 				return;
 			}
 
 
-			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (EditableProp.Template);
+			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (CurrentProp.Template);
 
 			createMeta.PackageCallbackText = (callback) => { 
 
-				EditableProp.Template.Id =  new AssetTemplate(callback).Id;
-				SavePrefab(EditableProp.Template.Title,  EditableProp.gameObject);
-				AssetBundlesManager.Clone(EditableProp);
+				CurrentProp.Template.Id =  new AssetTemplate(callback).Id;
+				SavePrefab(CurrentProp.Template.Title,  CurrentProp.gameObject);
+				AssetBundlesManager.Clone(CurrentProp);
 
 				int counter = 0;
 
-				AssetBundlesManager.AssetsUploadLoop(counter, EditableProp.Template, () => {
+				AssetBundlesManager.AssetsUploadLoop(counter, CurrentProp.Template, () => {
 					AssetBundlesManager.DelteTempFiles();
 					AssetDatabase.Refresh();
 					AssetDatabase.SaveAssets();
@@ -863,39 +754,6 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-
-
-		private void ClearInputFields() {
-			EditableAssetName = string.Empty;
-			CurrentPropPlacing = Placing.Wall;
-			CurrentPropInvoke = InvokeTypes.None;
-			CurrentPropThumbnail = null;
-			MinScale = 0.5f;
-			MaxScale = 2f;
-		}
-
-		private void SetInputsByProp() {
-			if (EditableProp == null) {
-				EditableProp = GameObject.FindObjectOfType<PropAsset> ();
-			}
-
-			if (EditableProp != null) {
-				EditableAssetName = EditableProp.Template.Title;
-
-				CurrentPropPlacing = EditableProp.Template.Placing;
-				CurrentPropInvoke = EditableProp.Template.InvokeType;
-
-				if (EditableProp.Template.Thumbnail != null) {
-					CurrentPropThumbnail = EditableProp.Template.Thumbnail;
-				}
-
-				MinScale = EditableProp.Template.MinScale;
-				MaxScale = EditableProp.Template.MaxScale;
-
-				CurrentPropThumbnail = EditableProp.Template.Thumbnail;
-			}
-		}
-
 		private void SavePrefab(PropAsset propOnScene) {
 			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.FULL_ASSETS_LOCATION+propOnScene.Template.Title+".prefab", typeof(Object));
 
@@ -908,23 +766,6 @@ namespace RF.AssetWizzard.Editor {
 			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.FULL_ASSETS_LOCATION+propName+".prefab", typeof(Object));
 
 			PrefabUtility.ReplacePrefab(propObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
-		}
-
-		public WizzardTabs CurrentTab {
-			get {
-				return _CurrentTab;
-			}
-			set {
-				if (value == WizzardTabs.Current) {
-					if (EditableProp == null) {
-						SetInputsByProp ();
-					}
-				} else {
-					EditableProp = null;
-				}
-
-				_CurrentTab = value;
-			}
 		}
 
 

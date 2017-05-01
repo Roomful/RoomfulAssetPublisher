@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace RF.AssetWizzard {
 	public enum WizzardTabs {
-		All,
-		Current,
-		Settings
+		Wizzard = 0,
+		Assets = 1,
+		Platforms = 2,
+		Account = 3
 	}
 }
