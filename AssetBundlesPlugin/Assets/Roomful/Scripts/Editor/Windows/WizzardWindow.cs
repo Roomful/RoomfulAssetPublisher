@@ -28,9 +28,202 @@ namespace RF.AssetWizzard.Editor {
 
 		private Vector2 AllPropsScrollPos;
 
+
+		public GUIStyle sectionScrollView = "PreferencesSectionBox";
+		public GUIStyle settingsBoxTitle = "OL Title";
+		public GUIStyle settingsBox = "OL Box";
+		public GUIStyle errorLabel = "WordWrappedLabel";
+		public GUIStyle sectionElement = "PreferencesSection";
+		public GUIStyle evenRow = "CN EntryBackEven";
+		public GUIStyle oddRow = "CN EntryBackOdd";
+		public GUIStyle selected = "ServerUpdateChangesetOn";
+		public GUIStyle keysElement = "PreferencesKeysElement";
+		public GUIStyle warningIcon = "CN EntryWarn";
+		public GUIStyle sectionHeader;
+
+
+		internal class Constants {
+
+			public GUIStyle sectionScrollView = "PreferencesSectionBox";
+			public GUIStyle settingsBoxTitle = "OL Title";
+			public GUIStyle settingsBox = "OL Box";
+			public GUIStyle errorLabel = "WordWrappedLabel";
+			public GUIStyle sectionElement = "PreferencesSection";
+			public GUIStyle evenRow = "CN EntryBackEven";
+			public GUIStyle oddRow = "CN EntryBackOdd";
+			public GUIStyle selected = "ServerUpdateChangesetOn";
+			public GUIStyle keysElement = "PreferencesKeysElement";
+			public GUIStyle warningIcon = "CN EntryWarn";
+			public GUIStyle sectionHeader = new GUIStyle(EditorStyles.largeLabel);
+			public GUIStyle cacheFolderLocation = new GUIStyle(GUI.skin.label);
+
+			public Constants() {
+				this.sectionHeader = new GUIStyle(EditorStyles.largeLabel);
+
+				this.sectionScrollView = new GUIStyle(this.sectionScrollView);
+				this.sectionScrollView.overflow.bottom++;
+				this.sectionHeader.fontStyle = FontStyle.Bold;
+				this.sectionHeader.fontSize = 18;
+				this.sectionHeader.margin.top = 10;
+				this.sectionHeader.margin.left++;
+
+				if (!EditorGUIUtility.isProSkin) {
+					this.sectionHeader.normal.textColor = new Color(0.4f, 0.4f, 0.4f, 1f);
+				} else {
+					this.sectionHeader.normal.textColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+				}
+
+				this.cacheFolderLocation.wordWrap = true;
+			}
+		}
+
+
+		private delegate void OnGUIDelegate();
+
+		private class Section {
+			public GUIContent content;
+
+			public WizzardWindow.OnGUIDelegate guiFunc;
+
+			public Section(string name, WizzardWindow.OnGUIDelegate guiFunc) {
+				this.content = new GUIContent(name);
+				this.guiFunc = guiFunc;
+			}
+
+			public Section(string name, Texture2D icon, WizzardWindow.OnGUIDelegate guiFunc) {
+				this.content = new GUIContent(name, icon);
+				this.guiFunc = guiFunc;
+			}
+
+			public Section(GUIContent content, WizzardWindow.OnGUIDelegate guiFunc) {
+				this.content = content;
+				this.guiFunc = guiFunc;
+			}
+		}
+
+
+
+
+		private int m_SelectedSectionIndex;
+		private Vector2 m_SectionScrollPos;
+		private List<WizzardWindow.Section> m_Sections;
+		private static WizzardWindow.Constants constants = null;
+
+
+
+		//--------------------------------------
+		//  Initialisation
+		//--------------------------------------
+
+
+		private void OnEnable() {
+
+
+			this.m_Sections = new List<WizzardWindow.Section>();
+			this.m_Sections.Add(new WizzardWindow.Section("Wizard", new WizzardWindow.OnGUIDelegate(this.Wizard)));
+			this.m_Sections.Add(new WizzardWindow.Section("Assets", new WizzardWindow.OnGUIDelegate(this.Assets)));
+			this.m_Sections.Add(new WizzardWindow.Section("Platfroms", new WizzardWindow.OnGUIDelegate(this.Platforms)));
+			this.m_Sections.Add(new WizzardWindow.Section("Account", new WizzardWindow.OnGUIDelegate(this.Account)));
+
+		}
+
+
+		//--------------------------------------
+		//  GUI Render
+		//--------------------------------------
+
+		void OnGUI() {
+
+			GUI.changed = false;
+			EditorGUIUtility.labelWidth = 200f;
+
+			if (WizzardWindow.constants == null) {
+				WizzardWindow.constants = new WizzardWindow.Constants();
+			}
+
+
+
+			GUILayout.BeginHorizontal(new GUILayoutOption[0]);
+
+			m_SectionScrollPos = GUILayout.BeginScrollView(this.m_SectionScrollPos, WizzardWindow.constants.sectionScrollView, new GUILayoutOption[]{ GUILayout.Width(120f)});
+
+			GUILayout.Space(40f);
+			for (int i = 0; i < this.m_Sections.Count; i++) {
+				WizzardWindow.Section section = this.m_Sections[i];
+
+				Rect rect = GUILayoutUtility.GetRect(section.content, WizzardWindow.constants.sectionElement, new GUILayoutOption[]{GUILayout.ExpandWidth(true)});
+
+				if (section == this.selectedSection && Event.current.type == EventType.Repaint) {
+					WizzardWindow.constants.selected.Draw(rect, false, false, false, false);
+				}
+
+				EditorGUI.BeginChangeCheck();
+				if (GUI.Toggle(rect, this.selectedSectionIndex == i, section.content, WizzardWindow.constants.sectionElement)) {
+					this.selectedSectionIndex = i;
+				} if (EditorGUI.EndChangeCheck()){
+					GUIUtility.keyboardControl = 0;
+				}
+			}
+
+
+			GUILayout.EndScrollView();
+			GUILayout.Space(10f);
+
+			GUILayout.BeginVertical(new GUILayoutOption[0]);
+			GUILayout.Label(this.selectedSection.content, WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
+			this.selectedSection.guiFunc();
+			GUILayout.Space(5f);
+			GUILayout.EndVertical();
+
+
+			GUILayout.Space(10f);
+			GUILayout.EndHorizontal();
+
+			if(GUI.changed) {
+				DirtyEditor();
+			}
+		}
+
+
+
+		//--------------------------------------
+		//  Get / Set
+		//--------------------------------------
+
+
+		private int selectedSectionIndex {
+			get {
+				return this.m_SelectedSectionIndex;
+			} set {
+
+				this.m_SelectedSectionIndex = value;
+				if (this.m_SelectedSectionIndex >= this.m_Sections.Count) {
+					this.m_SelectedSectionIndex = 0;
+				} else if (this.m_SelectedSectionIndex < 0) {
+					this.m_SelectedSectionIndex = this.m_Sections.Count - 1;
+				}
+			}
+		}
+
+
+		private WizzardWindow.Section selectedSection {
+			get {
+				return this.m_Sections[this.m_SelectedSectionIndex];
+			}
+		}
+
+
+		//--------------------------------------
+		//  Tabs
+		//--------------------------------------
+
+
+
 		//--------------------------------------
 		//  Initialization
 		//--------------------------------------
+
+		/*
 
 		public void Awake() {
 			CreateAssetWindow.NewAssetCreateClicked += CreateNewAssetHandler;
@@ -91,7 +284,9 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
-		private void SettingsWindow() {
+*/
+
+		private void Platforms() {
 			GUILayout.BeginHorizontal ();
 
 			EditorGUILayout.BeginVertical (GUI.skin.box, GUILayout.Width (200));
@@ -149,20 +344,137 @@ namespace RF.AssetWizzard.Editor {
 			AssetBundlesSettings.Save ();
 		}
 
-		private void AllPropsWindow() {
+
+
+		private Vector2 m_KeyScrollPos;
+		private AssetTemplate SelectedAsset = null;
+		private void Assets() {
+
+
+			if(!AssetBundlesSettings.Instance.LocalAssetTemplates.Contains(SelectedAsset)) {
+				SelectedAsset = null;
+			}
+
+			if(SelectedAsset == null) {
+				if(AssetBundlesSettings.Instance.LocalAssetTemplates.Count > 0) {
+					SelectedAsset = AssetBundlesSettings.Instance.LocalAssetTemplates [0];
+				}
+			}
+
+
+			GUILayout.Space(10f);
+			GUILayout.BeginHorizontal();
+
+
+
+			GUILayout.BeginVertical( GUILayout.Width(230));
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label("Avaliable Assets", WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.ExpandWidth(true)});
+
+
+			Texture2D refreshIcon = Resources.Load ("refresh") as Texture2D;
+			bool refresh = GUILayout.Button (refreshIcon, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+			if (refresh) {
+				AssetRequestManager.RefreshAssetsList ();
+			}
+
+
+
+			bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
+			if(addnew) {
+				CreateNewAssetWindow ();
+			}
+
+
+
+			Texture2D trash = Resources.Load ("trash") as Texture2D;
+			bool remove = GUILayout.Button (trash, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+			if(remove && SelectedAsset != null) {
+				if (EditorUtility.DisplayDialog ("Delete " + SelectedAsset.Title, "Are you sure you want to remove this asset?", "Remove", "Cancel")) {;
+					AssetRequestManager.RemoveAsset (SelectedAsset);
+				}
+			}
+
+
+
+			GUILayout.EndHorizontal ();
+
+			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, WizzardWindow.constants.settingsBox,  new GUILayoutOption[] {GUILayout.Width(230)});
+			foreach(var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
+
+				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[0])) {
+					SelectedAsset = asset;
+				}
+			}
+
+			GUILayout.EndScrollView();
+			GUILayout.EndVertical();
+
+
+
+
+
+			GUILayout.BeginVertical(GUILayout.Width(230));
+
+
+			if(SelectedAsset != null) {
+
+				EditorGUILayout.Space ();
+				EditorGUILayout.LabelField ("Asset Info", EditorStyles.boldLabel);
+				EditorGUILayout.Space ();
+
+				AssetInfoLable ("Id", SelectedAsset.Id);
+				AssetInfoLable ("Title", SelectedAsset.Title);
+				AssetInfoLable ("Placing", SelectedAsset.Placing);
+				AssetInfoLable ("Invoke", SelectedAsset.InvokeType);
+				AssetInfoLable ("Can Stack", SelectedAsset.CanStack);
+				AssetInfoLable ("Max Scale", SelectedAsset.MaxScale);
+				AssetInfoLable ("Min Scale", SelectedAsset.MinScale);
+
+			}
+
+
+			GUILayout.EndVertical();
+
+
+			GUILayout.Space(10f);
+			GUILayout.EndHorizontal();
+
+			GUILayout.Space(5f);
+			bool restoreDefaults = GUILayout.Button ("Restore Defaults", GUILayout.Width(150));
+			if(restoreDefaults) {
+				/*	Settings.Tags.Clear (); 
+				Settings.InitDefaultTags ();
+				LoggerWindow.RefreshUI ();*/
+			}
+
+		}
+
+
+		private void AssetInfoLable(string title, object msg) {
+			GUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField (title + ": ",  EditorStyles.boldLabel, new GUILayoutOption[] {GUILayout.Height(15), GUILayout.Width(65)});
+			EditorGUILayout.SelectableLabel (msg.ToString(), EditorStyles.label, new GUILayoutOption[] {GUILayout.Height(15)});
+			GUILayout.EndHorizontal ();
+		}
+
+		private void Assets2() {
 			GUILayout.BeginVertical ();
 
 			EditorGUILayout.Space();
 
 			GUILayout.BeginHorizontal ();
-
+/*
 			if (GUILayout.Button ("Get all assets")) {
 				GetAllAssets ();
 			}
 
 			if(GUILayout.Button("Create new")) {
 				CreateNewAssetWindow ();
-			}
+			}*/
+
+
 
 			GUILayout.EndHorizontal ();
 			EditorGUILayout.Space();
@@ -229,27 +541,14 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.EndVertical ();
 		}
 
-		private void GetAllAssets() {
-			RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets ();
-			AssetBundlesSettings.Instance.LocalAssetTemplates.Clear ();
 
-			allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
-				
-				List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
 
-				foreach (object assetData in allAssetsList) {
-					AssetTemplate at = new AssetTemplate(new JSONData(assetData).RawData);
 
-					AssetBundlesSettings.Instance.LocalAssetTemplates.Add(at);
-				}
-
-				AssetBundlesSettings.Save();
-			};
-
-			allAssetsRequest.Send ();
+		private void Account() {
+			
 		}
 
-		private void CurrentPropsWindow() {
+		private void Wizard() {
 			GUILayout.BeginVertical ();
 
 			EditorGUILayout.Space();
@@ -628,6 +927,15 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
+
+
+		//--------------------------------------
+		// Private Methods
+		//--------------------------------------
+
+		private static void DirtyEditor() {
+
+		}
 
 	}
 }

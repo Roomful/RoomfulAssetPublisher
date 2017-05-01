@@ -104,5 +104,23 @@ namespace RF.AssetWizzard {
 			MinScale = assetData.GetValue<float> ("minScale");
 			MaxScale = assetData.GetValue<float> ("maxScale");
 		}
+
+
+
+		public GUIContent DisaplyContent {
+
+			get {
+				GUIContent content = new GUIContent ();
+				if(Thumbnail != null) {
+					content.image = Thumbnail;
+				}
+
+				content.text = Title;
+				return content;
+			}
+		}
+
+
+
 	}
 }
