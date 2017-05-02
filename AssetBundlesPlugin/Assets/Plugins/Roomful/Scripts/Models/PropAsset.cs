@@ -135,19 +135,17 @@ namespace RF.AssetWizzard {
 			transform.rotation = Quaternion.identity;
 
 			foreach(Renderer child in ChildrenRenderer) {
-
-	/*			if(child.GetComponent<BoundsIgnore>() != null) {
+	
+				if(child.transform.IsChildOf(GetLayer (HierarchyLayers.IgnoredGraphics))) {
 					continue;
 				}
-*/
+
 				if(!hasBounds) {
 					Size = child.bounds;
 					hasBounds = true;
 				} else {
 					Size.Encapsulate(child.bounds);
 				}
-
-				//Debug.Log (child.gameObject.name);
 			}
 
 			transform.rotation = oldRotation;
