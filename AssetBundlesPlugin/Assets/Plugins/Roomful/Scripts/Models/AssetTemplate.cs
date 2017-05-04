@@ -44,7 +44,7 @@ namespace RF.AssetWizzard {
 			
 
 		public AssetTemplate(string assetData) {
-			Debug.Log (assetData);
+//			Debug.Log (assetData);
 			ParseData (new JSONData(assetData));
 		}
 

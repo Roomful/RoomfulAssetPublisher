@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace RF.AssetWizzard {
 
-	public enum HierarchyLayers  {
+	public enum FrameLayers  {
 
-		Graphics,
-		IgnoredGraphics,
-		Colliders,
-		StandSurface,
-		Thumbnails,
-		Titles
+		BorderParts,
+		GeneratedBorder
 	}
 
 }

@@ -16,8 +16,13 @@ namespace RF.AssetWizzard.Editor {
 
 			var p = clone.GetComponent<RF.AssetWizzard.PropAsset> ();
 			DestroyImmediate (p);
-			CreatePrefabClone (prop.Template.Title, clone);
 
+			PropThumbnail[] thumbnails =  clone.GetComponentsInChildren<PropThumbnail> ();
+			foreach(var t in thumbnails) {
+				t.Destory ();
+			}
+
+			CreatePrefabClone (prop.Template.Title, clone);
 
 
 			DestroyImmediate (clone);
@@ -240,11 +245,42 @@ namespace RF.AssetWizzard.Editor {
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
 
+			FixShaders (newGo);
 
-			var renderers = newGo.GetComponentsInChildren<Renderer> ();
+		
+
+
+			PropAsset asset = newGo.AddComponent<PropAsset> ();
+			asset.SetTemplate (tpl);
+
+			Transform thumbnails =  asset.GetLayer (HierarchyLayers.Thumbnails);
+			foreach(Transform tb in thumbnails) {
+				PropThumbnail thumbnail = tb.gameObject.AddComponent<PropThumbnail> ();
+				FixShaders (thumbnail.Border);
+				FixShaders (thumbnail.Corner);
+			}
+
+
+
+
+			GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, newGo);
+			PrefabUtility.ConnectGameObjectToPrefab (newGo, newPrfab);
+
+			WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
+
+		}
+
+		private static void FixShaders(GameObject obj) {
+			if (obj == null) {
+				return;
+			}
+			var renderers = obj.GetComponentsInChildren<Renderer> ();
 
 			foreach (Renderer r in renderers) {
 				foreach(Material m in r.sharedMaterials) {
+					if(m == null) { continue; }
+					if (m.shader == null) { continue; }
+
 					var shaderName = m.shader.name;
 					var newShader = Shader.Find(shaderName);
 					if(newShader != null){
@@ -254,16 +290,6 @@ namespace RF.AssetWizzard.Editor {
 					}
 				}
 			}
-
-
-
-			newGo.AddComponent<PropAsset> ().SetTemplate (tpl);
-
-			GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, newGo);
-			PrefabUtility.ConnectGameObjectToPrefab (newGo, newPrfab);
-
-			WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
-
 		}
 
 
@@ -273,7 +299,6 @@ namespace RF.AssetWizzard.Editor {
 			SavePrefab(prop);
 
 			AssetBundlesManager.Clone(prop);
-
 			int counter = 0;
 
 			AssetBundlesManager.AssetsUploadLoop(counter, prop.Template, () => {

@@ -28,6 +28,105 @@ public static class SA_UnityExtensions  {
 	}
 
 
+	public static Bounds GetRendererBounds(this Transform t) {
+		return t.gameObject.GetRendererBounds ();
+	}
+
+
+	public static Vector3 GetVertex(this Transform t, VertexX x, VertexY y, VertexZ z) {
+		return t.gameObject.GetVertex (x, y, z);
+	}
+
+
+	public static Bounds GetRendererBounds(this GameObject go) {
+		return CalculateBounds(go);
+	}
+		
+
+	public static Vector3 GetVertex(this GameObject go, VertexX x, VertexY y, VertexZ z) {
+
+		Bounds bounds = go.GetRendererBounds ();
+		return bounds.GetVertex (x, y, z);
+	}
+
+
+
+
+	public static Vector3 GetVertex(this Bounds bounds, VertexX x, VertexY y, VertexZ z) {
+
+
+		Vector3 center = bounds.center;
+
+		switch(x){
+		case VertexX.Right:
+			center.x -= bounds.extents.x;
+			break;
+		case VertexX.Left:
+			center.x += bounds.extents.x;
+			break;
+		}
+
+
+		switch(y) {
+		case VertexY.Bottom:
+			center.y -= bounds.extents.y;
+			break;
+
+		case VertexY.Top:
+			center.y += bounds.extents.y;
+			break;
+		}
+
+		switch(z) {
+		case VertexZ.Back:
+			center.z -= bounds.extents.z;
+			break;
+
+		case VertexZ.Front:
+			center.z += bounds.extents.z;
+			break;
+		}
+
+		return center;
+	}
+
+
+
+
+	public static Bounds CalculateBounds(GameObject obj) {
+
+		bool hasBounds = false;
+		Bounds Bounds = new Bounds(Vector3.zero, Vector3.zero);
+		Renderer[] ChildrenRenderer = obj.GetComponentsInChildren<Renderer>();
+
+		//Quaternion oldRotation = obj.transform.rotation;
+		//obj.transform.rotation = Quaternion.identity;
+
+		Renderer rnd = obj.GetComponent<Renderer> ();
+		if(rnd != null) {
+			Bounds = rnd.bounds;
+			hasBounds = true;
+		}
+
+		foreach(Renderer child in ChildrenRenderer) {
+
+			if(!hasBounds) {
+				Bounds = child.bounds;
+				hasBounds = true;
+			} else {
+				Bounds.Encapsulate(child.bounds);
+			}
+		}
+
+		//obj.transform.rotation = oldRotation;
+
+		return Bounds;
+	}
+
+
+
+
+
 	public static void ScaleTo(this GameObject go, Vector3 scale, float time, SA.Common.Animation.EaseType easeType = SA.Common.Animation.EaseType.linear, System.Action OnCompleteAction = null ) {
 		SA.Common.Animation.ValuesTween tw = go.AddComponent<SA.Common.Animation.ValuesTween>();
 

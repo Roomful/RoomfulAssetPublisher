@@ -62,12 +62,12 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		[MenuItem("GameObject/Roomful/Attch Thumbnail Component", false, 0)]
+		[MenuItem("GameObject/Roomful/Add Thumbnail", false, 0)]
 		static void SetAsThumbnail () {
-
+			new GameObject ("Thumbnail").AddComponent<PropThumbnail>();
 		}
 
-		[MenuItem("GameObject/Roomful/Attch Title Component", false, 0)]
+		[MenuItem("GameObject/Roomful/Add Title", false, 0)]
 		static void SetAsTitle () {
 
 		}
