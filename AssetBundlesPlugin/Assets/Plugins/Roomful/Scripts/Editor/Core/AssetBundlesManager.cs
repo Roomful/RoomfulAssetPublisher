@@ -19,7 +19,7 @@ namespace RF.AssetWizzard.Editor {
 
 			PropThumbnail[] thumbnails =  clone.GetComponentsInChildren<PropThumbnail> ();
 			foreach(var t in thumbnails) {
-				t.Destory ();
+				t.PrepareForUpalod ();
 			}
 
 			CreatePrefabClone (prop.Template.Title, clone);

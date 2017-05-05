@@ -69,7 +69,15 @@ namespace RF.AssetWizzard {
 		// Public Methods
 		//--------------------------------------
 
-		public void Destory() {
+		public void PrepareForUpalod() {
+			if(Border != null) {
+				Border.SetActive (true);
+			}
+
+			if(Corner != null) {
+				Corner.SetActive (true);
+			}
+
 			DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
 			DestroyImmediate (Canvas.gameObject);
 			DestroyImmediate (this);
