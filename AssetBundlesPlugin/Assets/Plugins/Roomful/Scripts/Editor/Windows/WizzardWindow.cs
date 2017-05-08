@@ -403,7 +403,7 @@ namespace RF.AssetWizzard.Editor {
 		//  Assets
 		//--------------------------------------
 
-
+		private string SearchField = string.Empty;
 		private Vector2 m_KeyScrollPos;
 		private AssetTemplate SelectedAsset = null;
 		private void Assets() {
@@ -428,16 +428,15 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.BeginVertical( GUILayout.Width(230));
 
 			GUILayout.BeginHorizontal ();
-			GUILayout.Label("Avaliable Assets", WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.ExpandWidth(true)});
 
+			SearchField = GUILayout.TextField(SearchField, new GUILayoutOption[] {GUILayout.ExpandWidth(true)});
 
 			Texture2D refreshIcon = Resources.Load ("refresh") as Texture2D;
 			bool refresh = GUILayout.Button (refreshIcon, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 			if (refresh) {
-				AssetRequestManager.RefreshAssetsList ();
+				List<string> separatedTags = new List<string>(SearchField.Split(' '));
+				AssetRequestManager.ReloadAssets (separatedTags);
 			}
-
-
 
 			bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
 			if(addnew) {
@@ -465,6 +464,15 @@ namespace RF.AssetWizzard.Editor {
 				}
 				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(230)})) {
 					SelectedAsset = asset;
+				}
+			}
+
+			if (AssetBundlesSettings.Instance.LocalAssetTemplates.Count > 0) {
+				EditorGUILayout.Space ();
+
+				if(GUILayout.Button ("Load more", EditorStyles.miniButton, GUILayout.Width(60))) {
+					List<string> separatedTags = new List<string>(SearchField.Split(' '));
+					AssetRequestManager.LoadMoreAssets (separatedTags);
 				}
 			}
 
