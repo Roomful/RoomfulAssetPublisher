@@ -245,18 +245,6 @@ namespace RF.AssetWizzard.Editor {
 
 					CurrentProp.Template.CanStack = YesNoFiled ("CanStack", CurrentProp.Template.CanStack, 100, 240);
 
-
-
-					GUILayout.BeginHorizontal ();
-					EditorGUILayout.LabelField ("Min Scale: ", GUILayout.Width (100));
-					CurrentProp.Template.MinScale = EditorGUILayout.FloatField (CurrentProp.Template.MinScale, GUILayout.Width (240));
-					GUILayout.EndHorizontal ();
-
-					GUILayout.BeginHorizontal ();
-					EditorGUILayout.LabelField ("Max Scale: ", GUILayout.Width (100));
-					CurrentProp.Template.MaxScale = EditorGUILayout.FloatField (CurrentProp.Template.MaxScale, GUILayout.Width (240));
-					GUILayout.EndHorizontal ();
-
 				} GUILayout.EndVertical();
 
 
@@ -265,6 +253,60 @@ namespace RF.AssetWizzard.Editor {
 
 				} GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
+
+
+
+				GUIStyle alignment_center = new GUIStyle (EditorStyles.label); 
+				alignment_center.alignment = TextAnchor.MiddleCenter;
+
+				GUIStyle alignment_right = new GUIStyle (EditorStyles.label); 
+				alignment_right.alignment = TextAnchor.MiddleRight;
+
+
+				GUILayout.BeginHorizontal ();
+				EditorGUILayout.LabelField ("Allowed Scale: ", GUILayout.Width (100));
+
+				float minLimit = AssetBundlesSettings.MIN_ALLOWED_SIZE;
+				float maxLimit = AssetBundlesSettings.MAX_AlLOWED_SIZE;
+
+				EditorGUILayout.MinMaxSlider (ref CurrentProp.Template.MinSize, ref CurrentProp.Template.MaxSize, minLimit, maxLimit,  GUILayout.Width (240));  //    EditorGUILayout.MinMaxSlider (CurrentProp.Template.MinScale, GUILayout.Width (240));
+
+				if(CurrentProp.Template.MaxSize < CurrentProp.MaxAxisValue) {
+					CurrentProp.Template.MaxSize = CurrentProp.MaxAxisValue;
+				}
+
+				EditorGUILayout.LabelField (Mathf.CeilToInt(CurrentProp.Template.MinSize * 100f) + "mm / " + Mathf.CeilToInt(CurrentProp.Template.MaxSize * 100f) + "mm", alignment_right, GUILayout.Width (99));
+				GUILayout.EndHorizontal ();
+
+
+
+				GUILayout.BeginHorizontal ();
+
+				float labelSize = 146;
+
+				Vector3 def = CurrentProp.Size * 100f;
+				Vector3 min = def * CurrentProp.MinScale;
+				Vector3 max = def * CurrentProp.MaxScale;
+
+			
+				EditorGUILayout.LabelField ("Min(" + Mathf.CeilToInt(CurrentProp.MinScale * 100f) + "%): "  + (int)min.x + "x" + (int)min.y + "x" + (int)min.z, GUILayout.Width (labelSize));
+				EditorGUILayout.LabelField ("Default: " + (int)def.x + "x" + (int)def.y + "x" + (int)def.z, alignment_center, GUILayout.Width (labelSize));
+				GUILayout.Space (1);
+				EditorGUILayout.LabelField ("Max(" + Mathf.CeilToInt(CurrentProp.MaxScale * 100f) + "%):" + (int)max.x + "x" + (int)max.y + "x" + (int)max.z, alignment_right, GUILayout.Width (labelSize));
+
+
+
+				GUILayout.EndHorizontal ();
+
+
+			/*	GUILayout.BeginHorizontal ();
+				EditorGUILayout.LabelField ("Max Scale: ", GUILayout.Width (100));
+
+				CurrentProp.Template.MaxScale = EditorGUILayout.Slider (CurrentProp.Template.MaxScale, CurrentProp.MaxAxisValue, 4f); // EditorGUILayout.FloatField (CurrentProp.Template.MaxScale, GUILayout.Width (240));
+				GUILayout.EndHorizontal ();
+*/
+
+
 
 
 				GUILayout.Space (10f);
@@ -299,7 +341,7 @@ namespace RF.AssetWizzard.Editor {
 			
 
 			} if (EditorGUI.EndChangeCheck ()) {
-				AssetBundlesManager.SavePrefab (CurrentProp);
+				//AssetBundlesManager.SavePrefab (CurrentProp);
 			}
 
 			GUILayout.BeginHorizontal ();
@@ -495,8 +537,8 @@ namespace RF.AssetWizzard.Editor {
 				AssetInfoLable ("Placing", SelectedAsset.Placing);
 				AssetInfoLable ("Invoke", SelectedAsset.InvokeType);
 				AssetInfoLable ("Can Stack", SelectedAsset.CanStack);
-				AssetInfoLable ("Max Scale", SelectedAsset.MaxScale);
-				AssetInfoLable ("Min Scale", SelectedAsset.MinScale);
+				AssetInfoLable ("Max Scale", SelectedAsset.MaxSize);
+				AssetInfoLable ("Min Scale", SelectedAsset.MinSize);
 
 				string tags = string.Empty;
 				foreach(string tag in SelectedAsset.Tags) {

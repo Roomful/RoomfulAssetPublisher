@@ -12,8 +12,11 @@ namespace RF.AssetWizzard {
 		
 		[SerializeField] [HideInInspector]
 		private AssetTemplate _Template;
+		public float Scale = 1f;
 
-		private Bounds Size = new Bounds(Vector3.zero, Vector3.zero);
+
+		private Bounds _Size = new Bounds(Vector3.zero, Vector3.zero);
+
 	
 
 		//--------------------------------------
@@ -42,7 +45,7 @@ namespace RF.AssetWizzard {
 
 		protected virtual void OnDrawGizmos() {
 			Gizmos.color = Color.blue;
-			DrawCube (Size.center, transform.rotation,  Size.size);
+			DrawCube (_Size.center, transform.rotation,  _Size.size);
 		}
 			
 		public static void DrawCube(Vector3 position, Quaternion rotation, Vector3 scale) {
@@ -74,10 +77,10 @@ namespace RF.AssetWizzard {
 		}
 
 		public Transform GetLayer(HierarchyLayers layer) {
-			Transform hLayer = transform.Find (layer.ToString ());
+			Transform hLayer = Model.Find (layer.ToString ());
 			if(hLayer == null) {
 				GameObject go = new GameObject (layer.ToString());
-				go.transform.parent = transform;
+				go.transform.parent = Model;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.transform.localRotation = Quaternion.identity;
@@ -102,6 +105,23 @@ namespace RF.AssetWizzard {
 				return _Template;
 			}
 		}
+
+		public Transform Model {
+			get {
+				Transform model = transform.Find ("Model");
+				if(model == null) {
+					GameObject go = new GameObject ("Model");
+					go.transform.parent = transform;
+					go.transform.localPosition = Vector3.zero;
+					go.transform.localScale = Vector3.one;
+					go.transform.localRotation = Quaternion.identity;
+
+					model = go.transform;
+				}
+
+				return model;
+			}
+		}
 			
 
 		public Light DirectionalLight {
@@ -120,6 +140,41 @@ namespace RF.AssetWizzard {
 			}
 		}
 
+		public float MaxAxisValue {
+			get {
+				float val = Mathf.Max (Size.x, Size.y);
+				return  Mathf.Max (val, Size.z);
+			}
+		}
+			
+
+		public Vector3 Size {
+			get {
+				return _Size.size / Scale;
+			}
+		}
+
+
+		public float MaxScale {
+			get{
+
+				if(MaxAxisValue == 0) {
+					return 1;
+				}
+				return Template.MaxSize / MaxAxisValue;
+			}
+		}
+
+		public float MinScale {
+			get{
+				if(MaxAxisValue == 0) {
+					return 1;
+				}
+				return Template.MinSize / MaxAxisValue;
+			}
+		}
+
+
 
 		//--------------------------------------
 		// Private Methods
@@ -128,7 +183,7 @@ namespace RF.AssetWizzard {
 		public void AutosizeCollider() {
 
 			bool hasBounds = false;
-			Size = new Bounds(Vector3.zero, Vector3.zero);
+			_Size = new Bounds(Vector3.zero, Vector3.zero);
 			Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer>();
 
 			Quaternion oldRotation = transform.rotation;
@@ -141,16 +196,16 @@ namespace RF.AssetWizzard {
 				}
 
 				if(!hasBounds) {
-					Size = child.bounds;
+					_Size = child.bounds;
 					hasBounds = true;
 				} else {
-					Size.Encapsulate(child.bounds);
+					_Size.Encapsulate(child.bounds);
 				}
 			}
 
 			transform.rotation = oldRotation;
 
-			Template.Size = Size.size;
+			Template.Size = _Size.size;
 		}
 
 
@@ -160,10 +215,24 @@ namespace RF.AssetWizzard {
 			transform.rotation = Quaternion.identity;
 			transform.localScale = Vector3.one;
 
+
+			Model.localPosition = Vector3.zero;
+			Model.localScale = Vector3.one * Scale;
+			Model.localRotation = Quaternion.identity;
+
+
+
 			List<Transform> UndefinedObjects = new List<Transform> ();
 
 			//check undefined chields
 			foreach(Transform child in transform) {
+				if (child != Model) {
+					UndefinedObjects.Add (child);
+				}
+			}
+
+
+			foreach(Transform child in Model) {
 				if (!AssetHierarchySettings.HierarchyLayers.Contains (child.name)) {
 					UndefinedObjects.Add (child);
 				}
@@ -174,6 +243,10 @@ namespace RF.AssetWizzard {
 			Transform[] allObjects = UnityEngine.Object.FindObjectsOfType<Transform>();
 			foreach(Transform child in allObjects) {
 				if(child == transform) {
+					continue;
+				}
+
+				if(child == Model) {
 					continue;
 				}
 
