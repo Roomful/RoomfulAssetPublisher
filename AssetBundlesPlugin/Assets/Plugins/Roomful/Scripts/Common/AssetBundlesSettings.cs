@@ -38,6 +38,11 @@ namespace RF.AssetWizzard {
 
 		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
 
+
+		public const float MAX_AlLOWED_SIZE = 4f;
+		public const float MIN_ALLOWED_SIZE = 0.3f;
+
+
 		#if UNITY_EDITOR
 		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
 		#endif

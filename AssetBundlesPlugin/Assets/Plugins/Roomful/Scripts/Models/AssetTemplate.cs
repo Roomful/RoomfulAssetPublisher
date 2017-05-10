@@ -14,8 +14,8 @@ namespace RF.AssetWizzard {
 		public Placing Placing = Placing.Floor;
 		public InvokeTypes InvokeType = InvokeTypes.None;
 		public Texture2D Thumbnail = null;
-		public float MinScale = 0.5f;
-		public float MaxScale = 2f;
+		public float MinSize = 0.5f;
+		public float MaxSize = 2f;
 		public bool CanStack = false;
 		public List<ContentType> ContentTypes =  new List<ContentType>();
 		public List<string> Tags =  new List<string>();
@@ -38,8 +38,8 @@ namespace RF.AssetWizzard {
 			Placing = origin.Placing;
 			InvokeType = origin.InvokeType;
 			Thumbnail = origin.Thumbnail;
-			MinScale = origin.MinScale;
-			MaxScale = origin.MaxScale;
+			MinSize = origin.MinSize;
+			MaxSize = origin.MaxSize;
 		}
 			
 
@@ -67,8 +67,8 @@ namespace RF.AssetWizzard {
 
 			OriginalJSON.Add("thumbnail", thumbnailStr);
 
-			OriginalJSON.Add("minScale", MinScale);
-			OriginalJSON.Add("maxScale", MaxScale);
+			OriginalJSON.Add("minScale", MinSize);
+			OriginalJSON.Add("maxScale", MaxSize);
 
 			var sizeData = new Dictionary<string, object> ();
 			sizeData.Add ("x", Size.x);
@@ -103,8 +103,8 @@ namespace RF.AssetWizzard {
 				Thumbnail.LoadImage (base64img);
 			}
 
-			MinScale = assetData.GetValue<float> ("minScale");
-			MaxScale = assetData.GetValue<float> ("maxScale");
+			MinSize = assetData.GetValue<float> ("minScale");
+			MaxSize = assetData.GetValue<float> ("maxScale");
 			CanStack  = assetData.GetValue<bool> ("canStack");
 
 
