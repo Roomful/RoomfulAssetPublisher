@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetWizzard {
+namespace RF.AssetWizzard.Editor {
 	public enum WizzardTabs {
 		Wizzard = 0,
 		Assets = 1,

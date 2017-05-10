@@ -58,13 +58,13 @@ namespace RF.AssetWizzard.Editor {
 				return false;
 			}
 
-			if (asset.transform.childCount < 1) {
+			if (asset.Model.childCount < 1) {
 				EditorUtility.DisplayDialog ("Error", "Asset is empty!", "Ok");
 				return false;
 			}
 
 			return true;
-
+				
 		}
 
 

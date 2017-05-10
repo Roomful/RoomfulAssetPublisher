@@ -64,7 +64,9 @@ namespace RF.AssetWizzard.Editor {
 
 		[MenuItem("GameObject/Roomful/Add Thumbnail", false, 0)]
 		static void SetAsThumbnail () {
-			new GameObject ("Thumbnail").AddComponent<PropThumbnail>();
+			GameObject Thumbnail = new GameObject ("Thumbnail");
+			Thumbnail.AddComponent<PropThumbnail>();
+			Thumbnail.transform.localScale = Vector3.one * 1.5f;
 		}
 
 		[MenuItem("GameObject/Roomful/Add Title", false, 0)]

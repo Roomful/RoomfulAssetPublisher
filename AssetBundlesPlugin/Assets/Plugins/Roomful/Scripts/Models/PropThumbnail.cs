@@ -79,7 +79,7 @@ namespace RF.AssetWizzard {
 			}
 
 			DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
-			DestroyImmediate (Canvas.gameObject);
+			DestroyImmediate (Canvas.GetComponent<Renderer> ().sharedMaterial = null);
 			DestroyImmediate (this);
 		}
 
@@ -97,6 +97,23 @@ namespace RF.AssetWizzard {
 
 			return hLayer;
 		}
+
+		public void SetFixedRatioMode (bool enabled) {
+			if(enabled && !IsFixedRatio) {
+				GameObject ratio = new GameObject ("CanvasRatio");
+				ratio.transform.parent = transform;
+			}
+
+			if(!enabled && IsFixedRatio) {
+				GameObject ratio = transform.Find ("CanvasRatio").gameObject;
+				DestroyImmediate (ratio);
+			}
+		}
+
+
+		//--------------------------------------
+		// Public Methods
+		//--------------------------------------
 
 
 		public Transform Canvas {
@@ -124,10 +141,64 @@ namespace RF.AssetWizzard {
 		}
 
 
+		public bool IsFixedRatio {
+			get {
+				return transform.Find ("CanvasRatio") != null;
+			}
+		}
+
+		public int XRatio {
+			get {
+				Transform ratio = GetCanvasRatio ();
+				return System.Convert.ToInt32 (ratio.GetChild(0).name);
+			}
+
+			set {
+				Transform ratio = GetCanvasRatio ();
+				ratio.GetChild (0).name = value.ToString ();
+			}
+		}
+
+		public int YRatio {
+			get {
+				Transform ratio = GetCanvasRatio ();
+				return System.Convert.ToInt32 (ratio.GetChild(1).name);
+			}
+
+			set {
+				Transform ratio = GetCanvasRatio ();
+				ratio.GetChild (1).name = value.ToString ();
+			}
+		}
+
+
 
 		//--------------------------------------
 		// Private Methods
 		//--------------------------------------
+
+		private Transform GetCanvasRatio() {
+
+			Transform ratio = transform.Find ("CanvasRatio");
+			if(ratio ==  null) {
+				ratio = new GameObject ("CanvasRatio").transform;
+				ratio.parent = transform;
+			}
+
+			if(ratio.childCount == 0) {
+				new GameObject ("1").transform.parent = ratio;
+				new GameObject ("1").transform.parent = ratio;
+			}
+
+			if (ratio.childCount == 1) {
+				new GameObject ("1").transform.parent = ratio;
+			}
+
+			return ratio;
+
+		}
+
+
 
 		private void CheckhHierarchy() {
 			transform.parent = Prop.GetLayer (HierarchyLayers.Thumbnails);
@@ -137,20 +208,15 @@ namespace RF.AssetWizzard {
 				Canvas.GetComponent<Renderer> ().sharedMaterial = new Material (Shader.Find ("Unlit/Transparent"));
 			}
 
-			Canvas.GetComponent<Renderer> ().sharedMaterial.mainTexture = Thumbnail;
-
-
-			float ratio;
-			if(Thumbnail.width > Thumbnail.height) {
-				ratio = (float)Thumbnail.height / (float)Thumbnail.width;
-				Canvas.localScale = new Vector3 (1f,1f * ratio, 0.01f);
-			} else {
-				ratio = (float) Thumbnail.width / (float) Thumbnail.height;
-				Canvas.localScale = new Vector3 (1f * ratio, 1f , 0.01f);
-			}
 			Canvas.localRotation = Quaternion.Euler (0, 180, 0);
 
 
+		
+			if(IsFixedRatio) {
+				Crop ();
+			} else {
+				Resize ();
+			}
 
 
 			if(Corner != null) {
@@ -162,18 +228,81 @@ namespace RF.AssetWizzard {
 			}
 
 
-
 			if(Border != null) {
 				
 				Border.transform.parent = GetLayer (FrameLayers.BorderParts);
 				Border.gameObject.SetActive (false);
 				Border.gameObject.name = "Border";
 			}
-
-
-
-
 		}
+
+
+		private void Resize() {
+			float ratio;
+			if(Thumbnail.width > Thumbnail.height) {
+				ratio = (float)Thumbnail.height / (float)Thumbnail.width;
+				Canvas.localScale = new Vector3 (1f,1f * ratio, 0.01f);
+			} else {
+				ratio = (float) Thumbnail.width / (float) Thumbnail.height;
+				Canvas.localScale = new Vector3 (1f * ratio, 1f , 0.01f);
+			}
+
+			Canvas.GetComponent<Renderer> ().sharedMaterial.mainTexture = Thumbnail;
+		}
+
+
+		private void Crop() {
+			float ratio = (float) XRatio /  (float) YRatio;
+
+		
+			float yScale = 1f / ratio;
+			Canvas.localScale = new Vector3 (1f, yScale, 0.01f);
+
+			Canvas.GetComponent<Renderer> ().sharedMaterial.mainTexture = Crop(Thumbnail);
+		}
+
+
+		public Texture2D Crop(Texture2D orTexture) {
+			float surfaceAspectRatio = (float) XRatio /  (float) YRatio;
+
+			float textureRation = orTexture.width / orTexture.height;
+
+			int x, y, newWidth, newHeight;
+			if(surfaceAspectRatio > textureRation) {
+				newWidth = orTexture.width;
+				newHeight = (int)(newWidth / surfaceAspectRatio);
+				x = 0;
+				y = (int)((orTexture.height - newHeight) * 0.5f);
+			} else {
+				newHeight = orTexture.height;
+				newWidth = (int)(newHeight * surfaceAspectRatio);
+				x = (int)((orTexture.width - newWidth) * 0.5f);
+				y = 0;
+			}
+
+
+			if(newWidth == 0) {
+				newWidth = 1;
+			}
+
+			if(newHeight == 0) {
+				newHeight = 1;
+			}
+
+
+			//print(orTexture.height + " " + newHeight + " " + y);
+
+			var pix = orTexture.GetPixels(x, y, newWidth, newHeight);
+			var t = new Texture2D(newWidth, newHeight);
+			t.SetPixels(pix);
+			t.Apply();
+
+
+			return t;
+		}
+
+
+
 
 		private void GenerateFrame() {
 			if(Border != null && Corner != null) {

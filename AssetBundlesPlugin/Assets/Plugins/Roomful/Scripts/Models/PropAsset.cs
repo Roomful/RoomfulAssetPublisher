@@ -13,6 +13,7 @@ namespace RF.AssetWizzard {
 		[SerializeField] [HideInInspector]
 		private AssetTemplate _Template;
 		public float Scale = 1f;
+		public bool ShowBounds = true;
 
 
 		private Bounds _Size = new Bounds(Vector3.zero, Vector3.zero);
@@ -44,6 +45,10 @@ namespace RF.AssetWizzard {
 
 
 		protected virtual void OnDrawGizmos() {
+			if (!ShowBounds) {
+				return;
+			}
+
 			Gizmos.color = Color.blue;
 			DrawCube (_Size.center, transform.rotation,  _Size.size);
 		}

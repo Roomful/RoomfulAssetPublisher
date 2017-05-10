@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace RF.AssetWizzard {
+namespace RF.AssetWizzard.Editor {
 
 	[CustomEditor(typeof(PropThumbnail))]
 	public class PropThumbnailEditor : UnityEditor.Editor {
@@ -30,12 +30,48 @@ namespace RF.AssetWizzard {
 				Model.Corner = (GameObject) EditorGUILayout.ObjectField("Corner (top / left)", Model.Corner, typeof (GameObject), true);
 
 
+
+				EditorGUILayout.Space ();
+				EditorGUILayout.Space ();
+				EditorGUILayout.HelpBox ("Scaling Options", MessageType.Info);
+
+
+				bool fixedRatio = Model.IsFixedRatio;
+				EditorGUI.BeginChangeCheck(); {
+					
+					fixedRatio = SA.Common.Editor.Tools.ToggleFiled ("Fixed Ratio", fixedRatio);
+
+				} if (EditorGUI.EndChangeCheck ()) {
+					
+					Model.SetFixedRatioMode (fixedRatio);
+				}
+
+				if(fixedRatio) {
+					//EditorGUILayout.BeginHorizontal(); {
+						Model.XRatio = EditorGUILayout.IntField ("X", Model.XRatio);
+						Model.YRatio = EditorGUILayout.IntField ("Y", Model.YRatio);
+
+					//	GUILayout.FlexibleSpace ();
+
+					//}EditorGUILayout.EndHorizontal();
+				}
+
+
+
+
+
+
+
 				
 			} if(EditorGUI.EndChangeCheck()) {
 				Model.Thumbnail = ImagesCintent [Model.ImageIndex].image as Texture2D;
 
 				Model.Update ();
 			}
+
+
+			EditorGUILayout.Space ();
+			EditorGUILayout.Space ();
 
 		}
 
