@@ -318,6 +318,7 @@ namespace RF.AssetWizzard {
 				GameObject corner_left_top = InstantiateBorderPart (Corner.gameObject); 
 				PutObjectAt (corner_left_top, VertexX.Left, VertexY.Top, VertexX.Right, VertexY.Bottom);
 
+
 				GameObject corner_right_top = InstantiateBorderPart (Corner.gameObject); 
 				corner_right_top.transform.Rotate (Vector3.forward, 90f);
 				PutObjectAt (corner_right_top, VertexX.Right, VertexY.Top, VertexX.Left, VertexY.Bottom);
@@ -388,6 +389,7 @@ namespace RF.AssetWizzard {
 			GameObject p = Instantiate (reference) as GameObject;
 			p.SetActive (true);
 			p.transform.parent = GetLayer (FrameLayers.GeneratedBorder);
+			p.transform.localScale = reference.transform.localScale;
 			return p;
 		}
 

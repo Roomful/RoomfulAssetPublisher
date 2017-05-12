@@ -93,6 +93,10 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.HelpBox("Asset is valid. No issues was found so far.", MessageType.Info);
 			}
 
+			if(HasLights) {
+				EditorGUILayout.HelpBox("Please note, that light's range, spot angle, width and height will be scaled with accordinally to a prop scale in runtime. But that behaviour can't be tested inside the editor", MessageType.Info);
+			}
+
 		}
 
 
@@ -133,6 +137,14 @@ namespace RF.AssetWizzard.Editor {
 			get {
 				MeshCollider[] colliders = Prop.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<MeshCollider> ();
 				return colliders.Length != 0;
+			}
+		}
+
+
+		public bool HasLights {
+			get {
+				Light[] lights = Prop.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<Light> ();
+				return lights.Length != 0;
 			}
 		}
 

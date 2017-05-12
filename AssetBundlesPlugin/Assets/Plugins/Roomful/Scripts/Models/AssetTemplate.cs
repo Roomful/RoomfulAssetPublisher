@@ -15,7 +15,7 @@ namespace RF.AssetWizzard {
 		public InvokeTypes InvokeType = InvokeTypes.None;
 		public Texture2D Thumbnail = null;
 		public float MinSize = 0.5f;
-		public float MaxSize = 2f;
+		public float MaxSize = 3f;
 		public bool CanStack = false;
 		public List<ContentType> ContentTypes =  new List<ContentType>();
 		public List<string> Tags =  new List<string>();
