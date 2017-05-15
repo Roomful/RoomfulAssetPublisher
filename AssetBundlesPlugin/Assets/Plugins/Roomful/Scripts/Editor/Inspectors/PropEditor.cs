@@ -58,6 +58,65 @@ namespace RF.AssetWizzard.Editor {
 					AssetBundlesManager.SavePrefab (Prop);
 				}
 
+				bool test = GUILayout.Button ("Test",  EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
+				if(test) {
+					GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					go.name = "test";
+
+
+					MeshFilter[] meshFilters = Prop.gameObject.GetComponentsInChildren<MeshFilter>();
+					CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+					int i = 0;
+					while (i < meshFilters.Length) {
+						combine[i].mesh = meshFilters[i].sharedMesh;
+						combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+						i++;
+					}
+
+					Mesh m = new Mesh();
+					m.CombineMeshes(combine);
+
+				
+
+
+
+
+
+
+					Vector3[] vertices = m.vertices;
+					var boundaryPath = EdgeHelpers.GetEdges(m.triangles).FindBoundary().SortEdges();
+
+					List<Vector3> newVertices = new List<Vector3> ();
+					List<int> newTriangels = new List<int> ();
+
+					for(int j = 0; j < boundaryPath.Count; j++) {
+						Vector3 pos = vertices[ boundaryPath[j].v1 ];
+						newVertices.Add (pos);
+						newTriangels.Add (m.triangles[boundaryPath[j].triangleIndex]);
+						// do something with pos
+					}
+
+
+
+					Mesh m2 = new Mesh ();
+					m2.vertices = newVertices.ToArray ();
+					m2.triangles = newTriangels.ToArray ();
+					//m2.uv = m.uv;
+
+
+					go.GetComponent<MeshFilter> ().sharedMesh = m2;
+					go.transform.position = Vector3.one * 2;
+
+
+					//go.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
+
+
+					AssetDatabase.CreateAsset( m2, "Assets/generatedMesh.asset" );
+					AssetDatabase.SaveAssets();
+
+
+				}
+
 			} GUILayout.EndHorizontal ();
 
 
@@ -91,6 +150,10 @@ namespace RF.AssetWizzard.Editor {
 
 			if(valid) {
 				EditorGUILayout.HelpBox("Asset is valid. No issues was found so far.", MessageType.Info);
+			}
+
+			if(HasLights) {
+				EditorGUILayout.HelpBox("Please note, that light's range, spot angle, width and height will be scaled with accordinally to a prop scale in runtime. But that behaviour can't be tested inside the editor", MessageType.Info);
 			}
 
 		}
@@ -133,6 +196,14 @@ namespace RF.AssetWizzard.Editor {
 			get {
 				MeshCollider[] colliders = Prop.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<MeshCollider> ();
 				return colliders.Length != 0;
+			}
+		}
+
+
+		public bool HasLights {
+			get {
+				Light[] lights = Prop.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<Light> ();
+				return lights.Length != 0;
 			}
 		}
 

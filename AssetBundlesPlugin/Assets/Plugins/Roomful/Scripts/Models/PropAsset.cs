@@ -131,17 +131,34 @@ namespace RF.AssetWizzard {
 
 		public Light DirectionalLight {
 			get {
-				Light light = GameObject.FindObjectOfType<Light> ();
-				if(light == null) {
+
+				Light directionalLignt = null;
+				Light[] lights = GameObject.FindObjectsOfType<Light> ();
+			
+
+				foreach(Light lignt in lights) {
+					if(lignt.type == LightType.Directional) {
+						if(directionalLignt == null) {
+							directionalLignt = lignt;
+						} else {
+							DestroyImmediate (lignt);
+						}
+					}
+				}
+
+					
+				if(directionalLignt == null) {
 					GameObject go = new GameObject ("Directional light");
-					light = go.AddComponent<Light> ();
+					directionalLignt = go.AddComponent<Light> ();
+					directionalLignt.type = LightType.Directional;
 				}
 					
-				light.transform.parent = null;
-				light.transform.position = Vector3.one;
-				light.transform.SetSiblingIndex (0);
+				directionalLignt.name = "Directional light";
+				directionalLignt.transform.parent = null;
+				directionalLignt.transform.position = Vector3.one;
+				directionalLignt.transform.SetSiblingIndex (0);
 
-				return light;
+				return directionalLignt;
 			}
 		}
 
