@@ -76,12 +76,6 @@ namespace RF.AssetWizzard.Editor {
 					Mesh m = new Mesh();
 					m.CombineMeshes(combine);
 
-				
-
-
-
-
-
 
 					Vector3[] vertices = m.vertices;
 					var boundaryPath = EdgeHelpers.GetEdges(m.triangles).FindBoundary().SortEdges();

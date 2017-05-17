@@ -31,9 +31,6 @@ namespace RF.AssetWizzard {
 		public static string AssetBundlesPath = "Plugins/Roomful/Bundles";
 		public static string AssetBundlesPathFull = "Assets/" + AssetBundlesPath;
 
-		public static string AssetBundlesWorshopScene = "Assets/Roomful/Scenes/AssetWorkshop.unity";
-		public static string AssetBundlesWorshopSceneName = "AssetWorkshop";
-
 		public string _SessionId = "";
 
 		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
