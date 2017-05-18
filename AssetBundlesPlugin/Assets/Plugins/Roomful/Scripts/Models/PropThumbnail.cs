@@ -263,12 +263,14 @@ namespace RF.AssetWizzard {
 
 
 		public Texture2D Crop(Texture2D orTexture) {
-			float surfaceAspectRatio = (float) XRatio /  (float) YRatio;
+			float surfaceAspectRatio = (float) XRatio / YRatio;
 
-			float textureRation = orTexture.width / orTexture.height;
+			float textureRatio = (float) orTexture.width / orTexture.height;
+
+            //print(surfaceAspectRatio + " " + textureRation);
 
 			int x, y, newWidth, newHeight;
-			if(surfaceAspectRatio > textureRation) {
+			if(surfaceAspectRatio > textureRatio) {
 				newWidth = orTexture.width;
 				newHeight = (int)(newWidth / surfaceAspectRatio);
 				x = 0;
@@ -290,7 +292,8 @@ namespace RF.AssetWizzard {
 			}
 
 
-			//print(orTexture.height + " " + newHeight + " " + y);
+            //print(orTexture.width + " " + newWidth + " " + x);
+            //print(orTexture.height + " " + newHeight + " " + y);
 
 			var pix = orTexture.GetPixels(x, y, newWidth, newHeight);
 			var t = new Texture2D(newWidth, newHeight);
