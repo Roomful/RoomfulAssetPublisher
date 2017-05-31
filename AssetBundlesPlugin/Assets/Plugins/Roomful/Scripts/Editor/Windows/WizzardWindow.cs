@@ -249,7 +249,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 				GUILayout.BeginVertical(GUILayout.Width(100)); {
-					CurrentProp.Template.Thumbnail = (Texture2D) EditorGUILayout.ObjectField(CurrentProp.Template.Thumbnail, typeof (Texture2D), false, new GUILayoutOption[] {GUILayout.Width(70), GUILayout.Height(70)});
+					CurrentProp.Icon = (Texture2D) EditorGUILayout.ObjectField(CurrentProp.Icon, typeof (Texture2D), false, new GUILayoutOption[] {GUILayout.Width(70), GUILayout.Height(70)});
 
 				} GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
@@ -501,9 +501,9 @@ namespace RF.AssetWizzard.Editor {
 
 			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, WizzardWindow.constants.settingsBox,  new GUILayoutOption[] {GUILayout.Width(230), GUILayout.Height(310)});
 			foreach(var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-				if(asset.Thumbnail ==  null) {
+				/*if(asset.Thumbnail ==  null) {
 					asset.RestoreThumbnail ();
-				}
+				}*/
 				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(230)})) {
 					SelectedAsset = asset;
 				}

@@ -15,6 +15,8 @@ namespace RF.AssetWizzard {
 		public float Scale = 1f;
 		public bool ShowBounds = true;
 
+		public Texture2D Icon;
+
 
 		private Bounds _Size = new Bounds(Vector3.zero, Vector3.zero);
 
@@ -25,8 +27,11 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 		void Awake() {
-			if(_Template != null && _Template.Thumbnail == null) {
-				_Template.RestoreThumbnail ();
+			if(_Template != null && _Template.Icon != null) {
+
+				if(_Template.Icon.Thumbnail != null) {
+					Icon = _Template.Icon.Thumbnail;
+				} 
 			}
 		}
 
@@ -76,8 +81,8 @@ namespace RF.AssetWizzard {
 
 			_Template = tpl;
 
-			if (_Template.Thumbnail == null) {
-				_Template.RestoreThumbnail ();
+			if (_Template.Icon.Thumbnail == null) {
+				//_Template.RestoreThumbnail ();
 			}
 		}
 

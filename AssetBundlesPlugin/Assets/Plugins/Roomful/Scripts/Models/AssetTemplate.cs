@@ -13,21 +13,21 @@ namespace RF.AssetWizzard {
 		public string Title = string.Empty;
 		public Placing Placing = Placing.Floor;
 		public InvokeTypes InvokeType = InvokeTypes.None;
-		public Texture2D Thumbnail = null;
+		public Resource Icon = null;
 		public float MinSize = 0.5f;
 		public float MaxSize = 3f;
 		public bool CanStack = false;
 		public List<ContentType> ContentTypes =  new List<ContentType>();
 		public List<string> Tags =  new List<string>();
 
-		public string ThumbnailsBase64String = string.Empty;
+
 
 
 		public Vector3 Size =  Vector3.one;
 
 
 		public AssetTemplate() {
-			
+			Icon = new Resource ();
 		}
 
 		public AssetTemplate(AssetTemplate origin) {
@@ -37,14 +37,13 @@ namespace RF.AssetWizzard {
 			Title = origin.Title;
 			Placing = origin.Placing;
 			InvokeType = origin.InvokeType;
-			Thumbnail = origin.Thumbnail;
+			Icon = origin.Icon;
 			MinSize = origin.MinSize;
 			MaxSize = origin.MaxSize;
 		}
 			
 
 		public AssetTemplate(string assetData) {
-//			Debug.Log (assetData);
 			ParseData (new JSONData(assetData));
 		}
 
@@ -58,14 +57,10 @@ namespace RF.AssetWizzard {
 			OriginalJSON.Add("placing", Placing.ToString());
 			OriginalJSON.Add("invokeType", InvokeType.ToString());
 
-			string thumbnailStr = "";
-			if (Thumbnail != null) {
-				byte[] bytes = Thumbnail.EncodeToPNG();
-
-				thumbnailStr = System.Convert.ToBase64String (bytes);
+			if(Icon != null) {
+				OriginalJSON.Add("thumbnail", Icon.ToDictionary());
 			}
 
-			OriginalJSON.Add("thumbnail", thumbnailStr);
 
 			OriginalJSON.Add("minScale", MinSize);
 			OriginalJSON.Add("maxScale", MaxSize);
@@ -93,15 +88,20 @@ namespace RF.AssetWizzard {
 			Placing = SA.Common.Util.General.ParseEnum<Placing> (assetData.GetValue<string> ("placing"));
 			InvokeType = SA.Common.Util.General.ParseEnum<InvokeTypes> (assetData.GetValue<string> ("invokeType"));
 
-			string thumbnailStr = assetData.GetValue<string> ("thumbnail");
 
-			if (!string.IsNullOrEmpty (thumbnailStr)) {
-				ThumbnailsBase64String = thumbnailStr;
+			if(assetData.HasValue("thumbnail")) {
+				var resInfo =  new JSONData(assetData.GetValue<Dictionary<string, object>>("thumbnail"));
+				Icon = new Resource(resInfo);
 
-				byte[] base64img = System.Convert.FromBase64String (thumbnailStr);
-				Thumbnail = new Texture2D (1, 1);
-				Thumbnail.LoadImage (base64img);
+				Debug.Log ("load t");
+				Icon.LoadThumbnail ();
+			} else {
+				Icon = new Resource ();
 			}
+
+
+
+
 
 			MinSize = assetData.GetValue<float> ("minScale");
 			MaxSize = assetData.GetValue<float> ("maxScale");
@@ -139,13 +139,6 @@ namespace RF.AssetWizzard {
 
 		}
 
-		public void RestoreThumbnail() {
-			if (!string.IsNullOrEmpty (ThumbnailsBase64String)) {
-				byte[] base64img = System.Convert.FromBase64String (ThumbnailsBase64String);
-				Thumbnail = new Texture2D (1, 1);
-				Thumbnail.LoadImage (base64img);
-			}
-		}
 
 
 
@@ -153,8 +146,9 @@ namespace RF.AssetWizzard {
 
 			get {
 				GUIContent content = new GUIContent ();
-				if(Thumbnail != null) {
-					content.image = Thumbnail;
+
+				if(Icon != null && Icon.Thumbnail != null) {
+					content.image = Icon.Thumbnail;
 				}
 
 				content.text = Title;

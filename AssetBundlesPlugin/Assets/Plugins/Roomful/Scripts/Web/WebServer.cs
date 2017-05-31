@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine.Networking;
 
 #if UNITY_EDITOR
@@ -62,7 +63,7 @@ namespace RF.AssetWizzard.Network {
 
 				} else {
 					www = UnityWebRequest.Put(AssetBundlesSettings.WEB_SERVER_URL + package.Url, package.GeneratedDataText);
-					Debug.Log (package.GeneratedDataText);
+				//	Debug.Log (package.GeneratedDataText);
 				}
 					break;
 			case RequestMethods.GET: 
@@ -88,6 +89,8 @@ namespace RF.AssetWizzard.Network {
 			}
 
 
+			Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
+
 			www.Send ();
 
 			while (www.responseCode == -1) {
@@ -98,12 +101,27 @@ namespace RF.AssetWizzard.Network {
 				Debug.Log(www.error);
 			} else {
 				if (www.responseCode == 200) {
+
+					string logStrning = CleanUpInput (www.downloadHandler.text);
+					Debug.Log ("WEB::IN::" + logStrning);
+
 					package.PackageCallbackText (www.downloadHandler.text);
 					package.PackageCallbackData(www.downloadHandler.data);
 				} else {
 					Debug.Log("Response code: "+www.responseCode+", message: "+www.downloadHandler.text);
 				}
 			}
+		}
+
+		private static string CleanUpInput(string json) {
+
+			return json;
+
+			/*string pattern = "\"thumbnail\":\".*?\"";
+
+			Regex regular = new Regex (pattern);
+
+			return regular.Replace(json, "\"thumbnail\":\"BASE_64_DATA\"");*/
 		}
 
 		public static string ByteToString(byte[] buff) {

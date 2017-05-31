@@ -53,10 +53,10 @@ namespace RF.AssetWizzard.Editor {
 
 		public static bool ValidateAsset(RF.AssetWizzard.PropAsset asset) {
 			
-			if (asset.Template.Thumbnail == null) {
+			/*	if (asset.Template.Thumbnail == null) {
 				EditorUtility.DisplayDialog ("Error", "Set Asset thumbnail!", "Ok");
 				return false;
-			}
+			}*/
 
 			if (asset.Model.childCount < 1) {
 				EditorUtility.DisplayDialog ("Error", "Asset is empty!", "Ok");
@@ -296,24 +296,57 @@ namespace RF.AssetWizzard.Editor {
 
 
 		private static void UploadAssetBundle(PropAsset prop) {
-			SavePrefab(prop);
 
-			AssetBundlesManager.Clone(prop);
-			int counter = 0;
 
-			AssetBundlesManager.AssetsUploadLoop(counter, prop.Template, () => {
-				AssetBundlesManager.DelteTempFiles();
-				AssetDatabase.Refresh();
-				AssetDatabase.SaveAssets();
 
-				EditorApplication.delayCall = () => {
-					FolderUtils.DeleteFolder(AssetBundlesSettings.AssetBundlesPath, false);
-					FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
+			var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail (prop.Template.Id);
+			getIconUploadLink.PackageCallbackText = (linkCallback) => {
+
+				var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, prop.Icon);
+				uploadRequest.PackageCallbackText = (string uploadCallback)=> {
+
+					Debug.Log("Icon upload info: " + uploadCallback);
+
+					var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(prop.Template.Id);
+					confirmRequest.PackageCallbackText = (string resData)=> {
+						
+
+						var resInfo =  new JSONData(resData);
+						var res = new Resource(resInfo);
+
+						prop.Template.Icon = res;
+						Debug.Log("PROP ICON REGISTRED with ID: "  + prop.Template.Id);
+
+
+						SavePrefab(prop);
+
+						AssetBundlesManager.Clone(prop);
+						int counter = 0;
+
+						AssetBundlesManager.AssetsUploadLoop(counter, prop.Template, () => {
+							AssetBundlesManager.DelteTempFiles();
+							AssetDatabase.Refresh();
+							AssetDatabase.SaveAssets();
+
+							EditorApplication.delayCall = () => {
+								FolderUtils.DeleteFolder(AssetBundlesSettings.AssetBundlesPath, false);
+								FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
+							};
+						});
+
+
+						EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
+
+
+
+					};
+					confirmRequest.Send();
 				};
-			});
+				uploadRequest.Send();
+			};
+			getIconUploadLink.Send();
 
 
-			EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
 		}
 
 

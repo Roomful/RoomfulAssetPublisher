@@ -15,7 +15,7 @@ namespace RF.AssetWizzard {
 	public class AssetBundlesSettings : ScriptableObject {
 
 
-		public static string WEB_SERVER_URL = "https://demo.roomful.co:4443"; 
+		public static string WEB_SERVER_URL = "https://demo.roomful.co:3443"; 
 	
 
 
