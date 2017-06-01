@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: ed701b67d59bb9f4f8a35a20401f0ebc
-timeCreated: 1493912800
+guid: d231e7f47e964a340a898297c57c8a93
+timeCreated: 1496316636
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -19,11 +19,9 @@ ModelImporter:
     3300000: Ceiling
     3300002: Floor
     3300004: Wall
-    4300000: Wall
+    4300000: Ceiling
     4300002: Floor
-    4300004: Ceiling
-    7400000: Default Take
-    9500000: //RootNode
+    4300004: Wall
   materials:
     importMaterials: 1
     materialName: 0
@@ -86,7 +84,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
