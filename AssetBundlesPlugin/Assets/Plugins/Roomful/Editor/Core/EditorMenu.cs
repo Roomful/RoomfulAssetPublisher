@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 namespace RF.AssetWizzard.Editor {
-	public static class AssetBundlesMenu {
-
-
+	public static class EditorMenu {
 
 		//--------------------------------------
 		//  Top Menu

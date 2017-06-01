@@ -7,6 +7,7 @@ namespace RF.AssetWizzard {
 	
 	[Serializable]
 	public class AssetTemplate {
+		
 		public string Id = string.Empty;
 		public DateTime Created = DateTime.MinValue;
 		public DateTime Updated = DateTime.MinValue;
@@ -19,7 +20,7 @@ namespace RF.AssetWizzard {
 		public bool CanStack = false;
 		public List<ContentType> ContentTypes =  new List<ContentType>();
 		public List<string> Tags =  new List<string>();
-
+		public string SilhouetteMeshData = string.Empty;
 
 
 
@@ -27,6 +28,7 @@ namespace RF.AssetWizzard {
 
 
 		public AssetTemplate() {
+			//Debug.Log("new res created")
 			Icon = new Resource ();
 		}
 
@@ -61,6 +63,9 @@ namespace RF.AssetWizzard {
 				OriginalJSON.Add("thumbnail", Icon.ToDictionary());
 			}
 
+			OriginalJSON.Add("assetmesh", SilhouetteMeshData);
+
+
 
 			OriginalJSON.Add("minScale", MinSize);
 			OriginalJSON.Add("maxScale", MaxSize);
@@ -92,15 +97,14 @@ namespace RF.AssetWizzard {
 			if(assetData.HasValue("thumbnail")) {
 				var resInfo =  new JSONData(assetData.GetValue<Dictionary<string, object>>("thumbnail"));
 				Icon = new Resource(resInfo);
-
-				Debug.Log ("load t");
-				Icon.LoadThumbnail ();
+				/*	Debug.Log ("has thumbnail: " + Icon.Id);
+				Icon.LoadThumbnail ();*/
 			} else {
 				Icon = new Resource ();
 			}
 
 
-
+			SilhouetteMeshData = assetData.GetValue<string> ("assetmesh");
 
 
 			MinSize = assetData.GetValue<float> ("minScale");

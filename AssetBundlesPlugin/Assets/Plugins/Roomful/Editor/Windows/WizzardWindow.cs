@@ -477,7 +477,7 @@ namespace RF.AssetWizzard.Editor {
 			bool refresh = GUILayout.Button (refreshIcon, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 			if (refresh) {
 				List<string> separatedTags = new List<string>(SearchField.Split(' '));
-				AssetRequestManager.ReloadAssets (separatedTags);
+				RequestManager.ReloadAssets (separatedTags);
 			}
 
 			bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
@@ -491,7 +491,7 @@ namespace RF.AssetWizzard.Editor {
 			bool remove = GUILayout.Button (trash, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 			if(remove && SelectedAsset != null) {
 				if (EditorUtility.DisplayDialog ("Delete " + SelectedAsset.Title, "Are you sure you want to remove this asset?", "Remove", "Cancel")) {;
-					AssetRequestManager.RemoveAsset (SelectedAsset);
+					RequestManager.RemoveAsset (SelectedAsset);
 				}
 			}
 
@@ -514,7 +514,7 @@ namespace RF.AssetWizzard.Editor {
 
 				if(GUILayout.Button ("Load more", EditorStyles.miniButton, GUILayout.Width(60))) {
 					List<string> separatedTags = new List<string>(SearchField.Split(' '));
-					AssetRequestManager.LoadMoreAssets (separatedTags);
+					RequestManager.LoadMoreAssets (separatedTags);
 				}
 			}
 

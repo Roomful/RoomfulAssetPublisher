@@ -9,25 +9,38 @@ namespace RF.AssetWizzard {
 
 	[Serializable]
 	public class Resource {
-
+		[SerializeField]
 		private string _Id = string.Empty;
+
+		[SerializeField]
 		private string _Title = string.Empty;
+
+		[SerializeField]
 		private string _Description = string.Empty;
+
+		[SerializeField]
 		private string _Location = string.Empty;
+
+		[SerializeField]
 		private string _Date = string.Empty;
 
+		[SerializeField]
 		private string _Category = string.Empty;
+
+		[SerializeField]
 		private string _ThumbnailWebURL = string.Empty;
-		private Texture2D _Thumbnail = null;
-		private AudioClip _audioClip = null;
+
+		[SerializeField]
 		private DateTime _LastUpdate = DateTime.MinValue;
 
+		[SerializeField]
 		public ResourceMetadata _Meta;
-		
-		private int _TotalAvaliableComments = 0;
 
 
-		private int _TotalAvaliableReactions = 0;
+		private Texture2D _Thumbnail = null;
+		private AudioClip _audioClip = null;
+
+
 
 
 		private static readonly List<string> AudioTypes = new List<string>{"audio/wav", "audio/mpeg", "audio/ogg", "audio/x-wav", "audio/webm", "audio/mp3", "audio/unity" };
@@ -89,8 +102,6 @@ namespace RF.AssetWizzard {
 			_Meta 						= tpl.Meta;
 			_ThumbnailWebURL 			= tpl.ThumbnailWebURL;
 			_LastUpdate 				= tpl.LastUpdate;
-			_TotalAvaliableComments 	= tpl.TotalAvaliableComments;
-			_TotalAvaliableReactions 	= tpl.TotalAvaliableReactions;
 			_Params 					= tpl.Params;
 			_Category                   = tpl.Category;
 		}
@@ -160,11 +171,10 @@ namespace RF.AssetWizzard {
 
 			_thumbnailIsLoading = true;
 
-			Network.Request.LoadRecourceThumbnail loadThumbnail = new RF.AssetWizzard.Network.Request.LoadRecourceThumbnail (this);
+			Network.Request.DownloadIcon loadThumbnail = new RF.AssetWizzard.Network.Request.DownloadIcon (this);
 
 			loadThumbnail.PackageCallbackData = (data) => {
 
-				Debug.Log("LT: " + data.Length);
 				Texture2D texture = new Texture2D(2, 2);
 				texture.LoadImage(data);
 				OnThumbnailLoaded(texture);
@@ -267,6 +277,13 @@ namespace RF.AssetWizzard {
 
 		public Texture2D Thumbnail  {
 			get {
+				if(_Thumbnail == null) {
+					if (string.IsNullOrEmpty (Id)) {
+						_Thumbnail = new Texture2D (2, 2);
+					} else {
+						LoadThumbnail ();
+					}
+				}
 				return _Thumbnail;
 			}
 
@@ -343,32 +360,7 @@ namespace RF.AssetWizzard {
 				return _Meta;
 			}
 		}
-
-		public int TotalAvaliableComments {
-			get {
-				return _TotalAvaliableComments;
-			}
-
-			set {
-				_TotalAvaliableComments = value;
-			}
-		}
-
-
-
-
-
-		public int TotalAvaliableReactions {
-			get {
-				return _TotalAvaliableReactions;
-			}
-
-			set {
-				_TotalAvaliableReactions = value;
-			}
-		}
-
-	
+			
 
 		public string ThumbnailWebURL {
 			get {

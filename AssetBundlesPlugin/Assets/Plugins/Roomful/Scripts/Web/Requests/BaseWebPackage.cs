@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 namespace RF.AssetWizzard.Network.Request {
 	public abstract class BaseWebPackage  {
 		
-		private string _Url;
+		protected string _Url;
 		private int _TimeStamp;
 		private RequestMethods _MethodName = RequestMethods.POST;
 		protected byte[] _PackData;

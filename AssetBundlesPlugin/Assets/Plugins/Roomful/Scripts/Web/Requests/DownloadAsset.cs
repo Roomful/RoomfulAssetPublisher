@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace RF.AssetWizzard.Network.Request {
-	public class LoadRecourceThumbnail : BaseWebPackage {
-
-		private const string PackUrl = "/api/v0/resource/";
+	public class DownloadAsset : BaseWebPackage {
+		
 		private const RequestMethods PackMethodName = RequestMethods.GET;
 
-
-
-		public LoadRecourceThumbnail (Resource res) : base (PackUrl, PackMethodName) {
-			AddToUrl (res.Id);
+		public DownloadAsset (string url) : base (url, PackMethodName) {
+			
 		}
 
-
+		public override bool IsDataPack {
+			get {
+				return true;
+			}
+		}
 
 		public override Dictionary<string, object> GenerateData () {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();

@@ -15,6 +15,7 @@ namespace RF.AssetWizzard.Editor {
 			GameObject clone =  Instantiate(prop.gameObject);
 
 			var p = clone.GetComponent<RF.AssetWizzard.PropAsset> ();
+			p.PrepareForUpload ();
 			DestroyImmediate (p);
 
 			PropThumbnail[] thumbnails =  clone.GetComponentsInChildren<PropThumbnail> ();
@@ -174,7 +175,7 @@ namespace RF.AssetWizzard.Editor {
 				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id, pl);
 
 				getAssetUrl.PackageCallbackText = (assetUrl) => {
-					Network.Request.GetAsset loadAsset = new RF.AssetWizzard.Network.Request.GetAsset (assetUrl);
+					Network.Request.DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset (assetUrl);
 
 					loadAsset.PackageCallbackData = (loadCallback) => {
 						string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
@@ -202,6 +203,7 @@ namespace RF.AssetWizzard.Editor {
 
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; 	}
 
+			prop.SynchTemplate ();
 			RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (prop.Template);
 
 			updateRequest.PackageCallbackText = (updateCalback) => {
@@ -216,6 +218,7 @@ namespace RF.AssetWizzard.Editor {
 
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; }
 
+			prop.SynchTemplate ();
 			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (prop.Template);
 			createMeta.PackageCallbackText = (callback) => { 
 				prop.Template.Id =  new AssetTemplate(callback).Id;

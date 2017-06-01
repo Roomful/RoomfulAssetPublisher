@@ -9,10 +9,10 @@ namespace RF.AssetWizzard {
 
 		Graphics,
 		IgnoredGraphics,
-		Colliders,
 		StandSurface,
 		Thumbnails,
-		Titles
+		Titles,
+		Silhouette
 	}
 
 }

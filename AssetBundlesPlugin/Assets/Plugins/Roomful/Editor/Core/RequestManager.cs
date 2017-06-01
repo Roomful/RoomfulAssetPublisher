@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RF.AssetWizzard.Editor {
 
-	public static class AssetRequestManager  {
+	public static class RequestManager  {
 
 		public static void ReloadAssets(List<string> tags) {
 			AssetBundlesSettings.Instance.LocalAssetTemplates.Clear ();

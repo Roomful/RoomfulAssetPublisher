@@ -48,7 +48,23 @@ public static class SA_UnityExtensions  {
 		Bounds bounds = go.GetRendererBounds ();
 		return bounds.GetVertex (x, y, z);
 	}
+		
 
+	//--------------------------------------
+	// Transaform
+	//--------------------------------------
+
+	public static Transform Clear(this Transform transform) {
+
+		Transform[] children = transform.GetComponentsInChildren<Transform> ();
+
+		foreach (Transform child in children) {
+			if(child != transform) {
+				GameObject.DestroyImmediate(child.gameObject);
+			}
+		}
+		return transform;
+	}
 
 
 

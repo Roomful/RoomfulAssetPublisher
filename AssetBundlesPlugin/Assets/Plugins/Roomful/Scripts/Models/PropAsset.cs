@@ -15,10 +15,14 @@ namespace RF.AssetWizzard {
 		public float Scale = 1f;
 		public bool ShowBounds = true;
 
+
+		public PropDisplayMode DisplayMode = PropDisplayMode.Normal;
+
 		public Texture2D Icon;
+		public Mesh Silhouette;
 
 
-		private Bounds _Size = new Bounds(Vector3.zero, Vector3.zero);
+		private Bounds _Size = new Bounds (Vector3.zero, Vector3.zero);
 
 	
 
@@ -26,13 +30,12 @@ namespace RF.AssetWizzard {
 		// Initialization
 		//--------------------------------------
 
-		void Awake() {
-			if(_Template != null && _Template.Icon != null) {
-
-				if(_Template.Icon.Thumbnail != null) {
-					Icon = _Template.Icon.Thumbnail;
-				} 
+		void Awake () {
+			if (_Template != null) {
+				SetTemplate (_Template);
 			}
+
+
 		}
 
 		//--------------------------------------
@@ -42,29 +45,29 @@ namespace RF.AssetWizzard {
 
 		#if UNITY_EDITOR
 
-		void Update() {
+		void Update () {
 			CheckhHierarchy ();
 			AutosizeCollider ();
 		}
 
 
 
-		protected virtual void OnDrawGizmos() {
+		protected virtual void OnDrawGizmos () {
 			if (!ShowBounds) {
 				return;
 			}
 
 			Gizmos.color = Color.blue;
-			DrawCube (_Size.center, transform.rotation,  _Size.size);
+			DrawCube (_Size.center, transform.rotation, _Size.size);
 		}
-			
-		public static void DrawCube(Vector3 position, Quaternion rotation, Vector3 scale) {
-			Matrix4x4 cubeTransform = Matrix4x4.TRS(position, rotation, scale);
+
+		public static void DrawCube (Vector3 position, Quaternion rotation, Vector3 scale) {
+			Matrix4x4 cubeTransform = Matrix4x4.TRS (position, rotation, scale);
 			Matrix4x4 oldGizmosMatrix = Gizmos.matrix;
 
 			Gizmos.matrix *= cubeTransform;
 
-			Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+			Gizmos.DrawWireCube (Vector3.zero, Vector3.one);
 
 			Gizmos.matrix = oldGizmosMatrix;
 		}
@@ -77,19 +80,46 @@ namespace RF.AssetWizzard {
 		// Public Methods
 		//--------------------------------------
 
-		public void SetTemplate(AssetTemplate tpl) {
+		public void SynchTemplate () {
+			Scale = 1f;
+			DisplayMode = PropDisplayMode.Normal;
+			Template.SilhouetteMeshData = SilhouetteMeshData;
+		}
+
+		public void PrepareForUpload () {
+			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
+		}
+
+
+		public void SetTemplate (AssetTemplate tpl) {
 
 			_Template = tpl;
+			Icon = _Template.Icon.Thumbnail;
 
-			if (_Template.Icon.Thumbnail == null) {
-				//_Template.RestoreThumbnail ();
+			if (!string.IsNullOrEmpty (_Template.SilhouetteMeshData)) {
+
+
+				
+				GetLayer (HierarchyLayers.Silhouette).Clear ();
+
+	
+				GameObject go = GameObject.CreatePrimitive (PrimitiveType.Cube);
+				go.name = "Restored Silhouette Mesh";
+				go.transform.parent = GetLayer (HierarchyLayers.Silhouette);
+				go.transform.localPosition = Vector3.zero;
+
+				DestroyImmediate (go.GetComponent<BoxCollider> ());
+
+
+				byte[] bytesToEncode = System.Convert.FromBase64String (_Template.SilhouetteMeshData);
+				go.GetComponent<MeshFilter> ().sharedMesh = MeshSerializer.ReadMesh (bytesToEncode);
 			}
 		}
 
-		public Transform GetLayer(HierarchyLayers layer) {
+		public Transform GetLayer (HierarchyLayers layer) {
 			Transform hLayer = Model.Find (layer.ToString ());
-			if(hLayer == null) {
-				GameObject go = new GameObject (layer.ToString());
+			if (hLayer == null) {
+				GameObject go = new GameObject (layer.ToString ());
 				go.transform.parent = Model;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
@@ -119,7 +149,7 @@ namespace RF.AssetWizzard {
 		public Transform Model {
 			get {
 				Transform model = transform.Find ("Model");
-				if(model == null) {
+				if (model == null) {
 					GameObject go = new GameObject ("Model");
 					go.transform.parent = transform;
 					go.transform.localPosition = Vector3.zero;
@@ -132,7 +162,7 @@ namespace RF.AssetWizzard {
 				return model;
 			}
 		}
-			
+
 
 		public Light DirectionalLight {
 			get {
@@ -141,9 +171,9 @@ namespace RF.AssetWizzard {
 				Light[] lights = GameObject.FindObjectsOfType<Light> ();
 			
 
-				foreach(Light lignt in lights) {
-					if(lignt.type == LightType.Directional) {
-						if(directionalLignt == null) {
+				foreach (Light lignt in lights) {
+					if (lignt.type == LightType.Directional) {
+						if (directionalLignt == null) {
 							directionalLignt = lignt;
 						} else {
 							DestroyImmediate (lignt);
@@ -152,7 +182,7 @@ namespace RF.AssetWizzard {
 				}
 
 					
-				if(directionalLignt == null) {
+				if (directionalLignt == null) {
 					GameObject go = new GameObject ("Directional light");
 					directionalLignt = go.AddComponent<Light> ();
 					directionalLignt.type = LightType.Directional;
@@ -173,7 +203,7 @@ namespace RF.AssetWizzard {
 				return  Mathf.Max (val, Size.z);
 			}
 		}
-			
+
 
 		public Vector3 Size {
 			get {
@@ -183,9 +213,9 @@ namespace RF.AssetWizzard {
 
 
 		public float MaxScale {
-			get{
+			get {
 
-				if(MaxAxisValue == 0) {
+				if (MaxAxisValue == 0) {
 					return 1;
 				}
 				return Template.MaxSize / MaxAxisValue;
@@ -193,8 +223,8 @@ namespace RF.AssetWizzard {
 		}
 
 		public float MinScale {
-			get{
-				if(MaxAxisValue == 0) {
+			get {
+				if (MaxAxisValue == 0) {
 					return 1;
 				}
 				return Template.MinSize / MaxAxisValue;
@@ -202,31 +232,57 @@ namespace RF.AssetWizzard {
 		}
 
 
+		public string SilhouetteMeshData {
+			get {
+				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
+
+
+				MeshFilter[] meshFilters = GetLayer (HierarchyLayers.Silhouette).GetComponentsInChildren<MeshFilter> ();
+				CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+				int i = 0;
+				while (i < meshFilters.Length) {
+					combine [i].mesh = meshFilters [i].sharedMesh;
+					combine [i].transform = meshFilters [i].transform.localToWorldMatrix;
+					i++;
+				}
+
+				Mesh m = new Mesh ();
+				m.CombineMeshes (combine);
+
+				byte[] array = MeshSerializer.WriteMesh (m);
+
+				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
+			
+				return System.Convert.ToBase64String (array);
+			}
+
+		}
+
 
 		//--------------------------------------
 		// Private Methods
 		//--------------------------------------
 
-		public void AutosizeCollider() {
+		public void AutosizeCollider () {
 
 			bool hasBounds = false;
-			_Size = new Bounds(Vector3.zero, Vector3.zero);
-			Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer>();
+			_Size = new Bounds (Vector3.zero, Vector3.zero);
+			Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer> ();
 
 			Quaternion oldRotation = transform.rotation;
 			transform.rotation = Quaternion.identity;
 
-			foreach(Renderer child in ChildrenRenderer) {
+			foreach (Renderer child in ChildrenRenderer) {
 	
-				if(child.transform.IsChildOf(GetLayer (HierarchyLayers.IgnoredGraphics))) {
+				if (child.transform.IsChildOf (GetLayer (HierarchyLayers.IgnoredGraphics))) {
 					continue;
 				}
 
-				if(!hasBounds) {
+				if (!hasBounds) {
 					_Size = child.bounds;
 					hasBounds = true;
 				} else {
-					_Size.Encapsulate(child.bounds);
+					_Size.Encapsulate (child.bounds);
 				}
 			}
 
@@ -236,7 +292,7 @@ namespace RF.AssetWizzard {
 		}
 
 
-		private void CheckhHierarchy() {
+		private void CheckhHierarchy () {
 
 			transform.position = Vector3.zero;
 			transform.rotation = Quaternion.identity;
@@ -252,14 +308,14 @@ namespace RF.AssetWizzard {
 			List<Transform> UndefinedObjects = new List<Transform> ();
 
 			//check undefined chields
-			foreach(Transform child in transform) {
+			foreach (Transform child in transform) {
 				if (child != Model) {
 					UndefinedObjects.Add (child);
 				}
 			}
 
 
-			foreach(Transform child in Model) {
+			foreach (Transform child in Model) {
 				if (!AssetHierarchySettings.HierarchyLayers.Contains (child.name)) {
 					UndefinedObjects.Add (child);
 				}
@@ -267,21 +323,21 @@ namespace RF.AssetWizzard {
 
 
 			//check undefined scene objects
-			Transform[] allObjects = UnityEngine.Object.FindObjectsOfType<Transform>();
-			foreach(Transform child in allObjects) {
-				if(child == transform) {
+			Transform[] allObjects = UnityEngine.Object.FindObjectsOfType<Transform> ();
+			foreach (Transform child in allObjects) {
+				if (child == transform) {
 					continue;
 				}
 
-				if(child == Model) {
+				if (child == Model) {
 					continue;
 				}
 
-				if(child == DirectionalLight.transform) {
+				if (child == DirectionalLight.transform) {
 					continue;
 				}
 
-				if(child.parent != null) {
+				if (child.parent != null) {
 					continue;
 				}
 					
@@ -289,8 +345,41 @@ namespace RF.AssetWizzard {
 			}
 
 
-			foreach(Transform undefined in UndefinedObjects) {
-				undefined.parent = GetLayer (HierarchyLayers.Graphics);
+
+
+
+			if (DisplayMode == PropDisplayMode.Normal) {
+				
+				foreach (Transform undefined in UndefinedObjects) {
+					undefined.parent = GetLayer (HierarchyLayers.Graphics);
+				}
+
+				foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
+					GetLayer (layer).gameObject.SetActive (true);
+				}
+
+				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
+
+			} else {
+
+				foreach (Transform undefined in UndefinedObjects) {
+					undefined.parent = GetLayer (HierarchyLayers.Silhouette);
+				}
+
+				foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
+					GetLayer (layer).gameObject.SetActive (false);
+				}
+
+				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
+
+				Renderer[] silhouetteRenderers = transform.GetComponentsInChildren<Renderer> ();
+
+				foreach (Renderer r in silhouetteRenderers) {
+					if (r.sharedMaterial != null) {
+						r.sharedMaterial = new Material (Shader.Find ("Roomful/Silhouette"));
+					}
+				}
+
 			}
 
 		}

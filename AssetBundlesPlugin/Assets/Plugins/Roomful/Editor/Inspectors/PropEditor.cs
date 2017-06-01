@@ -13,10 +13,12 @@ namespace RF.AssetWizzard.Editor {
 
 		SerializedProperty scaleProperty;
 		SerializedProperty ShowBoundsProperty;
+		SerializedProperty DisplayMode;
 
 		void OnEnable() {
 			scaleProperty = serializedObject.FindProperty("Scale");
 			ShowBoundsProperty = serializedObject.FindProperty("ShowBounds");
+			DisplayMode = serializedObject.FindProperty("DisplayMode");
 		}
 
 
@@ -39,11 +41,15 @@ namespace RF.AssetWizzard.Editor {
 
 
 			EditorGUILayout.Slider (scaleProperty, Prop.MinScale, Prop.MaxScale);
+
+			EditorGUILayout.PropertyField (DisplayMode);
 			EditorGUILayout.PropertyField (ShowBoundsProperty);
+
+
 
 			EditorGUILayout.Space ();
 			GUILayout.BeginHorizontal (); {
-				
+
 			
 				GUILayout.FlexibleSpace ();
 				bool wizzard = GUILayout.Button ("Wizzard", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
@@ -60,53 +66,13 @@ namespace RF.AssetWizzard.Editor {
 
 				bool test = GUILayout.Button ("Test",  EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 				if(test) {
-					GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					go.name = "test";
 
-
-					MeshFilter[] meshFilters = Prop.gameObject.GetComponentsInChildren<MeshFilter>();
-					CombineInstance[] combine = new CombineInstance[meshFilters.Length];
-					int i = 0;
-					while (i < meshFilters.Length) {
-						combine[i].mesh = meshFilters[i].sharedMesh;
-						combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-						i++;
-					}
-
-					Mesh m = new Mesh();
-					m.CombineMeshes(combine);
-
-
-					Vector3[] vertices = m.vertices;
-					var boundaryPath = EdgeHelpers.GetEdges(m.triangles).FindBoundary().SortEdges();
-
-					List<Vector3> newVertices = new List<Vector3> ();
-					List<int> newTriangels = new List<int> ();
-
-					for(int j = 0; j < boundaryPath.Count; j++) {
-						Vector3 pos = vertices[ boundaryPath[j].v1 ];
-						newVertices.Add (pos);
-						newTriangels.Add (m.triangles[boundaryPath[j].triangleIndex]);
-						// do something with pos
-					}
+					Prop.PrepareForUpload ();
 
 
 
-					Mesh m2 = new Mesh ();
-					m2.vertices = newVertices.ToArray ();
-					m2.triangles = newTriangels.ToArray ();
-					//m2.uv = m.uv;
-
-
-					go.GetComponent<MeshFilter> ().sharedMesh = m2;
-					go.transform.position = Vector3.one * 2;
-
-
-					//go.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
-
-
-					AssetDatabase.CreateAsset( m2, "Assets/generatedMesh.asset" );
-					AssetDatabase.SaveAssets();
+					//AssetDatabase.CreateAsset( m2, "Assets/generatedMesh.asset" );
+					//AssetDatabase.SaveAssets();
 
 
 				}
@@ -124,9 +90,26 @@ namespace RF.AssetWizzard.Editor {
 		private void PrintPropState() {
 
 			bool valid = true;
+
+
+			if(Prop.DisplayMode == PropDisplayMode.Silhouette) {
+
+				if(IsEmpty) {
+					valid = false;
+					EditorGUILayout.HelpBox("Silhouette is empty! Please add some graphics.", MessageType.Error);
+				}
+
+				return;
+			}
+
 			if(IsEmpty) {
 				valid = false;
 				EditorGUILayout.HelpBox("Asset is empty! Please add some graphics.", MessageType.Error);
+			}
+
+			if(Prop.GetLayer(HierarchyLayers.Silhouette).transform.childCount == 0) {
+				valid = false;
+				EditorGUILayout.HelpBox("Silhouette is empty! Please add some graphics.", MessageType.Error);
 			}
 
 			if(!HasCollisison) {
