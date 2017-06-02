@@ -1,8 +1,8 @@
 ﻿Shader "Roomful/Silhouette" {
 	Properties {
 		//_MainTex ("Albedo (RGB)", 2D) = "white" {}
-		_Color ("Color", Color) = (1,1,1,1)
-		_Emission("Emission", Color) = (0,0,0)
+		_Color ("Color", Color) = (0.58,0.58,0.58,1)
+		_Emission("Emission", Color) = (0.5,0.5,0.5)
 
 		_Amount("Extrusion Amount", Range(-1,1)) = 0.001
 	}
