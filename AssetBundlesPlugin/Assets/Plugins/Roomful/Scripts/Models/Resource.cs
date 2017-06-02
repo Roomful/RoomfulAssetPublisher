@@ -27,8 +27,6 @@ namespace RF.AssetWizzard {
 		[SerializeField]
 		private string _Category = string.Empty;
 
-		[SerializeField]
-		private string _ThumbnailWebURL = string.Empty;
 
 		[SerializeField]
 		private DateTime _LastUpdate = DateTime.MinValue;
@@ -58,7 +56,6 @@ namespace RF.AssetWizzard {
 		}
 
 		private Action<Texture2D> _onThumbnailLoaded;
-		private bool _thumbnailIsLoading;
 
 		//--------------------------------------
 		//  Initialization
@@ -100,7 +97,6 @@ namespace RF.AssetWizzard {
 			_Date 						= tpl.Date;
 			_Thumbnail 					= tpl.Thumbnail;
 			_Meta 						= tpl.Meta;
-			_ThumbnailWebURL 			= tpl.ThumbnailWebURL;
 			_LastUpdate 				= tpl.LastUpdate;
 			_Params 					= tpl.Params;
 			_Category                   = tpl.Category;
@@ -126,10 +122,7 @@ namespace RF.AssetWizzard {
 		public void SetAudioClip(AudioClip clip) {
 			_audioClip = clip;
 		}
-
-		public void SetThumbnailWebURL(string url) {
-			_ThumbnailWebURL = url;
-		}
+			
 
 
 		//--------------------------------------
@@ -169,18 +162,22 @@ namespace RF.AssetWizzard {
 
 		public void LoadThumbnail(Action<Texture2D> callback = null) {
 
-			_thumbnailIsLoading = true;
+			var getAssetUrl = new RF.AssetWizzard.Network.Request.GetResourceUrl (Id);
+			getAssetUrl.PackageCallbackText = (assetUrl) => {
 
-			Network.Request.DownloadIcon loadThumbnail = new RF.AssetWizzard.Network.Request.DownloadIcon (this);
+				var loadThumbnail = new RF.AssetWizzard.Network.Request.DownloadIcon (assetUrl);
+				loadThumbnail.PackageCallbackData = (data) => {
 
-			loadThumbnail.PackageCallbackData = (data) => {
+					Texture2D texture = new Texture2D (2, 2);
+					texture.LoadImage (data);
+					OnThumbnailLoaded (texture);
+				};
 
-				Texture2D texture = new Texture2D(2, 2);
-				texture.LoadImage(data);
-				OnThumbnailLoaded(texture);
+				loadThumbnail.Send ();
 			};
 
-			loadThumbnail.Send ();
+			getAssetUrl.Send ();
+					
 				
 		}
 
@@ -198,9 +195,7 @@ namespace RF.AssetWizzard {
 				{"updated", LastUpdateRFC3339}
 			};
 
-			if(!_ThumbnailWebURL.Equals (string.Empty)) {
-				data.Add("thumbnail", _ThumbnailWebURL);
-			}
+
 
 			data.Add("metadata", _Meta.ToDictionary());
 
@@ -218,21 +213,8 @@ namespace RF.AssetWizzard {
 		public string Serialize() {
 			return SA.Common.Data.Json.Serialize(ToDictionary());
 		}
-
-
-
-		public void GetThumbnail(Action<Texture2D> callback) {
-			if (Thumbnail != null) {
-				callback(Thumbnail);
-			} else {
-				if (_thumbnailIsLoading) {
-					_onThumbnailLoaded += callback;
-				} else {
-					callback(null);
-				}
-			}
-		}
-
+			
+	
 
 		//--------------------------------------
 		//  Get / Set
@@ -362,15 +344,6 @@ namespace RF.AssetWizzard {
 		}
 			
 
-		public string ThumbnailWebURL {
-			get {
-				//return "https://graph.facebook.com/100000100676341/picture?type=normal";
-				//return "https://scontent.fhen1-1.fna.fbcdn.net/v/t1.0-9/13907015_1386807344665941_1090590386549686538_n.jpg?oh=24609a34e8b795a29fd1075438a70584&oe=599A4FE0";
-				//return "https://pp.userapi.com/c637220/v637220726/35935/HKSgKQ8QanY.jpg";
-				//return "http://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/15822574_1550248408325125_9123642601447315987_n.jpg?oh=c322ae6c4cd9be91cdab3afba2eb5183&oe=595B5736";
-				return _ThumbnailWebURL;
-			}
-		}
 			
 		public bool IsEmpty {
 			get {
@@ -408,9 +381,7 @@ namespace RF.AssetWizzard {
 				_Category = resourceInfo.GetValue<string>("category");
 			}
 
-			if (resourceInfo.HasValue("thumbnail")) {
-				_ThumbnailWebURL = resourceInfo.GetValue<string>("thumbnail");
-			}
+
 
 
 
@@ -434,13 +405,11 @@ namespace RF.AssetWizzard {
 			}
 		}
 
-		private void OnThumbnailLoaded (Texture2D tex)
-		{
-			_thumbnailIsLoading = false;
+		private void OnThumbnailLoaded (Texture2D tex) {
+
 			Thumbnail = tex;
 
-			if (_onThumbnailLoaded != null)
-			{
+			if (_onThumbnailLoaded != null) {
 				_onThumbnailLoaded(tex);
 				_onThumbnailLoaded = null;
 			}

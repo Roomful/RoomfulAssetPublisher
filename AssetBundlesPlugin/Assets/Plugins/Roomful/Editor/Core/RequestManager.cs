@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 
 namespace RF.AssetWizzard.Editor {
@@ -55,6 +56,9 @@ namespace RF.AssetWizzard.Editor {
 
 			removeRequest.Send ();
 		}
+
+
+
 	}
 
 }

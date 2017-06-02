@@ -22,6 +22,10 @@ namespace RF.AssetWizzard {
 		public const string ASSETS_LOCATION = "Roomful/Assets/";
 		public const string FULL_ASSETS_LOCATION = "Assets/" + ASSETS_LOCATION;
 
+
+		public const string PLUGIN_LOCATION = "Assets/Plugins/Roomful/";
+		public const string PLUGIN_PREFABS_LOCATION = PLUGIN_LOCATION + "Prefabs/";
+
 		public const string SETTINGS_LOCATION = "Plugins/Roomful/Settings/Editor/Resources/";
 
 

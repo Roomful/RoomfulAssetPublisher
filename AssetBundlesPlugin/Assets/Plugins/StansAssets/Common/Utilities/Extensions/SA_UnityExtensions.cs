@@ -56,10 +56,14 @@ public static class SA_UnityExtensions  {
 
 	public static Transform Clear(this Transform transform) {
 
+		if(transform.childCount == 0) {
+			return transform;
+		}
+
 		Transform[] children = transform.GetComponentsInChildren<Transform> ();
 
 		foreach (Transform child in children) {
-			if(child != transform) {
+			if(child != transform && child != null) {
 				GameObject.DestroyImmediate(child.gameObject);
 			}
 		}

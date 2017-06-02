@@ -2,30 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace RF.AssetWizzard.Network.Request {
-	public class DownloadIcon : BaseWebPackage {
+	public class GetResourceUrl : BaseWebPackage {
 
+		private const string PackUrl = "/api/v0/resource/url/";
 
 		private const RequestMethods PackMethodName = RequestMethods.GET;
 
-		public DownloadIcon (string url) : base (url, PackMethodName) {
-
+		public GetResourceUrl (string id) : base (PackUrl, PackMethodName) {
+			AddToUrl (id);
 		}
-
 
 		public override Dictionary<string, object> GenerateData () {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
 
 			return OriginalJSON;
 		}
-
-		public override bool IsDataPack {
-			get {
-				return true;
-			}
-		}
-
-	
 	}
 }

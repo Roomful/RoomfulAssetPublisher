@@ -31,10 +31,6 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 		void Awake () {
-			if (_Template != null) {
-				SetTemplate (_Template);
-			}
-
 
 		}
 
@@ -46,8 +42,11 @@ namespace RF.AssetWizzard {
 		#if UNITY_EDITOR
 
 		void Update () {
+			PreliminaryVisualisation ();
+
+
 			CheckhHierarchy ();
-			AutosizeCollider ();
+
 		}
 
 
@@ -90,6 +89,10 @@ namespace RF.AssetWizzard {
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 		}
 
+		public void Refresh() {
+			SetTemplate (Template);
+		}
+
 
 		public void SetTemplate (AssetTemplate tpl) {
 
@@ -98,8 +101,6 @@ namespace RF.AssetWizzard {
 
 			if (!string.IsNullOrEmpty (_Template.SilhouetteMeshData)) {
 
-
-				
 				GetLayer (HierarchyLayers.Silhouette).Clear ();
 
 	
@@ -108,11 +109,14 @@ namespace RF.AssetWizzard {
 				go.transform.parent = GetLayer (HierarchyLayers.Silhouette);
 				go.transform.localPosition = Vector3.zero;
 
+
 				DestroyImmediate (go.GetComponent<BoxCollider> ());
 
 
 				byte[] bytesToEncode = System.Convert.FromBase64String (_Template.SilhouetteMeshData);
 				go.GetComponent<MeshFilter> ().sharedMesh = MeshSerializer.ReadMesh (bytesToEncode);
+				go.GetComponent<MeshFilter> ().sharedMesh.name = "Silhouette";  
+
 			}
 		}
 
@@ -164,36 +168,17 @@ namespace RF.AssetWizzard {
 		}
 
 
-		public Light DirectionalLight {
+		public GameObject Environment {
 			get {
 
-				Light directionalLignt = null;
-				Light[] lights = GameObject.FindObjectsOfType<Light> ();
-			
-
-				foreach (Light lignt in lights) {
-					if (lignt.type == LightType.Directional) {
-						if (directionalLignt == null) {
-							directionalLignt = lignt;
-						} else {
-							DestroyImmediate (lignt);
-						}
-					}
+				var rig =  GameObject.Find ("Environment");
+				if(rig == null) {
+					rig = PrefabManager.CreatePrefab ("Environment");
 				}
 
+				rig.transform.SetSiblingIndex (0);
 					
-				if (directionalLignt == null) {
-					GameObject go = new GameObject ("Directional light");
-					directionalLignt = go.AddComponent<Light> ();
-					directionalLignt.type = LightType.Directional;
-				}
-					
-				directionalLignt.name = "Directional light";
-				directionalLignt.transform.parent = null;
-				directionalLignt.transform.position = Vector3.one;
-				directionalLignt.transform.SetSiblingIndex (0);
-
-				return directionalLignt;
+				return rig;
 			}
 		}
 
@@ -232,6 +217,9 @@ namespace RF.AssetWizzard {
 		}
 
 
+
+
+
 		public string SilhouetteMeshData {
 			get {
 				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
@@ -263,9 +251,63 @@ namespace RF.AssetWizzard {
 		// Private Methods
 		//--------------------------------------
 
+
+		private void PreliminaryVisualisation () {
+			
+			foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
+				GetLayer (layer).gameObject.SetActive (true);
+			}
+
+			GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
+			GetLayer (HierarchyLayers.IgnoredGraphics).gameObject.SetActive (false);
+
+
+
+
+
+		}
+
+
+		private void FinalVisualisation () {
+
+
+			foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
+				GetLayer (layer).gameObject.SetActive (true);
+			}
+
+			switch(DisplayMode) {
+
+			case PropDisplayMode.Normal:
+				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
+				break;
+			case PropDisplayMode.Silhouette:
+				foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
+					if(layer != HierarchyLayers.Silhouette){
+						GetLayer (layer).gameObject.SetActive (false);
+					}
+				}
+
+				Renderer[] silhouetteRenderers = transform.GetComponentsInChildren<Renderer> ();
+
+				foreach (Renderer r in silhouetteRenderers) {
+					if (r.sharedMaterial != null) {
+						r.sharedMaterial = new Material (Shader.Find ("Roomful/Silhouette"));
+					}
+				}
+
+
+				break;
+			}
+
+		}
+
 		public void AutosizeCollider () {
 
+
+			//_Size = transform.GetRendererBounds ();
+
 			bool hasBounds = false;
+
 			_Size = new Bounds (Vector3.zero, Vector3.zero);
 			Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer> ();
 
@@ -275,6 +317,10 @@ namespace RF.AssetWizzard {
 			foreach (Renderer child in ChildrenRenderer) {
 	
 				if (child.transform.IsChildOf (GetLayer (HierarchyLayers.IgnoredGraphics))) {
+					continue;
+				}
+
+				if (child.transform.IsChildOf (GetLayer (HierarchyLayers.Silhouette))) {
 					continue;
 				}
 
@@ -292,16 +338,20 @@ namespace RF.AssetWizzard {
 		}
 
 
+
+
 		private void CheckhHierarchy () {
 
-			transform.position = Vector3.zero;
-			transform.rotation = Quaternion.identity;
-			transform.localScale = Vector3.one;
 
 
 			Model.localPosition = Vector3.zero;
 			Model.localScale = Vector3.one * Scale;
 			Model.localRotation = Quaternion.identity;
+
+			Environment.transform.parent = null;
+			Environment.transform.position = Vector3.zero;
+			Environment.transform.rotation = Quaternion.identity;
+			Environment.transform.localScale = Vector3.one;
 
 
 
@@ -333,7 +383,7 @@ namespace RF.AssetWizzard {
 					continue;
 				}
 
-				if (child == DirectionalLight.transform) {
+				if (child == Environment.transform) {
 					continue;
 				}
 
@@ -344,44 +394,52 @@ namespace RF.AssetWizzard {
 				UndefinedObjects.Add (child);
 			}
 
+			foreach (Transform undefined in UndefinedObjects) {
+				undefined.position = Vector3.zero;
+			}
 
 
 
-
-			if (DisplayMode == PropDisplayMode.Normal) {
-				
-				foreach (Transform undefined in UndefinedObjects) {
-					undefined.parent = GetLayer (HierarchyLayers.Graphics);
-				}
-
-				foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
-					GetLayer (layer).gameObject.SetActive (true);
-				}
-
-				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
-
-			} else {
+			if (DisplayMode == PropDisplayMode.Silhouette) {
 
 				foreach (Transform undefined in UndefinedObjects) {
 					undefined.parent = GetLayer (HierarchyLayers.Silhouette);
 				}
-
-				foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
-					GetLayer (layer).gameObject.SetActive (false);
+			} else {
+				foreach (Transform undefined in UndefinedObjects) {
+					undefined.parent = GetLayer (HierarchyLayers.Graphics);
 				}
+			}
 
-				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
 
-				Renderer[] silhouetteRenderers = transform.GetComponentsInChildren<Renderer> ();
+			transform.rotation = Quaternion.identity;
+			transform.localScale = Vector3.one;
 
-				foreach (Renderer r in silhouetteRenderers) {
-					if (r.sharedMaterial != null) {
-						r.sharedMaterial = new Material (Shader.Find ("Roomful/Silhouette"));
-					}
-				}
+			if(Template.Placing == Placing.Floor) {
+				transform.position = Vector3.zero;
+
+				Vector3 rendererPoint = transform.GetVertex (VertexX.Center, VertexY.Bottom, VertexZ.Center);
+				Vector3 diff = transform.position - rendererPoint;
+				transform.position += diff;
 
 			}
 
+			if(Template.Placing == Placing.Wall) {
+				transform.position = new Vector3 (0, 1.5f, -1.5f);
+
+				Vector3 rendererPoint = transform.GetVertex (VertexX.Center, VertexY.Center, VertexZ.Back);
+				Vector3 diff = transform.position - rendererPoint;
+				transform.position += diff;
+			}
+
+
+			AutosizeCollider ();
+			FinalVisualisation ();
+
 		}
+
+
+
+
 	}
 }

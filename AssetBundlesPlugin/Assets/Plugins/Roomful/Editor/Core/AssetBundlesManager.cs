@@ -228,12 +228,20 @@ namespace RF.AssetWizzard.Editor {
 			createMeta.Send ();
 		}
 
-		public static void SavePrefab(PropAsset propOnScene) {
-			Object prafabObject = AssetDatabase.LoadAssetAtPath(AssetBundlesSettings.FULL_ASSETS_LOCATION+propOnScene.Template.Title+".prefab", typeof(Object));
-			PrefabUtility.ReplacePrefab(propOnScene.gameObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
+		public static void SavePrefab(PropAsset prop) {
+			string path = AssetBundlesSettings.FULL_ASSETS_LOCATION + prop.Template.Title + ".prefab";
+			Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
+			if(prafabObject ==  null) {
+
+				GameObject newPrfab = PrefabUtility.CreatePrefab (path, prop.gameObject);
+				PrefabUtility.ConnectGameObjectToPrefab (prop.gameObject, newPrfab);
+
+			} else {
+				PrefabUtility.ReplacePrefab(prop.gameObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
+			}
 		}
 
-
+	
 
 
 		private static void RecreateProp(AssetTemplate tpl, Object prop) {
@@ -242,7 +250,7 @@ namespace RF.AssetWizzard.Editor {
 				return;
 			}
 
-			string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + tpl.Title + ".prefab";
+			//string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + tpl.Title + ".prefab";
 
 
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
@@ -264,11 +272,9 @@ namespace RF.AssetWizzard.Editor {
 			}
 
 
+			SavePrefab (asset);
 
-
-			GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, newGo);
-			PrefabUtility.ConnectGameObjectToPrefab (newGo, newPrfab);
-
+	
 			WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
 
 		}

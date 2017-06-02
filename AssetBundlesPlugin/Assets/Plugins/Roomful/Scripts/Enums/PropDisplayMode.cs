@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum PropDisplayMode  {
 	Normal,
-	Silhouette
+	Silhouette,
+	Hybrid
 }

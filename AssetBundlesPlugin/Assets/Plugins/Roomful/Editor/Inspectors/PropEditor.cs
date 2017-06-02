@@ -67,12 +67,10 @@ namespace RF.AssetWizzard.Editor {
 				bool test = GUILayout.Button ("Test",  EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 				if(test) {
 
-					Prop.PrepareForUpload ();
+					string path = AssetBundlesSettings.PLUGIN_PREFABS_LOCATION +  "Light_Rig.prefab";
 
-
-
-					//AssetDatabase.CreateAsset( m2, "Assets/generatedMesh.asset" );
-					//AssetDatabase.SaveAssets();
+					Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
+					PrefabUtility.InstantiatePrefab (prafabObject);
 
 
 				}
