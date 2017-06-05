@@ -82,6 +82,17 @@ namespace RF.AssetWizzard {
 			}
 		}
 
+
+		public void ReplaceTemplate(AssetTemplate tpl) {
+			for(int i = 0; i < LocalAssetTemplates.Count; i++) {
+				if(LocalAssetTemplates[i].Id.Equals(tpl.Id)) {
+					LocalAssetTemplates [i] = tpl;
+					Save ();
+					return;
+				}
+			}
+		}
+
 		public void SetSessionId(string id) {
 			_SessionId = id;
 			Save ();

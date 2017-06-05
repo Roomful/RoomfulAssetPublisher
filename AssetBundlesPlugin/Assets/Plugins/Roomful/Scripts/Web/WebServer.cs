@@ -89,7 +89,7 @@ namespace RF.AssetWizzard.Network {
 			}
 
 
-			Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
+//			Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
 
 			www.Send ();
 
@@ -102,8 +102,8 @@ namespace RF.AssetWizzard.Network {
 			} else {
 				if (www.responseCode == 200) {
 
-					string logStrning = CleanUpInput (www.downloadHandler.text);
-					Debug.Log ("WEB::IN::" + logStrning);
+					/*string logStrning = CleanUpInput (www.downloadHandler.text);
+					Debug.Log ("WEB::IN::" + logStrning);*/
 
 					package.PackageCallbackText (www.downloadHandler.text);
 					package.PackageCallbackData(www.downloadHandler.data);
@@ -115,13 +115,9 @@ namespace RF.AssetWizzard.Network {
 
 		private static string CleanUpInput(string json) {
 
-			return json;
-
-			/*string pattern = "\"thumbnail\":\".*?\"";
-
+			string pattern = "\"assetmesh\":\".*?\"";
 			Regex regular = new Regex (pattern);
-
-			return regular.Replace(json, "\"thumbnail\":\"BASE_64_DATA\"");*/
+			return regular.Replace(json, "\"assetmesh\":\"BASE_64_DATA\"");
 		}
 
 		public static string ByteToString(byte[] buff) {

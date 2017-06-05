@@ -31,7 +31,7 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 		void Awake () {
-
+			FinalVisualisation ();
 		}
 
 		//--------------------------------------
@@ -97,7 +97,7 @@ namespace RF.AssetWizzard {
 		public void SetTemplate (AssetTemplate tpl) {
 
 			_Template = tpl;
-			Icon = _Template.Icon.Thumbnail;
+
 
 			if (!string.IsNullOrEmpty (_Template.SilhouetteMeshData)) {
 
@@ -342,6 +342,10 @@ namespace RF.AssetWizzard {
 
 		private void CheckhHierarchy () {
 
+
+			if(Icon == null) {
+				Icon = Template.Icon.Thumbnail;
+			}
 
 
 			Model.localPosition = Vector3.zero;

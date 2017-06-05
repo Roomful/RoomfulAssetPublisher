@@ -162,6 +162,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
+		private static AssetBundle CurrentAssetBundle = null;
 
 		public static void LoadAssetBundle(AssetTemplate prop) {
 			EditorApplication.delayCall = () => {
@@ -185,11 +186,19 @@ namespace RF.AssetWizzard.Editor {
 
 						Caching.CleanCache();
 
-						AssetBundle assetBundle = AssetBundle.LoadFromFile(bundlePath);
 
-						RecreateProp(prop, assetBundle.LoadAsset<Object>(prop.Title));
-						assetBundle.Unload(false);
+						if(CurrentAssetBundle  != null) {
+							CurrentAssetBundle.Unload(true);
+						}
+
+						CurrentAssetBundle = AssetBundle.LoadFromFile(bundlePath);
+
+						RecreateProp(prop, CurrentAssetBundle.LoadAsset<Object>(prop.Title));
+
+						//assetBundle.Unload(false);
 						AssetDatabase.DeleteAsset(bundlePath);
+
+
 					};
 
 					loadAsset.Send ();
@@ -201,13 +210,13 @@ namespace RF.AssetWizzard.Editor {
 
 		public static void ReUploadAsset(PropAsset prop) {
 
+
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; 	}
 
 			prop.SynchTemplate ();
 			RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (prop.Template);
 
 			updateRequest.PackageCallbackText = (updateCalback) => {
-				prop.SetTemplate(new AssetTemplate(updateCalback));
 				UploadAssetBundle(prop);
 
 			};
@@ -249,20 +258,16 @@ namespace RF.AssetWizzard.Editor {
 				Debug.Log ("Prop is null");
 				return;
 			}
-
-			//string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + tpl.Title + ".prefab";
-
-
+				
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
 
-			FixShaders (newGo);
-
-		
 
 
 			PropAsset asset = newGo.AddComponent<PropAsset> ();
 			asset.SetTemplate (tpl);
+
+			FixShaders (newGo);
 
 			Transform thumbnails =  asset.GetLayer (HierarchyLayers.Thumbnails);
 			foreach(Transform tb in thumbnails) {
@@ -271,24 +276,27 @@ namespace RF.AssetWizzard.Editor {
 				FixShaders (thumbnail.Corner);
 			}
 
-
+	
 			SavePrefab (asset);
-
 	
 			WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
 
 		}
 
+
+
 		private static void FixShaders(GameObject obj) {
 			if (obj == null) {
 				return;
 			}
+
 			var renderers = obj.GetComponentsInChildren<Renderer> ();
 
 			foreach (Renderer r in renderers) {
 				foreach(Material m in r.sharedMaterials) {
 					if(m == null) { continue; }
 					if (m.shader == null) { continue; }
+
 
 					var shaderName = m.shader.name;
 					var newShader = Shader.Find(shaderName);
@@ -306,15 +314,12 @@ namespace RF.AssetWizzard.Editor {
 
 		private static void UploadAssetBundle(PropAsset prop) {
 
-
-
 			var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail (prop.Template.Id);
 			getIconUploadLink.PackageCallbackText = (linkCallback) => {
 
 				var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, prop.Icon);
 				uploadRequest.PackageCallbackText = (string uploadCallback)=> {
 
-					Debug.Log("Icon upload info: " + uploadCallback);
 
 					var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(prop.Template.Id);
 					confirmRequest.PackageCallbackText = (string resData)=> {
@@ -324,7 +329,7 @@ namespace RF.AssetWizzard.Editor {
 						var res = new Resource(resInfo);
 
 						prop.Template.Icon = res;
-						Debug.Log("PROP ICON REGISTRED with ID: "  + prop.Template.Id);
+						AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
 
 
 						SavePrefab(prop);
