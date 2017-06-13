@@ -89,7 +89,7 @@ namespace RF.AssetWizzard.Network {
 			}
 
 
-//			Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
+			Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
 
 			www.Send ();
 
@@ -102,8 +102,8 @@ namespace RF.AssetWizzard.Network {
 			} else {
 				if (www.responseCode == 200) {
 
-					/*string logStrning = CleanUpInput (www.downloadHandler.text);
-					Debug.Log ("WEB::IN::" + logStrning);*/
+					string logStrning = CleanUpInput (www.downloadHandler.text);
+					Debug.Log ("WEB::IN::" + logStrning);
 
 					package.PackageCallbackText (www.downloadHandler.text);
 					package.PackageCallbackData(www.downloadHandler.data);
