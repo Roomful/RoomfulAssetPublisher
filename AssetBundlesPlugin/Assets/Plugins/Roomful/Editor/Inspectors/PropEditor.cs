@@ -67,11 +67,41 @@ namespace RF.AssetWizzard.Editor {
 				bool test = GUILayout.Button ("Test",  EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 				if(test) {
 
-					string path = AssetBundlesSettings.PLUGIN_PREFABS_LOCATION +  "Light_Rig.prefab";
+					Vector3 storedPos = Prop.transform.position;
+					Prop.transform.position = Vector3.zero;
 
-					Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-					PrefabUtility.InstantiatePrefab (prafabObject);
+					Prop.GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
 
+
+					MeshFilter[] meshFilters = Prop.GetLayer (HierarchyLayers.Silhouette).GetComponentsInChildren<MeshFilter> ();
+					CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+					int i = 0;
+					while (i < meshFilters.Length) {
+						combine [i].mesh = meshFilters [i].sharedMesh;
+						combine [i].transform = meshFilters [i].transform.localToWorldMatrix;
+						//meshFilters [i].transform.worldToLocalMatrix
+						i++;
+					}
+
+					Mesh m = new Mesh ();
+					m.CombineMeshes (combine);
+
+
+				
+
+					GameObject go = GameObject.CreatePrimitive (PrimitiveType.Cube);
+					go.name = "TEST_GENERATED";
+					go.transform.parent = Prop.GetLayer (HierarchyLayers.Silhouette);
+					go.transform.localPosition = Vector3.zero;
+
+					go.GetComponent<MeshFilter> ().sharedMesh = m;
+					go.GetComponent<MeshFilter> ().sharedMesh.name = "Silhouette";  
+
+
+
+					Prop.GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
+
+					Prop.transform.position = storedPos;
 
 				}
 

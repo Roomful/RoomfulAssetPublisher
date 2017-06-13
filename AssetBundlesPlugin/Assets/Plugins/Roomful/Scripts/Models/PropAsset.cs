@@ -222,6 +222,10 @@ namespace RF.AssetWizzard {
 
 		public string SilhouetteMeshData {
 			get {
+
+
+				Vector3 storedPos = transform.position;
+				transform.position = Vector3.zero;
 				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
 
 
@@ -236,10 +240,11 @@ namespace RF.AssetWizzard {
 
 				Mesh m = new Mesh ();
 				m.CombineMeshes (combine);
-
 				byte[] array = MeshSerializer.WriteMesh (m);
 
+
 				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
+				transform.position = storedPos;
 			
 				return System.Convert.ToBase64String (array);
 			}

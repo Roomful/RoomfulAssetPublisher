@@ -28,6 +28,33 @@ public static class SA_UnityExtensions  {
 	}
 
 
+	public static void ScaleTo(this GameObject go, Vector3 scale, float time, SA.Common.Animation.EaseType easeType = SA.Common.Animation.EaseType.linear, System.Action OnCompleteAction = null ) {
+		SA.Common.Animation.ValuesTween tw = go.AddComponent<SA.Common.Animation.ValuesTween>();
+
+		tw.DestoryGameObjectOnComplete = false;
+		tw.ScaleTo(go.transform.localScale, scale, time, easeType);
+
+		tw.OnComplete += OnCompleteAction;
+	}
+
+
+	public static Bounds GetRendererBounds(this GameObject go) {
+		return CalculateBounds(go);
+	}
+
+
+	public static Vector3 GetVertex(this GameObject go, VertexX x, VertexY y, VertexZ z) {
+
+		Bounds bounds = go.GetRendererBounds ();
+		return bounds.GetVertex (x, y, z);
+	}
+
+
+	//--------------------------------------
+	// Transform
+	//--------------------------------------
+
+
 	public static Bounds GetRendererBounds(this Transform t) {
 		return t.gameObject.GetRendererBounds ();
 	}
@@ -36,23 +63,6 @@ public static class SA_UnityExtensions  {
 	public static Vector3 GetVertex(this Transform t, VertexX x, VertexY y, VertexZ z) {
 		return t.gameObject.GetVertex (x, y, z);
 	}
-
-
-	public static Bounds GetRendererBounds(this GameObject go) {
-		return CalculateBounds(go);
-	}
-		
-
-	public static Vector3 GetVertex(this GameObject go, VertexX x, VertexY y, VertexZ z) {
-
-		Bounds bounds = go.GetRendererBounds ();
-		return bounds.GetVertex (x, y, z);
-	}
-		
-
-	//--------------------------------------
-	// Transaform
-	//--------------------------------------
 
 	public static Transform Clear(this Transform transform) {
 
@@ -71,6 +81,9 @@ public static class SA_UnityExtensions  {
 	}
 
 
+	//--------------------------------------
+	// Bounds
+	//--------------------------------------
 
 	public static Vector3 GetVertex(this Bounds bounds, VertexX x, VertexY y, VertexZ z) {
 
@@ -111,6 +124,79 @@ public static class SA_UnityExtensions  {
 	}
 
 
+	//--------------------------------------
+	// Material
+	//--------------------------------------
+
+	public static void SetAlpha (this Material material, float value) {
+		Color color = material.color;
+		color.a = value;
+		material.color = color;
+	}
+
+	//--------------------------------------
+	// Texture2D
+	//--------------------------------------
+
+	public static Sprite ToSprite(this Texture2D texture) {
+		return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f)); 
+	}
+
+	//--------------------------------------
+	// Vector3
+	//--------------------------------------
+
+	public static Vector3 Reset(this Vector3 vec) {
+		return Vector3.zero;
+	}
+
+
+	public static Vector3 ResetXCoord(this Vector3 vec) {
+		Vector3 newVec = vec;
+		newVec.x = 0f;
+
+		return newVec;
+	}
+
+	public static Vector3 ResetYCoord(this Vector3 vec) {
+		Vector3 newVec = vec;
+		newVec.y = 0f;
+
+		return newVec;
+	}
+
+	public static Vector3 ResetZCoord(this Vector3 vec) {
+		Vector3 newVec = vec;
+		newVec.z = 0f;
+
+		return newVec;
+	}
+
+
+	//--------------------------------------
+	// String
+	//--------------------------------------
+
+
+	public static string GetLast(this string source, int count) {
+		if(count >= source.Length)
+			return source;
+		return source.Substring(source.Length - count);
+	}
+
+	public static string GetFirst(this string source, int count) {
+
+
+		if(count >= source.Length)
+			return source;
+		return source.Substring (0, count);
+	}
+
+
+
+	//--------------------------------------
+	// Public Methods
+	//--------------------------------------
 
 
 	public static Bounds CalculateBounds(GameObject obj) {
@@ -144,54 +230,6 @@ public static class SA_UnityExtensions  {
 	}
 
 
-
-
-
-	public static void ScaleTo(this GameObject go, Vector3 scale, float time, SA.Common.Animation.EaseType easeType = SA.Common.Animation.EaseType.linear, System.Action OnCompleteAction = null ) {
-		SA.Common.Animation.ValuesTween tw = go.AddComponent<SA.Common.Animation.ValuesTween>();
-
-		tw.DestoryGameObjectOnComplete = false;
-		tw.ScaleTo(go.transform.localScale, scale, time, easeType);
-
-		tw.OnComplete += OnCompleteAction;
-	}
-
-	//--------------------------------------
-	// Texture2D
-	//--------------------------------------
-
-	public static Sprite ToSprite(this Texture2D texture) {
-		return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f)); 
-	}
-
-	//--------------------------------------
-	// Vector3
-	//--------------------------------------
-
-	public static Vector3 ResetXCoord(this Vector3 vec) {
-		Vector3 newVec = vec;
-		newVec.x = 0f;
-
-		return newVec;
-	}
-
-	public static Vector3 ResetYCoord(this Vector3 vec) {
-		Vector3 newVec = vec;
-		newVec.y = 0f;
-
-		return newVec;
-	}
-
-	public static Vector3 ResetZCoord(this Vector3 vec) {
-		Vector3 newVec = vec;
-		newVec.z = 0f;
-
-		return newVec;
-	}
-
-
-
-		
 
 }
 
