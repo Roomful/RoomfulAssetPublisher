@@ -280,5 +280,32 @@ namespace RF.AssetWizzard {
 
 			return stream.ToArray();
 		}
+
+
+		public static string SerializerMesh(GameObject origin) {
+
+			bool activeState = origin.activeSelf;
+			
+			origin.SetActive (true);
+
+
+			MeshFilter[] meshFilters = origin.GetComponentsInChildren<MeshFilter> ();
+			CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+			int i = 0;
+			while (i < meshFilters.Length) {
+				combine [i].mesh = meshFilters [i].sharedMesh;
+				combine [i].transform = meshFilters [i].transform.localToWorldMatrix;
+				i++;
+			}
+
+			Mesh m = new Mesh ();
+			m.CombineMeshes (combine);
+			byte[] array = MeshSerializer.WriteMesh (m);
+
+
+			origin.SetActive (activeState);
+
+			return System.Convert.ToBase64String (array);
+		}
 	}
 }

@@ -82,7 +82,7 @@ namespace RF.AssetWizzard {
 		public void SynchTemplate () {
 			Scale = 1f;
 			DisplayMode = PropDisplayMode.Normal;
-			Template.SilhouetteMeshData = SilhouetteMeshData;
+			Template.Silhouette = SilhouetteMeshData;
 		}
 
 		public void PrepareForUpload () {
@@ -99,7 +99,7 @@ namespace RF.AssetWizzard {
 			_Template = tpl;
 
 
-			if (!string.IsNullOrEmpty (_Template.SilhouetteMeshData)) {
+			if (_Template.Silhouette != null) {
 
 				GetLayer (HierarchyLayers.Silhouette).Clear ();
 
@@ -113,7 +113,7 @@ namespace RF.AssetWizzard {
 				DestroyImmediate (go.GetComponent<BoxCollider> ());
 
 
-				byte[] bytesToEncode = System.Convert.FromBase64String (_Template.SilhouetteMeshData);
+				byte[] bytesToEncode = System.Convert.FromBase64String (_Template.Silhouette.MeshData);
 				go.GetComponent<MeshFilter> ().sharedMesh = MeshSerializer.ReadMesh (bytesToEncode);
 				go.GetComponent<MeshFilter> ().sharedMesh.name = "Silhouette";  
 
@@ -220,12 +220,24 @@ namespace RF.AssetWizzard {
 
 
 
-		public string SilhouetteMeshData {
+		public AssetSilhouette SilhouetteMeshData {
 			get {
 
 
 				Vector3 storedPos = transform.position;
 				transform.position = Vector3.zero;
+
+				var silhouette = new AssetSilhouette (this);
+
+				transform.position = storedPos;
+
+				return silhouette;
+
+/*
+				Vector3 storedPos = transform.position;
+				transform.position = Vector3.zero;
+
+
 				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
 
 
@@ -246,7 +258,7 @@ namespace RF.AssetWizzard {
 				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
 				transform.position = storedPos;
 			
-				return System.Convert.ToBase64String (array);
+				return System.Convert.ToBase64String (array);*/
 			}
 
 		}

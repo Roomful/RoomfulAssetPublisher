@@ -20,7 +20,7 @@ namespace RF.AssetWizzard {
 		public bool CanStack = false;
 		public List<ContentType> ContentTypes =  new List<ContentType>();
 		public List<string> Tags =  new List<string>();
-		public string SilhouetteMeshData = string.Empty;
+		public AssetSilhouette Silhouette = null;
 
 
 
@@ -63,7 +63,7 @@ namespace RF.AssetWizzard {
 				OriginalJSON.Add("thumbnail", Icon.ToDictionary());
 			}
 
-			OriginalJSON.Add("assetmesh", SilhouetteMeshData);
+			OriginalJSON.Add("assetmesh", Silhouette.ToDictionary());
 
 
 
@@ -104,8 +104,11 @@ namespace RF.AssetWizzard {
 			}
 
 
-			SilhouetteMeshData = assetData.GetValue<string> ("assetmesh");
-
+			if (assetData.HasValue("assetmesh")) {
+				var SilhouetteInfo = new JSONData(assetData.GetValue<Dictionary<string, object>>("assetmesh"));
+				Silhouette = new AssetSilhouette (SilhouetteInfo);
+			}
+				
 
 			MinSize = assetData.GetValue<float> ("minScale");
 			MaxSize = assetData.GetValue<float> ("maxScale");
