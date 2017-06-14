@@ -353,6 +353,8 @@ namespace RF.AssetWizzard.Editor {
 			if (string.IsNullOrEmpty (CurrentProp.Template.Id)) {
 				bool upload = GUI.Button (buttonRect, "Upload");
 				if (upload) {
+
+					//AssetBundlesManager.CheckAnimations (CurrentProp);
 					AssetBundlesManager.UploadAssets (CurrentProp);
 				}
 

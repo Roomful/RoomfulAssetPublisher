@@ -181,14 +181,12 @@ namespace RF.AssetWizzard.Editor {
 					loadAsset.PackageCallbackData = (loadCallback) => {
 						string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
 
-
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
-
-						Caching.CleanCache();
-
 
 						if(CurrentAssetBundle  != null) {
 							CurrentAssetBundle.Unload(true);
+
+							CurrentAssetBundle = null;
 						}
 
 						CurrentAssetBundle = AssetBundle.LoadFromFile(bundlePath);
@@ -197,8 +195,6 @@ namespace RF.AssetWizzard.Editor {
 
 						//assetBundle.Unload(false);
 						AssetDatabase.DeleteAsset(bundlePath);
-
-
 					};
 
 					loadAsset.Send ();
@@ -250,7 +246,53 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
-	
+		public static void CheckAnimations(PropAsset prop) {
+			Animator[] anims = prop.GetComponentsInChildren<Animator> ();
+			Animator mainAnimator = null;
+
+			int AnimatorsNumber = anims.Length;
+
+			if (AnimatorsNumber > 1) {
+				Debug.Log ("Animators number is more than 1");
+				mainAnimator = anims [0];
+			} else if (AnimatorsNumber == 1) {
+				mainAnimator = anims [0];
+			}
+
+			if (mainAnimator != null) {
+				Debug.Log ("Parameters:");
+				for (int i = 0; i < mainAnimator.parameterCount; i++) {
+					string n = mainAnimator.GetParameter (i).name;
+					string t = mainAnimator.GetParameter (i).type.ToString();
+
+					string log = "Parameter: " + n + ", type: " + t +", default: ";
+
+					switch(mainAnimator.GetParameter (i).type) {
+					case AnimatorControllerParameterType.Bool:
+						log += mainAnimator.GetParameter (i).defaultBool.ToString ();
+						break;
+					case AnimatorControllerParameterType.Trigger:
+						log += "Trigger has no init value";
+						break;
+					case AnimatorControllerParameterType.Int:
+						log += mainAnimator.GetParameter (i).defaultInt.ToString ();
+
+						break;
+					case AnimatorControllerParameterType.Float:
+						log += mainAnimator.GetParameter (i).defaultFloat.ToString ();
+						break;
+					}
+
+					Debug.Log (log);
+				}
+
+				Debug.Log ("Transitions:");
+
+				for (int i = 0; i < mainAnimator.layerCount; i++) {
+					
+				}
+			}
+		}
 
 
 		private static void RecreateProp(AssetTemplate tpl, Object prop) {
