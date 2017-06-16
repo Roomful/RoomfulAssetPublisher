@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace RF.AssetWizzard {
 
+	[System.Serializable]
 	public class ThumbnailSilhouette  {
 
 		public string BorderMeshData = string.Empty;
@@ -12,15 +13,22 @@ namespace RF.AssetWizzard {
 		public Vector3 Position = Vector3.zero;
 		public Vector3 Rotation = Vector3.zero;
 		public bool IsFixedRation = false;
+		public int RatioX = 1;
+		public int RatioY = 1;
 
 
 		public ThumbnailSilhouette(PropThumbnail thumbnail) {
 
-			BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Border);
-			CornerMeshData = MeshSerializer.SerializerMesh (thumbnail.Corner);
+			if(thumbnail.Border != null && thumbnail.Corner != null) {
+				BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Border);
+				CornerMeshData = MeshSerializer.SerializerMesh (thumbnail.Corner);
+			}
+
 			Position = thumbnail.transform.localPosition;
 			Rotation = thumbnail.transform.localRotation.eulerAngles;
 			IsFixedRation = thumbnail.IsFixedRatio;
+			RatioX = thumbnail.XRatio;
+			RatioY = thumbnail.YRatio;
 		}
 
 		public ThumbnailSilhouette(JSONData thumbnailInfo) {
@@ -33,8 +41,11 @@ namespace RF.AssetWizzard {
 		
 			Dictionary<string, object> data = new Dictionary<string, object> ();
 
-			data.Add("border", BorderMeshData);
-			data.Add("corner", CornerMeshData);
+			if(!string.IsNullOrEmpty(BorderMeshData) && !string.IsNullOrEmpty(CornerMeshData)) {
+				data.Add("border", BorderMeshData);
+				data.Add("corner", CornerMeshData);
+			}
+
 
 
 			Dictionary<string, object> position = new Dictionary<string, object>();
@@ -51,6 +62,8 @@ namespace RF.AssetWizzard {
 			data.Add("rotation", rotation);
 
 			data.Add("is_fixed_ration", IsFixedRation);
+			data.Add("x_ration", RatioX);
+			data.Add("y_ration", RatioY);
 
 			return data;
 
@@ -58,24 +71,44 @@ namespace RF.AssetWizzard {
 
 
 		private void ParseTemplate(JSONData thumbnailInfo) {
-		
-			BorderMeshData = thumbnailInfo.GetValue<string> ("border");
-			CornerMeshData = thumbnailInfo.GetValue<string> ("corner");
 
-			IsFixedRation = thumbnailInfo.GetValue<bool> ("is_fixed_ration");
+		
+			if(thumbnailInfo.HasValue("border")) {
+				BorderMeshData = thumbnailInfo.GetValue<string> ("border");
+			}
+
+			if(thumbnailInfo.HasValue("corner")) {
+				CornerMeshData = thumbnailInfo.GetValue<string> ("corner");
+			}
+
+			if(thumbnailInfo.HasValue("is_fixed_ration")) {
+				IsFixedRation = thumbnailInfo.GetValue<bool> ("is_fixed_ration");
+			}
+
+			if(thumbnailInfo.HasValue("x_ration")) {
+				RatioX = thumbnailInfo.GetValue<int> ("x_ration");
+			}
+
+			if(thumbnailInfo.HasValue("y_ration")) {
+				RatioY = thumbnailInfo.GetValue<int> ("y_ration");
+			}
 
 
 			JSONData MobileGeometryPosition = new JSONData(thumbnailInfo.GetValue<Dictionary<string, object>>("position"));
+			if(MobileGeometryPosition.HasValue("x")) {
+				Position.x = MobileGeometryPosition.GetValue<float>("x");
+				Position.y = MobileGeometryPosition.GetValue<float>("y");
+				Position.z = MobileGeometryPosition.GetValue<float>("z");
+			}
 
-			Position.x = MobileGeometryPosition.GetValue<float>("x");
-			Position.y = MobileGeometryPosition.GetValue<float>("y");
-			Position.z = MobileGeometryPosition.GetValue<float>("z");
 
 			JSONData MobileGeometryRotation = new JSONData(thumbnailInfo.GetValue<Dictionary<string, object>>("rotation"));
+			if(MobileGeometryRotation.HasValue("x")) {
+				Rotation.x = MobileGeometryRotation.GetValue<float>("x");
+				Rotation.y = MobileGeometryRotation.GetValue<float>("y");
+				Rotation.z = MobileGeometryRotation.GetValue<float>("z");
+			}
 
-			Rotation.x = MobileGeometryRotation.GetValue<float>("x");
-			Rotation.y = MobileGeometryRotation.GetValue<float>("y");
-			Rotation.z = MobileGeometryRotation.GetValue<float>("z");
 
 		}
 			

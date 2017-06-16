@@ -99,7 +99,7 @@ namespace RF.AssetWizzard {
 			_Template = tpl;
 
 
-			if (_Template.Silhouette != null) {
+			if (_Template.Silhouette != null && !string.IsNullOrEmpty(_Template.Silhouette.MeshData)) {
 
 				GetLayer (HierarchyLayers.Silhouette).Clear ();
 
@@ -111,7 +111,6 @@ namespace RF.AssetWizzard {
 
 
 				DestroyImmediate (go.GetComponent<BoxCollider> ());
-
 
 				byte[] bytesToEncode = System.Convert.FromBase64String (_Template.Silhouette.MeshData);
 				go.GetComponent<MeshFilter> ().sharedMesh = MeshSerializer.ReadMesh (bytesToEncode);

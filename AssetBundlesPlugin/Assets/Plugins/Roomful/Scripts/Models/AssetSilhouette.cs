@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace RF.AssetWizzard {
 		
+	[System.Serializable]
 	public class AssetSilhouette {
 
 
@@ -39,9 +40,6 @@ namespace RF.AssetWizzard {
 			Dictionary<string, object> data = new Dictionary<string, object> ();
 			data.Add("mesh_data", MeshData);
 
-
-			Debug.Log ("ToDictionary: " + Thumbnails.Count);
-
 			List<Dictionary<string, object>> thumbnails = new List<Dictionary<string, object>>();
 			foreach (ThumbnailSilhouette thumbnail in Thumbnails) {
 				thumbnails.Add(thumbnail.ToDictionary());
@@ -60,9 +58,13 @@ namespace RF.AssetWizzard {
 
 			if (silhouettelInfo.HasValue("thumbnails")) {
 				List<object> thumbnailsList = silhouettelInfo.GetValue<List<object>>("thumbnails");
-
 				foreach (object  thumbnail in thumbnailsList) {
 					JSONData ThumbnailInfo = new JSONData(thumbnail);
+
+					if(ThumbnailInfo.Data == null) {
+						continue;
+					}
+
 					var t = new ThumbnailSilhouette (ThumbnailInfo);
 					Thumbnails.Add (t);
 
