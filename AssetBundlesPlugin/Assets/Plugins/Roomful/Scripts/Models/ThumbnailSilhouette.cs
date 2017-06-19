@@ -12,6 +12,7 @@ namespace RF.AssetWizzard {
 		public string CornerMeshData = string.Empty;
 		public Vector3 Position = Vector3.zero;
 		public Vector3 Rotation = Vector3.zero;
+		public Vector3 Scale = Vector3.one;
 		public bool IsFixedRation = false;
 		public int RatioX = 1;
 		public int RatioY = 1;
@@ -25,10 +26,15 @@ namespace RF.AssetWizzard {
 			}
 
 			Position = thumbnail.transform.localPosition;
+			Scale = thumbnail.transform.localScale;
 			Rotation = thumbnail.transform.localRotation.eulerAngles;
 			IsFixedRation = thumbnail.IsFixedRatio;
-			RatioX = thumbnail.XRatio;
-			RatioY = thumbnail.YRatio;
+			if(IsFixedRation) {
+				RatioX = thumbnail.XRatio;
+				RatioY = thumbnail.YRatio;
+			}
+
+
 		}
 
 		public ThumbnailSilhouette(JSONData thumbnailInfo) {
@@ -58,8 +64,15 @@ namespace RF.AssetWizzard {
 			rotation.Add("y", Rotation.y);
 			rotation.Add("z", Rotation.z);
 
+
+			Dictionary<string, object> scale = new Dictionary<string, object>();
+			scale.Add("x", Scale.x);
+			scale.Add("y", Scale.y);
+			scale.Add("z", Scale.z);
+
 			data.Add("position", position);
 			data.Add("rotation", rotation);
+			data.Add("scale", scale);
 
 			data.Add("is_fixed_ration", IsFixedRation);
 			data.Add("x_ration", RatioX);
@@ -108,6 +121,17 @@ namespace RF.AssetWizzard {
 				Rotation.y = MobileGeometryRotation.GetValue<float>("y");
 				Rotation.z = MobileGeometryRotation.GetValue<float>("z");
 			}
+
+			if(thumbnailInfo.HasValue("scale")) {
+				JSONData MobileGeometryScale = new JSONData(thumbnailInfo.GetValue<Dictionary<string, object>>("scale"));
+				if(MobileGeometryScale.HasValue("x")) {
+					Scale.x = MobileGeometryScale.GetValue<float>("x");
+					Scale.y = MobileGeometryScale.GetValue<float>("y");
+					Scale.z = MobileGeometryScale.GetValue<float>("z");
+				}
+			}
+
+
 
 
 		}

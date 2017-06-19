@@ -542,6 +542,14 @@ namespace RF.AssetWizzard.Editor {
 				AssetInfoLable ("Max Scale", SelectedAsset.MaxSize);
 				AssetInfoLable ("Min Scale", SelectedAsset.MinSize);
 
+				string Plaforms = string.Empty;
+				foreach(AssetUrl p in SelectedAsset.Urls) {
+					Plaforms += p.Platform + "  ";
+				}
+				AssetInfoLable ("Plaforms", Plaforms);
+
+
+
 				string tags = string.Empty;
 				foreach(string tag in SelectedAsset.Tags) {
 					tags += tag;

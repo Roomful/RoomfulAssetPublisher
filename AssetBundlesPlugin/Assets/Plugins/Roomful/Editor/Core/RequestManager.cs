@@ -11,7 +11,7 @@ namespace RF.AssetWizzard.Editor {
 		public static void ReloadAssets(List<string> tags) {
 			AssetBundlesSettings.Instance.LocalAssetTemplates.Clear ();
 
-			RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (0, 10, tags);
+			RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (0, 5, tags);
 
 			allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
 
@@ -28,7 +28,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		public static void LoadMoreAssets(List<string> tags) {
-			RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (AssetBundlesSettings.Instance.LocalAssetTemplates.Count, 10, tags);
+			RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (AssetBundlesSettings.Instance.LocalAssetTemplates.Count, 5, tags);
 
 			allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
 

@@ -21,7 +21,7 @@ namespace RF.AssetWizzard {
 		public List<ContentType> ContentTypes =  new List<ContentType>();
 		public List<string> Tags =  new List<string>();
 		public AssetSilhouette Silhouette = null;
-
+		public List<AssetUrl> Urls = new List<AssetUrl>();
 
 
 		public Vector3 Size =  Vector3.one;
@@ -143,6 +143,18 @@ namespace RF.AssetWizzard {
 					}
 				}
 			}
+
+
+			if(assetData.HasValue("urls")) {
+				var urlsList = assetData.GetValue<Dictionary<string, object>> ("urls");
+				if(urlsList != null) {
+					foreach(var pair in urlsList) {
+						AssetUrl url = new AssetUrl(pair.Key,System.Convert.ToString (pair.Value));
+						Urls.Add (url);
+					}
+				}
+			}
+
 
 		}
 
