@@ -28,6 +28,9 @@ namespace RF.AssetWizzard.Editor {
 			public GUIStyle warningIcon = "CN EntryWarn";
 			public GUIStyle sectionHeader = new GUIStyle(EditorStyles.largeLabel);
 			public GUIStyle cacheFolderLocation = new GUIStyle(GUI.skin.label);
+			public GUIStyle toolbarStyle;
+			public GUIStyle toolbarSeachTextFieldStyle;
+			public GUIStyle toolbarSeachCancelButtonStyle;
 
 			public Constants() {
 				this.sectionHeader = new GUIStyle(EditorStyles.largeLabel);
@@ -36,10 +39,18 @@ namespace RF.AssetWizzard.Editor {
 				this.sectionScrollView.overflow.bottom++;
 
 
+				this.toolbarStyle 					= GUI.skin.FindStyle("Toolbar");
+				this.toolbarSeachTextFieldStyle 	= GUI.skin.FindStyle("ToolbarSeachTextField");
+				this.toolbarSeachCancelButtonStyle 	= GUI.skin.FindStyle("ToolbarSeachCancelButton");
+
+
 				this.sectionHeader.fontStyle = FontStyle.Bold;
 				this.sectionHeader.fontSize = 18;
 				this.sectionHeader.margin.top = 10;
 				this.sectionHeader.margin.left++;
+
+
+
 
 				if (!EditorGUIUtility.isProSkin) {
 					this.sectionHeader.normal.textColor = new Color(0.4f, 0.4f, 0.4f, 1f);
@@ -82,7 +93,6 @@ namespace RF.AssetWizzard.Editor {
 		private Vector2 m_SectionScrollPos;
 		private List<WizzardWindow.Section> m_Sections;
 		private static WizzardWindow.Constants constants = null;
-
 
 
 
@@ -448,9 +458,10 @@ namespace RF.AssetWizzard.Editor {
 		//  Assets
 		//--------------------------------------
 
-		private string SearchField = string.Empty;
 		private Vector2 m_KeyScrollPos;
 		private AssetTemplate SelectedAsset = null;
+		private const string SEARTCH_BAR_CONTROL_NAME = "seartchBat";
+
 		private void Assets() {
 
 
@@ -463,51 +474,65 @@ namespace RF.AssetWizzard.Editor {
 					SelectedAsset = AssetBundlesSettings.Instance.LocalAssetTemplates [0];
 				}
 			}
+				
+			GUILayout.BeginHorizontal(WizzardWindow.constants.settingsBoxTitle); {
 
 
-			GUILayout.Space(10f);
-			GUILayout.BeginHorizontal();
+				GUIStyle s = new GUIStyle (EditorStyles.boldLabel);
+				s.margin = new RectOffset (0, 0, 0, 0);
+				s.padding = new RectOffset (2, 2, 2, 2);
+
+				GUILayout.Label("Your Assets List", s, new GUILayoutOption[] {GUILayout.Width(130)});
+				AssetBundlesSettings.Instance.SeartchType = (SeartchRequestType) EditorGUILayout.EnumPopup(AssetBundlesSettings.Instance.SeartchType, GUILayout.Width (55));
 
 
+				GUI.SetNextControlName(SEARTCH_BAR_CONTROL_NAME);
+				AssetBundlesSettings.Instance.SeartchPattern = GUILayout.TextField(AssetBundlesSettings.Instance.SeartchPattern, WizzardWindow.constants.toolbarSeachTextFieldStyle, GUILayout.MinWidth(150));
 
-			GUILayout.BeginVertical( GUILayout.Width(230));
-
-			GUILayout.BeginHorizontal ();
-
-			SearchField = GUILayout.TextField(SearchField, new GUILayoutOption[] {GUILayout.ExpandWidth(true)});
-
-			Texture2D refreshIcon = Resources.Load ("refresh") as Texture2D;
-			bool refresh = GUILayout.Button (refreshIcon, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
-			if (refresh) {
-				List<string> separatedTags = new List<string>(SearchField.Split(' '));
-				RequestManager.ReloadAssets (separatedTags);
-			}
-
-			bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
-			if(addnew) {
-				WindowManager.ShowCreateNewAsset ();
-			}
-
-
-
-			Texture2D trash = Resources.Load ("trash") as Texture2D;
-			bool remove = GUILayout.Button (trash, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
-			if(remove && SelectedAsset != null) {
-				if (EditorUtility.DisplayDialog ("Delete " + SelectedAsset.Title, "Are you sure you want to remove this asset?", "Remove", "Cancel")) {;
-					RequestManager.RemoveAsset (SelectedAsset);
+				if (GUILayout.Button("", WizzardWindow.constants.toolbarSeachCancelButtonStyle)) {
+					AssetBundlesSettings.Instance.SeartchPattern = string.Empty;
+					GUI.FocusControl(null);
 				}
-			}
+
+
+				Texture2D refreshIcon = Resources.Load ("refresh") as Texture2D;
+				bool refresh = GUILayout.Button (refreshIcon, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+				if (refresh) {
+					/*	List<string> separatedTags = new List<string>(AssetBundlesSettings.Instance.SeartchPattern.Split(' '));
+					RequestManager.ReloadAssets (separatedTags);*/
+				}
+
+				bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
+				if(addnew) {
+					WindowManager.ShowCreateNewAsset ();
+				}
+					
+
+
+				GUILayout.Space (7);
+			} GUILayout.EndHorizontal();
+
+			GUILayout.Space (1);
 
 
 
-			GUILayout.EndHorizontal ();
 
-			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, WizzardWindow.constants.settingsBox,  new GUILayoutOption[] {GUILayout.Width(230), GUILayout.Height(310)});
+
+			int ASSETS_LIST_WIDTH = 200;
+			int ASSETS_INFO_WIDTH = 268;
+
+			int SCROLL_BAR_HEIGHT = 350;
+
+			GUILayout.BeginHorizontal();
+			GUILayout.BeginVertical( GUILayout.Width(ASSETS_LIST_WIDTH));
+		
+			GUI.Box (new Rect (130, 58, ASSETS_LIST_WIDTH, SCROLL_BAR_HEIGHT), "", WizzardWindow.constants.settingsBox);
+
+			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, GUIStyle.none,  GUI.skin.verticalScrollbar, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH), GUILayout.Height(SCROLL_BAR_HEIGHT)});
+
+			//m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, WizzardWindow.constants.settingsBox, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH), GUILayout.Height(360)});
 			foreach(var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-				/*if(asset.Thumbnail ==  null) {
-					asset.RestoreThumbnail ();
-				}*/
-				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(230)})) {
+				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH)})) {
 					SelectedAsset = asset;
 				}
 			}
@@ -516,8 +541,8 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.Space ();
 
 				if(GUILayout.Button ("Load more", EditorStyles.miniButton, GUILayout.Width(60))) {
-					List<string> separatedTags = new List<string>(SearchField.Split(' '));
-					RequestManager.LoadMoreAssets (separatedTags);
+					/*List<string> separatedTags = new List<string>(SearchField.Split(' '));
+					RequestManager.LoadMoreAssets (separatedTags);*/
 				}
 			}
 
@@ -525,13 +550,41 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.EndVertical();
 
 
-			GUILayout.BeginVertical(GUILayout.Width(230));
+		
+
+
+
+			GUILayout.BeginVertical(GUILayout.Width(ASSETS_INFO_WIDTH));
+
 
 
 			if(SelectedAsset != null) {
 
-				EditorGUILayout.Space ();
-				EditorGUILayout.LabelField ("Asset Info", EditorStyles.boldLabel);
+				GUILayout.BeginHorizontal ();
+
+
+				GUILayout.Label("Selected Asset", WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(ASSETS_INFO_WIDTH - 20*2)});
+
+
+				Texture2D edit = Resources.Load ("edit") as Texture2D;
+				bool editAsset = GUILayout.Button (edit, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+				if(editAsset) {
+					AssetBundlesManager.LoadAssetBundle (SelectedAsset);
+				}
+
+
+
+				Texture2D trash = Resources.Load ("trash") as Texture2D;
+				bool removeAsset = GUILayout.Button (trash, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+				if(removeAsset) {
+					if (EditorUtility.DisplayDialog ("Delete " + SelectedAsset.Title, "Are you sure you want to remove this asset?", "Remove", "Cancel")) {;
+						RequestManager.RemoveAsset (SelectedAsset);
+					}
+				}
+
+
+				GUILayout.EndHorizontal ();
+
 				EditorGUILayout.Space ();
 
 				AssetInfoLable ("Id", SelectedAsset.Id);
@@ -550,23 +603,7 @@ namespace RF.AssetWizzard.Editor {
 				AssetInfoLable ("Plaforms", Plaforms);
 
 
-
-				string tags = string.Empty;
-				foreach(string tag in SelectedAsset.Tags) {
-					tags += tag;
-
-					if(SelectedAsset.Tags.IndexOf(tag) == (SelectedAsset.Tags.Count -1)) {
-						tags+= ";";
-					} else {
-						tags+= ", ";
-					}
-
-						
-				}
-
-				AssetInfoLable ("Tags", tags);
-
-
+				//Types
 				string types = string.Empty;
 				foreach(ContentType t in SelectedAsset.ContentTypes) {
 					types += t.ToString ();
@@ -578,16 +615,56 @@ namespace RF.AssetWizzard.Editor {
 					}
 				}
 
+				if(types.Equals(string.Empty)) {
+					types = "None;";
+				}
+
 				AssetInfoLable ("Types", types);
 
+
+				//Tags
+				int countBeforeBreake = 0;
+				int line = 0;
+			
+				List<string> tags = new List<string>();
+				tags.Add (string.Empty);
+
+				foreach(string tag in SelectedAsset.Tags) {
+
+					if(countBeforeBreake == 3) {
+						countBeforeBreake = 0;
+						line++;
+						tags.Add (string.Empty);
+					}
+
+					tags[line] += tag;
+
+					if(SelectedAsset.Tags.IndexOf(tag) == (SelectedAsset.Tags.Count -1)) {
+						tags[line]+= ";";
+					} else {
+						tags[line]+= ", ";
+					}
+
+					countBeforeBreake++;
+						
+				}
+
+				for(int i = 0; i < tags.Count; i++) {
+					if(i == 0) {
+						AssetInfoLable ("Tags", tags[i]);
+					} else {
+						AssetInfoLable (string.Empty, tags[i]);
+					}
+				}
+
+
+
+
+			
 
 				EditorGUILayout.Space ();
 
 
-				bool edit = GUILayout.Button ("Edit Asset", EditorStyles.miniButton, GUILayout.Width(100));
-				if(edit) {
-					AssetBundlesManager.LoadAssetBundle (SelectedAsset);
-				}
 
 			}
 
@@ -597,12 +674,24 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.Space(10f);
 			GUILayout.EndHorizontal();
 
+
+			Texture2D roomful_logo = Resources.Load ("roomful_logo") as Texture2D;
+			GUI.DrawTexture (new Rect (380, 358, roomful_logo.width, roomful_logo.height), roomful_logo);
+
+
+
+
 		}
 
 
 		private void AssetInfoLable(string title, object msg) {
 			GUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField (title + ": ",  EditorStyles.boldLabel, new GUILayoutOption[] {GUILayout.Height(16), GUILayout.Width(65)});
+
+			if(!string.IsNullOrEmpty(title)) {
+				title += ": ";
+			}
+
+			EditorGUILayout.LabelField (title,  EditorStyles.boldLabel, new GUILayoutOption[] {GUILayout.Height(16), GUILayout.Width(65)});
 			EditorGUILayout.SelectableLabel (msg.ToString(), EditorStyles.label, new GUILayoutOption[] {GUILayout.Height(16)});
 			GUILayout.EndHorizontal ();
 		}

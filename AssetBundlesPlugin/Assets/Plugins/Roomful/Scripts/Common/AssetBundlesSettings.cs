@@ -35,7 +35,9 @@ namespace RF.AssetWizzard {
 		public static string AssetBundlesPath = "Plugins/Roomful/Bundles";
 		public static string AssetBundlesPathFull = "Assets/" + AssetBundlesPath;
 
-		public string _SessionId = "";
+		public string _SessionId = string.Empty;
+		public string SeartchPattern = string.Empty;
+		public SeartchRequestType SeartchType = SeartchRequestType.ByTag;
 
 		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
 

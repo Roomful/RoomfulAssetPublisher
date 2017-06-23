@@ -12,7 +12,7 @@ namespace RF.AssetWizzard.Editor {
 
 		public static void ShowWizard() {
 
-			Wizzard.minSize = new Vector2(600f, 400f);
+			Wizzard.minSize = new Vector2(600f, 450);
 			Wizzard.maxSize = new Vector2(Wizzard.minSize.x, Wizzard.maxSize.y);
 			Wizzard.position = new Rect(new Vector2(100f, 100f), Wizzard.minSize);
 			Wizzard.Show();
