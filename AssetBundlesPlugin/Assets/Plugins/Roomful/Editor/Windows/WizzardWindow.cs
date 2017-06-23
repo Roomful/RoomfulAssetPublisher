@@ -85,6 +85,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 
+
 		//--------------------------------------
 		//  Initialisation
 		//--------------------------------------
@@ -644,7 +645,7 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.BeginVertical ();
 
 			Mail = EditorGUILayout.TextField ("Mail: ", Mail);
-			Password = EditorGUILayout.TextField ("Password: ", Password);
+			Password = EditorGUILayout.PasswordField ("Password: ", Password);
 
 			if (GUILayout.Button ("Log In")) {
 				if (string.IsNullOrEmpty (Mail) || string.IsNullOrEmpty (Password)) {

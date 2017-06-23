@@ -21,3 +21,7 @@ AssetBundlesPlugin/Assembly-CSharp-firstpass-vs.csproj
 AssetBundlesPlugin/Assembly-CSharp-vs.csproj
 AssetBundlesPlugin/AssetBundlesPlugin-csharp.sln
 AssetBundlesPlugin/Assets/TestGraphics
+AssetBundlesPlugin/Assets/Assets/Roomful
+Roomful.meta
+AssetBundlesPlugin/Assembly-UnityScript-firstpass-vs.unityproj
+AssetBundlesPlugin/Assembly-UnityScript-firstpass.unityproj

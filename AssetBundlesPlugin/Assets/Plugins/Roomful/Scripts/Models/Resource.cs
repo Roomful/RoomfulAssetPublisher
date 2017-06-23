@@ -27,6 +27,9 @@ namespace RF.AssetWizzard {
 		[SerializeField]
 		private string _Category = string.Empty;
 
+		[SerializeField]
+		private string _ThumbnailData = string.Empty;
+
 
 		[SerializeField]
 		private DateTime _LastUpdate = DateTime.MinValue;
@@ -162,6 +165,15 @@ namespace RF.AssetWizzard {
 
 		public void LoadThumbnail(Action<Texture2D> callback = null) {
 
+			if(!string.IsNullOrEmpty(_ThumbnailData)) {
+				byte[] byteData = System.Convert.FromBase64String (_ThumbnailData);
+				Texture2D texture = new Texture2D (2, 2);
+				texture.LoadImage (byteData);
+				OnThumbnailLoaded (texture);
+
+				return;
+			}
+
 			var getAssetUrl = new RF.AssetWizzard.Network.Request.GetResourceUrl (Id);
 			getAssetUrl.PackageCallbackText = (assetUrl) => {
 
@@ -170,7 +182,14 @@ namespace RF.AssetWizzard {
 
 					Texture2D texture = new Texture2D (2, 2);
 					texture.LoadImage (data);
+
+
+					byte[] byteData  = texture.EncodeToPNG();
+					_ThumbnailData = System.Convert.ToBase64String(byteData);
+
 					OnThumbnailLoaded (texture);
+
+
 				};
 
 				loadThumbnail.PackageCallbackError = (code) => {
