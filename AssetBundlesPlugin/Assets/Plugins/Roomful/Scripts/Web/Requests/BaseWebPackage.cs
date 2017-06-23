@@ -13,6 +13,7 @@ namespace RF.AssetWizzard.Network.Request {
 		protected byte[] _PackData;
 
 		public Action<string> PackageCallbackText = delegate {};
+		public Action<long> PackageCallbackError = delegate {};
 		public Action<byte[]> PackageCallbackData = delegate {};
 
 		protected Dictionary<string, string> _Headers = new Dictionary<string, string>();

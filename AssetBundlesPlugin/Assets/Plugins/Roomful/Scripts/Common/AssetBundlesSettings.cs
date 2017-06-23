@@ -43,6 +43,9 @@ namespace RF.AssetWizzard {
 		public const float MAX_AlLOWED_SIZE = 4f;
 		public const float MIN_ALLOWED_SIZE = 0.3f;
 
+		public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
+
+
 
 		#if UNITY_EDITOR
 		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();

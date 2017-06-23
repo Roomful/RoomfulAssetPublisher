@@ -23,6 +23,12 @@ namespace RF.AssetWizzard.Editor {
 				t.PrepareForUpalod ();
 			}
 
+
+			PropThumbnailPointer[] thumbnailpointerss =  clone.GetComponentsInChildren<PropThumbnailPointer> ();
+			foreach(var t in thumbnailpointerss) {
+				t.PrepareForUpalod ();
+			}
+
 			CreatePrefabClone (prop.Template.Title, clone);
 
 
@@ -316,6 +322,18 @@ namespace RF.AssetWizzard.Editor {
 				PropThumbnail thumbnail = tb.gameObject.AddComponent<PropThumbnail> ();
 				FixShaders (thumbnail.Border);
 				FixShaders (thumbnail.Corner);
+			}
+
+			List<Transform> pointers = new List<Transform> ();
+			foreach (Transform t in asset.transform) {
+				if(t.name.Equals(AssetBundlesSettings.THUMBNAIL_POINTER)) {
+					t.parent.gameObject.AddComponent<PropThumbnailPointer> ().Update();
+					pointers.Add (t);
+				}
+			}
+
+			foreach(Transform t in pointers) {
+				DestroyImmediate (t);
 			}
 
 	

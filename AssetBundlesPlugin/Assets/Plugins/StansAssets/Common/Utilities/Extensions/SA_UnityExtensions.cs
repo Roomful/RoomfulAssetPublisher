@@ -37,6 +37,32 @@ public static class SA_UnityExtensions  {
 		tw.OnComplete += OnCompleteAction;
 	}
 
+	public static Bounds GetRealBounds (this GameObject go) {
+		var renderers = go.GetComponentsInChildren<Renderer>(false);
+		var combinedBounds = new Bounds(go.transform.position, Vector3.zero);
+
+		foreach (var render in renderers) {
+			if (render.bounds.size != Vector3.zero) {
+				combinedBounds.Encapsulate(render.bounds);
+			}
+		}
+
+		return combinedBounds;
+	}
+
+	public static Bounds GetRealBounds (this Component go) {
+		var renderers = go.GetComponentsInChildren<Renderer>(false);
+		var combinedBounds = new Bounds(go.transform.position, Vector3.zero);
+
+		foreach (var render in renderers) {
+			if (render.bounds.size != Vector3.zero) {
+				combinedBounds.Encapsulate(render.bounds);
+			}
+		}
+
+		return combinedBounds;
+	}
+
 
 	public static Bounds GetRendererBounds(this GameObject go) {
 		return CalculateBounds(go);
@@ -50,9 +76,29 @@ public static class SA_UnityExtensions  {
 	}
 
 
+
+	public static void Reset(this GameObject go) {
+		go.transform.Reset ();
+	}
+
+	//--------------------------------------
+	// Renderer
+	//--------------------------------------
+
+	public static bool IsVisibleFrom(this Renderer renderer, Camera camera) {
+		Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera);
+		return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
+	}
+
 	//--------------------------------------
 	// Transform
 	//--------------------------------------
+
+	public static void Reset(this Transform t) {
+		t.localScale = Vector3.one;
+		t.localPosition = Vector3.zero;
+		t.localRotation = Quaternion.identity;
+	}
 
 
 	public static Bounds GetRendererBounds(this Transform t) {
@@ -129,9 +175,11 @@ public static class SA_UnityExtensions  {
 	//--------------------------------------
 
 	public static void SetAlpha (this Material material, float value) {
-		Color color = material.color;
-		color.a = value;
-		material.color = color;
+		if(material.HasProperty("_Color")) {
+			Color color = material.color;
+			color.a = value;
+			material.color = color;
+		}
 	}
 
 	//--------------------------------------

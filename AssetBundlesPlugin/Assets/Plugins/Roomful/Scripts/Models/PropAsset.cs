@@ -289,6 +289,18 @@ namespace RF.AssetWizzard {
 
 			foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
 				GetLayer (layer).gameObject.SetActive (true);
+
+
+				Renderer[] silhouetteRenderers = GetLayer (HierarchyLayers.Silhouette).GetComponentsInChildren<Renderer> ();
+				foreach (Renderer r in silhouetteRenderers) {
+					if(r.gameObject.GetComponent<SilhouetteCustomMaterial>() != null) {
+						continue;
+					}
+
+					if (r.sharedMaterial != null) {
+						r.sharedMaterial = new Material (Shader.Find ("Roomful/Silhouette"));
+					}
+				}
 			}
 
 			switch(DisplayMode) {
@@ -303,13 +315,7 @@ namespace RF.AssetWizzard {
 					}
 				}
 
-				Renderer[] silhouetteRenderers = transform.GetComponentsInChildren<Renderer> ();
 
-				foreach (Renderer r in silhouetteRenderers) {
-					if (r.sharedMaterial != null) {
-						r.sharedMaterial = new Material (Shader.Find ("Roomful/Silhouette"));
-					}
-				}
 
 
 				break;

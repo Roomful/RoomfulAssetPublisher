@@ -108,6 +108,7 @@ namespace RF.AssetWizzard.Network {
 					package.PackageCallbackText (www.downloadHandler.text);
 					package.PackageCallbackData(www.downloadHandler.data);
 				} else {
+					package.PackageCallbackError (www.responseCode);
 					Debug.Log("Response code: "+www.responseCode+", message: "+www.downloadHandler.text);
 				}
 			}

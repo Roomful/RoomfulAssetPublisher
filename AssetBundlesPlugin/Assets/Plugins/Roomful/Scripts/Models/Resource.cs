@@ -173,12 +173,26 @@ namespace RF.AssetWizzard {
 					OnThumbnailLoaded (texture);
 				};
 
+				loadThumbnail.PackageCallbackError = (code) => {
+					FallBackToDefaultLexture();
+				};
+
 				loadThumbnail.Send ();
+			};
+
+			getAssetUrl.PackageCallbackError = (errorCode) => {
+
+				FallBackToDefaultLexture();
 			};
 
 			getAssetUrl.Send ();
 					
 				
+		}
+
+		private void FallBackToDefaultLexture() {
+			Texture2D texture = new Texture2D (32, 32);
+			OnThumbnailLoaded (texture);
 		}
 
 
@@ -261,7 +275,7 @@ namespace RF.AssetWizzard {
 			get {
 				if(_Thumbnail == null) {
 					if (string.IsNullOrEmpty (Id)) {
-						_Thumbnail = new Texture2D (2, 2);
+						_Thumbnail = new Texture2D (32, 32);
 					} else {
 						LoadThumbnail ();
 					}

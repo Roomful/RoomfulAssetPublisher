@@ -38,14 +38,36 @@ namespace RF.AssetWizzard.Editor {
 			if(valid) {
 				Selection.activeGameObject.transform.parent = prop.GetLayer(HierarchyLayers.StandSurface);
 			}
-				
 		}
+
+
+		[MenuItem("GameObject/Roomful/Mark As Thumbnail", false, 0)]
+		static void MarkAsThumbnail () {
+			//var prop = GameObject.FindObjectOfType<PropAsset> ();
+			bool valid = IsValidPropGameobject();
+
+			if(valid) {
+				Renderer r = Selection.activeGameObject.GetComponent<Renderer> ();
+				if(r ==  null) {
+					EditorUtility.DisplayDialog ("Error", "Object should have Renderer component", "Ok");
+					return;
+				}
+
+				if(Selection.activeGameObject.GetComponent<PropThumbnailPointer>() != null) {
+					EditorUtility.DisplayDialog ("Error", "PropThumbnailPointer", "Ok");
+					return;
+				}
+
+				Selection.activeGameObject.AddComponent<PropThumbnailPointer> ().Update();
+
+			}
+		}
+
 
 		[MenuItem("GameObject/Roomful/Ignore Object Bounds", false, 0)]
 		static void IgnoreObjectBounds () {
 
 			var prop = GameObject.FindObjectOfType<PropAsset> ();
-
 			bool valid = IsValidPropGameobject();
 			if(valid) {
 
@@ -60,14 +82,16 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		[MenuItem("GameObject/Roomful/Add Thumbnail", false, 0)]
+		[MenuItem("GameObject/Roomful/Add Thumbnail Component", false, 0)]
 		static void SetAsThumbnail () {
 			GameObject Thumbnail = new GameObject ("Thumbnail");
 			Thumbnail.AddComponent<PropThumbnail>();
 			Thumbnail.transform.localScale = Vector3.one * 1.5f;
 		}
 
-		[MenuItem("GameObject/Roomful/Add Title", false, 0)]
+
+
+		[MenuItem("GameObject/Roomful/Add Title Component", false, 0)]
 		static void SetAsTitle () {
 
 		}

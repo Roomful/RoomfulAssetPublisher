@@ -10,7 +10,7 @@ namespace RF.AssetWizzard {
 	[ExecuteInEditMode]
 	#endif
 
-	public class PropThumbnail : ExtendedBounds {
+	public class PropThumbnail : ExtendedBounds, PropComponent {
 
 
 		public int ImageIndex = 0;
@@ -39,14 +39,6 @@ namespace RF.AssetWizzard {
 				Border = b.gameObject;
 			}
 				
-			#if UNITY_EDITOR
-
-			/*UnityEditor.Selection.selectionChanged += () => {
-				if(this == null || gameObject == null) {return;}
-				CheckSelection();
-			};*/
-				
-			#endif
 		}
 
 
@@ -81,6 +73,8 @@ namespace RF.AssetWizzard {
 			DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
 			DestroyImmediate (Canvas.GetComponent<Renderer> ().sharedMaterial = null);
 			DestroyImmediate (this);
+
+			DestroyImmediate (Silhouette.gameObject);
 		}
 
 
@@ -88,12 +82,13 @@ namespace RF.AssetWizzard {
 			Transform hLayer = transform.Find (layer.ToString ());
 			if(hLayer == null) {
 				GameObject go = new GameObject (layer.ToString());
-				go.transform.parent = transform;
-				go.transform.localPosition = Vector3.zero;
-				go.transform.localRotation = Quaternion.identity;
-
 				hLayer = go.transform;
-			}
+			} 
+
+			hLayer.parent = transform;
+			hLayer.localPosition = Vector3.zero;
+			hLayer.localRotation = Quaternion.identity;
+			hLayer.localScale = Vector3.one;
 
 			return hLayer;
 		}
@@ -131,6 +126,22 @@ namespace RF.AssetWizzard {
 				}
 
 				return canvas;
+			}
+		}
+
+		public Transform Silhouette {
+			get {
+				Transform silhouette = Prop.GetLayer (HierarchyLayers.Silhouette).Find (gameObject.GetInstanceID ().ToString());
+				if(silhouette == null) {
+					silhouette = new GameObject (gameObject.GetInstanceID ().ToString()).transform;
+					silhouette.parent = Prop.GetLayer (HierarchyLayers.Silhouette);
+				}
+
+				silhouette.localPosition = transform.localPosition;
+				silhouette.localRotation = transform.localRotation;
+				silhouette.localScale = transform.localScale;
+
+				return silhouette;
 			}
 		}
 
@@ -381,10 +392,32 @@ namespace RF.AssetWizzard {
 				PutObjectAt (border_left, VertexX.Left, VertexY.Top, VertexX.Right, VertexY.Top);
 
 
+				GenerateSilhouette ();
+
+
 
 			} else {
+				Silhouette.Clear ();
 				DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
 			}
+		}
+
+
+		private void GenerateSilhouette() {
+			Silhouette.Clear ();
+			Transform GeneratedBorder = GetLayer (FrameLayers.GeneratedBorder);
+			GameObject borderSilhouette = Instantiate (GeneratedBorder.gameObject) as GameObject;
+			borderSilhouette.transform.parent = Silhouette;
+			borderSilhouette.Reset ();
+
+
+			GameObject canvasSilhouette = Instantiate (Canvas.gameObject) as GameObject;
+			canvasSilhouette.transform.parent = Silhouette;
+			canvasSilhouette.transform.Reset ();
+			canvasSilhouette.transform.Clear ();
+			canvasSilhouette.transform.localScale = Canvas.localScale;
+			canvasSilhouette.transform.localRotation = Canvas.localRotation;
+			canvasSilhouette.AddComponent<SilhouetteCustomMaterial> ();
 		}
 
 
