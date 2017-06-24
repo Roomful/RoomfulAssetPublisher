@@ -38,7 +38,11 @@ namespace RF.AssetWizzard {
 			if(b != null) {
 				Border = b.gameObject;
 			}
-				
+
+
+			#if UNITY_EDITOR
+			Update ();
+			#endif
 		}
 
 
@@ -72,9 +76,9 @@ namespace RF.AssetWizzard {
 
 			DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
 			DestroyImmediate (Canvas.GetComponent<Renderer> ().sharedMaterial = null);
-			DestroyImmediate (this);
-
 			DestroyImmediate (Silhouette.gameObject);
+
+			DestroyImmediate (this);
 		}
 
 
@@ -124,6 +128,13 @@ namespace RF.AssetWizzard {
 					canvas.GetComponent<Renderer> ().sharedMaterial = new Material (Shader.Find ("Unlit/Transparent"));
 
 				}
+
+				if(canvas.GetComponent<Renderer> ().sharedMaterial == null) {
+					canvas.GetComponent<Renderer> ().sharedMaterial = new Material (Shader.Find ("Unlit/Transparent"));
+				}
+
+				canvas.localRotation = Quaternion.Euler (0, 180, 0);
+				canvas.localPosition = Vector3.zero;
 
 				return canvas;
 			}
@@ -213,14 +224,6 @@ namespace RF.AssetWizzard {
 
 		private void CheckhHierarchy() {
 			transform.parent = Prop.GetLayer (HierarchyLayers.Thumbnails);
-
-
-			if(Canvas.GetComponent<Renderer> ().sharedMaterial == null) {
-				Canvas.GetComponent<Renderer> ().sharedMaterial = new Material (Shader.Find ("Unlit/Transparent"));
-			}
-
-			Canvas.localRotation = Quaternion.Euler (0, 180, 0);
-
 
 		
 			if(IsFixedRatio) {
@@ -397,7 +400,7 @@ namespace RF.AssetWizzard {
 
 
 			} else {
-				Silhouette.Clear ();
+				GenerateSilhouette ();
 				DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
 			}
 		}
@@ -405,10 +408,13 @@ namespace RF.AssetWizzard {
 
 		private void GenerateSilhouette() {
 			Silhouette.Clear ();
-			Transform GeneratedBorder = GetLayer (FrameLayers.GeneratedBorder);
-			GameObject borderSilhouette = Instantiate (GeneratedBorder.gameObject) as GameObject;
-			borderSilhouette.transform.parent = Silhouette;
-			borderSilhouette.Reset ();
+
+			if (Border != null && Corner != null) {
+				Transform GeneratedBorder = GetLayer (FrameLayers.GeneratedBorder);
+				GameObject borderSilhouette = Instantiate (GeneratedBorder.gameObject) as GameObject;
+				borderSilhouette.transform.parent = Silhouette;
+				borderSilhouette.Reset ();
+			}
 
 
 			GameObject canvasSilhouette = Instantiate (Canvas.gameObject) as GameObject;

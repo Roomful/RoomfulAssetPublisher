@@ -15,26 +15,11 @@ namespace RF.AssetWizzard.Editor {
 			GameObject clone =  Instantiate(prop.gameObject);
 
 			var p = clone.GetComponent<RF.AssetWizzard.PropAsset> ();
-			p.PrepareForUpload ();
 			DestroyImmediate (p);
 
-			PropThumbnail[] thumbnails =  clone.GetComponentsInChildren<PropThumbnail> ();
-			foreach(var t in thumbnails) {
-				t.PrepareForUpalod ();
-			}
-
-
-			PropThumbnailPointer[] thumbnailpointerss =  clone.GetComponentsInChildren<PropThumbnailPointer> ();
-			foreach(var t in thumbnailpointerss) {
-				t.PrepareForUpalod ();
-			}
-
 			CreatePrefabClone (prop.Template.Title, clone);
-
-
 			DestroyImmediate (clone);
 			AssetDatabase.SaveAssets ();
-
 		}
 
 
@@ -170,11 +155,14 @@ namespace RF.AssetWizzard.Editor {
 
 		private static AssetBundle CurrentAssetBundle = null;
 
-		public static void LoadAssetBundle(AssetTemplate prop) {
+		public static void LoadAssetBundle(AssetTemplate prop, bool saveSceneRequest = true) {
 			EditorApplication.delayCall = () => {
 
 
-				EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+				if(saveSceneRequest) {
+					EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+				}
+
 				EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
 
 				string pl = EditorUserBuildSettings.activeBuildTarget.ToString();
@@ -215,7 +203,7 @@ namespace RF.AssetWizzard.Editor {
 
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; 	}
 
-			prop.SynchTemplate ();
+			prop.PrepareForUpload ();
 			RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (prop.Template);
 
 			updateRequest.PackageCallbackText = (updateCalback) => {
@@ -229,7 +217,7 @@ namespace RF.AssetWizzard.Editor {
 
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; }
 
-			prop.SynchTemplate ();
+			prop.PrepareForUpload ();
 			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (prop.Template);
 			createMeta.PackageCallbackText = (callback) => { 
 				prop.Template.Id =  new AssetTemplate(callback).Id;
@@ -309,6 +297,8 @@ namespace RF.AssetWizzard.Editor {
 				
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
+
+//			return;
 
 
 
@@ -409,7 +399,9 @@ namespace RF.AssetWizzard.Editor {
 						});
 
 
+						AssetBundlesManager.LoadAssetBundle (prop.Template, false);
 						EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
+
 
 
 

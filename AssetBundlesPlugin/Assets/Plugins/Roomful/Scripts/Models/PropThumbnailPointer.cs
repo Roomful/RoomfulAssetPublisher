@@ -54,6 +54,8 @@ namespace RF.AssetWizzard {
 			pointer.transform.parent = transform;
 			pointer.transform.Reset ();
 			DestroyImmediate (Silhouette.gameObject);
+
+			DestroyImmediate (this);
 		}
 
 

@@ -86,6 +86,19 @@ namespace RF.AssetWizzard {
 		}
 
 		public void PrepareForUpload () {
+
+		
+			PropThumbnail[] thumbnails =  GetComponentsInChildren<PropThumbnail> ();
+			foreach(var t in thumbnails) {
+				t.PrepareForUpalod ();
+			}
+
+			PropThumbnailPointer[] thumbnailpointerss =  GetComponentsInChildren<PropThumbnailPointer> ();
+			foreach(var t in thumbnailpointerss) {
+				t.PrepareForUpalod ();
+			}
+				
+			SynchTemplate ();
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 		}
 

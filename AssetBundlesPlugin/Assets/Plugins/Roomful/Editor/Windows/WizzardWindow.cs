@@ -359,22 +359,34 @@ namespace RF.AssetWizzard.Editor {
 
 			GUILayout.FlexibleSpace ();
 
-			Rect buttonRect = new Rect (425, 360, 150, 18);
+			Rect buttonRect1 = new Rect (460, 360, 120, 18);
+			Rect buttonRect2 = new Rect (310, 360, 120, 18);
+
+			Rect buttonRect3 = new Rect (460, 390, 120, 18);
 
 			if (string.IsNullOrEmpty (CurrentProp.Template.Id)) {
-				bool upload = GUI.Button (buttonRect, "Upload");
+				bool upload = GUI.Button (buttonRect1, "Upload");
 				if (upload) {
-
-					//AssetBundlesManager.CheckAnimations (CurrentProp);
 					AssetBundlesManager.UploadAssets (CurrentProp);
 				}
 
 			} else {
-				bool upload = GUI.Button (buttonRect, "Re Upload");
+				bool upload = GUI.Button (buttonRect1, "Re Upload");
 				if (upload) {
 					AssetBundlesManager.ReUploadAsset (CurrentProp);
 				}
+
+				bool refresh = GUI.Button (buttonRect2, "Refresh");
+				if (refresh) {
+					AssetBundlesManager.LoadAssetBundle (CurrentProp.Template);
+				}
 			}
+
+			bool create = GUI.Button (buttonRect3, "Create New");
+			if (create) {
+				WindowManager.ShowCreateNewAsset ();
+			}
+
 
 			GUILayout.Space (40f);
 			GUILayout.EndHorizontal ();
@@ -498,8 +510,8 @@ namespace RF.AssetWizzard.Editor {
 				Texture2D refreshIcon = Resources.Load ("refresh") as Texture2D;
 				bool refresh = GUILayout.Button (refreshIcon, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 				if (refresh) {
-					/*	List<string> separatedTags = new List<string>(AssetBundlesSettings.Instance.SeartchPattern.Split(' '));
-					RequestManager.ReloadAssets (separatedTags);*/
+					AssetBundlesSettings.Instance.LocalAssetTemplates.Clear ();
+					RequestManager.SeartchAssets ();
 				}
 
 				bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
@@ -541,8 +553,7 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.Space ();
 
 				if(GUILayout.Button ("Load more", EditorStyles.miniButton, GUILayout.Width(60))) {
-					/*List<string> separatedTags = new List<string>(SearchField.Split(' '));
-					RequestManager.LoadMoreAssets (separatedTags);*/
+					RequestManager.SeartchAssets ();
 				}
 			}
 
@@ -682,7 +693,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 		}
-
+			
 
 		private void AssetInfoLable(string title, object msg) {
 			GUILayout.BeginHorizontal();
