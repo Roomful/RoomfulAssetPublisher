@@ -14,6 +14,7 @@ namespace RF.AssetWizzard {
 		private AssetTemplate _Template;
 		public float Scale = 1f;
 		public bool ShowBounds = true;
+		public bool ShowCenter = true;
 
 
 		public PropDisplayMode DisplayMode = PropDisplayMode.Normal;
@@ -52,12 +53,16 @@ namespace RF.AssetWizzard {
 
 
 		protected virtual void OnDrawGizmos () {
-			if (!ShowBounds) {
-				return;
+			if (ShowBounds) {
+				Gizmos.color = Color.blue;
+				DrawCube (_Size.center, transform.rotation, _Size.size);
 			}
 
-			Gizmos.color = Color.blue;
-			DrawCube (_Size.center, transform.rotation, _Size.size);
+			if(ShowCenter) {
+				Gizmos.color = Color.green;
+				Gizmos.DrawWireSphere (transform.position, 0.1f);
+			}
+
 		}
 
 		public static void DrawCube (Vector3 position, Quaternion rotation, Vector3 scale) {
@@ -69,6 +74,8 @@ namespace RF.AssetWizzard {
 			Gizmos.DrawWireCube (Vector3.zero, Vector3.one);
 
 			Gizmos.matrix = oldGizmosMatrix;
+
+
 		}
 
 		#endif

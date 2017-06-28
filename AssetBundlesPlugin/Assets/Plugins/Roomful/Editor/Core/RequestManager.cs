@@ -16,6 +16,12 @@ namespace RF.AssetWizzard.Editor {
 				allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (AssetBundlesSettings.Instance.LocalAssetTemplates.Count, 5, AssetBundlesSettings.Instance.SeartchPattern);
 			}
 
+
+			if(AssetBundlesSettings.Instance.SeartchType == SeartchRequestType.ById) {
+				allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (AssetBundlesSettings.Instance.LocalAssetTemplates.Count, 5, string.Empty);
+				allAssetsRequest.SetId (AssetBundlesSettings.Instance.SeartchPattern);
+			}
+
 			if(AssetBundlesSettings.Instance.SeartchType == SeartchRequestType.ByTag) {
 				List<string> separatedTags = new List<string>(AssetBundlesSettings.Instance.SeartchPattern.Split(','));
 				allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (AssetBundlesSettings.Instance.LocalAssetTemplates.Count, 5, separatedTags);

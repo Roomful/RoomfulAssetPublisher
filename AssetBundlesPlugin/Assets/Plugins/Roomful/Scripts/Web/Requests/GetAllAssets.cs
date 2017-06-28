@@ -7,6 +7,7 @@ namespace RF.AssetWizzard.Network.Request {
 
 		public const string PackUrl = "/api/v0/asset/list";
 		private string Title = string.Empty;
+		private string Id = string.Empty;
 		private List<string> Tags = new List<string>();
 		private int Offset = 0;
 		private int Size = 10;
@@ -28,6 +29,10 @@ namespace RF.AssetWizzard.Network.Request {
 			Title = title;
 		}
 
+		public void SetId(string id) {
+			Id = id;
+		}
+
 		public override Dictionary<string, object> GenerateData () {
 			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
 
@@ -38,6 +43,11 @@ namespace RF.AssetWizzard.Network.Request {
 			if(!Title.Equals(string.Empty)) {
 				OriginalJSON.Add ("title", Title);
 			}
+
+			if(!Id.Equals(string.Empty)) {
+				OriginalJSON.Add ("id", Id);
+			}
+
 
 			OriginalJSON.Add ("Offset", Offset);
 			OriginalJSON.Add ("size", Size);

@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace RF.AssetWizzard {
 	public enum SeartchRequestType {
-		ByTag = 0,
-		ByName = 1
+		ById = 0,
+		ByTag = 1,
+		ByName = 2
 	}
 }
 
