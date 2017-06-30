@@ -13,7 +13,7 @@ namespace RF.AssetWizzard {
 		public DateTime Updated = DateTime.MinValue;
 		public string Title = string.Empty;
 		public Placing Placing = Placing.Floor;
-		public InvokeTypes InvokeType = InvokeTypes.None;
+		public InvokeTypes InvokeType = InvokeTypes.Default;
 		public Resource Icon = null;
 		public float MinSize = 0.5f;
 		public float MaxSize = 3f;
