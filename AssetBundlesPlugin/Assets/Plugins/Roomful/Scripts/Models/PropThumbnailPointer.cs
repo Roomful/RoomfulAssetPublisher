@@ -53,12 +53,14 @@ namespace RF.AssetWizzard {
 			GameObject pointer = new GameObject (AssetBundlesSettings.THUMBNAIL_POINTER);
 			pointer.transform.parent = transform;
 			pointer.transform.Reset ();
-			DestroyImmediate (Silhouette.gameObject);
+			RemoveSilhouette ();
 
 			DestroyImmediate (this);
 		}
 
-
+		public void RemoveSilhouette() {
+			DestroyImmediate (Silhouette.gameObject);
+		}
 	
 
 	

@@ -87,25 +87,26 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 		public void SynchTemplate () {
-			Scale = 1f;
-			DisplayMode = PropDisplayMode.Normal;
-			Template.Silhouette = SilhouetteMeshData;
+			
 		}
 
 		public void PrepareForUpload () {
 
-		
-			PropThumbnail[] thumbnails =  GetComponentsInChildren<PropThumbnail> ();
-			foreach(var t in thumbnails) {
-				t.PrepareForUpalod ();
+			PropComponent[] components = GetComponentsInChildren<PropComponent> ();
+			foreach(var c in components) {
+				c.RemoveSilhouette ();
 			}
 
-			PropThumbnailPointer[] thumbnailpointerss =  GetComponentsInChildren<PropThumbnailPointer> ();
-			foreach(var t in thumbnailpointerss) {
-				t.PrepareForUpalod ();
+			Scale = 1f;
+			Template.Silhouette = SilhouetteMeshData;
+
+
+			foreach(var c in components) {
+				c.PrepareForUpalod ();
 			}
-				
-			SynchTemplate ();
+
+
+			DisplayMode = PropDisplayMode.Normal;
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 		}
 
@@ -251,33 +252,6 @@ namespace RF.AssetWizzard {
 				transform.position = storedPos;
 
 				return silhouette;
-
-/*
-				Vector3 storedPos = transform.position;
-				transform.position = Vector3.zero;
-
-
-				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (true);
-
-
-				MeshFilter[] meshFilters = GetLayer (HierarchyLayers.Silhouette).GetComponentsInChildren<MeshFilter> ();
-				CombineInstance[] combine = new CombineInstance[meshFilters.Length];
-				int i = 0;
-				while (i < meshFilters.Length) {
-					combine [i].mesh = meshFilters [i].sharedMesh;
-					combine [i].transform = meshFilters [i].transform.localToWorldMatrix;
-					i++;
-				}
-
-				Mesh m = new Mesh ();
-				m.CombineMeshes (combine);
-				byte[] array = MeshSerializer.WriteMesh (m);
-
-
-				GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
-				transform.position = storedPos;
-			
-				return System.Convert.ToBase64String (array);*/
 			}
 
 		}

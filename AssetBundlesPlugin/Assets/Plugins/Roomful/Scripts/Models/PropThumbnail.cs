@@ -76,9 +76,13 @@ namespace RF.AssetWizzard {
 
 			DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
 			DestroyImmediate (Canvas.GetComponent<Renderer> ().sharedMaterial = null);
-			DestroyImmediate (Silhouette.gameObject);
-
+		
+			RemoveSilhouette ();
 			DestroyImmediate (this);
+		}
+
+		public void RemoveSilhouette() {
+			DestroyImmediate (Silhouette.gameObject);
 		}
 
 

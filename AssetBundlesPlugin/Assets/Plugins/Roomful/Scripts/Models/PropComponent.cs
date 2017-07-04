@@ -9,6 +9,7 @@ namespace RF.AssetWizzard {
 	public interface PropComponent  {
 
 		void PrepareForUpalod();
+		void RemoveSilhouette();
 	}
 
 }
