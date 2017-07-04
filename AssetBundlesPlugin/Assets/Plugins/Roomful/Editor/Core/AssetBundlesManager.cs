@@ -118,10 +118,10 @@ namespace RF.AssetWizzard.Editor {
 
 
 		private static void CleanAssetBundleName(string assetName) {
-			string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + assetName+ ".prefab";
+			/*string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + assetName+ ".prefab";
 
 			AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
-			assetImporter.assetBundleName = string.Empty;
+			assetImporter.assetBundleName = string.Empty;*/
 
 			AssetDatabase.RemoveUnusedAssetBundleNames ();
 		}
@@ -228,7 +228,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		public static void SavePrefab(PropAsset prop) {
-			string path = AssetBundlesSettings.FULL_ASSETS_LOCATION + prop.Template.Title + ".prefab";
+			/*string path = AssetBundlesSettings.FULL_ASSETS_LOCATION + prop.Template.Title + ".prefab";
 			Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
 			if(prafabObject ==  null) {
 
@@ -237,7 +237,7 @@ namespace RF.AssetWizzard.Editor {
 
 			} else {
 				PrefabUtility.ReplacePrefab(prop.gameObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
-			}
+			}*/
 		}
 
 		public static void CheckAnimations(PropAsset prop) {

@@ -1,6 +1,6 @@
 ﻿namespace RF.AssetWizzard {
 	public enum InvokeTypes {
-		Default = 0,
+		Default = 1,
 		Executable = 2,
 		FileCabinet = 3,
 		Bookshelf = 4,
