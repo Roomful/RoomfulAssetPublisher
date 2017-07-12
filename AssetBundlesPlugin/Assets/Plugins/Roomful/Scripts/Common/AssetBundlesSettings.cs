@@ -48,6 +48,12 @@ namespace RF.AssetWizzard {
 		public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
 
 
+		public bool ShowWebInLogs = true;
+		public bool ShowWebOutLogs = false;
+
+
+		public string LastBundlePath = string.Empty;
+
 
 		#if UNITY_EDITOR
 		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();

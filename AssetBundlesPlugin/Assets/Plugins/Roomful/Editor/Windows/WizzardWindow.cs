@@ -446,6 +446,13 @@ namespace RF.AssetWizzard.Editor {
 				BuildTarget parsed = SA.Common.Util.General.ParseEnum<BuildTarget> (val);
 				AssetBundlesSettings.Instance.TargetPlatforms.Add (parsed);
 			}
+
+
+			ReorderableListGUI.Title("Plugin Settings");
+			GUILayout.Space(10f);
+			AssetBundlesSettings.Instance.ShowWebInLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB IN Logs", AssetBundlesSettings.Instance.ShowWebInLogs);
+			AssetBundlesSettings.Instance.ShowWebOutLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB OUT Logs", AssetBundlesSettings.Instance.ShowWebOutLogs);
+
 		}
 
 		public string PlatformListItem(Rect position, string itemValue) {

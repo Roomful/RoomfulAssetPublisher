@@ -86,11 +86,9 @@ namespace RF.AssetWizzard {
 		// Public Methods
 		//--------------------------------------
 
-		public void SynchTemplate () {
-			
-		}
 
 		public void PrepareForUpload () {
+
 
 			PropComponent[] components = GetComponentsInChildren<PropComponent> ();
 			foreach(var c in components) {
@@ -100,6 +98,10 @@ namespace RF.AssetWizzard {
 			Scale = 1f;
 			Template.Silhouette = SilhouetteMeshData;
 
+			if(GetLayer (HierarchyLayers.StandSurface).childCount != 0) {
+				Template.CanStack = false;
+			}
+				
 
 			foreach(var c in components) {
 				c.PrepareForUpalod ();

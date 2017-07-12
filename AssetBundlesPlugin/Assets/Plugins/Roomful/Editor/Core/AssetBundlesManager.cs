@@ -66,7 +66,6 @@ namespace RF.AssetWizzard.Editor {
 			if (i < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
 				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [i];
 
-				//BuildAssetBundleFor(tpl.Title, pl);
 
 				string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + "temp/" + tpl.Title + ".prefab";
 				string assetBundleName = tpl.Title + "_" + pl;
@@ -79,6 +78,10 @@ namespace RF.AssetWizzard.Editor {
 				FolderUtils.CreateFolder (AssetBundlesSettings.AssetBundlesPath);
 				BuildPipeline.BuildAssetBundles (AssetBundlesSettings.AssetBundlesPathFull, BuildAssetBundleOptions.UncompressedAssetBundle, pl);
 				AssetDatabase.Refresh ();
+
+
+				Debug.Log (CurrentAssetBundle);
+
 
 				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (tpl.Id, pl.ToString(), tpl.Title);
 
@@ -226,20 +229,7 @@ namespace RF.AssetWizzard.Editor {
 
 			createMeta.Send ();
 		}
-
-		public static void SavePrefab(PropAsset prop) {
-			/*string path = AssetBundlesSettings.FULL_ASSETS_LOCATION + prop.Template.Title + ".prefab";
-			Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-			if(prafabObject ==  null) {
-
-				GameObject newPrfab = PrefabUtility.CreatePrefab (path, prop.gameObject);
-				PrefabUtility.ConnectGameObjectToPrefab (prop.gameObject, newPrfab);
-
-			} else {
-				PrefabUtility.ReplacePrefab(prop.gameObject, prafabObject, ReplacePrefabOptions.ConnectToPrefab | ReplacePrefabOptions.ReplaceNameBased);
-			}*/
-		}
-
+			
 		public static void CheckAnimations(PropAsset prop) {
 			Animator[] anims = prop.GetComponentsInChildren<Animator> ();
 			Animator mainAnimator = null;
@@ -325,10 +315,7 @@ namespace RF.AssetWizzard.Editor {
 			foreach(Transform t in pointers) {
 				DestroyImmediate (t);
 			}
-
-	
-			SavePrefab (asset);
-	
+				
 			WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
 
 		}
@@ -380,9 +367,6 @@ namespace RF.AssetWizzard.Editor {
 
 						prop.Template.Icon = res;
 						AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
-
-
-						SavePrefab(prop);
 
 						AssetBundlesManager.Clone(prop);
 						int counter = 0;

@@ -88,8 +88,9 @@ namespace RF.AssetWizzard.Network {
 				}
 			}
 
-
-			Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
+			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
+				Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
+			}
 
 			www.Send ();
 
@@ -98,18 +99,24 @@ namespace RF.AssetWizzard.Network {
 			}
 
 			if(www.isError) {
-				Debug.Log(www.error);
+				Debug.LogError(www.error);
 			} else {
 				if (www.responseCode == 200) {
 
 					string logStrning = CleanUpInput (www.downloadHandler.text);
-					Debug.Log ("WEB::IN::" + logStrning);
+
+					if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+						Debug.Log ("WEB::IN::" + logStrning);
+					}
 
 					package.PackageCallbackText (www.downloadHandler.text);
 					package.PackageCallbackData(www.downloadHandler.data);
 				} else {
 					package.PackageCallbackError (www.responseCode);
-					Debug.Log("Response code: "+www.responseCode+", message: "+www.downloadHandler.text);
+					if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+						Debug.Log("Response code: "+www.responseCode+", message: "+www.downloadHandler.text);
+					}
+
 				}
 			}
 		}
