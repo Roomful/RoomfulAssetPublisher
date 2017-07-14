@@ -315,6 +315,8 @@ namespace RF.AssetWizzard.Editor {
 			foreach(Transform t in pointers) {
 				DestroyImmediate (t);
 			}
+
+			AssetBundleContentCloner.Clone (asset);
 				
 			WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
 

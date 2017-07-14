@@ -13,15 +13,11 @@ namespace RF.AssetWizzard {
 	[InitializeOnLoad]
 	#endif
 	public class AssetBundlesSettings : ScriptableObject {
-
-
+		
 		public static string WEB_SERVER_URL = "https://demo.roomful.co:3443"; 
 	
-
-
 		public const string ASSETS_LOCATION = "Roomful/Assets/";
 		public const string FULL_ASSETS_LOCATION = "Assets/" + ASSETS_LOCATION;
-
 
 		public const string PLUGIN_LOCATION = "Assets/Plugins/Roomful/";
 		public const string PLUGIN_PREFABS_LOCATION = PLUGIN_LOCATION + "Prefabs/";
@@ -41,19 +37,15 @@ namespace RF.AssetWizzard {
 
 		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
 
-
 		public const float MAX_AlLOWED_SIZE = 4f;
 		public const float MIN_ALLOWED_SIZE = 0.3f;
 
 		public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
 
-
 		public bool ShowWebInLogs = true;
 		public bool ShowWebOutLogs = false;
 
-
 		public string LastBundlePath = string.Empty;
-
 
 		#if UNITY_EDITOR
 		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();

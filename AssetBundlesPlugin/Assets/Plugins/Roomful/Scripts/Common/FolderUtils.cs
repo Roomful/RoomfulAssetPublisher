@@ -15,9 +15,18 @@ namespace RF.AssetWizzard {
 
 
 		//--------------------------------------
-		// Fiels
+		// Files
 		//--------------------------------------
 		#if UNITY_EDITOR
+
+		public static void CreateAssetComponentsFolder(string folderPath) {
+
+			CreateFolder (folderPath);
+			CreateFolder (folderPath+"/Materials");
+			CreateFolder (folderPath+"/Meshes");
+			CreateFolder (folderPath+"/Textures");
+		}
+
 		public static bool IsFolderExists(string folderPath) {
 			if (folderPath.Equals (string.Empty)) {
 				return false;
