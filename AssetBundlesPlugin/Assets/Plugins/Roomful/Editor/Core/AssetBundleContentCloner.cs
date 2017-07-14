@@ -34,19 +34,21 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static Material RecreateMaterial(Material mat) {
-			string path = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Materials/" + mat.name + ".mat";
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Materials/" + mat.name + ".mat";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Materials/" + mat.name + ".mat";
 
 			if (!FolderUtils.IsFileExists(path)) {
 				Material newMat = new Material (mat);
 
-				SaveMaterialToFolder (newMat, path);
+				SaveMaterialToFolder (newMat, fullPath);
 			}
 
-			return LoadMaterialFromFolder(path);
+			return LoadMaterialFromFolder(fullPath);
 		}
 
 		private static Texture2D RecreateTexture(Texture tex) {
-			string path = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
 
 			if (!FolderUtils.IsFileExists(path)) {
 				RenderTexture tmp = RenderTexture.GetTemporary(tex.width, tex.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
@@ -62,14 +64,15 @@ namespace RF.AssetWizzard.Editor {
 				RenderTexture.active = previous;
 				RenderTexture.ReleaseTemporary(tmp);
 
-				SaveTextureToFolder (myTexture2D, path);
+				SaveTextureToFolder (myTexture2D, fullPath);
 			}
 
-			return LoadTextureFromFolder(path);
+			return LoadTextureFromFolder(fullPath);
 		}
 
 		private static Mesh RecreateMesh(Mesh mesh) {
-			string path = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Meshes/" + mesh.name + ".asset";
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Meshes/" + mesh.name + ".asset";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Meshes/" + mesh.name + ".asset";
 
 			if (!FolderUtils.IsFileExists (path)) {
 				Mesh newmesh = new Mesh();
@@ -80,10 +83,10 @@ namespace RF.AssetWizzard.Editor {
 				newmesh.colors = mesh.colors;
 				newmesh.tangents = mesh.tangents;
 
-				SaveMeshToFolder (newmesh, path);
+				SaveMeshToFolder (newmesh, fullPath);
 			}
 
-			return LoadMeshFromFolder(path);
+			return LoadMeshFromFolder(fullPath);
 		}
 
 		private static void ValidateBundleFolder() {
