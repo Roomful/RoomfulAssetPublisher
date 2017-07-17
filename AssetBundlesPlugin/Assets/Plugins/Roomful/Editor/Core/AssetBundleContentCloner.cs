@@ -34,8 +34,10 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static Material RecreateMaterial(Material mat) {
-			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Materials/" + mat.name + ".mat";
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Materials/" + mat.name + ".mat";
+			string cleanedName = mat.name.Replace("/", "");
+
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Materials/" + cleanedName + ".mat";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Materials/" + cleanedName + ".mat";
 
 			if (!FolderUtils.IsFileExists(path)) {
 				Material newMat = new Material (mat);
