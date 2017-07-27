@@ -113,9 +113,15 @@ namespace RF.AssetWizzard {
 			}
 		}
 
+		public void SetThumbnail(Texture2D newTex) {
+			Thumbnail = newTex;
+			Canvas.GetComponent<Renderer>().sharedMaterial =  new Material (Shader.Find ("Unlit/Transparent")); 
+			Canvas.GetComponent<Renderer> ().sharedMaterial.mainTexture = Thumbnail;
+		}
+
 
 		//--------------------------------------
-		// Public Methods
+		// Get / Set
 		//--------------------------------------
 
 
