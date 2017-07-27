@@ -254,7 +254,13 @@ namespace RF.AssetWizzard.Editor {
 					CurrentProp.Template.InvokeType = (InvokeTypes) EditorGUILayout.EnumPopup(CurrentProp.Template.InvokeType, GUILayout.Width (240));
 					GUILayout.EndHorizontal ();
 
+					if(CurrentProp.HasStandSurface) {
+						CurrentProp.Template.CanStack = false;
+						GUI.enabled = false;
+					}
+						
 					CurrentProp.Template.CanStack = YesNoFiled ("CanStack", CurrentProp.Template.CanStack, 100, 240);
+					GUI.enabled = true;
 
 				} GUILayout.EndVertical();
 

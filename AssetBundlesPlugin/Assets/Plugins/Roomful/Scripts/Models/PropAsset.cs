@@ -98,7 +98,8 @@ namespace RF.AssetWizzard {
 			Scale = 1f;
 			Template.Silhouette = SilhouetteMeshData;
 
-			if(GetLayer (HierarchyLayers.StandSurface).childCount != 0) {
+
+			if(HasStandSurface) {
 				Template.CanStack = false;
 			}
 				
@@ -239,6 +240,15 @@ namespace RF.AssetWizzard {
 		}
 
 
+		public bool HasStandSurface {
+			get {
+				if(GetLayer (HierarchyLayers.StandSurface).childCount != 0) {
+					return true;
+				}
+
+				return false;
+			}
+		}
 
 
 
