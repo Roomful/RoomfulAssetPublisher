@@ -13,13 +13,17 @@ namespace RF.AssetWizzard.Editor {
 
 			ValidateBundleFolder ();
 
-			foreach (MeshRenderer mr in prop.GetComponentsInChildren<MeshRenderer>()) {
+			foreach (MeshRenderer mr in prop.GetComponentsInChildren<MeshRenderer>(true)) {
 				List<Material> propMaterials = new List<Material> ();
 
 				foreach (Material mat in mr.sharedMaterials) {
 					Material newMat = RecreateMaterial (mat);
 
-					newMat.mainTexture = RecreateTexture (mat.mainTexture);
+					if (mat.mainTexture == null) {
+						Debug.Log (mr.gameObject.name, mr.gameObject);
+					} else {
+						newMat.mainTexture = RecreateTexture (mat.mainTexture);
+					}
 
 					propMaterials.Add (newMat);
 				}
@@ -34,10 +38,10 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static Material RecreateMaterial(Material mat) {
-			string cleanedName = mat.name.Replace("/", "");
+			string cleanedMatName = mat.name.Replace("/", "");
 
-			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Materials/" + cleanedName + ".mat";
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Materials/" + cleanedName + ".mat";
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Materials/" + cleanedMatName + ".mat";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Materials/" + cleanedMatName + ".mat";
 
 			if (!FolderUtils.IsFileExists(path)) {
 				Material newMat = new Material (mat);
