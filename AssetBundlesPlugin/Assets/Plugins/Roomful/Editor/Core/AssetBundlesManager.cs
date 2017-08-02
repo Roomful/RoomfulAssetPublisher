@@ -45,18 +45,24 @@ namespace RF.AssetWizzard.Editor {
 
 		public static bool ValidateAsset(RF.AssetWizzard.PropAsset asset) {
 			
-			/*	if (asset.Template.Thumbnail == null) {
-				EditorUtility.DisplayDialog ("Error", "Set Asset thumbnail!", "Ok");
-				return false;
-			}*/
 
+			float max = Mathf.Max (asset.Size.x, asset.Size.y, asset.Size.z);
+			if(max < AssetBundlesSettings.MIN_ALLOWED_SIZE) {
+				EditorUtility.DisplayDialog ("Error", "Your Asset is too small", "Ok");
+				return false;
+			}
+
+			if(max > AssetBundlesSettings.MAX_AlLOWED_SIZE) {
+				EditorUtility.DisplayDialog ("Error", "Your Asset is too big", "Ok");
+				return false;
+			}
+	
 			if (asset.Model.childCount < 1) {
 				EditorUtility.DisplayDialog ("Error", "Asset is empty!", "Ok");
 				return false;
 			}
 
 			return true;
-				
 		}
 
 
