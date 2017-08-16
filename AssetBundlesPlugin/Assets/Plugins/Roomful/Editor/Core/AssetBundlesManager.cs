@@ -177,12 +177,10 @@ namespace RF.AssetWizzard.Editor {
 				string pl = EditorUserBuildSettings.activeBuildTarget.ToString();
 
 				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id, pl);
-
-				getAssetUrl.PackageCallbackText = (assetUrl) => {
-					Network.Request.DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset (assetUrl);
-
-					loadAsset.PackageCallbackData = (loadCallback) => {
-						string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
+                getAssetUrl.PackageCallbackText = (assetUrl) => {
+                    Network.Request.DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset (assetUrl);
+                    loadAsset.PackageCallbackData = (loadCallback) => {
+                        string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 

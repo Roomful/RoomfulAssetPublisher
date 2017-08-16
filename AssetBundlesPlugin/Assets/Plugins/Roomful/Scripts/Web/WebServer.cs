@@ -92,18 +92,21 @@ namespace RF.AssetWizzard.Network {
 				Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
 			}
 
-			www.Send ();
+            string cleanedUrl = www.url.Replace(" ", "%20");
+            www.url = cleanedUrl;
+           
+            www.Send ();
 
 			while (www.responseCode == -1) {
 				//do nothing while blocking
 			}
-
+            
 			if(www.isError) {
 				Debug.LogError(www.error);
 			} else {
 				if (www.responseCode == 200) {
 
-					string logStrning = CleanUpInput (www.downloadHandler.text);
+                    string logStrning = CleanUpInput (www.downloadHandler.text);
 
 					if (AssetBundlesSettings.Instance.ShowWebInLogs) {
 						Debug.Log ("WEB::IN::" + logStrning);
@@ -113,11 +116,11 @@ namespace RF.AssetWizzard.Network {
 					package.PackageCallbackData(www.downloadHandler.data);
 				} else {
 					package.PackageCallbackError (www.responseCode);
-					if (AssetBundlesSettings.Instance.ShowWebInLogs) {
-						Debug.Log("Response code: "+www.responseCode+", message: "+www.downloadHandler.text);
-					}
 
-				}
+					if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+						Debug.Log("Response code: "+www.responseCode+", message: " +www.downloadHandler.text);
+                    }
+                }
 			}
 		}
 
