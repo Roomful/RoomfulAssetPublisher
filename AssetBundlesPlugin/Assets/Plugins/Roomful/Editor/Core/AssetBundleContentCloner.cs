@@ -15,24 +15,36 @@ namespace RF.AssetWizzard.Editor {
 
 			foreach (MeshRenderer mr in prop.GetComponentsInChildren<MeshRenderer>(true)) {
 				List<Material> propMaterials = new List<Material> ();
-
-				foreach (Material mat in mr.sharedMaterials) {
+                string[] textureNames = new string[] { "_MainTex", "_BumpMap", "_MetallicGlossMap" };
+                
+                foreach (Material mat in mr.sharedMaterials) {
 					Material newMat = RecreateMaterial (mat);
+                    foreach (string texName in textureNames) {
+                        Texture texture = mat.GetTexture(texName);
+                        Debug.Log(texName + " " + (texture != null));
+                        if (texture != null) {
+                            texture = RecreateTexture(texture);
 
-					if (mat.mainTexture == null) {
+                            newMat.SetTexture(texName, texture);
+                        }
+                    }
+                /*    if (mat.mainTexture == null) {
 						Debug.Log (mr.gameObject.name, mr.gameObject);
 					} else {
 						newMat.mainTexture = RecreateTexture (mat.mainTexture);
-					}
+                    
+					}*/
 
 					propMaterials.Add (newMat);
 				}
 
 				mr.sharedMaterials = propMaterials.ToArray();
-
-				Mesh newMesh = RecreateMesh (mr.GetComponent<MeshFilter>().sharedMesh);
-				mr.GetComponent<MeshFilter> ().sharedMesh = newMesh;
-			}
+                Mesh mesh = mr.GetComponent<MeshFilter>().sharedMesh;
+                if (mesh != null) {
+                    Mesh newMesh = RecreateMesh(mesh);
+                    mr.GetComponent<MeshFilter>().sharedMesh = newMesh;
+                }
+            }
 
 			clonedProp = null;
 		}

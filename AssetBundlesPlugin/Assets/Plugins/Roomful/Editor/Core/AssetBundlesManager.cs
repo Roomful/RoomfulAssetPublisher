@@ -356,8 +356,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 		private static void UploadAssetBundle(PropAsset prop) {
-
-			var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail (prop.Template.Id);
+            var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail (prop.Template.Id);
 			getIconUploadLink.PackageCallbackText = (linkCallback) => {
 
 				var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, prop.Icon);
