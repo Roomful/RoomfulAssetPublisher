@@ -13,28 +13,66 @@ namespace RF.AssetWizzard.Editor {
 
 			ValidateBundleFolder ();
 
-			foreach (MeshRenderer mr in prop.GetComponentsInChildren<MeshRenderer>(true)) {
+            foreach (Renderer renderer in prop.GetComponentsInChildren<Renderer>()) {
+                List<Material> propMaterials = new List<Material>();
+                string[] textureNames = new string[] { "_MainTex", "_BumpMap", "_MetallicGlossMap" };
+
+                foreach (Material mat in renderer.sharedMaterials) {
+                    if(mat == null) {
+                        continue;
+                    }
+                
+                    Material newMat = RecreateMaterial(mat);
+                    foreach (string texName in textureNames) {
+                        if (!mat.HasProperty(texName)) {
+                            continue;
+                        }
+
+                        Texture texture = mat.GetTexture(texName);
+                        if (texture != null) {
+                            texture = RecreateTexture(texture);
+                            newMat.SetTexture(texName, texture);
+                        }
+                    }
+                    propMaterials.Add(newMat);
+                }
+
+                renderer.sharedMaterials = propMaterials.ToArray();
+            }
+
+
+            foreach (MeshFilter meshFilter in prop.GetComponentsInChildren<MeshFilter>()) {
+                Mesh mesh = meshFilter.GetComponent<MeshFilter>().sharedMesh;
+
+                if (mesh != null) {
+                    Mesh newMesh = RecreateMesh(mesh);
+                    meshFilter.GetComponent<MeshFilter>().sharedMesh = newMesh;
+                }
+            }
+
+
+            /*
+
+                foreach (MeshRenderer mr in prop.GetComponentsInChildren<MeshRenderer>(true)) {
 				List<Material> propMaterials = new List<Material> ();
                 string[] textureNames = new string[] { "_MainTex", "_BumpMap", "_MetallicGlossMap" };
                 
                 foreach (Material mat in mr.sharedMaterials) {
 					Material newMat = RecreateMaterial (mat);
                     foreach (string texName in textureNames) {
+
+
+                        if(!mat.HasProperty(texName)) {
+                            continue;
+                        }
+    
                         Texture texture = mat.GetTexture(texName);
-                        Debug.Log(texName + " " + (texture != null));
                         if (texture != null) {
                             texture = RecreateTexture(texture);
-
                             newMat.SetTexture(texName, texture);
                         }
                     }
-                /*    if (mat.mainTexture == null) {
-						Debug.Log (mr.gameObject.name, mr.gameObject);
-					} else {
-						newMat.mainTexture = RecreateTexture (mat.mainTexture);
-                    
-					}*/
-
+    
 					propMaterials.Add (newMat);
 				}
 
@@ -44,7 +82,7 @@ namespace RF.AssetWizzard.Editor {
                     Mesh newMesh = RecreateMesh(mesh);
                     mr.GetComponent<MeshFilter>().sharedMesh = newMesh;
                 }
-            }
+            }*/
 
 			clonedProp = null;
 		}
