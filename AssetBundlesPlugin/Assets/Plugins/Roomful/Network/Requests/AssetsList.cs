@@ -9,7 +9,7 @@ namespace RF.AssetWizzard.Network
 
   
 
-    public class AssetsList : BaseRoomfulRequest {
+	public class AssetsList : BaseRoomfulRequest<AssetsListsCallback> {
 
         [Param]
         private string Id;

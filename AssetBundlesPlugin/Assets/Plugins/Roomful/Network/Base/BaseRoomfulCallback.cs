@@ -10,9 +10,9 @@ using Moon.Network.Web;
 namespace RF.AssetWizzard.Network 
 {
 
-	public class BaseRoomfulRequestCallback : RequestCallback {
+	public class BaseRoomfulCallback : RequestCallback {
 
-        public BaseRoomfulRequestCallback() {
+        public BaseRoomfulCallback() {
             SetDataWriter(new JSONDataWriter());
         }
 

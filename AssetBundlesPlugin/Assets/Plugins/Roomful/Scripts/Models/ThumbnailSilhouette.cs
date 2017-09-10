@@ -18,7 +18,7 @@ namespace RF.AssetWizzard {
 		public int RatioY = 1;
 
 
-		public IThumbnail(PropThumbnail thumbnail) {
+		public ThumbnailSilhouette(PropThumbnail thumbnail) {
 
 			if(thumbnail.Border != null && thumbnail.Corner != null) {
 				BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Border);

@@ -8,7 +8,7 @@ using Moon.Network.Web;
 namespace RF.AssetWizzard.Network 
 {
 	
-	public abstract class BaseRoomfulRequest :  Request<BaseRoomfulRequestCallback> {
+	public abstract class BaseRoomfulRequest<T> :  Request<T>  where T : IRequestCallback, new(){
 
 
 		public BaseRoomfulRequest(string path) {

@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Reflection;
 
 namespace Moon.Network.Web
 {
@@ -31,14 +33,94 @@ namespace Moon.Network.Web
             }
         }
 
+
+		public static void Parse(object data, ref object holder) {
+
+			if(data is  Dictionary<string, object> ) {
+				Parse ((Dictionary<string, object>) data, ref holder);
+			}
+		}
+
         public static void Parse(Dictionary<string, object> data, ref object holder) {
             Debug.Log("I have to parse valid data");
 
             foreach(var pair in data) {
-                Debug.Log(pair.Key);
-                Debug.Log(pair.Value.GetType());
+                
+                
+				FieldInfo field = GetFiledByName (pair.Key, ref holder);
+				if(field != null) {
+
+					Debug.Log(pair.Key);
+				//	filed.SetValue(holder,   System.Convert.ChangeType(pair.Value, filed.FieldType));
+
+					Type filedType = field.FieldType;
+					field.SetValue(holder,  GetValue(pair.Value, filedType));
+
+				}
+			
+
             }
+
         }
+
+
+		//coudl be pverrided should not be static
+		public static object GetValue(object filedValue, Type type) {
+
+			object value = GetDefaultValue (type);
+
+			if(type == typeof(DateTime)) {
+
+				string dateString = Convert.ToString(filedValue);
+				DateTime date;
+
+				bool parsed = SA.Common.Util.General.TryParseRfc3339(dateString, out date);
+				if(!parsed) {
+					Debug.LogWarning("Date Parsing failed: " + dateString);
+				}
+
+				value = System.Convert.ChangeType (date, type);
+
+			} else {
+				value = System.Convert.ChangeType (filedValue, type);
+			}
+
+			return value;
+		}
+
+		private static object GetDefaultValue(Type t)
+		{
+			if (t.IsValueType)
+				return Activator.CreateInstance(t);
+
+			return null;
+		}
+
+
+
+
+
+		public static FieldInfo GetFiledByName(string filedName, ref object holder) {
+
+			FieldInfo[] fields = holder.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+			foreach (FieldInfo field in fields) {
+				object[] attrs = field.GetCustomAttributes(true);
+				foreach (object attr in attrs) {
+
+					if (attr is ParamAttribute) {
+						string name = (attr as ParamAttribute).Name;
+						if (string.IsNullOrEmpty(name)) {
+							name = field.Name;
+						}
+						if(name.Equals(filedName)) {
+							return field;
+						}
+					}
+				}
+			}
+
+			return null;
+		}
 
     }
 }

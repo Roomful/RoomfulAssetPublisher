@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Moon.Network.Web;
+
 namespace RF.AssetWizzard {
 	
 	[Serializable]
 	public class AssetTemplate {
-		
-		public string Id = string.Empty;
-		public DateTime Created = DateTime.MinValue;
+
+		[Param("id")] public string Id = string.Empty;
+		[Param("created")] public DateTime Created = DateTime.MinValue;
+
+
 		public DateTime Updated = DateTime.MinValue;
 		public string Title = string.Empty;
 		public Placing Placing = Placing.Floor;
@@ -25,7 +29,6 @@ namespace RF.AssetWizzard {
 
 
 		public Vector3 Size =  Vector3.one;
-
 
 		public AssetTemplate() {
 			//Debug.Log("new res created")
