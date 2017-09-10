@@ -89,7 +89,7 @@ namespace RF.AssetWizzard.Network {
 			}
 
 			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
-				Debug.Log ("WEB::OUT::" + www.url + " | " + package.GeneratedDataText);
+				Debug.Log ("WEB::OUT::" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText);
 			}
 
             string cleanedUrl = www.url.Replace(" ", "%20");

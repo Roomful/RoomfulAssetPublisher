@@ -10,7 +10,7 @@ namespace RF.AssetWizzard {
 	[ExecuteInEditMode]
 	#endif
 
-	public class PropThumbnail : ExtendedBounds, PropComponent {
+	public class PropThumbnail : ExtendedBounds, IPropComponent {
 
 
 		public int ImageIndex = 0;

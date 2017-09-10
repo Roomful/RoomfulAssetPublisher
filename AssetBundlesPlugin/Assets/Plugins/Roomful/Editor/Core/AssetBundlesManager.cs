@@ -311,7 +311,7 @@ namespace RF.AssetWizzard.Editor {
 			List<Transform> pointers = new List<Transform> ();
 			foreach (Transform t in asset.transform) {
 				if(t.name.Equals(AssetBundlesSettings.THUMBNAIL_POINTER)) {
-					t.parent.gameObject.AddComponent<PropThumbnailPointer> ().Update();
+					t.parent.gameObject.AddComponent<PropMeshThumbnail> ().Update();
 					pointers.Add (t);
 				}
 			}

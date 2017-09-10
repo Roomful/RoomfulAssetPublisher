@@ -53,12 +53,12 @@ namespace RF.AssetWizzard.Editor {
 					return;
 				}
 
-				if(Selection.activeGameObject.GetComponent<PropThumbnailPointer>() != null) {
+				if(Selection.activeGameObject.GetComponent<PropMeshThumbnail>() != null) {
 					EditorUtility.DisplayDialog ("Error", "PropThumbnailPointer", "Ok");
 					return;
 				}
 
-				Selection.activeGameObject.AddComponent<PropThumbnailPointer> ().Update();
+				Selection.activeGameObject.AddComponent<PropMeshThumbnail> ().Update();
 
 			}
 		}

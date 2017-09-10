@@ -7,8 +7,8 @@ using UnityEditor;
 
 namespace RF.AssetWizzard.Editor {
 
-	[CustomEditor(typeof(PropThumbnailPointer))]
-	public class PropThumbnailPointerEditor : UnityEditor.Editor {
+	[CustomEditor(typeof(PropMeshThumbnail))]
+	public class PropMeshThumbnailEditor : UnityEditor.Editor {
 
 
 		public override void OnInspectorGUI() {
@@ -83,9 +83,9 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		private PropThumbnailPointer Model {
+		private PropMeshThumbnail Model {
 			get {
-				return (PropThumbnailPointer) target;
+				return (PropMeshThumbnail) target;
 			}
 		}
 

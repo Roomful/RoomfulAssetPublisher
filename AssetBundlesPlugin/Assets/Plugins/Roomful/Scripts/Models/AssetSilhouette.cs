@@ -23,9 +23,9 @@ namespace RF.AssetWizzard {
 
 			MeshData = MeshSerializer.SerializerMesh (asset.GetLayer(HierarchyLayers.Silhouette).gameObject);
 
-			PropThumbnail[] thumbnails = asset.GetComponentsInChildren<PropThumbnail> ();
+			IThumbnail[] thumbnails = asset.GetComponentsInChildren<IThumbnail> ();
 		
-			foreach(PropThumbnail thumbnail in thumbnails) {
+			foreach(IThumbnail thumbnail in thumbnails) {
 				var t = new ThumbnailSilhouette (thumbnail);
 				Thumbnails.Add (t);
 			}

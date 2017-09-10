@@ -10,7 +10,7 @@ namespace RF.AssetWizzard {
 	[ExecuteInEditMode]
 	#endif
 
-	public class PropThumbnailPointer : MonoBehaviour, PropComponent {
+	public class PropMeshThumbnail : MonoBehaviour, IPropComponent {
 
 
 		public int ImageIndex = 0;

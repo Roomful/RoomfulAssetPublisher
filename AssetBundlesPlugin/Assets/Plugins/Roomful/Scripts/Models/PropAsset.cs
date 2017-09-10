@@ -90,7 +90,7 @@ namespace RF.AssetWizzard {
 		public void PrepareForUpload () {
 
 
-			PropComponent[] components = GetComponentsInChildren<PropComponent> ();
+			IPropComponent[] components = GetComponentsInChildren<IPropComponent> ();
 			foreach(var c in components) {
 				c.RemoveSilhouette ();
 			}

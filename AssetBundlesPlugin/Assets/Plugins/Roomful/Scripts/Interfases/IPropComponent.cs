@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RF.AssetWizzard {
 
-	public interface PropComponent  {
+	public interface IPropComponent  {
 
 		void PrepareForUpalod();
 		void RemoveSilhouette();
