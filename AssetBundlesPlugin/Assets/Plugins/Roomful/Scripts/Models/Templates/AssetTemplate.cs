@@ -31,7 +31,6 @@ namespace RF.AssetWizzard {
 		public Vector3 Size =  Vector3.one;
 
 		public AssetTemplate() {
-			//Debug.Log("new res created")
 			Icon = new Resource ();
 		}
 

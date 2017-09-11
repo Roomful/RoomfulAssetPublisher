@@ -6,10 +6,8 @@ using Moon.Network.Web;
 
 namespace RF.AssetWizzard.Network 
 {
-
-  
-
-	public class AssetsList : BaseRoomfulRequest<AssetsListsCallback> {
+    #pragma warning disable 414
+    public class AssetsList : BaseRoomfulRequest<AssetsListsCallback> {
 
         [Param]
         private string Id;
@@ -23,6 +21,7 @@ namespace RF.AssetWizzard.Network
         public int Size = 10;
 
         public const string PATH = "/api/v0/asset/list";
+
 
 
         public AssetsList(int offset, int size, List<string> tags):base(PATH) {
@@ -44,4 +43,9 @@ namespace RF.AssetWizzard.Network
         }
 
 	}
+
+
+#pragma warning restore 414
 }
+
+

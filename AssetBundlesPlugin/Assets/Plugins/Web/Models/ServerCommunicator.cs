@@ -24,8 +24,8 @@ namespace Moon.Network.Web {
             Debug.Log("ServerCommunicator send");
 
             var p = new ThreadedWebRequest("https://google.com", request);
-            p.Run(() => {
-                Debug.Log("Done");
+            p.Run((IRequest r, IRequestCallback c) => {
+                r.Finish(c);
             });
 
         }

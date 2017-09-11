@@ -11,9 +11,10 @@ namespace RF.AssetWizzard {
 
 		public string MeshData = string.Empty;
 		public List<ThumbnailSilhouette> Thumbnails = new List<ThumbnailSilhouette> ();
+        public List<ThumbnailMeshSilhouette> MeshThumbnails = new List<ThumbnailMeshSilhouette>();
 
 
-		public AssetSilhouette(JSONData silhouettelInfo) {
+        public AssetSilhouette(JSONData silhouettelInfo) {
 			ParseTemplate (silhouettelInfo);
 		}
 
@@ -24,13 +25,18 @@ namespace RF.AssetWizzard {
 			MeshData = MeshSerializer.SerializerMesh (asset.GetLayer(HierarchyLayers.Silhouette).gameObject);
 
 			PropThumbnail[] thumbnails = asset.GetComponentsInChildren<PropThumbnail> ();
-		
 			foreach(PropThumbnail thumbnail in thumbnails) {
 				var t = new ThumbnailSilhouette (thumbnail);
 				Thumbnails.Add (t);
 			}
-			
-		}
+
+
+            PropMeshThumbnail[] meshThumbnails = asset.GetComponentsInChildren<PropMeshThumbnail>();
+            foreach (PropMeshThumbnail meshThumbnail in meshThumbnails) {
+                var t = new ThumbnailMeshSilhouette(meshThumbnail);
+                MeshThumbnails.Add(t);
+            }
+        }
 
 
 		public Dictionary<string, object> ToDictionary() {
@@ -48,7 +54,14 @@ namespace RF.AssetWizzard {
 			data.Add("thumbnails", thumbnails);
 
 
-			return data;
+            List<Dictionary<string, object>> meshThumbnails = new List<Dictionary<string, object>>();
+            foreach (ThumbnailMeshSilhouette m in MeshThumbnails) {
+                meshThumbnails.Add(m.ToDictionary());
+            }
+
+            data.Add("mesh_thumbnails", meshThumbnails);
+
+            return data;
 		}
 
 
@@ -70,7 +83,22 @@ namespace RF.AssetWizzard {
 
 				}
 			}
-		}
+
+
+            if (silhouettelInfo.HasValue("mesh_thumbnails")) {
+                List<object> thumbnailsList = silhouettelInfo.GetValue<List<object>>("mesh_thumbnails");
+                foreach (object thumbnail in thumbnailsList) {
+                    JSONData ThumbnailInfo = new JSONData(thumbnail);
+
+                    if (ThumbnailInfo.Data == null) {
+                        continue;
+                    }
+
+                    var t = new ThumbnailMeshSilhouette(ThumbnailInfo);
+                    MeshThumbnails.Add(t);
+                }
+            }
+        }
 
 
 	}

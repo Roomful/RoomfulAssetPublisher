@@ -10,15 +10,25 @@ namespace RF.AssetWizzard.Network
 
 	public class AssetsListsCallback : BaseRoomfulCallback {
 
+        [Param]
+        public string Id;
 
-		public override void OnResult(byte[] data) {
+        [Param]
+        public string Name;
+
+
+        [Param]
+        public string Descr;
+
+
+        public override void OnResult(byte[] data) {
 
 			List<object> allAssetsList = SA.Common.Data.Json.Deserialize(DataAsString) as List<object>;
 
 			foreach(object assetData in allAssetsList) {
 
 				object tpl = new AssetTemplate ();
-				JSONDataWriter.Parse (assetData, ref  tpl);
+				Parser.Parse (assetData, ref  tpl);
 
 				Debug.Log ((tpl as AssetTemplate).Id);
 				Debug.Log ((tpl as AssetTemplate).Created);
@@ -27,8 +37,7 @@ namespace RF.AssetWizzard.Network
 			}
 		}
 
-
-
+    
 	}
 
 }

@@ -24,13 +24,15 @@ namespace Moon.Network.Web
         }
 
         
-        public Thread Run(Action callback) {
+        public Thread Run(Action<IRequest, IRequestCallback> callback) {
 
+          
 
             m_thread = new Thread(() => {
  
                 try {
                    
+                  //  this.
 
                     WebClientImpl webRequest = new WebClientImpl();
 
@@ -48,8 +50,13 @@ namespace Moon.Network.Web
                     webRequest.Send(m_request.Method, (responce) => {
                         IRequestCallback result = m_request.CreateRequestCallbackObject();
                         result.SetResponce(responce);
-                        m_request.Finish(result);
-                        callback();
+
+
+
+                       // UnityMainThreadDispatcher.Instance.Enqueue(() => {
+                            callback(m_request, result);
+                     //   });
+                        
 
                     });
 

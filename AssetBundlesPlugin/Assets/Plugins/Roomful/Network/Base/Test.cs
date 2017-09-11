@@ -19,10 +19,16 @@ public class Test : MonoBehaviour {
 		var r = new AssetsList (0, 1, new List<string>());
 		r.Send ((result) => {
 
-			Debug.Log("Result");
+           
+
+            Debug.Log("Result");
 			Debug.Log(result.Responce.IsSucceeded);
 
+         // new GameObject("Hello");
+
 		});
+
+      
 
     }
 

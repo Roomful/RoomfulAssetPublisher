@@ -16,8 +16,8 @@ namespace RF.AssetWizzard.Network
             request.Headers.Add(WebServer.HeaderSessionId, AssetBundlesSettings.Instance.SessionId);
 
             var p = new ThreadedWebRequest(AssetBundlesSettings.WEB_SERVER_URL, request);
-			p.Run(() => {
-
+			p.Run((IRequest r, IRequestCallback c ) => {
+                r.Finish(c);
             });
 
 		}

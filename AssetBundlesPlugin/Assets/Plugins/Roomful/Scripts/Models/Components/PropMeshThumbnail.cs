@@ -13,6 +13,7 @@ namespace RF.AssetWizzard {
 	public class PropMeshThumbnail : MonoBehaviour, IPropComponent {
 
 
+
 		public int ImageIndex = 0;
 		public Texture2D Thumbnail;
 
@@ -35,9 +36,21 @@ namespace RF.AssetWizzard {
 	
 		public void Update() {
 
-			gameObject.GetComponent<Renderer> ().sharedMaterial = new Material (gameObject.GetComponent<Renderer> ().sharedMaterial);
-			gameObject.GetComponent<Renderer> ().sharedMaterial.mainTexture = Thumbnail;
-			GenerateSilhouette ();
+            if(Canvas.sharedMaterial == null) {
+                Canvas.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
+            }
+
+            if(!Canvas.sharedMaterial.HasProperty("_MainTex")) {
+                Canvas.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
+            }
+
+            if(Canvas.sharedMaterial.mainTexture != Thumbnail) {
+                gameObject.GetComponent<Renderer>().sharedMaterial.mainTexture = Thumbnail;
+            }
+
+			//gameObject.GetComponent<Renderer> ().sharedMaterial = new Material (gameObject.GetComponent<Renderer> ().sharedMaterial);
+			
+		//	GenerateSilhouette ();
 		}
 
 		#endif
@@ -47,6 +60,7 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 		public void PrepareForUpalod() {
+
 
 			gameObject.GetComponent<Renderer> ().sharedMaterial.mainTexture = null;
 
@@ -59,7 +73,7 @@ namespace RF.AssetWizzard {
 		}
 
 		public void RemoveSilhouette() {
-			DestroyImmediate (Silhouette.gameObject);
+			//DestroyImmediate (Silhouette.gameObject);
 		}
 	
 
@@ -67,12 +81,20 @@ namespace RF.AssetWizzard {
 
 
 		//--------------------------------------
-		// Public Methods
+		// Get / Set
 		//--------------------------------------
 
 
-	
-		public Transform Silhouette {
+        public Renderer Canvas {
+            get {
+                return gameObject.GetComponent<Renderer>();
+            }
+        }
+
+
+        /*
+
+        public Transform Silhouette {
 			get {
 				Transform silhouette = Prop.GetLayer (HierarchyLayers.Silhouette).Find (gameObject.GetInstanceID ().ToString());
 				if(silhouette == null) {
@@ -87,6 +109,8 @@ namespace RF.AssetWizzard {
 				return silhouette;
 			}
 		}
+
+    */
 
 		public PropAsset Prop {
 			get {
@@ -104,6 +128,7 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 	
+            /*
 
 		private void GenerateSilhouette() {
 			Silhouette.Clear ();
@@ -118,6 +143,7 @@ namespace RF.AssetWizzard {
 			Prop.transform.position = storedPos;
 		}
 
+    */
 
 
 	}

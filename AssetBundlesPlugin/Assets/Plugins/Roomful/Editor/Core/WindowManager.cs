@@ -27,7 +27,9 @@ namespace RF.AssetWizzard.Editor {
 			window.minSize = new Vector2(375f, 135f);
 			window.maxSize = new Vector2(window.minSize.x, window.maxSize.y);
 			window.position = new Rect(new Vector2(Wizzard.position.x + 100f, Wizzard.position.y + 100f), window.minSize);
-			window.Show();
+            window.Focus();
+
+            window.Show();
 		}
 
 

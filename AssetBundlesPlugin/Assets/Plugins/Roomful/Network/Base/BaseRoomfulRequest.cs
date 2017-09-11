@@ -19,6 +19,7 @@ namespace RF.AssetWizzard.Network
 
 			SetDataReader(new JSONDataReader());
 			SetCommunicator (RoomfulComunicator.Instance);
+
         }
 
      

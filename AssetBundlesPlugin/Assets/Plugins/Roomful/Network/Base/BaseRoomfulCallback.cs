@@ -13,7 +13,7 @@ namespace RF.AssetWizzard.Network
 	public class BaseRoomfulCallback : RequestCallback {
 
         public BaseRoomfulCallback() {
-            SetDataWriter(new JSONDataWriter());
+            SetDataWriter(new RoomfulJSONParser());
         }
 
         public override void OnResult(byte[] data) {
@@ -25,5 +25,12 @@ namespace RF.AssetWizzard.Network
 			Debug.Log(e.Message);
 		}
 
-	}
+
+        public RoomfulJSONParser Parser  {
+            get {
+                return (RoomfulJSONParser) m_dataWriter;
+            }
+        }
+
+    }
 }

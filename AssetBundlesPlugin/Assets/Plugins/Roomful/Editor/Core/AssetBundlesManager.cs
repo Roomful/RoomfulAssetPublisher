@@ -184,17 +184,33 @@ namespace RF.AssetWizzard.Editor {
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 
-						if(CurrentAssetBundle  != null) {
+
+                        
+                      //  Debug.Log(AssetDatabase.GetAllAssetBundleNames().Length);
+
+                        foreach (var assetBundleName in AssetDatabase.GetAllAssetBundleNames()) {
+                            AssetDatabase.RemoveAssetBundleName(assetBundleName, true);
+                            Debug.Log(assetBundleName);
+                        }
+
+                        Caching.CleanCache();
+                        Resources.UnloadUnusedAssets();
+                        if (CurrentAssetBundle  != null) {
 							CurrentAssetBundle.Unload(true);
+                           
 
-							CurrentAssetBundle = null;
-						}
+                            CurrentAssetBundle = null;
 
-						CurrentAssetBundle = AssetBundle.LoadFromFile(bundlePath);
+                           // AssetBundle.
+
+                        }
+                        
+
+                        CurrentAssetBundle = AssetBundle.LoadFromFile(bundlePath);
 
 						RecreateProp(prop, CurrentAssetBundle.LoadAsset<Object>(prop.Title));
 
-						//assetBundle.Unload(false);
+						
 						AssetDatabase.DeleteAsset(bundlePath);
 					};
 
@@ -292,8 +308,6 @@ namespace RF.AssetWizzard.Editor {
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
 
-//			return;
-
 
 
 			PropAsset asset = newGo.AddComponent<PropAsset> ();
@@ -308,16 +322,22 @@ namespace RF.AssetWizzard.Editor {
 				FixShaders (thumbnail.Corner);
 			}
 
+
+
 			List<Transform> pointers = new List<Transform> ();
-			foreach (Transform t in asset.transform) {
-				if(t.name.Equals(AssetBundlesSettings.THUMBNAIL_POINTER)) {
-					t.parent.gameObject.AddComponent<PropMeshThumbnail> ().Update();
-					pointers.Add (t);
+            Transform[] children = newGo.GetComponentsInChildren<Transform>();
+
+            for (int i = 0; i < children.Length; i++) {
+                Transform child = children[i];
+
+                if (child.name.Equals(AssetBundlesSettings.THUMBNAIL_POINTER)) {
+                    child.parent.gameObject.AddComponent<PropMeshThumbnail> ().Update();
+					pointers.Add (child);
 				}
 			}
 
 			foreach(Transform t in pointers) {
-				DestroyImmediate (t);
+				DestroyImmediate (t.gameObject);
 			}
 
 			AssetBundleContentCloner.Clone (asset);

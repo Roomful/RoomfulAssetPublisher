@@ -8,11 +8,11 @@ namespace Moon.Network.Web {
 	public abstract class RequestCallback : IRequestCallback  {
 
 
-        
-
-        private IDataWriter m_dataWriter = null;
-        private WebResponce m_responce;
         public IRequest m_request;
+
+        protected IDataWriter m_dataWriter = null;
+        protected WebResponce m_responce;
+      
 
         public virtual void SetResponce(WebResponce reponce) {
             m_responce = reponce;
