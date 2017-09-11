@@ -6,29 +6,29 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public static class AssetBundleContentCloner  {
 
-		private static PropAsset clonedProp = null;
+		private static PropAsset s_clonedProp = null;
 
 		public static void Clone(PropAsset prop) {
-			clonedProp = prop;
+			s_clonedProp = prop;
 
 			ValidateBundleFolder ();
 
             foreach (Renderer renderer in prop.GetComponentsInChildren<Renderer>()) {
-                List<Material> propMaterials = new List<Material>();
-                string[] textureNames = new string[] { "_MainTex", "_BumpMap", "_MetallicGlossMap" };
+                var propMaterials = new List<Material>();
+                var textureNames = new string[] { "_MainTex", "_BumpMap", "_MetallicGlossMap", "_EmissionMap", "_OcclusionMap", "_DetailAlbedoMap", "_DetailNormalMap", "_ParallaxMap"};
 
-                foreach (Material mat in renderer.sharedMaterials) {
-                    if(mat == null) {
+                foreach (Material material in renderer.sharedMaterials) {
+                    if(material == null) {
                         continue;
                     }
                 
-                    Material newMat = RecreateMaterial(mat);
-                    foreach (string texName in textureNames) {
-                        if (!mat.HasProperty(texName)) {
+                    Material newMat = RecreateMaterial(material);
+                    foreach (var texName in textureNames) {
+                        if (!material.HasProperty(texName)) {
                             continue;
                         }
 
-                        Texture texture = mat.GetTexture(texName);
+                        Texture texture = material.GetTexture(texName);
                         if (texture != null) {
                             texture = RecreateTexture(texture);
                             newMat.SetTexture(texName, texture);
@@ -40,7 +40,6 @@ namespace RF.AssetWizzard.Editor {
                 renderer.sharedMaterials = propMaterials.ToArray();
             }
 
-
             foreach (MeshFilter meshFilter in prop.GetComponentsInChildren<MeshFilter>()) {
                 Mesh mesh = meshFilter.GetComponent<MeshFilter>().sharedMesh;
 
@@ -49,49 +48,14 @@ namespace RF.AssetWizzard.Editor {
                     meshFilter.GetComponent<MeshFilter>().sharedMesh = newMesh;
                 }
             }
-
-
-            /*
-
-                foreach (MeshRenderer mr in prop.GetComponentsInChildren<MeshRenderer>(true)) {
-				List<Material> propMaterials = new List<Material> ();
-                string[] textureNames = new string[] { "_MainTex", "_BumpMap", "_MetallicGlossMap" };
-                
-                foreach (Material mat in mr.sharedMaterials) {
-					Material newMat = RecreateMaterial (mat);
-                    foreach (string texName in textureNames) {
-
-
-                        if(!mat.HasProperty(texName)) {
-                            continue;
-                        }
-    
-                        Texture texture = mat.GetTexture(texName);
-                        if (texture != null) {
-                            texture = RecreateTexture(texture);
-                            newMat.SetTexture(texName, texture);
-                        }
-                    }
-    
-					propMaterials.Add (newMat);
-				}
-
-				mr.sharedMaterials = propMaterials.ToArray();
-                Mesh mesh = mr.GetComponent<MeshFilter>().sharedMesh;
-                if (mesh != null) {
-                    Mesh newMesh = RecreateMesh(mesh);
-                    mr.GetComponent<MeshFilter>().sharedMesh = newMesh;
-                }
-            }*/
-
-			clonedProp = null;
+			s_clonedProp = null;
 		}
 
 		private static Material RecreateMaterial(Material mat) {
 			string cleanedMatName = mat.name.Replace("/", "");
 
-			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Materials/" + cleanedMatName + ".mat";
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Materials/" + cleanedMatName + ".mat";
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + s_clonedProp.Template.Title + "/Materials/" + cleanedMatName + ".mat";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + s_clonedProp.Template.Title + "/Materials/" + cleanedMatName + ".mat";
 
 			if (!FolderUtils.IsFileExists(path)) {
 				Material newMat = new Material (mat);
@@ -103,8 +67,8 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static Texture2D RecreateTexture(Texture tex) {
-			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + s_clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + s_clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
 
 			if (!FolderUtils.IsFileExists(path)) {
 				RenderTexture tmp = RenderTexture.GetTemporary(tex.width, tex.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
@@ -127,8 +91,8 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static Mesh RecreateMesh(Mesh mesh) {
-			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + clonedProp.Template.Title + "/Meshes/" + mesh.name + ".asset";
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title + "/Meshes/" + mesh.name + ".asset";
+			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + s_clonedProp.Template.Title + "/Meshes/" + mesh.name + ".asset";
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + s_clonedProp.Template.Title + "/Meshes/" + mesh.name + ".asset";
 
 			if (!FolderUtils.IsFileExists (path)) {
 				Mesh newmesh = new Mesh();
@@ -146,7 +110,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void ValidateBundleFolder() {
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + clonedProp.Template.Title;
+			string path = AssetBundlesSettings.AssetBundlesPath + "/" + s_clonedProp.Template.Title;
 
 			if (FolderUtils.IsFolderExists(path)) {
 				FolderUtils.DeleteFolder (path);

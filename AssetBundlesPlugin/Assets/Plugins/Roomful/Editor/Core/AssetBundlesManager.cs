@@ -180,6 +180,9 @@ namespace RF.AssetWizzard.Editor {
                 getAssetUrl.PackageCallbackText = (assetUrl) => {
                     Network.Request.DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset (assetUrl);
                     loadAsset.PackageCallbackData = (loadCallback) => {
+	                    if (!FolderUtils.IsFolderExists(AssetBundlesSettings.AssetBundlesPathFull)) {
+		                    FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
+	                    }
                         string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
