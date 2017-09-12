@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Rendering;
 
 namespace RF.AssetWizzard.Editor {
 	public static class AssetBundleContentCloner  {
@@ -59,7 +60,23 @@ namespace RF.AssetWizzard.Editor {
 
 			if (!FolderUtils.IsFileExists(path)) {
 				Material newMat = new Material (mat);
-
+				if (mat.HasProperty("_Mode")) {
+					int renderMode = (int) mat.GetFloat("_Mode");
+					switch (renderMode) {
+						case 0: //Opaque
+							newMat.renderQueue = -1;
+							break;
+						case 1: // Cut out
+							newMat.renderQueue = 2450;
+							break;
+						case 2: // Fade
+							newMat.renderQueue = 3000;
+							break;
+						case 3: // Transparent
+							newMat.renderQueue = 3000;
+							break;
+					}
+				}
 				SaveMaterialToFolder (newMat, fullPath);
 			}
 
