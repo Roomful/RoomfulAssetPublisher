@@ -21,6 +21,8 @@ namespace Moon.Network.Web
         public ThreadedWebRequest(string url, IRequest request) {
             m_request = request;
             m_url = url;
+
+			MainThreadDispatcher.Init ();
         }
 
         
@@ -51,13 +53,9 @@ namespace Moon.Network.Web
                         IRequestCallback result = m_request.CreateRequestCallbackObject();
                         result.SetResponce(responce);
 
-
-
-                       // UnityMainThreadDispatcher.Instance.Enqueue(() => {
-                            callback(m_request, result);
-                     //   });
-                        
-
+						MainThreadDispatcher.Enqueue(() => {
+							callback(m_request, result);
+						});
                     });
 
 

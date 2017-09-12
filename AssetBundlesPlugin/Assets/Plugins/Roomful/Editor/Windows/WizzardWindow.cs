@@ -565,7 +565,7 @@ namespace RF.AssetWizzard.Editor {
 			if (AssetBundlesSettings.Instance.LocalAssetTemplates.Count > 0) {
 				EditorGUILayout.Space ();
 
-				if(GUILayout.Button ("Load more", EditorStyles.miniButton, GUILayout.Width(60))) {
+				if(GUILayout.Button ("Load more", EditorStyles.miniButton, GUILayout.Width(65))) {
 					RequestManager.SeartchAssets ();
 				}
 			}
