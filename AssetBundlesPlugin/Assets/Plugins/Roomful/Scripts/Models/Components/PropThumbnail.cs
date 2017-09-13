@@ -113,7 +113,19 @@ namespace RF.AssetWizzard {
 			}
 		}
 
-		public void SetThumbnail(Texture2D newTex) {
+        public void SetResourceIndexBound(bool enabled) {
+            if (enabled && !IsBoundToResourceIndex) {
+                GameObject obj = new GameObject(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
+                obj.transform.parent = transform;
+            }
+
+            if (!enabled && IsBoundToResourceIndex) {
+                GameObject obj = transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND).gameObject;
+                DestroyImmediate(obj);
+            }
+        }
+
+        public void SetThumbnail(Texture2D newTex) {
 			Thumbnail = newTex;
 			Canvas.GetComponent<Renderer>().sharedMaterial =  new Material (Shader.Find ("Unlit/Transparent")); 
 			Canvas.GetComponent<Renderer> ().sharedMaterial.mainTexture = Thumbnail;
@@ -179,7 +191,13 @@ namespace RF.AssetWizzard {
 			}
 		}
 
-		public int XRatio {
+        public bool IsBoundToResourceIndex {
+            get {
+                return transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND) != null;
+            }
+        }
+
+        public int XRatio {
 			get {
 				Transform ratio = GetCanvasRatio ();
 				return System.Convert.ToInt32 (ratio.GetChild(0).name);
@@ -203,13 +221,26 @@ namespace RF.AssetWizzard {
 			}
 		}
 
+        public int ResourceIndex {
+            get {
+                Transform obj = GetResourceIndexBound();
+                return System.Convert.ToInt32(obj.GetChild(0).name);
+            }
+
+            set {
+                Transform obj = GetResourceIndexBound();
+                obj.GetChild(0).name = value.ToString();
+            }
+        }
+
+        
 
 
-		//--------------------------------------
-		// Private Methods
-		//--------------------------------------
+        //--------------------------------------
+        // Private Methods
+        //--------------------------------------
 
-		private Transform GetCanvasRatio() {
+        private Transform GetCanvasRatio() {
 
 			Transform ratio = transform.Find ("CanvasRatio");
 			if(ratio ==  null) {
@@ -230,9 +261,24 @@ namespace RF.AssetWizzard {
 
 		}
 
+        private Transform GetResourceIndexBound() {
+
+            Transform obj = transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
+            if (obj == null) {
+                obj = new GameObject(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND).transform;
+                obj.parent = transform;
+            }
+
+            if (obj.childCount == 0) {
+                new GameObject("0").transform.parent = obj;
+            }
+
+            return obj;
+        }
 
 
-		private void CheckhHierarchy() {
+
+        private void CheckhHierarchy() {
 			transform.parent = Prop.GetLayer (HierarchyLayers.Thumbnails);
 
 		

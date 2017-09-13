@@ -75,19 +75,49 @@ namespace RF.AssetWizzard {
 		public void RemoveSilhouette() {
 			//DestroyImmediate (Silhouette.gameObject);
 		}
-	
-
-	
 
 
-		//--------------------------------------
-		// Get / Set
-		//--------------------------------------
+
+        public void SetResourceIndexBound(bool enabled) {
+            if (enabled && !IsBoundToResourceIndex) {
+                GameObject obj = new GameObject(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
+                obj.transform.parent = transform;
+            }
+
+            if (!enabled && IsBoundToResourceIndex) {
+                GameObject obj = transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND).gameObject;
+                DestroyImmediate(obj);
+            }
+        }
+
+
+
+        //--------------------------------------
+        // Get / Set
+        //--------------------------------------
 
 
         public Renderer Canvas {
             get {
                 return gameObject.GetComponent<Renderer>();
+            }
+        }
+
+        public bool IsBoundToResourceIndex {
+            get {
+                return transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND) != null;
+            }
+        }
+
+        public int ResourceIndex {
+            get {
+                Transform obj = GetResourceIndexBound();
+                return System.Convert.ToInt32(obj.GetChild(0).name);
+            }
+
+            set {
+                Transform obj = GetResourceIndexBound();
+                obj.GetChild(0).name = value.ToString();
             }
         }
 
@@ -112,7 +142,7 @@ namespace RF.AssetWizzard {
 
     */
 
-		public PropAsset Prop {
+        public PropAsset Prop {
 			get {
 				return GameObject.FindObjectOfType<PropAsset> ();
 			}
@@ -123,30 +153,50 @@ namespace RF.AssetWizzard {
 
 
 
-		//--------------------------------------
-		// Private Methods
-		//--------------------------------------
-
-	
-            /*
-
-		private void GenerateSilhouette() {
-			Silhouette.Clear ();
-
-			Vector3 storedPos = Prop.transform.position;
-			Prop.transform.position = Vector3.zero;
-
-			GameObject silhouette = Instantiate (gameObject) as GameObject;
-			silhouette.transform.parent = Silhouette;
+        //--------------------------------------
+        // Private Methods
+        //--------------------------------------
 
 
-			Prop.transform.position = storedPos;
-		}
 
-    */
+        private Transform GetResourceIndexBound() {
+
+            Transform obj = transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
+            if (obj == null) {
+                obj = new GameObject(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND).transform;
+                obj.parent = transform;
+            }
+
+            if (obj.childCount == 0) {
+                new GameObject("0").transform.parent = obj;
+            }
+
+            return obj;
+        }
 
 
-	}
+
+
+
+        /*
+
+    private void GenerateSilhouette() {
+        Silhouette.Clear ();
+
+        Vector3 storedPos = Prop.transform.position;
+        Prop.transform.position = Vector3.zero;
+
+        GameObject silhouette = Instantiate (gameObject) as GameObject;
+        silhouette.transform.parent = Silhouette;
+
+
+        Prop.transform.position = storedPos;
+    }
+
+*/
+
+
+    }
 
 
 

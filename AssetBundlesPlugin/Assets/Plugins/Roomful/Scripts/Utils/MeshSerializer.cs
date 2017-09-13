@@ -250,7 +250,7 @@ namespace RF.AssetWizzard {
 			var verts = mesh.vertices;
 			var normals = mesh.normals;
 			var tris = mesh.triangles;
-
+                
 			// figure out vertex format
 			byte format = 1;
 			if (normals.Length > 0)

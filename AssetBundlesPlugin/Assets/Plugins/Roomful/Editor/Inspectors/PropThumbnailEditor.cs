@@ -38,32 +38,38 @@ namespace RF.AssetWizzard.Editor {
 
 				bool fixedRatio = Model.IsFixedRatio;
 				EditorGUI.BeginChangeCheck(); {
-					
 					fixedRatio = SA.Common.Editor.Tools.ToggleFiled ("Fixed Ratio", fixedRatio);
-
 				} if (EditorGUI.EndChangeCheck ()) {
 					
 					Model.SetFixedRatioMode (fixedRatio);
 				}
 
 				if(fixedRatio) {
-					//EditorGUILayout.BeginHorizontal(); {
 						Model.XRatio = EditorGUILayout.IntField ("X", Model.XRatio);
 						Model.YRatio = EditorGUILayout.IntField ("Y", Model.YRatio);
-
-					//	GUILayout.FlexibleSpace ();
-
-					//}EditorGUILayout.EndHorizontal();
 				}
 
 
 
 
+                bool boundToResourceIndex = Model.IsBoundToResourceIndex;
+                EditorGUI.BeginChangeCheck(); {
+                    boundToResourceIndex = SA.Common.Editor.Tools.ToggleFiled("Bound To Resource Index", boundToResourceIndex);
+                }
+                if (EditorGUI.EndChangeCheck()) {
+                    Debug.Log(boundToResourceIndex);
+                    Model.SetResourceIndexBound(boundToResourceIndex);
+                }
+
+
+                if (boundToResourceIndex) {
+                    Model.ResourceIndex = EditorGUILayout.IntField("Resource Index", Model.ResourceIndex);
+                }
 
 
 
-				
-			} if(EditorGUI.EndChangeCheck()) {
+
+            } if(EditorGUI.EndChangeCheck()) {
 				var thumbnail = ImagesCintent [Model.ImageIndex].image as Texture2D;
 				Model.SetThumbnail (thumbnail);
 				Model.Update ();
