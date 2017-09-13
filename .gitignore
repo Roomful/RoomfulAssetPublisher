@@ -27,3 +27,6 @@ AssetBundlesPlugin/Assembly-UnityScript-firstpass-vs.unityproj
 AssetBundlesPlugin/Assembly-UnityScript-firstpass.unityproj
 AssetBundlesPlugin/Assets/Plugins/Roomful/Bundles
 AssetBundlesSettings.asset
+AssetBundlesPlugin/Assets/Roomful/AssetBundles.meta
+AssetBundlesPlugin/Assets/Roomful/PropAssets.meta
+AssetBundlesPlugin/Assets/Assets.meta

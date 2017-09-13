@@ -41,8 +41,10 @@ namespace RF.AssetWizzard {
 		public const float MIN_ALLOWED_SIZE = 0.3f;
 
 		public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
+        public const string THUMBNAIL_RESOURCE_INDEX_BOUND = "ResourceIndexBound";
 
-		public bool ShowWebInLogs = true;
+
+        public bool ShowWebInLogs = true;
 		public bool ShowWebOutLogs = false;
 
 		public string LastBundlePath = string.Empty;

@@ -17,8 +17,11 @@ namespace RF.AssetWizzard {
 		public int RatioX = 1;
 		public int RatioY = 1;
 
+        public bool IsBoundToResourceIndex = false;
+        public int ResourceIndex = 0;
 
-		public ThumbnailSilhouette(PropThumbnail thumbnail) {
+
+        public ThumbnailSilhouette(PropThumbnail thumbnail) {
 
 			if(thumbnail.Border != null && thumbnail.Corner != null) {
 				BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Border);
@@ -78,7 +81,11 @@ namespace RF.AssetWizzard {
 			data.Add("x_ration", RatioX);
 			data.Add("y_ration", RatioY);
 
-			return data;
+
+            data.Add("is_bpund_to_resource_index", IsBoundToResourceIndex);
+            data.Add("resource_index", ResourceIndex);
+
+            return data;
 
 		}
 
@@ -106,8 +113,15 @@ namespace RF.AssetWizzard {
 				RatioY = thumbnailInfo.GetValue<int> ("y_ration");
 			}
 
+            if (thumbnailInfo.HasValue("is_bound_to_resource_index")) {
+                IsBoundToResourceIndex = thumbnailInfo.GetValue<bool>("is_bpund_to_resource_index");
+            }
 
-			JSONData MobileGeometryPosition = new JSONData(thumbnailInfo.GetValue<Dictionary<string, object>>("position"));
+            if (thumbnailInfo.HasValue("resource_index")) {
+                ResourceIndex = thumbnailInfo.GetValue<int>("x_ration");
+            }
+
+            JSONData MobileGeometryPosition = new JSONData(thumbnailInfo.GetValue<Dictionary<string, object>>("position"));
 			if(MobileGeometryPosition.HasValue("x")) {
 				Position.x = MobileGeometryPosition.GetValue<float>("x");
 				Position.y = MobileGeometryPosition.GetValue<float>("y");

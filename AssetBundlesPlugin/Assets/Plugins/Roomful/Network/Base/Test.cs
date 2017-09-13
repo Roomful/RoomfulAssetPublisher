@@ -24,7 +24,7 @@ public class Test : MonoBehaviour {
             Debug.Log("Result");
 			Debug.Log(result.Responce.IsSucceeded);
 
-         // new GameObject("Hello");
+          new GameObject("Hello");
 
 		});
 
@@ -39,7 +39,7 @@ public class Test : MonoBehaviour {
     }
 
 
-    [ContextMenu("Test2")]
+   // [ContextMenu("Test2")]
     public void Test2() {
         var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets(0, 1, "");
         allAssetsRequest.Send();
