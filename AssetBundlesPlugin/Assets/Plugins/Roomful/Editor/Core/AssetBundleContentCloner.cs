@@ -30,9 +30,15 @@ namespace RF.AssetWizzard.Editor {
                         }
 
                         Texture texture = material.GetTexture(texName);
-                        if (texture != null) {
-                            texture = RecreateTexture(texture);
-                            newMat.SetTexture(texName, texture);
+	                    if (texture != null) {
+		                    SaveTexture(texture);
+		                    if (texName == "_BumpMap") {
+			                    texture = LoadNormalMapFromFolder(GetFullTexturePath(texture));
+		                    }
+		                    else {
+			                    texture = LoadTextureFromFolder(GetFullTexturePath(texture));
+		                    }
+		                    newMat.SetTexture(texName, texture);
                         }
                     }
                     propMaterials.Add(newMat);
@@ -78,14 +84,23 @@ namespace RF.AssetWizzard.Editor {
 					}
 				}
 				SaveMaterialToFolder (newMat, fullPath);
+				
 			}
 
 			return LoadMaterialFromFolder(fullPath);
 		}
 
-		private static Texture2D RecreateTexture(Texture tex) {
-			string fullPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + s_clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + s_clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
+		private static string GetFullTexturePath(Texture tex) {
+			return AssetBundlesSettings.AssetBundlesPathFull + "/" + s_clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
+		}
+		
+		private static string GetShortTexturePath(Texture tex) {
+			return AssetBundlesSettings.AssetBundlesPath + "/" + s_clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
+		}
+		
+		private static void SaveTexture(Texture tex) {
+			string fullPath = GetFullTexturePath(tex);
+			string path = GetShortTexturePath(tex);
 
 			if (!FolderUtils.IsFileExists(path)) {
 				RenderTexture tmp = RenderTexture.GetTemporary(tex.width, tex.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
@@ -103,8 +118,6 @@ namespace RF.AssetWizzard.Editor {
 
 				SaveTextureToFolder (myTexture2D, fullPath);
 			}
-
-			return LoadTextureFromFolder(fullPath);
 		}
 
 		private static Mesh RecreateMesh(Mesh mesh) {
@@ -148,10 +161,20 @@ namespace RF.AssetWizzard.Editor {
 			FolderUtils.WriteBytes (folderPath, tex.EncodeToPNG ());
 		}
 
-		private static Texture2D LoadTextureFromFolder(string folderPath) {
-			return (Texture2D)AssetDatabase.LoadAssetAtPath(folderPath, typeof(Texture2D));
+		private static Texture2D LoadTextureFromFolder(string filePath) {
+			return (Texture2D)AssetDatabase.LoadAssetAtPath(filePath, typeof(Texture2D));
 		}
 
+		private static Texture2D LoadNormalMapFromFolder(string filePath) {
+			TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(filePath);
+			TextureImporterSettings settings = new TextureImporterSettings();
+			ti.ReadTextureSettings(settings);
+			settings.textureType = TextureImporterType.NormalMap;
+			ti.SetTextureSettings(settings);
+			ti.SaveAndReimport();
+			return (Texture2D)AssetDatabase.LoadAssetAtPath(filePath, typeof(Texture2D));
+		}
+		
 		private static void SaveMeshToFolder(Mesh mesh, string folderPath) {
 			AssetDatabase.CreateAsset(mesh, folderPath);
 		}
