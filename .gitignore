@@ -30,3 +30,5 @@ AssetBundlesSettings.asset
 AssetBundlesPlugin/Assets/Roomful/AssetBundles.meta
 AssetBundlesPlugin/Assets/Roomful/PropAssets.meta
 AssetBundlesPlugin/Assets/Assets.meta
+ProjectSettings.asset
+ProjectVersion.txt
