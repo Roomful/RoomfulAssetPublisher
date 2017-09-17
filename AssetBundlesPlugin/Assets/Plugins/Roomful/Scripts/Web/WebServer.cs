@@ -63,7 +63,6 @@ namespace RF.AssetWizzard.Network {
 
 				} else {
 					www = UnityWebRequest.Put(AssetBundlesSettings.WEB_SERVER_URL + package.Url, package.GeneratedDataText);
-				//	Debug.Log (package.GeneratedDataText);
 				}
 					break;
 			case RequestMethods.GET: 
@@ -95,8 +94,7 @@ namespace RF.AssetWizzard.Network {
             string cleanedUrl = www.url.Replace(" ", "%20");
             www.url = cleanedUrl;
 
-            Debug.Log("Send: " + package.GetType().Name);
-            EditorWebRequest request = new EditorWebRequest(www);
+            EditorWebRequest request = new EditorWebRequest(www, package);
             request.Send(() => {
 
                 if (www.isNetworkError) {

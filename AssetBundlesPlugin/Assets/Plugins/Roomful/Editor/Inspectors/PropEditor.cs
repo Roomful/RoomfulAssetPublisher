@@ -58,7 +58,7 @@ namespace RF.AssetWizzard.Editor {
 				bool wizzard = GUILayout.Button ("Wizzard", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 				if(wizzard) {
 					WindowManager.ShowWizard ();
-					WindowManager.Wizzard.SiwtchTab (WizzardTabs.Wizzard);
+					WindowManager.Wizzard.SiwtchTab (WizardTabs.Wizzard);
 				}
 
 

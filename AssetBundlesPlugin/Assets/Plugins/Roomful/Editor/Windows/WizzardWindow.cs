@@ -7,7 +7,7 @@ using UnityEditor.SceneManagement;
 using Rotorz.ReorderableList;
 
 namespace RF.AssetWizzard.Editor {
-	public class WizzardWindow : EditorWindow {
+	public class WizardWindow : EditorWindow {
 
 		//Auth
 		private string Mail = string.Empty;
@@ -23,7 +23,6 @@ namespace RF.AssetWizzard.Editor {
 			public GUIStyle sectionElement = "PreferencesSection";
 			public GUIStyle evenRow = "CN EntryBackEven";
 			public GUIStyle oddRow = "CN EntryBackOdd";
-			public GUIStyle selected = "ServerUpdateChangesetOn";
             public GUIStyle keysElement = "PreferencesKeysElement";
 			public GUIStyle warningIcon = "CN EntryWarn";
 			public GUIStyle sectionHeader = new GUIStyle(EditorStyles.largeLabel);
@@ -33,32 +32,30 @@ namespace RF.AssetWizzard.Editor {
 			public GUIStyle toolbarSeachCancelButtonStyle;
 
 			public Constants() {
-				this.sectionHeader = new GUIStyle(EditorStyles.largeLabel);
+				sectionHeader = new GUIStyle(EditorStyles.largeLabel);
 
-				this.sectionScrollView = new GUIStyle(this.sectionScrollView);
-				this.sectionScrollView.overflow.bottom++;
-
-
-				this.toolbarStyle 					= GUI.skin.FindStyle("Toolbar");
-				this.toolbarSeachTextFieldStyle 	= GUI.skin.FindStyle("ToolbarSeachTextField");
-				this.toolbarSeachCancelButtonStyle 	= GUI.skin.FindStyle("ToolbarSeachCancelButton");
+				sectionScrollView = new GUIStyle(this.sectionScrollView);
+				sectionScrollView.overflow.bottom++;
 
 
-				this.sectionHeader.fontStyle = FontStyle.Bold;
-				this.sectionHeader.fontSize = 18;
-				this.sectionHeader.margin.top = 10;
-				this.sectionHeader.margin.left++;
+				toolbarStyle 					= GUI.skin.FindStyle("Toolbar");
+				toolbarSeachTextFieldStyle 	= GUI.skin.FindStyle("ToolbarSeachTextField");
+				toolbarSeachCancelButtonStyle 	= GUI.skin.FindStyle("ToolbarSeachCancelButton");
 
 
+				sectionHeader.fontStyle = FontStyle.Bold;
+				sectionHeader.fontSize = 18;
+				sectionHeader.margin.top = 10;
+				sectionHeader.margin.left++;
 
-
-				if (!EditorGUIUtility.isProSkin) {
-					this.sectionHeader.normal.textColor = new Color(0.4f, 0.4f, 0.4f, 1f);
+  
+                if (!EditorGUIUtility.isProSkin) {
+					sectionHeader.normal.textColor = new Color(0.4f, 0.4f, 0.4f, 1f);
 				} else {
-					this.sectionHeader.normal.textColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+					sectionHeader.normal.textColor = new Color(0.7f, 0.7f, 0.7f, 1f);
 				}
 
-				this.cacheFolderLocation.wordWrap = true;
+				cacheFolderLocation.wordWrap = true;
 			}
 		}
 
@@ -68,19 +65,19 @@ namespace RF.AssetWizzard.Editor {
 		private class Section {
 			public GUIContent content;
 
-			public WizzardWindow.OnGUIDelegate guiFunc;
+			public WizardWindow.OnGUIDelegate guiFunc;
 
-			public Section(string name, WizzardWindow.OnGUIDelegate guiFunc) {
+			public Section(string name, WizardWindow.OnGUIDelegate guiFunc) {
 				this.content = new GUIContent(name);
 				this.guiFunc = guiFunc;
 			}
 
-			public Section(string name, Texture2D icon, WizzardWindow.OnGUIDelegate guiFunc) {
+			public Section(string name, Texture2D icon, WizardWindow.OnGUIDelegate guiFunc) {
 				this.content = new GUIContent(name, icon);
 				this.guiFunc = guiFunc;
 			}
 
-			public Section(GUIContent content, WizzardWindow.OnGUIDelegate guiFunc) {
+			public Section(GUIContent content, WizardWindow.OnGUIDelegate guiFunc) {
 				this.content = content;
 				this.guiFunc = guiFunc;
 			}
@@ -91,8 +88,8 @@ namespace RF.AssetWizzard.Editor {
 
 		private int m_SelectedSectionIndex;
 		private Vector2 m_SectionScrollPos;
-		private List<WizzardWindow.Section> m_Sections;
-		private static WizzardWindow.Constants constants = null;
+		private List<WizardWindow.Section> m_Sections;
+		private static WizardWindow.Constants constants = null;
 
 
 
@@ -102,11 +99,11 @@ namespace RF.AssetWizzard.Editor {
 
 
 		private void OnEnable() {
-			this.m_Sections = new List<WizzardWindow.Section>();
-			this.m_Sections.Add(new WizzardWindow.Section("Wizzard", new WizzardWindow.OnGUIDelegate(this.Wizzard)));
-			this.m_Sections.Add(new WizzardWindow.Section("Assets", new WizzardWindow.OnGUIDelegate(this.Assets)));
-			this.m_Sections.Add(new WizzardWindow.Section("Settings", new WizzardWindow.OnGUIDelegate(this.Settings)));
-			this.m_Sections.Add(new WizzardWindow.Section("Account", new WizzardWindow.OnGUIDelegate(this.Account)));
+			this.m_Sections = new List<WizardWindow.Section>();
+			this.m_Sections.Add(new WizardWindow.Section("Wizzard", new WizardWindow.OnGUIDelegate(this.Wizard)));
+			this.m_Sections.Add(new WizardWindow.Section("Assets", new WizardWindow.OnGUIDelegate(this.Assets)));
+			this.m_Sections.Add(new WizardWindow.Section("Settings", new WizardWindow.OnGUIDelegate(this.Settings)));
+			this.m_Sections.Add(new WizardWindow.Section("Account", new WizardWindow.OnGUIDelegate(this.Account)));
 		}
 
 
@@ -119,8 +116,8 @@ namespace RF.AssetWizzard.Editor {
 			GUI.changed = false;
 			EditorGUIUtility.labelWidth = 200f;
 
-			if (WizzardWindow.constants == null) {
-				WizzardWindow.constants = new WizzardWindow.Constants();
+			if (WizardWindow.constants == null) {
+				WizardWindow.constants = new WizardWindow.Constants();
 			}
 
 
@@ -128,20 +125,28 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.BeginHorizontal(new GUILayoutOption[0]);
 
 
-			m_SectionScrollPos = GUILayout.BeginScrollView(this.m_SectionScrollPos, WizzardWindow.constants.sectionScrollView, new GUILayoutOption[]{ GUILayout.Width(120f)});
+			m_SectionScrollPos = GUILayout.BeginScrollView(this.m_SectionScrollPos, WizardWindow.constants.sectionScrollView, new GUILayoutOption[]{ GUILayout.Width(120f)});
 
 			GUILayout.Space(40f);
 			for (int i = 0; i < this.m_Sections.Count; i++) {
-				WizzardWindow.Section section = this.m_Sections[i];
+				WizardWindow.Section section = this.m_Sections[i];
 
-				Rect rect = GUILayoutUtility.GetRect(section.content, WizzardWindow.constants.sectionElement, new GUILayoutOption[]{GUILayout.ExpandWidth(true)});
+				Rect rect = GUILayoutUtility.GetRect(section.content, WizardWindow.constants.sectionElement, new GUILayoutOption[]{GUILayout.ExpandWidth(true)});
 
 				if (section == this.selectedSection && Event.current.type == EventType.Repaint) {
-					WizzardWindow.constants.selected.Draw(rect, false, false, false, false);
+
+                    Color color;
+                    if (EditorGUIUtility.isProSkin) {
+                        color = new Color(62f / 255f, 95f / 255f, 150f / 255f, 1f);
+                    } else {
+                        color = new Color(62f / 255f, 125f / 255f, 231f / 255f, 1f);
+                    }
+
+                    GUI.DrawTexture(rect, IconManager.GetIcon(color));
 				}
 
 				EditorGUI.BeginChangeCheck();
-				if (GUI.Toggle(rect, this.selectedSectionIndex == i, section.content, WizzardWindow.constants.sectionElement)) {
+				if (GUI.Toggle(rect, this.selectedSectionIndex == i, section.content, WizardWindow.constants.sectionElement)) {
 					this.selectedSectionIndex = i;
 				} if (EditorGUI.EndChangeCheck()){
 					GUIUtility.keyboardControl = 0;
@@ -188,7 +193,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		private WizzardWindow.Section selectedSection {
+		private WizardWindow.Section selectedSection {
 			get {
 				return this.m_Sections[this.m_SelectedSectionIndex];
 			}
@@ -205,7 +210,7 @@ namespace RF.AssetWizzard.Editor {
 		//  Public Methods
 		//--------------------------------------
 
-		public void SiwtchTab(WizzardTabs tab) {
+		public void SiwtchTab(WizardTabs tab) {
 			selectedSectionIndex = (int)tab;
 		}
 
@@ -217,15 +222,16 @@ namespace RF.AssetWizzard.Editor {
 		//--------------------------------------
 
 
-		private void Wizzard() {
+		private void Wizard() {
            
-            GUILayout.Label("Wizzard", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
-            
+            GUILayout.Label("Wizard", WizardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 
             if (AssetBundlesSettings.Instance.IsUploadInProgress) {
                 DrawPreloaderAt(new Rect(570, 12, 20, 20));
                 GUI.enabled = false;
             }
+
+            bool GUIState = GUI.enabled;
 
             GUILayout.Space(10f);
 			if (CurrentProp == null) {
@@ -247,7 +253,7 @@ namespace RF.AssetWizzard.Editor {
 					EditorGUILayout.LabelField ("Title: ", GUILayout.Width (100));
 					GUI.enabled = false;
 					CurrentProp.Template.Title = EditorGUILayout.TextField (CurrentProp.Template.Title, GUILayout.Width (240));
-					GUI.enabled = true;
+					GUI.enabled = GUIState;
 					GUILayout.EndHorizontal ();
 
 					GUILayout.BeginHorizontal ();
@@ -263,18 +269,23 @@ namespace RF.AssetWizzard.Editor {
 
 					if(CurrentProp.HasStandSurface) {
 						CurrentProp.Template.CanStack = false;
-						GUI.enabled = false;
+						GUI.enabled = GUIState;
 					}
 						
 					CurrentProp.Template.CanStack = YesNoFiled ("CanStack", CurrentProp.Template.CanStack, 100, 240);
-					GUI.enabled = true;
+					GUI.enabled = GUIState;
 
 				} GUILayout.EndVertical();
 
 
 				GUILayout.BeginVertical(GUILayout.Width(100)); {
-					CurrentProp.Icon = (Texture2D) EditorGUILayout.ObjectField(CurrentProp.Icon, typeof (Texture2D), false, new GUILayoutOption[] {GUILayout.Width(70), GUILayout.Height(70)});
+                    CurrentProp.Icon = (Texture2D)EditorGUILayout.ObjectField(CurrentProp.Icon, typeof(Texture2D), false, new GUILayoutOption[] { GUILayout.Width(70), GUILayout.Height(70) });
 
+
+                    if(CurrentProp.Icon == null) {
+                         DrawPreloaderAt(new Rect(525, 65, 32, 32));
+                    }
+					
 				} GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 
@@ -317,22 +328,7 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.LabelField ("Default: " + (int)def.x + "x" + (int)def.y + "x" + (int)def.z, alignment_center, GUILayout.Width (labelSize));
 				GUILayout.Space (1);
 				EditorGUILayout.LabelField ("Max(" + Mathf.CeilToInt(CurrentProp.MaxScale * 100f) + "%):" + (int)max.x + "x" + (int)max.y + "x" + (int)max.z, alignment_right, GUILayout.Width (labelSize));
-
-
-
 				GUILayout.EndHorizontal ();
-
-
-			/*	GUILayout.BeginHorizontal ();
-				EditorGUILayout.LabelField ("Max Scale: ", GUILayout.Width (100));
-
-				CurrentProp.Template.MaxScale = EditorGUILayout.Slider (CurrentProp.Template.MaxScale, CurrentProp.MaxAxisValue, 4f); // EditorGUILayout.FloatField (CurrentProp.Template.MaxScale, GUILayout.Width (240));
-				GUILayout.EndHorizontal ();
-*/
-
-
-
-
 				GUILayout.Space (10f);
 
 				GUILayout.BeginHorizontal(); 
@@ -444,7 +440,7 @@ namespace RF.AssetWizzard.Editor {
 			
 		private void Settings() {
 
-            GUILayout.Label("Settings", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
+            GUILayout.Label("Settings", WizardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 
             GUILayout.Space(10f);
 
@@ -511,13 +507,10 @@ namespace RF.AssetWizzard.Editor {
             GUI.matrix = Matrix4x4.identity;
         }
 
-        private Texture2D rotatedPreloader = null;
-
-
         private int m_itemsPreloaderAgnle = 0;
         private void Assets() {
 
-            GUILayout.Label("Assets", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
+            GUILayout.Label("Assets", WizardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 
            
 
@@ -536,7 +529,7 @@ namespace RF.AssetWizzard.Editor {
                 GUI.enabled = false;
             }
 				
-			GUILayout.BeginHorizontal(WizzardWindow.constants.settingsBoxTitle); {
+			GUILayout.BeginHorizontal(WizardWindow.constants.settingsBoxTitle); {
 
 
 				GUIStyle s = new GUIStyle (EditorStyles.boldLabel);
@@ -548,22 +541,22 @@ namespace RF.AssetWizzard.Editor {
 
 
 				GUI.SetNextControlName(SEARTCH_BAR_CONTROL_NAME);
-				AssetBundlesSettings.Instance.SeartchPattern = GUILayout.TextField(AssetBundlesSettings.Instance.SeartchPattern, WizzardWindow.constants.toolbarSeachTextFieldStyle, GUILayout.MinWidth(150));
+				AssetBundlesSettings.Instance.SeartchPattern = GUILayout.TextField(AssetBundlesSettings.Instance.SeartchPattern, WizardWindow.constants.toolbarSeachTextFieldStyle, GUILayout.MinWidth(150));
 
-				if (GUILayout.Button("", WizzardWindow.constants.toolbarSeachCancelButtonStyle)) {
+				if (GUILayout.Button("", WizardWindow.constants.toolbarSeachCancelButtonStyle)) {
 					AssetBundlesSettings.Instance.SeartchPattern = string.Empty;
 					GUI.FocusControl(null);
 				}
 
 
 				Texture2D refreshIcon = Resources.Load ("refresh") as Texture2D;
-				bool refresh = GUILayout.Button (refreshIcon, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+				bool refresh = GUILayout.Button (refreshIcon, WizardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 				if (refresh) {
 					AssetBundlesSettings.Instance.LocalAssetTemplates.Clear ();
 					RequestManager.SeartchAssets ();
 				}
 
-				bool addnew = GUILayout.Button ("+", WizzardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
+				bool addnew = GUILayout.Button ("+", WizardWindow.constants.settingsBoxTitle, GUILayout.Width (20));
 				if(addnew) {
 					WindowManager.ShowCreateNewAsset ();
 				}
@@ -585,7 +578,7 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.BeginHorizontal();
 			GUILayout.BeginVertical( GUILayout.Width(ASSETS_LIST_WIDTH));
 		
-			GUI.Box (new Rect (130, 58, ASSETS_LIST_WIDTH, SCROLL_BAR_HEIGHT), "", WizzardWindow.constants.settingsBox);
+			GUI.Box (new Rect (130, 58, ASSETS_LIST_WIDTH, SCROLL_BAR_HEIGHT), "", WizardWindow.constants.settingsBox);
 
 			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, GUIStyle.none,  GUI.skin.verticalScrollbar, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH), GUILayout.Height(SCROLL_BAR_HEIGHT)});
 
@@ -604,7 +597,7 @@ namespace RF.AssetWizzard.Editor {
                     assetDisaplyContent.image = preloader;
                 }
 
-                if (GUILayout.Toggle(SelectedAsset == asset, assetDisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH)})) {
+                if (GUILayout.Toggle(SelectedAsset == asset, assetDisaplyContent, WizardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH)})) {
 					SelectedAsset = asset;
 				}
 
@@ -635,11 +628,11 @@ namespace RF.AssetWizzard.Editor {
 				GUILayout.BeginHorizontal ();
 
 
-				GUILayout.Label("Selected Asset", WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(ASSETS_INFO_WIDTH - 20*2)});
+				GUILayout.Label("Selected Asset", WizardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(ASSETS_INFO_WIDTH - 20*2)});
 
 
 				Texture2D edit = Resources.Load ("edit") as Texture2D;
-				bool editAsset = GUILayout.Button (edit, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+				bool editAsset = GUILayout.Button (edit, WizardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 				if(editAsset) {
 					AssetBundlesManager.LoadAssetBundle (SelectedAsset);
 				}
@@ -647,7 +640,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 				Texture2D trash = Resources.Load ("trash") as Texture2D;
-				bool removeAsset = GUILayout.Button (trash, WizzardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
+				bool removeAsset = GUILayout.Button (trash, WizardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 				if(removeAsset) {
 					if (EditorUtility.DisplayDialog ("Delete " + SelectedAsset.Title, "Are you sure you want to remove this asset?", "Remove", "Cancel")) {;
 						RequestManager.RemoveAsset (SelectedAsset);
@@ -780,7 +773,7 @@ namespace RF.AssetWizzard.Editor {
 
 		private void Account() {
 
-            GUILayout.Label("Account", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
+            GUILayout.Label("Account", WizardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 
             if (string.IsNullOrEmpty (AssetBundlesSettings.Instance.SessionId)) {
 				GUILayout.Label ("Use your Roomful account email and password to sign in.");

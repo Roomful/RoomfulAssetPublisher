@@ -9,7 +9,26 @@ namespace RF.AssetWizzard.Editor
     public static class IconManager   {
 
         private static Dictionary<Icon, Texture2D> s_icons = new Dictionary<Icon, Texture2D>();
+        private static Dictionary<float, Texture2D> s_colorIcons = new Dictionary<float, Texture2D>();
 
+
+        public static Texture2D GetIcon(Color color) {
+            float colorId = color.r * 1000f + color.g * 100f + color.b * 10f + color.a;
+
+            if (s_colorIcons.ContainsKey(colorId)) {
+                return s_colorIcons[colorId];
+            } else {
+
+
+                Texture2D tex = new Texture2D(1, 1);
+                tex.SetPixel(0, 0, color);
+                tex.Apply();
+                
+
+                s_colorIcons.Add(colorId, tex);
+                return GetIcon(color);
+            }
+        }
 
         public static Texture2D GetIcon(Icon icon) {
 

@@ -16,6 +16,9 @@ namespace RF.AssetWizzard.Network.Request {
 		public Action<byte[]> PackageCallbackData = delegate {};
         public Action<long> PackageCallbackError = delegate { };
 
+        public Action<float> DownloadProgress= delegate { };
+        public Action<float> UploadProgress = delegate { };
+
         protected Dictionary<string, string> _Headers = new Dictionary<string, string>();
 
 		//--------------------------------------

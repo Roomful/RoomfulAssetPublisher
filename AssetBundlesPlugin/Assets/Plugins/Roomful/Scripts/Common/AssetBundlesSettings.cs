@@ -28,7 +28,7 @@ namespace RF.AssetWizzard {
 		private const string SettingsAssetName = "AssetBundlesSettings";
 		private const string SettingsAssetExtension = ".asset";
 
-		public static string AssetBundlesPath = "Plugins/Roomful/Bundles";
+		public static string AssetBundlesPath = "Roomful/Bundles";
 		public static string AssetBundlesPathFull = "Assets/" + AssetBundlesPath;
 
 		public string _SessionId = string.Empty;
