@@ -541,7 +541,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 				GUI.SetNextControlName(SEARTCH_BAR_CONTROL_NAME);
-				AssetBundlesSettings.Instance.SeartchPattern = GUILayout.TextField(AssetBundlesSettings.Instance.SeartchPattern, WizardWindow.constants.toolbarSeachTextFieldStyle, GUILayout.MinWidth(150));
+				AssetBundlesSettings.Instance.SeartchPattern = EditorGUILayout.TextField(AssetBundlesSettings.Instance.SeartchPattern, WizardWindow.constants.toolbarSeachTextFieldStyle, GUILayout.MinWidth(150));
 
 				if (GUILayout.Button("", WizardWindow.constants.toolbarSeachCancelButtonStyle)) {
 					AssetBundlesSettings.Instance.SeartchPattern = string.Empty;
