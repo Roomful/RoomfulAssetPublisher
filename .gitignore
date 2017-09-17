@@ -30,3 +30,7 @@ AssetBundlesSettings.asset
 AssetBundlesPlugin/Assets/Roomful/AssetBundles.meta
 AssetBundlesPlugin/Assets/Roomful/PropAssets.meta
 AssetBundlesPlugin/Assets/Assets.meta
+AssetBundlesPlugin/AssetBundlesPlugin.Editor.Plugins.csproj
+AssetBundlesPlugin/AssetBundlesPlugin.Plugins.csproj
+AssetBundlesPlugin/.vs/AssetBundlesPlugin/v15/sqlite3/storage.ide
+AssetBundlesPlugin/.vs/AssetBundlesPlugin/v15/.suo

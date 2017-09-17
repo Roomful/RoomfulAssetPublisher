@@ -49,6 +49,10 @@ namespace RF.AssetWizzard {
 
 		public string LastBundlePath = string.Empty;
 
+        public AssetTemplate UploadTemplate = null;
+        public int UploadPlatfromIndex = 0;
+
+
 		#if UNITY_EDITOR
 		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
 		#endif
@@ -80,6 +84,17 @@ namespace RF.AssetWizzard {
 				return _Instance;
 			}
 		}
+
+
+        public bool IsUploadInProgress {
+            get {
+                if (AssetBundlesSettings.Instance.UploadTemplate == null || AssetBundlesSettings.Instance.UploadTemplate.Id.Equals(string.Empty)) {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
 		public string SessionId {
 			get {

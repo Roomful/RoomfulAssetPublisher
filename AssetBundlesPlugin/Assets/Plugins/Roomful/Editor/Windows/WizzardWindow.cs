@@ -24,7 +24,7 @@ namespace RF.AssetWizzard.Editor {
 			public GUIStyle evenRow = "CN EntryBackEven";
 			public GUIStyle oddRow = "CN EntryBackOdd";
 			public GUIStyle selected = "ServerUpdateChangesetOn";
-			public GUIStyle keysElement = "PreferencesKeysElement";
+            public GUIStyle keysElement = "PreferencesKeysElement";
 			public GUIStyle warningIcon = "CN EntryWarn";
 			public GUIStyle sectionHeader = new GUIStyle(EditorStyles.largeLabel);
 			public GUIStyle cacheFolderLocation = new GUIStyle(GUI.skin.label);
@@ -153,7 +153,6 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.Space(10f);
 
 			GUILayout.BeginVertical(new GUILayoutOption[0]);
-			GUILayout.Label(this.selectedSection.content, WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 			this.selectedSection.guiFunc();
 			GUILayout.Space(5f);
 			GUILayout.EndVertical();
@@ -219,8 +218,16 @@ namespace RF.AssetWizzard.Editor {
 
 
 		private void Wizzard() {
+           
+            GUILayout.Label("Wizzard", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
+            
 
-			GUILayout.Space(10f);
+            if (AssetBundlesSettings.Instance.IsUploadInProgress) {
+                DrawPreloaderAt(new Rect(570, 12, 20, 20));
+                GUI.enabled = false;
+            }
+
+            GUILayout.Space(10f);
 			if (CurrentProp == null) {
 				GUILayout.Label ("Can't find Prop on scene");
 				if(GUILayout.Button("Create new")) {
@@ -397,8 +404,10 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.Space (40f);
 			GUILayout.EndHorizontal ();
 
-				
-		}
+
+            GUI.enabled = true;
+            Repaint();
+        }
 
 
 		public string TagListItem(Rect position, string itemValue) {
@@ -435,8 +444,9 @@ namespace RF.AssetWizzard.Editor {
 			
 		private void Settings() {
 
+            GUILayout.Label("Settings", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 
-			GUILayout.Space(10f);
+            GUILayout.Space(10f);
 
 
 			ReorderableListGUI.Title("Build Platfroms");
@@ -487,10 +497,31 @@ namespace RF.AssetWizzard.Editor {
 		private AssetTemplate SelectedAsset = null;
 		private const string SEARTCH_BAR_CONTROL_NAME = "seartchBat";
 
-		private void Assets() {
+
+        int RotationAnimatorAgnle = 0;
+        private void DrawPreloaderAt(Rect rect) {
+            Texture2D preloader = IconManager.GetIcon(Icon.loader); 
+            RotationAnimatorAgnle++;
+            if (RotationAnimatorAgnle > 360) {
+                RotationAnimatorAgnle = 0;
+            }
+
+            GUIUtility.RotateAroundPivot(RotationAnimatorAgnle, rect.center);
+            GUI.DrawTexture(rect, preloader);
+            GUI.matrix = Matrix4x4.identity;
+        }
+
+        private Texture2D rotatedPreloader = null;
 
 
-			if(!AssetBundlesSettings.Instance.LocalAssetTemplates.Contains(SelectedAsset)) {
+        private int m_itemsPreloaderAgnle = 0;
+        private void Assets() {
+
+            GUILayout.Label("Assets", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
+
+           
+
+            if (!AssetBundlesSettings.Instance.LocalAssetTemplates.Contains(SelectedAsset)) {
 				SelectedAsset = null;
 			}
 
@@ -499,6 +530,11 @@ namespace RF.AssetWizzard.Editor {
 					SelectedAsset = AssetBundlesSettings.Instance.LocalAssetTemplates [0];
 				}
 			}
+
+            if(RequestManager.ASSETS_SEARTCH_IN_PROGRESS) {
+                DrawPreloaderAt(new Rect(570, 12, 20, 20));
+                GUI.enabled = false;
+            }
 				
 			GUILayout.BeginHorizontal(WizzardWindow.constants.settingsBoxTitle); {
 
@@ -541,8 +577,6 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-
-
 			int ASSETS_LIST_WIDTH = 200;
 			int ASSETS_INFO_WIDTH = 268;
 
@@ -555,12 +589,26 @@ namespace RF.AssetWizzard.Editor {
 
 			m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, GUIStyle.none,  GUI.skin.verticalScrollbar, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH), GUILayout.Height(SCROLL_BAR_HEIGHT)});
 
-			//m_KeyScrollPos = GUILayout.BeginScrollView(m_KeyScrollPos, WizzardWindow.constants.settingsBox, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH), GUILayout.Height(360)});
-			foreach(var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-				if (GUILayout.Toggle(SelectedAsset == asset, asset.DisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH)})) {
+
+            m_itemsPreloaderAgnle+= 3;
+            if (m_itemsPreloaderAgnle > 360) {
+                m_itemsPreloaderAgnle = 0;
+            }
+
+            foreach (var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
+
+                GUIContent assetDisaplyContent = asset.DisaplyContent;
+
+                if (assetDisaplyContent.image == null) {
+                    Texture2D preloader = IconManager.Rotate(IconManager.GetIcon(Icon.loader), m_itemsPreloaderAgnle);
+                    assetDisaplyContent.image = preloader;
+                }
+
+                if (GUILayout.Toggle(SelectedAsset == asset, assetDisaplyContent, WizzardWindow.constants.keysElement, new GUILayoutOption[] {GUILayout.Width(ASSETS_LIST_WIDTH)})) {
 					SelectedAsset = asset;
 				}
-			}
+
+            }
 
 			if (AssetBundlesSettings.Instance.LocalAssetTemplates.Count > 0) {
 				EditorGUILayout.Space ();
@@ -704,8 +752,12 @@ namespace RF.AssetWizzard.Editor {
 
 
 
+            GUI.enabled = true;
 
-		}
+
+            this.Repaint();
+
+        }
 			
 
 		private void AssetInfoLable(string title, object msg) {
@@ -728,7 +780,9 @@ namespace RF.AssetWizzard.Editor {
 
 		private void Account() {
 
-			if (string.IsNullOrEmpty (AssetBundlesSettings.Instance.SessionId)) {
+            GUILayout.Label("Account", WizzardWindow.constants.sectionHeader, new GUILayoutOption[0]);
+
+            if (string.IsNullOrEmpty (AssetBundlesSettings.Instance.SessionId)) {
 				GUILayout.Label ("Use your Roomful account email and password to sign in.");
 
 				AuthWindow ();

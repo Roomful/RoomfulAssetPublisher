@@ -13,10 +13,10 @@ namespace RF.AssetWizzard.Network.Request {
 		protected byte[] _PackData;
 
 		public Action<string> PackageCallbackText = delegate {};
-		public Action<long> PackageCallbackError = delegate {};
 		public Action<byte[]> PackageCallbackData = delegate {};
+        public Action<long> PackageCallbackError = delegate { };
 
-		protected Dictionary<string, string> _Headers = new Dictionary<string, string>();
+        protected Dictionary<string, string> _Headers = new Dictionary<string, string>();
 
 		//--------------------------------------
 		//  Initialization
@@ -109,7 +109,16 @@ namespace RF.AssetWizzard.Network.Request {
 		}
 
 
+        public virtual void RequestFailed(long code,  string text) {
 
-		public abstract Dictionary<string, object> GenerateData();
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.DisplayDialog("Server Comunication Eroor",  "Code: " + code +  "\nMessage: " + text, "Ok :(");
+#endif
+
+            PackageCallbackError(code); 
+        }
+
+
+        public abstract Dictionary<string, object> GenerateData();
 	}
 }
