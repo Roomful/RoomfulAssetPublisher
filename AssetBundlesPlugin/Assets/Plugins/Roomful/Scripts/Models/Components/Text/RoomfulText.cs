@@ -36,6 +36,7 @@ namespace RF.AssetWizzard {
 		public FontData FontData = FontData.defaultFontData;
 		public bool DrawGizmos = true;
 		public Color Color = Color.white;
+		public TextContent Source = new TextContent();
 
    
 		private Bounds m_textBounds = new Bounds (Vector3.zero, Vector3.zero);
@@ -65,6 +66,11 @@ namespace RF.AssetWizzard {
             FontData.horizontalOverflow = info.HorizontalOverflow;
             FontData.verticalOverflow = info.VerticalOverflow;
 
+
+			Source.DataProvider = info.DataProvider;
+			Source.ResourceIndex = info.ResourceIndex;
+			Source.ResourceContentSource = info.ResourceContentSource;
+
             Refersh();
 
         }
@@ -83,11 +89,24 @@ namespace RF.AssetWizzard {
             textInfo.HorizontalOverflow = FontData.horizontalOverflow;
             textInfo.VerticalOverflow = FontData.verticalOverflow;
 
+			textInfo.DataProvider = Source.DataProvider;
+			textInfo.ResourceIndex = Source.ResourceIndex;
+			textInfo.ResourceContentSource = Source.ResourceContentSource;
+
+
 
 #if UNITY_EDITOR
 
             if (textInfo.Font != null) {
-                Debug.Log(AssetDatabase.GetAssetPath(textInfo.Font));
+				string fontFilePath = AssetDatabase.GetAssetPath(textInfo.Font);
+
+				//remove Assets/ string from a path. Yes I know that is not stable hack.
+				//If you know a better way, make it happend
+				fontFilePath = fontFilePath.Substring(7, fontFilePath.Length -7);
+				byte[] data = SA.Common.Util.Files.ReadBytes(fontFilePath);
+
+				textInfo.FontFileContent = data;
+
             }
 
 #endif
@@ -129,6 +148,8 @@ namespace RF.AssetWizzard {
 
 
 
+
+
 			TextRenderer.text = PlaceHolderText;
 			TextRenderer.fontSize = FontData.fontSize;
 			TextRenderer.lineSpacing = FontData.lineSpacing;
@@ -137,6 +158,9 @@ namespace RF.AssetWizzard {
             TextRenderer.font = FontData.font;
             if(TextRenderer.font != null) {
                 TextRenderer.GetComponent<MeshRenderer>().sharedMaterial = TextRenderer.font.material;
+
+				Shader textShader = Shader.Find ("Roomful/Text");
+				TextRenderer.GetComponent<MeshRenderer> ().sharedMaterial.shader = textShader;
             }
             TextRenderer.color = Color;
 

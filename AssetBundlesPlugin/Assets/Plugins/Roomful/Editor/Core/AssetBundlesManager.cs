@@ -444,41 +444,43 @@ namespace RF.AssetWizzard.Editor {
             //text component
             foreach (SerializedText textInfo in asset.GetComponentsInChildren<SerializedText>()) {
 
-                if(textInfo.Font != null) {
+				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
                    
-                    
-                 /*
+				//	Debug.Log (textInfo.FontFileContent.Length);
 
-                    string assetFolderPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + tpl.Title + "/";
-                    string fontsFolder = assetFolderPath + "Fonts/";
-                    string fullPath = fontsFolder + textInfo.Font.name + ".ttf";
-
-
-                    if (!FolderUtils.IsFolderExists(assetFolderPath)) {
-                        FolderUtils.CreateAssetComponentsFolder(assetFolderPath);
-                    }
-
-                    if (!FolderUtils.IsFolderExists(fontsFolder)) {
-                        FolderUtils.CreateAssetComponentsFolder(fontsFolder);
-                    }
+					string assetFolderPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + tpl.Title + "/";
+					string fontsFolder = assetFolderPath + "Fonts/";
+					string fullPath = fontsFolder + textInfo.Font.name + ".ttf";
 
 
 
-                    Font f = new Font(textInfo.Font.name);
-                    f.characterInfo = textInfo.Font.characterInfo;
-                    //f.fontNames = textInfo.Font.fontNames;
-                    f.material = textInfo.Font.material;
-                    f.name = textInfo.Font.name;
-                  
-                    
 
-                    AssetDatabase.CreateAsset(f, fullPath);
-                    textInfo.Font = (Font)AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
 
-    */
+					if (!FolderUtils.IsFolderExists(assetFolderPath)) {
+						FolderUtils.CreateAssetComponentsFolder(assetFolderPath);
+					}
+
+					if (!FolderUtils.IsFolderExists(fontsFolder)) {
+						FolderUtils.CreateAssetComponentsFolder(fontsFolder);
+					}
+
+
+
+					//Font f = new Font(textInfo.Font.name);
+					//f.characterInfo = textInfo.Font.characterInfo;
+					//f.fontNames = textInfo.Font.fontNames;
+
+
+					SA.Common.Util.Files.WriteBytes (AssetBundlesSettings.AssetBundlesPath + "/" + tpl.Title + "/Fonts/" + textInfo.Font.name + ".ttf", textInfo.FontFileContent);
+
+					//AssetDatabase.CreateAsset(f, fullPath);
+					textInfo.Font = (Font)AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
+
 
     
-                }
+				} else {
+					Debug.Log("no font content");
+				}
   
                 var text =  textInfo.gameObject.AddComponent<RoomfulText>();
                 text.Restore(textInfo);

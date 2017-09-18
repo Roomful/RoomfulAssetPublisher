@@ -18,6 +18,13 @@ namespace RF.AssetBundles.Serialisation
         public string PlaceHolderText = "Hello Roomful";
         public Color Color = Color.white;
 
+
+		public SerializedDataProvider DataProvider = SerializedDataProvider.Prop;
+		public int ResourceIndex = 0;
+		public SerializedResourceTextContentSource ResourceContentSource = SerializedResourceTextContentSource.Title;
+
+		public byte[] FontFileContent;
+
     }
 }
 
