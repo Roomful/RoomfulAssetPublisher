@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
+using RF.AssetBundles.Serialisation;
+
 
 namespace RF.AssetWizzard.Editor {
 
@@ -280,15 +282,6 @@ namespace RF.AssetWizzard.Editor {
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 
-
-                        
-                      //  Debug.Log(AssetDatabase.GetAllAssetBundleNames().Length);
-
-                        foreach (var assetBundleName in AssetDatabase.GetAllAssetBundleNames()) {
-                            AssetDatabase.RemoveAssetBundleName(assetBundleName, true);
-                            Debug.Log(assetBundleName);
-                        }
-
                         Caching.ClearCache();
                         Resources.UnloadUnusedAssets();
                         if (CurrentAssetBundle  != null) {
@@ -444,11 +437,61 @@ namespace RF.AssetWizzard.Editor {
 				DestroyImmediate (t.gameObject);
 			}
 
-			AssetBundleContentCloner.Clone (asset);
+
+            AssetBundleContentCloner.Clone(asset);
+
+
+            //text component
+            foreach (SerializedText textInfo in asset.GetComponentsInChildren<SerializedText>()) {
+
+                if(textInfo.Font != null) {
+                   
+                    
+                 /*
+
+                    string assetFolderPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + tpl.Title + "/";
+                    string fontsFolder = assetFolderPath + "Fonts/";
+                    string fullPath = fontsFolder + textInfo.Font.name + ".ttf";
+
+
+                    if (!FolderUtils.IsFolderExists(assetFolderPath)) {
+                        FolderUtils.CreateAssetComponentsFolder(assetFolderPath);
+                    }
+
+                    if (!FolderUtils.IsFolderExists(fontsFolder)) {
+                        FolderUtils.CreateAssetComponentsFolder(fontsFolder);
+                    }
+
+
+
+                    Font f = new Font(textInfo.Font.name);
+                    f.characterInfo = textInfo.Font.characterInfo;
+                    //f.fontNames = textInfo.Font.fontNames;
+                    f.material = textInfo.Font.material;
+                    f.name = textInfo.Font.name;
+                  
+                    
+
+                    AssetDatabase.CreateAsset(f, fullPath);
+                    textInfo.Font = (Font)AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
+
+    */
+
+    
+                }
+  
+                var text =  textInfo.gameObject.AddComponent<RoomfulText>();
+                text.Restore(textInfo);
+                GameObject.DestroyImmediate(textInfo);
+            }
+
+          
 				
 			WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
 		}
+
+
 
 
 

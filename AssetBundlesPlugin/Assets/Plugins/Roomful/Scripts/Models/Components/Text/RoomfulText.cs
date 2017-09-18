@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RF.AssetBundles.Serialisation;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace RF.AssetWizzard {
 
 
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(RectTransform))]
-	public class RoomfulText : MonoBehaviour {
+	public class RoomfulText : MonoBehaviour, IPropComponent
+    {
 
 
 		public enum AlignmentVertical {
@@ -27,19 +32,16 @@ namespace RF.AssetWizzard {
 
 
 		[TextArea(3, 10)]
-		public string Text = "Hello Roomful";
+		public string PlaceHolderText = "Hello Roomful";
 		public FontData FontData = FontData.defaultFontData;
 		public bool DrawGizmos = true;
 		public Color Color = Color.white;
 
-
+   
 		private Bounds m_textBounds = new Bounds (Vector3.zero, Vector3.zero);
-
-
 
 		void Update () {
 			Refersh ();
-
 		}
 
 		protected virtual void OnDrawGizmos () {
@@ -47,48 +49,101 @@ namespace RF.AssetWizzard {
 				return;
 			}
 
-			GizmosDrawer.DrawCube (transform.position, transform.rotation, RectTransform.rect.size, Color.white);
+			GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.white);
 		}
 
 
+        public void Restore(SerializedText info) {
+          
+            PlaceHolderText = info.PlaceHolderText;
+            Color = info.Color;
+            FontData.font = info.Font;
+            FontData.fontSize = info.FontSize;
+            FontData.lineSpacing = info.LineSpacing;
+            FontData.fontStyle = info.FontStyle;
+            FontData.alignment = info.Alignment;
+            FontData.horizontalOverflow = info.HorizontalOverflow;
+            FontData.verticalOverflow = info.VerticalOverflow;
 
-		public float Width {
+            Refersh();
+
+        }
+
+
+        public void PrepareForUpalod() {
+
+            var textInfo = gameObject.AddComponent<RF.AssetBundles.Serialisation.SerializedText>();
+            textInfo.PlaceHolderText = PlaceHolderText;
+            textInfo.Color = Color;
+            textInfo.Font = FontData.font;
+            textInfo.FontSize = FontData.fontSize;
+            textInfo.LineSpacing = FontData.lineSpacing;
+            textInfo.FontStyle = FontData.fontStyle;
+            textInfo.Alignment = FontData.alignment;
+            textInfo.HorizontalOverflow = FontData.horizontalOverflow;
+            textInfo.VerticalOverflow = FontData.verticalOverflow;
+
+
+#if UNITY_EDITOR
+
+            if (textInfo.Font != null) {
+                Debug.Log(AssetDatabase.GetAssetPath(textInfo.Font));
+            }
+
+#endif
+
+            DestroyImmediate(TextRenderer.gameObject);
+            DestroyImmediate(this);
+        }
+
+        public void RemoveSilhouette() {
+            //do nothing
+        }
+
+
+
+        public float Width {
 			get {
-				return RectTransform.sizeDelta.x;
+				return RectTransform.sizeDelta.x * transform.lossyScale.x;
 			}
 
-			set {
-				RectTransform.sizeDelta = new Vector2 (value, Height);
-			}
 		}
 
 		public float Height {
 			get {
-				return RectTransform.sizeDelta.y;
-			}
-
-			set {
-				RectTransform.sizeDelta = new Vector2 (Width, value);
+				return RectTransform.sizeDelta.y * transform.lossyScale.y;
 			}
 		}
 
 
+        public RectTransform RectTransform {
+            get {
+                var t = GetComponent<RectTransform>();
+                //t.hideFlags = HideFlags.NotEditable;
+                return t;
+            }
+        }
 
-		private void Refersh() {
+
+        private void Refersh() {
 
 
 
-			TextRenderer.text = Text;
+			TextRenderer.text = PlaceHolderText;
 			TextRenderer.fontSize = FontData.fontSize;
 			TextRenderer.lineSpacing = FontData.lineSpacing;
 			TextRenderer.fontStyle = FontData.fontStyle;
-			TextRenderer.font = FontData.font;
-			TextRenderer.color = Color;
+			
+            TextRenderer.font = FontData.font;
+            if(TextRenderer.font != null) {
+                TextRenderer.GetComponent<MeshRenderer>().sharedMaterial = TextRenderer.font.material;
+            }
+            TextRenderer.color = Color;
 
 
 
-			//not editable defaults:
-			TextRenderer.characterSize = 1;
+            //not editable defaults:
+            TextRenderer.characterSize = 1;
 			TextRenderer.tabSize = 4;
 			TextRenderer.offsetZ = 0;
 			TextRenderer.richText = true;
@@ -99,18 +154,19 @@ namespace RF.AssetWizzard {
 
 			UpdateTextRendererBounds ();
 
+            TextRenderer.transform.localScale = Vector3.one;
 
-			if(FontData.horizontalOverflow == FontData.WrapMode.Truncate) {
+            if (FontData.horizontalOverflow == SerializedTextWrapMode.Truncate) {
 				while(m_textBounds.size.x > Width) {
-					TextRenderer.fontSize--;
-					UpdateTextRendererBounds ();
+                    DonwSizeTextScale(0.001f);
+                    UpdateTextRendererBounds ();
 				}
 			}
 
-			if(FontData.verticalOverflow == FontData.WrapMode.Truncate) {
+			if(FontData.verticalOverflow == SerializedTextWrapMode.Truncate) {
 				while(m_textBounds.size.y > Height) {
-					TextRenderer.fontSize--;
-					UpdateTextRendererBounds ();
+                    DonwSizeTextScale(0.001f);
+                    UpdateTextRendererBounds ();
 				}
 			}
 
@@ -152,6 +208,16 @@ namespace RF.AssetWizzard {
 
 		}
 
+
+        private void DonwSizeTextScale(float step) {
+            var newScale = new Vector3(
+                TextRenderer.transform.localScale.x - step,
+                TextRenderer.transform.localScale.y - step,
+                TextRenderer.transform.localScale.z - step
+                );
+
+            TextRenderer.transform.localScale = newScale;
+        }
 
 		private void ApplayAlligment(AlignmentVertical vertical, AlignmentHorizontal horizontal) {
 
@@ -204,16 +270,6 @@ namespace RF.AssetWizzard {
 
 
 
-
-
-		private RectTransform RectTransform {
-			get {
-				var t = GetComponent<RectTransform> ();
-				t.hideFlags = HideFlags.NotEditable;
-				return t;
-			}
-		}
-
 		private TextMesh TextRenderer {
 			get {
 
@@ -238,7 +294,9 @@ namespace RF.AssetWizzard {
 			obj.AddComponent<TextMesh> ();
 			obj.transform.parent = transform;
 			obj.transform.localPosition = Vector3.zero;
-			obj.transform.SetAsFirstSibling ();
+            obj.transform.localRotation = Quaternion.identity;
+
+            obj.transform.SetAsFirstSibling ();
 
 		}
 

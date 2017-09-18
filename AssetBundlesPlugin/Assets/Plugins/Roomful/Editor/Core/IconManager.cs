@@ -15,7 +15,7 @@ namespace RF.AssetWizzard.Editor
         public static Texture2D GetIcon(Color color) {
             float colorId = color.r * 1000f + color.g * 100f + color.b * 10f + color.a;
 
-            if (s_colorIcons.ContainsKey(colorId)) {
+            if (s_colorIcons.ContainsKey(colorId) && s_colorIcons[colorId] != null) {
                 return s_colorIcons[colorId];
             } else {
 
@@ -25,7 +25,7 @@ namespace RF.AssetWizzard.Editor
                 tex.Apply();
                 
 
-                s_colorIcons.Add(colorId, tex);
+                s_colorIcons[colorId] = tex;
                 return GetIcon(color);
             }
         }

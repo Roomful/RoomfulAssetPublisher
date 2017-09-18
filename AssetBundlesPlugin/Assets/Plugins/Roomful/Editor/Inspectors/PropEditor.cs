@@ -12,14 +12,13 @@ namespace RF.AssetWizzard.Editor {
 
 
 		SerializedProperty scaleProperty;
-		SerializedProperty ShowBoundsProperty;
+		SerializedProperty DrawGizmos;
 		SerializedProperty ShowCenterProperty;
 		SerializedProperty DisplayMode;
 
 		void OnEnable() {
 			scaleProperty = serializedObject.FindProperty("Scale");
-			ShowBoundsProperty = serializedObject.FindProperty("ShowBounds");
-			ShowCenterProperty = serializedObject.FindProperty("ShowCenter");
+			DrawGizmos = serializedObject.FindProperty("DrawGizmos");
 			DisplayMode = serializedObject.FindProperty("DisplayMode");
 		}
 
@@ -45,8 +44,7 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUILayout.Slider (scaleProperty, Prop.MinScale, Prop.MaxScale);
 
 			EditorGUILayout.PropertyField (DisplayMode);
-			EditorGUILayout.PropertyField (ShowBoundsProperty);
-			EditorGUILayout.PropertyField (ShowCenterProperty);
+			EditorGUILayout.PropertyField (DrawGizmos);
 
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using RF.AssetBundles.Serialisation;
 
 namespace RF.AssetWizzard
 {
@@ -8,10 +9,7 @@ namespace RF.AssetWizzard
 	{
 
 
-		public enum WrapMode {
-			Truncate,
-			Overflow
-		}
+		
 
 
 		[SerializeField]
@@ -29,10 +27,10 @@ namespace RF.AssetWizzard
 
 
 		[SerializeField]
-		private WrapMode m_HorizontalOverflow;
+		private SerializedTextWrapMode m_HorizontalOverflow;
 
 		[SerializeField]
-		private WrapMode m_VerticalOverflow;
+		private SerializedTextWrapMode m_VerticalOverflow;
 
 		[SerializeField]
 		private float m_LineSpacing;
@@ -47,8 +45,8 @@ namespace RF.AssetWizzard
 					m_LineSpacing = 1f,
 					m_FontStyle = FontStyle.Normal,
 					m_Alignment = TextAnchor.UpperLeft,
-					m_HorizontalOverflow = WrapMode.Truncate,
-					m_VerticalOverflow = WrapMode.Truncate,
+					m_HorizontalOverflow = SerializedTextWrapMode.Truncate,
+					m_VerticalOverflow = SerializedTextWrapMode.Truncate,
 				};
 			}
 		}
@@ -104,7 +102,7 @@ namespace RF.AssetWizzard
 		}
 			
 
-		public WrapMode horizontalOverflow
+		public SerializedTextWrapMode horizontalOverflow
 		{
 			get
 			{
@@ -116,7 +114,7 @@ namespace RF.AssetWizzard
 			}
 		}
 
-		public WrapMode verticalOverflow
+		public SerializedTextWrapMode verticalOverflow
 		{
 			get
 			{

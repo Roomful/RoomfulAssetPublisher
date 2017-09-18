@@ -90,7 +90,12 @@ namespace RF.AssetWizzard.Editor {
 			return LoadMaterialFromFolder(fullPath);
 		}
 
-		private static string GetFullTexturePath(Texture tex) {
+
+        private static string GetFullFontsPath(Font font) {
+            return AssetBundlesSettings.AssetBundlesPathFull + "/" + s_clonedProp.Template.Title + "/Font/" + font.name + ".png";
+        }
+
+        private static string GetFullTexturePath(Texture tex) {
 			return AssetBundlesSettings.AssetBundlesPathFull + "/" + s_clonedProp.Template.Title + "/Textures/" + tex.name + ".png";
 		}
 		

@@ -25,7 +25,8 @@ namespace RF.AssetWizzard {
 			CreateFolder (folderPath+"/Materials");
 			CreateFolder (folderPath+"/Meshes");
 			CreateFolder (folderPath+"/Textures");
-		}
+            CreateFolder (folderPath + "/Fonts");
+        }
 
 		public static bool IsFolderExists(string folderPath) {
 			if (folderPath.Equals (string.Empty)) {
