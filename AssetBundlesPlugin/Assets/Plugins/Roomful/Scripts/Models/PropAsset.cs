@@ -106,23 +106,23 @@ namespace RF.AssetWizzard {
 			DisplayMode = PropDisplayMode.Normal;
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 
-			Transform graphTransform = GetLayer (HierarchyLayers.Graphics).transform;
-
-			for (int i = 0; i < graphTransform.childCount; i++) {
-				Transform child = graphTransform.GetChild (i);
-
-				MeshRenderer mr = child.GetComponent<MeshRenderer> ();
-
-				if(mr != null) {
-					foreach (Material mat in mr.sharedMaterials) {
-						SerializedMaterial md = child.gameObject.AddComponent<SerializedMaterial> ();
-						md.ImportMaterial (mat);
-					}
-
-					DestroyImmediate (mr);
-					child.gameObject.AddComponent<MeshRenderer> ();
-				}
-			}
+//			Transform graphTransform = GetLayer (HierarchyLayers.Graphics).transform;
+//
+//			for (int i = 0; i < graphTransform.childCount; i++) {
+//				Transform child = graphTransform.GetChild (i);
+//
+//				MeshRenderer mr = child.GetComponent<MeshRenderer> ();
+//
+//				if(mr != null) {
+//					foreach (Material mat in mr.sharedMaterials) {
+//						SerializedMaterial md = child.gameObject.AddComponent<SerializedMaterial> ();
+//						md.ImportMaterial (mat);
+//					}
+//
+//					DestroyImmediate (mr);
+//					child.gameObject.AddComponent<MeshRenderer> ();
+//				}
+//			}
 		}
 
 		public void Refresh() {

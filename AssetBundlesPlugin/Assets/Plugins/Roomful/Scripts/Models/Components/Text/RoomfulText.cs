@@ -95,28 +95,25 @@ namespace RF.AssetWizzard {
 			textInfo.ResourceContentSource = Source.ResourceContentSource;
 
 
-
 #if UNITY_EDITOR
-
-            if (textInfo.Font != null) {
+			if (textInfo.Font != null) {
 				string fontFilePath = AssetDatabase.GetAssetPath(textInfo.Font);
 
-                //TODO chcek if default??? byte[].lenth = 0
+				if(System.IO.File.Exists(fontFilePath)) {
+					
+					//remove Assets/ string from a path. Yes I know that is not stable hack.
+					//If you know a better way, make it happend
+					fontFilePath = fontFilePath.Substring(7, fontFilePath.Length -7);
+					byte[] data = SA.Common.Util.Files.ReadBytes(fontFilePath);
 
-				//remove Assets/ string from a path. Yes I know that is not stable hack.
-				//If you know a better way, make it happend
-				fontFilePath = fontFilePath.Substring(7, fontFilePath.Length -7);
-				byte[] data = SA.Common.Util.Files.ReadBytes(fontFilePath);
+					textInfo.FontFileContent = data;
+					textInfo.FullFontName = System.IO.Path.GetFileName(fontFilePath);
+				}
 
-				textInfo.FontFileContent = data;
 
-                //TODO save filename
-
-            }
-
+			}
 #endif
-
-            DestroyImmediate(TextRenderer.gameObject);
+			DestroyImmediate(TextRenderer.gameObject);
             DestroyImmediate(this);
         }
 
@@ -150,11 +147,6 @@ namespace RF.AssetWizzard {
 
 
         private void Refersh() {
-
-
-
-
-
 			TextRenderer.text = PlaceHolderText;
 			TextRenderer.fontSize = FontData.fontSize;
 			TextRenderer.lineSpacing = FontData.lineSpacing;
@@ -167,25 +159,16 @@ namespace RF.AssetWizzard {
 
 				Shader textShader = Shader.Find ("Roomful/Text");
 				TextRenderer.GetComponent<MeshRenderer> ().sharedMaterial.shader = textShader;
-
-
-                //TODO not working
-                TextRenderer.GetComponent<MeshRenderer>().sharedMaterial.SetColor("Text Color", Color);
-
-            }
+				               
+                TextRenderer.GetComponent<MeshRenderer>().sharedMaterial.SetColor("_Color", Color);
+			}
            
-
-
-
-            //not editable defaults:
             TextRenderer.characterSize = 1;
 			TextRenderer.tabSize = 4;
 			TextRenderer.offsetZ = 0;
 			TextRenderer.richText = true;
 			TextRenderer.transform.localScale = Vector3.one * 0.1f;
 			TextRenderer.anchor = TextAnchor.MiddleCenter;
-
-
 
 			UpdateTextRendererBounds ();
 
@@ -334,9 +317,5 @@ namespace RF.AssetWizzard {
             obj.transform.SetAsFirstSibling ();
 
 		}
-
-
-
 	}
-
 }

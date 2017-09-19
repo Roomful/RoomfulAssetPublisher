@@ -262,7 +262,6 @@ namespace RF.AssetWizzard.Editor {
 		public static void LoadAssetBundle(AssetTemplate prop, bool saveSceneRequest = true) {
 			EditorApplication.delayCall = () => {
 
-
 				if(saveSceneRequest) {
 					EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 				}
@@ -273,24 +272,25 @@ namespace RF.AssetWizzard.Editor {
 
 				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id, pl);
                 getAssetUrl.PackageCallbackText = (assetUrl) => {
+					
                     Network.Request.DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset (assetUrl);
                     loadAsset.PackageCallbackData = (loadCallback) => {
-	                    if (!FolderUtils.IsFolderExists(AssetBundlesSettings.AssetBundlesPathFull)) {
+						
+						if (!FolderUtils.IsFolderExists(AssetBundlesSettings.AssetBundlesPathFull)) {
 		                    FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
-	                    }
+						}
                         string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 
                         Caching.ClearCache();
                         Resources.UnloadUnusedAssets();
-                        if (CurrentAssetBundle  != null) {
+
+						if (CurrentAssetBundle  != null) {
 							CurrentAssetBundle.Unload(true);
                            
+							CurrentAssetBundle = null;
 
-                            CurrentAssetBundle = null;
-
-                           // AssetBundle.
 
                         }
                         
@@ -311,7 +311,6 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		public static void ReUploadAsset(PropAsset prop) {
-
 
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; 	}
 
@@ -395,6 +394,9 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
+		private static void RecreatePropAssets() {
+
+		}
 
 		private static void RecreateProp(AssetTemplate tpl, Object prop) {
 			if (prop == null) {
@@ -404,8 +406,6 @@ namespace RF.AssetWizzard.Editor {
 				
 			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
-
-
 
 			PropAsset asset = newGo.AddComponent<PropAsset> ();
 			asset.SetTemplate (tpl);
@@ -418,8 +418,6 @@ namespace RF.AssetWizzard.Editor {
 				FixShaders (thumbnail.Border);
 				FixShaders (thumbnail.Corner);
 			}
-
-
 
 			List<Transform> pointers = new List<Transform> ();
             Transform[] children = newGo.GetComponentsInChildren<Transform>();
@@ -437,24 +435,16 @@ namespace RF.AssetWizzard.Editor {
 				DestroyImmediate (t.gameObject);
 			}
 
-
             AssetBundleContentCloner.Clone(asset);
-
 
             //text component
             foreach (SerializedText textInfo in asset.GetComponentsInChildren<SerializedText>()) {
 
 				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
                    
-				//	Debug.Log (textInfo.FontFileContent.Length);
-
 					string assetFolderPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + tpl.Title + "/";
 					string fontsFolder = assetFolderPath + "Fonts/";
-					string fullPath = fontsFolder + textInfo.Font.name + ".ttf";
-
-
-
-
+					string fullPath = fontsFolder + textInfo.FullFontName;
 
 					if (!FolderUtils.IsFolderExists(assetFolderPath)) {
 						FolderUtils.CreateAssetComponentsFolder(assetFolderPath);
@@ -464,20 +454,10 @@ namespace RF.AssetWizzard.Editor {
 						FolderUtils.CreateAssetComponentsFolder(fontsFolder);
 					}
 
+					SA.Common.Util.Files.WriteBytes (AssetBundlesSettings.AssetBundlesPath + "/" + tpl.Title + "/Fonts/" + textInfo.FullFontName, textInfo.FontFileContent);
 
-
-					//Font f = new Font(textInfo.Font.name);
-					//f.characterInfo = textInfo.Font.characterInfo;
-					//f.fontNames = textInfo.Font.fontNames;
-
-
-					SA.Common.Util.Files.WriteBytes (AssetBundlesSettings.AssetBundlesPath + "/" + tpl.Title + "/Fonts/" + textInfo.Font.name + ".ttf", textInfo.FontFileContent);
-
-					//AssetDatabase.CreateAsset(f, fullPath);
 					textInfo.Font = (Font)AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
 
-
-    
 				} else {
 					Debug.Log("no font content");
 				}
@@ -487,15 +467,9 @@ namespace RF.AssetWizzard.Editor {
                 GameObject.DestroyImmediate(textInfo);
             }
 
-          
-				
 			WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
 		}
-
-
-
-
 
 		private static void FixShaders(GameObject obj) {
 			if (obj == null) {
@@ -520,14 +494,5 @@ namespace RF.AssetWizzard.Editor {
 				}
 			}
 		}
-
-
-
-
-		
-
-
-
 	}
-
 }

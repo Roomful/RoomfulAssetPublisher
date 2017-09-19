@@ -661,6 +661,7 @@ namespace RF.AssetWizzard.Editor {
 				AssetInfoLable ("Max Scale", SelectedAsset.MaxSize);
 				AssetInfoLable ("Min Scale", SelectedAsset.MinSize);
 
+
 				string Plaforms = string.Empty;
 				foreach(AssetUrl p in SelectedAsset.Urls) {
 					Plaforms += p.Platform + "  ";
@@ -724,7 +725,8 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-
+				AssetInfoLable ("Created", SelectedAsset.Created.ToString());
+				AssetInfoLable ("Updated", SelectedAsset.Updated.ToString());
 			
 
 				EditorGUILayout.Space ();

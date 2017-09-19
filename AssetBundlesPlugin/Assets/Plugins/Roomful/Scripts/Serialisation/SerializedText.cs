@@ -14,6 +14,7 @@ namespace RF.AssetBundles.Serialisation
         public TextAnchor Alignment;
         public SerializedTextWrapMode HorizontalOverflow;
         public SerializedTextWrapMode VerticalOverflow;
+		public string FullFontName;
 
         public string PlaceHolderText = "Hello Roomful";
         public Color Color = Color.white;
