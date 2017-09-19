@@ -82,6 +82,7 @@ namespace RF.AssetWizzard {
             textInfo.PlaceHolderText = PlaceHolderText;
             textInfo.Color = Color;
             textInfo.Font = FontData.font;
+            textInfo.Font.material.shader = Shader.Find("GUI/Text Shader");
             textInfo.FontSize = FontData.fontSize;
             textInfo.LineSpacing = FontData.lineSpacing;
             textInfo.FontStyle = FontData.fontStyle;
@@ -100,12 +101,16 @@ namespace RF.AssetWizzard {
             if (textInfo.Font != null) {
 				string fontFilePath = AssetDatabase.GetAssetPath(textInfo.Font);
 
+                //TODO chcek if default??? byte[].lenth = 0
+
 				//remove Assets/ string from a path. Yes I know that is not stable hack.
 				//If you know a better way, make it happend
 				fontFilePath = fontFilePath.Substring(7, fontFilePath.Length -7);
 				byte[] data = SA.Common.Util.Files.ReadBytes(fontFilePath);
 
 				textInfo.FontFileContent = data;
+
+                //TODO save filename
 
             }
 
@@ -154,15 +159,21 @@ namespace RF.AssetWizzard {
 			TextRenderer.fontSize = FontData.fontSize;
 			TextRenderer.lineSpacing = FontData.lineSpacing;
 			TextRenderer.fontStyle = FontData.fontStyle;
-			
+            TextRenderer.color = Color;
+
             TextRenderer.font = FontData.font;
             if(TextRenderer.font != null) {
                 TextRenderer.GetComponent<MeshRenderer>().sharedMaterial = TextRenderer.font.material;
 
 				Shader textShader = Shader.Find ("Roomful/Text");
 				TextRenderer.GetComponent<MeshRenderer> ().sharedMaterial.shader = textShader;
+
+
+                //TODO not working
+                TextRenderer.GetComponent<MeshRenderer>().sharedMaterial.SetColor("Text Color", Color);
+
             }
-            TextRenderer.color = Color;
+           
 
 
 
