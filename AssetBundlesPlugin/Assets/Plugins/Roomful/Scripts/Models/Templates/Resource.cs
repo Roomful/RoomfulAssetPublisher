@@ -163,15 +163,24 @@ namespace RF.AssetWizzard {
 			_LastUpdate = DateTime.Now;
 		}
 
-		public void LoadThumbnail(Action<Texture2D> callback = null) {
 
-			if(!string.IsNullOrEmpty(_ThumbnailData)) {
+        private bool m_thumbnailLoadStarted = false;
+        public void LoadThumbnail(Action<Texture2D> callback = null) {
+
+            if(m_thumbnailLoadStarted) {
+                return;
+            }
+
+            m_thumbnailLoadStarted = true;
+
+            if (!string.IsNullOrEmpty(_ThumbnailData)) {
 				byte[] byteData = System.Convert.FromBase64String (_ThumbnailData);
 				Texture2D texture = new Texture2D (2, 2);
 				texture.LoadImage (byteData);
 				OnThumbnailLoaded (texture);
+                m_thumbnailLoadStarted = false;
 
-				return;
+                return;
 			}
 
 			var getAssetUrl = new RF.AssetWizzard.Network.Request.GetResourceUrl (Id);
@@ -188,13 +197,14 @@ namespace RF.AssetWizzard {
 					_ThumbnailData = System.Convert.ToBase64String(byteData);
 
 					OnThumbnailLoaded (texture);
+                    m_thumbnailLoadStarted = false;
 
-
-				};
+                };
 
 				loadThumbnail.PackageCallbackError = (code) => {
 					FallBackToDefaultLexture();
-				};
+                    m_thumbnailLoadStarted = false;
+                };
 
 				loadThumbnail.Send ();
 			};
@@ -202,7 +212,8 @@ namespace RF.AssetWizzard {
 			getAssetUrl.PackageCallbackError = (errorCode) => {
 
 				FallBackToDefaultLexture();
-			};
+                m_thumbnailLoadStarted = false;
+            };
 
 			getAssetUrl.Send ();
 					

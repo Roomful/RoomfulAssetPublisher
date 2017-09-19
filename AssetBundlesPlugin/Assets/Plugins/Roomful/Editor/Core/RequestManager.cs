@@ -9,8 +9,13 @@ namespace RF.AssetWizzard.Editor {
 	public static class RequestManager  {
 
 
+
+        public static bool ASSETS_SEARTCH_IN_PROGRESS = false;
 		public static void SeartchAssets() {
-			RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = null;
+
+            ASSETS_SEARTCH_IN_PROGRESS = true;
+
+            RF.AssetWizzard.Network.Request.GetAllAssets allAssetsRequest = null;
 
 			if(AssetBundlesSettings.Instance.SeartchType == SeartchRequestType.ByName) {
 				allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (AssetBundlesSettings.Instance.LocalAssetTemplates.Count, 5, AssetBundlesSettings.Instance.SeartchPattern);
@@ -36,7 +41,9 @@ namespace RF.AssetWizzard.Editor {
 					AssetBundlesSettings.Instance.LocalAssetTemplates.Add(at);
 				}
 				AssetBundlesSettings.Save();
-			};
+
+                ASSETS_SEARTCH_IN_PROGRESS = false;
+            };
 
 			allAssetsRequest.Send ();
 		}

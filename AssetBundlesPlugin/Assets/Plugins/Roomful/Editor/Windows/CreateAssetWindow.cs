@@ -9,7 +9,7 @@ namespace RF.AssetWizzard.Editor {
 	
 		void OnGUI() {
 
-			Texture2D wizardIcon = Resources.Load ("wizard") as Texture2D;
+            Texture2D wizardIcon = IconManager.GetIcon(Icon.wizard); 
 			GUIContent wizardContent =  new GUIContent(wizardIcon, "");
 			EditorGUI.LabelField (new Rect (10, 10, 70, 70), wizardContent);
 

@@ -99,8 +99,6 @@ namespace RF.AssetWizzard {
 			if(assetData.HasValue("thumbnail")) {
 				var resInfo =  new JSONData(assetData.GetValue<Dictionary<string, object>>("thumbnail"));
 				Icon = new Resource(resInfo);
-				/*	Debug.Log ("has thumbnail: " + Icon.Id);
-				Icon.LoadThumbnail ();*/
 			} else {
 				Icon = new Resource ();
 			}
@@ -167,6 +165,7 @@ namespace RF.AssetWizzard {
 
 			get {
 				GUIContent content = new GUIContent ();
+
 
 				if(Icon != null && Icon.Thumbnail != null) {
 					content.image = Icon.Thumbnail;

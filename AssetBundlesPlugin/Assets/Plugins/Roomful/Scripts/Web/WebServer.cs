@@ -63,7 +63,6 @@ namespace RF.AssetWizzard.Network {
 
 				} else {
 					www = UnityWebRequest.Put(AssetBundlesSettings.WEB_SERVER_URL + package.Url, package.GeneratedDataText);
-				//	Debug.Log (package.GeneratedDataText);
 				}
 					break;
 			case RequestMethods.GET: 
@@ -94,35 +93,67 @@ namespace RF.AssetWizzard.Network {
 
             string cleanedUrl = www.url.Replace(" ", "%20");
             www.url = cleanedUrl;
-           
-            www.Send ();
 
-			while (www.responseCode == -1) {
-				//do nothing while blocking
-			}
-            
-			if(www.isError) {
-				Debug.LogError(www.error);
-			} else {
-				if (www.responseCode == 200) {
+            EditorWebRequest request = new EditorWebRequest(www, package);
+            request.Send(() => {
 
-                    string logStrning = CleanUpInput (www.downloadHandler.text);
+                if (www.isNetworkError) {
+                    package.RequestFailed(www.responseCode, www.error);
+                } else {
+                    if (www.responseCode == 200) {
+                        string logStrning = CleanUpInput(www.downloadHandler.text);
 
-					if (AssetBundlesSettings.Instance.ShowWebInLogs) {
-						Debug.Log ("WEB::IN::" + logStrning);
-					}
+                        if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+                            Debug.Log("WEB::IN::" + logStrning);
+                        }
+                        package.PackageCallbackText(www.downloadHandler.text);
+                        package.PackageCallbackData(www.downloadHandler.data);
+                    } else {
+                        package.RequestFailed(www.responseCode, www.downloadHandler.text);
 
-					package.PackageCallbackText (www.downloadHandler.text);
-					package.PackageCallbackData(www.downloadHandler.data);
-				} else {
-					package.PackageCallbackError (www.responseCode);
+                        if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+                            Debug.Log("Response code: " + www.responseCode + ", message: " + www.downloadHandler.text);
+                        }
 
-					if (AssetBundlesSettings.Instance.ShowWebInLogs) {
-						Debug.Log("Response code: "+www.responseCode+", message: " +www.downloadHandler.text);
                     }
                 }
-			}
-		}
+
+            });
+        }
+
+      
+
+        IEnumerator GetText() {
+            using (UnityWebRequest request = UnityWebRequest.Get("http://unity3d.com/")) {
+
+                Debug.Log(request.isDone);
+                yield return request.Send();
+                Debug.Log(request.isDone);
+
+                yield return new WaitForSeconds(2f);
+
+                Debug.Log(request.isDone);
+                if (request.isNetworkError) // Error
+                {
+                    Debug.Log(request.error);
+                } else // Success
+                  {
+                    Debug.Log(request.downloadHandler.text);
+                }
+            }
+        }
+
+
+        private IEnumerator ExecuteRequest(UnityWebRequest www, Request.BaseWebPackage package) {
+
+   
+            yield return www.Send();
+
+           
+
+           
+
+        }
 
 		private static string CleanUpInput(string json) {
 

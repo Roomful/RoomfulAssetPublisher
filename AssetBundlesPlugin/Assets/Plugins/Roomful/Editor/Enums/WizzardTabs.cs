@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Editor {
-	public enum WizzardTabs {
+	public enum WizardTabs {
 		Wizzard = 0,
 		Assets = 1,
 		Platforms = 2,

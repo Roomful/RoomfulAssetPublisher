@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
+using RF.AssetBundles.Serialisation;
+
 
 namespace RF.AssetWizzard.Editor {
 
@@ -66,14 +68,74 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
+        private static float s_uploadProgress = 0f;
 
-		public static void AssetsUploadLoop(int i, AssetTemplate tpl, System.Action FinishHandler) {
+        public static void StartUploadProgress(string message) {
+            s_uploadProgress = 0f;
+            EditorUtility.DisplayProgressBar("Asset Upload", message, s_uploadProgress);
+        }
 
-			if (i < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
-				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [i];
+        private static void AddProgress(string message, float progress) {
+          
+            s_uploadProgress += progress;
+           // Debug.Log("AddProgress UI: " + s_uploadProgress + " / " + progress);
+            EditorUtility.DisplayProgressBar("Asset Upload", message, s_uploadProgress);
+        }
+
+        private static void FinishUploadProgress() {
+            EditorUtility.ClearProgressBar();
+        }
+
+        private static void UploadAssetBundle(PropAsset prop) {
+
+            AddProgress("Requesting Thumbnail Upload Link", 0.1f);
+            var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail(prop.Template.Id);
+            getIconUploadLink.PackageCallbackText = (linkCallback) => {
+
+                AddProgress("Uploading Asset Thumbnail", 0.1f);
+                var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, prop.Icon);
+
+                float currentUploadProgress = s_uploadProgress;
+                uploadRequest.UploadProgress = (float progress) => {
+                    float p = progress / 2f;
+                    s_uploadProgress = currentUploadProgress + p;
+                    AddProgress("Uploading Asset Thumbnail", 0f);
+                };
+
+                uploadRequest.PackageCallbackText = (string uploadCallback) => {
+
+                    AddProgress("Waiting Thumbnail Upload Confirmation", 0.3f);
+                    var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(prop.Template.Id);
+                    confirmRequest.PackageCallbackText = (string resData) => {
 
 
-				string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + "temp/" + tpl.Title + ".prefab";
+                        var resInfo = new JSONData(resData);
+                        var res = new Resource(resInfo);
+
+                        prop.Template.Icon = res;
+                        AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
+
+                        AssetBundlesManager.Clone(prop);
+                        AssetBundlesManager.AssetsUploadLoop(0, prop.Template);
+                    };
+                    confirmRequest.Send();
+                };
+                uploadRequest.Send();
+            };
+            getIconUploadLink.Send();
+
+
+        }
+
+        public static void AssetsUploadLoop(int platformIndex, AssetTemplate tpl) {
+
+            AssetBundlesSettings.Instance.UploadTemplate = tpl;
+            AssetBundlesSettings.Instance.UploadPlatfromIndex = platformIndex;
+
+
+            if (platformIndex < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
+				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [platformIndex];
+                string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + "temp/" + tpl.Title + ".prefab";
 				string assetBundleName = tpl.Title + "_" + pl;
 				assetBundleName = assetBundleName.ToLower ();
 
@@ -83,55 +145,88 @@ namespace RF.AssetWizzard.Editor {
 
 				FolderUtils.CreateFolder (AssetBundlesSettings.AssetBundlesPath);
 				BuildPipeline.BuildAssetBundles (AssetBundlesSettings.AssetBundlesPathFull, BuildAssetBundleOptions.UncompressedAssetBundle, pl);
-				AssetDatabase.Refresh ();
-
-
-				Debug.Log (CurrentAssetBundle);
-
-
-				Network.Request.GetUploadLink getUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink (tpl.Id, pl.ToString(), tpl.Title);
-
-				getUploadLink.PackageCallbackText = (linkCallback) => {
-
-					byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPathFull+ "/" + assetBundleName);
-
-					Network.Request.UploadAsset uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset(linkCallback, assetBytes);
-
-					uploadRequest.PackageCallbackText = (uploadCallback)=> {
-						Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, pl.ToString());
-
-						confirm.PackageCallbackText = (confirmCallback)=> {
-							i++;
-
-							CleanAssetBundleName(tpl.Title);
-
-							if (i == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
-								FinishHandler();
-							} else {
-								AssetsUploadLoop(i, tpl, FinishHandler);
-							}
-
-						};
-
-						confirm.Send();
-					};
-
-					uploadRequest.Send();
-				};
-				getUploadLink.Send();
-
-
+                 //AssetDatabase.Refresh ();
 
 			}
 		}
 
 
-		private static void CleanAssetBundleName(string assetName) {
-			/*string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + assetName+ ".prefab";
+        [UnityEditor.Callbacks.DidReloadScripts]
+        private static void OnScriptsReloaded() {
 
-			AssetImporter assetImporter = AssetImporter.GetAtPath (prefabPath);
-			assetImporter.assetBundleName = string.Empty;*/
 
+            if(!AssetBundlesSettings.Instance.IsUploadInProgress) {
+                return;
+            }
+          
+
+            int platformIndex = AssetBundlesSettings.Instance.UploadPlatfromIndex;
+            AssetTemplate tpl = AssetBundlesSettings.Instance.UploadTemplate;
+            BuildTarget platform = AssetBundlesSettings.Instance.TargetPlatforms[platformIndex];
+            string assetBundleName = tpl.Title + "_" + platform;
+
+
+            AddProgress("Getting Asset Upload URL (" + platform + ")", 0.2f);
+            var uploadLinkRequest = new RF.AssetWizzard.Network.Request.GetUploadLink(tpl.Id, platform.ToString(), tpl.Title);
+            uploadLinkRequest.PackageCallbackText = (linkCallback) => {
+
+                AddProgress("Uploading Asset (" + platform + ")", 0.2f);
+                byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.AssetBundlesPathFull + "/" + assetBundleName);
+                Network.Request.UploadAsset uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset(linkCallback, assetBytes);
+
+
+                float currentUploadProgress = s_uploadProgress;
+                uploadRequest.UploadProgress = (float progress) => {
+                    float p = progress / 2f;
+                    s_uploadProgress = currentUploadProgress + p;
+                    AddProgress("Uploading Asset (" + platform + ")", 0f);
+                };
+
+                uploadRequest.PackageCallbackText = (uploadCallback) => {
+
+                    AddProgress("Waiting Asset Upload Confirmation (" + platform + ")", 0.2f / (float)AssetBundlesSettings.Instance.TargetPlatforms.Count);
+                    Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, platform.ToString());
+                    confirm.PackageCallbackText = (confirmCallback) => {
+                        platformIndex++;
+                        CleanAssetBundleName(tpl.Title);
+
+                        if (platformIndex == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
+                            FinishAssetUpload();
+                        } else {
+                            AssetsUploadLoop(platformIndex, tpl);
+                        }
+
+                    };
+                    confirm.Send();
+                };
+                uploadRequest.Send();
+            };
+            uploadLinkRequest.Send();
+        }
+
+
+
+        private static void FinishAssetUpload() {
+            AssetTemplate tpl = AssetBundlesSettings.Instance.UploadTemplate;
+            AssetBundlesSettings.Instance.UploadTemplate = new AssetTemplate();
+            AssetBundlesSettings.Save();
+
+            AssetBundlesManager.DelteTempFiles();
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+
+            EditorApplication.delayCall = () => {
+                FolderUtils.DeleteFolder(AssetBundlesSettings.AssetBundlesPath, false);
+                FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
+            };
+
+            AssetBundlesManager.LoadAssetBundle(tpl, false);
+            FinishUploadProgress();
+            EditorUtility.DisplayDialog("Success", " Asset has been successfully uploaded!", "Ok");
+        }
+
+
+        private static void CleanAssetBundleName(string assetName) {
 			AssetDatabase.RemoveUnusedAssetBundleNames ();
 		}
 
@@ -148,7 +243,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 				EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
-				WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
+				WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
 				string prefabPath = AssetBundlesSettings.FULL_ASSETS_LOCATION + tpl.Title + ".prefab";
 				PropAsset createdProp = new GameObject (tpl.Title).AddComponent<PropAsset> ();
@@ -187,16 +282,7 @@ namespace RF.AssetWizzard.Editor {
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 
-
-                        
-                      //  Debug.Log(AssetDatabase.GetAllAssetBundleNames().Length);
-
-                        foreach (var assetBundleName in AssetDatabase.GetAllAssetBundleNames()) {
-                            AssetDatabase.RemoveAssetBundleName(assetBundleName, true);
-                            Debug.Log(assetBundleName);
-                        }
-
-                        Caching.CleanCache();
+                        Caching.ClearCache();
                         Resources.UnloadUnusedAssets();
                         if (CurrentAssetBundle  != null) {
 							CurrentAssetBundle.Unload(true);
@@ -229,12 +315,15 @@ namespace RF.AssetWizzard.Editor {
 
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; 	}
 
-			prop.PrepareForUpload ();
-			RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (prop.Template);
+            //just to mark that uploading process has started
+            AssetBundlesSettings.Instance.UploadTemplate = prop.Template;
 
-			updateRequest.PackageCallbackText = (updateCalback) => {
+            prop.PrepareForUpload ();
+
+            StartUploadProgress("Updating Asset Template");
+            RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (prop.Template);
+            updateRequest.PackageCallbackText = (updateCalback) => {
 				UploadAssetBundle(prop);
-
 			};
 			updateRequest.Send ();
 		}
@@ -243,9 +332,14 @@ namespace RF.AssetWizzard.Editor {
 
 			if(!AssetBundlesManager.ValidateAsset(prop)) { return; }
 
-			prop.PrepareForUpload ();
-			Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (prop.Template);
-			createMeta.PackageCallbackText = (callback) => { 
+            //just to mark that uploading process has started
+            AssetBundlesSettings.Instance.UploadTemplate = prop.Template;
+
+            prop.PrepareForUpload ();
+
+            StartUploadProgress("Updating Asset Template");
+            Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (prop.Template);
+            createMeta.PackageCallbackText = (callback) => { 
 				prop.Template.Id =  new AssetTemplate(callback).Id;
 				UploadAssetBundle(prop);
 			};
@@ -343,11 +437,63 @@ namespace RF.AssetWizzard.Editor {
 				DestroyImmediate (t.gameObject);
 			}
 
-			AssetBundleContentCloner.Clone (asset);
+
+            AssetBundleContentCloner.Clone(asset);
+
+
+            //text component
+            foreach (SerializedText textInfo in asset.GetComponentsInChildren<SerializedText>()) {
+
+				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
+                   
+				//	Debug.Log (textInfo.FontFileContent.Length);
+
+					string assetFolderPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + tpl.Title + "/";
+					string fontsFolder = assetFolderPath + "Fonts/";
+					string fullPath = fontsFolder + textInfo.Font.name + ".ttf";
+
+
+
+
+
+					if (!FolderUtils.IsFolderExists(assetFolderPath)) {
+						FolderUtils.CreateAssetComponentsFolder(assetFolderPath);
+					}
+
+					if (!FolderUtils.IsFolderExists(fontsFolder)) {
+						FolderUtils.CreateAssetComponentsFolder(fontsFolder);
+					}
+
+
+
+					//Font f = new Font(textInfo.Font.name);
+					//f.characterInfo = textInfo.Font.characterInfo;
+					//f.fontNames = textInfo.Font.fontNames;
+
+
+					SA.Common.Util.Files.WriteBytes (AssetBundlesSettings.AssetBundlesPath + "/" + tpl.Title + "/Fonts/" + textInfo.Font.name + ".ttf", textInfo.FontFileContent);
+
+					//AssetDatabase.CreateAsset(f, fullPath);
+					textInfo.Font = (Font)AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
+
+
+    
+				} else {
+					Debug.Log("no font content");
+				}
+  
+                var text =  textInfo.gameObject.AddComponent<RoomfulText>();
+                text.Restore(textInfo);
+                GameObject.DestroyImmediate(textInfo);
+            }
+
+          
 				
-			WindowManager.Wizzard.SiwtchTab(WizzardTabs.Wizzard);
+			WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
 		}
+
+
 
 
 
@@ -378,54 +524,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-		private static void UploadAssetBundle(PropAsset prop) {
-            var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail (prop.Template.Id);
-			getIconUploadLink.PackageCallbackText = (linkCallback) => {
-
-				var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, prop.Icon);
-				uploadRequest.PackageCallbackText = (string uploadCallback)=> {
-
-
-					var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(prop.Template.Id);
-					confirmRequest.PackageCallbackText = (string resData)=> {
-						
-
-						var resInfo =  new JSONData(resData);
-						var res = new Resource(resInfo);
-
-						prop.Template.Icon = res;
-						AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
-
-						AssetBundlesManager.Clone(prop);
-						int counter = 0;
-
-						AssetBundlesManager.AssetsUploadLoop(counter, prop.Template, () => {
-							AssetBundlesManager.DelteTempFiles();
-							AssetDatabase.Refresh();
-							AssetDatabase.SaveAssets();
-
-							EditorApplication.delayCall = () => {
-								FolderUtils.DeleteFolder(AssetBundlesSettings.AssetBundlesPath, false);
-								FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
-							};
-						});
-
-
-						AssetBundlesManager.LoadAssetBundle (prop.Template, false);
-						EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
-
-
-
-
-					};
-					confirmRequest.Send();
-				};
-				uploadRequest.Send();
-			};
-			getIconUploadLink.Send();
-
-
-		}
+		
 
 
 

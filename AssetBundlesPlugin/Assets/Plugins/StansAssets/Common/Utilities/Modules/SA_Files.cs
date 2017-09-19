@@ -45,13 +45,11 @@ namespace SA.Common.Util {
 
 		}
 
-		public static void Write(string fileName, string contents) {
+		public static void Write(string filePath, string contents) {
 
+			CreateFolder (filePath.Substring (0, filePath.LastIndexOf ('/')));
 
-
-			CreateFolder (fileName.Substring (0, fileName.LastIndexOf ('/')));
-
-			TextWriter tw = new StreamWriter(GetFullPath (fileName), false);
+			TextWriter tw = new StreamWriter(GetFullPath (filePath), false);
 			tw.Write(contents);
 			tw.Close(); 
 
@@ -60,10 +58,41 @@ namespace SA.Common.Util {
 			//File.WriteAllText(GetFullPath (fileName), contents);
 		}
 
-		public static string Read(string fileName) {
+
+		public static void WriteBytes(string filePath, byte[] content) {
+
+			CreateFolder (filePath.Substring (0, filePath.LastIndexOf ('/')));
+
+			/*
+			FileStream fsStream = new FileStream (GetFullPath (filePath), FileMode.Create);
+			BinaryWriter writer = new BinaryWriter (fsStream);
+			writer.Write (content);
+			*/
+
+			StreamWriter writer = new StreamWriter(GetFullPath (filePath), false);
+			writer.BaseStream.Write (content, 0, content.Length);
+
+			writer.Close(); 
+
+				
+			//BinaryWriter tw = new BinaryWriter(GetFullPath (filePath), false);
+			//BinaryWriter tw =  new BinaryWriter()
+			//tw.Write(content, 0, content.Length);
+			//tw.Write()
+			//tw.Close(); 
+
+
+			//TODO import only this file
+			AssetDatabase.Refresh();
+
+			//File.WriteAllText(GetFullPath (fileName), contents);
+		}
+
+
+		public static string Read(string filePath) {
 			#if !UNITY_WEBPLAYER
-			if(IsFileExists(fileName)) {
-				return File.ReadAllText(GetFullPath (fileName));
+			if(IsFileExists(filePath)) {
+				return File.ReadAllText(GetFullPath (filePath));
 			} else {
 				return "";
 			}
@@ -72,6 +101,22 @@ namespace SA.Common.Util {
 			#if UNITY_WEBPLAYER
 			Debug.LogWarning("FileStaticAPI::Read is innored under wep player platfrom");
 			return "";
+			#endif
+		}
+
+		public static byte[] ReadBytes(string filePath) {
+			#if !UNITY_WEBPLAYER
+			if(IsFileExists(filePath)) {
+				Debug.Log(GetFullPath (filePath));
+				return File.ReadAllBytes(GetFullPath (filePath));
+			} else {
+				return new byte[0];
+			}
+			#endif
+
+			#if UNITY_WEBPLAYER
+			Debug.LogWarning("FileStaticAPI::Read is innored under wep player platfrom");
+r			eturn new byte[0];
 			#endif
 		}
 		

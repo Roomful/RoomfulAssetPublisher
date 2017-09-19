@@ -91,9 +91,14 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-		[MenuItem("GameObject/Roomful/Add Title Component", false, 0)]
-		static void SetAsTitle () {
+		[MenuItem("GameObject/Roomful/Add Text Component", false, 0)]
+		static void AddTextComponent () {
+			var text = new GameObject ("Text").AddComponent<RoomfulText>();
+            text.RectTransform.sizeDelta = new Vector2(1f, 1f / 5f); 
 
+            text.transform.localRotation = Quaternion.Euler(0f, 180f, 0f); 
+
+            Selection.activeObject = text.gameObject;
 		}
 
 

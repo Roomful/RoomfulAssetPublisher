@@ -28,7 +28,7 @@ namespace RF.AssetWizzard {
 		private const string SettingsAssetName = "AssetBundlesSettings";
 		private const string SettingsAssetExtension = ".asset";
 
-		public static string AssetBundlesPath = "Plugins/Roomful/Bundles";
+		public static string AssetBundlesPath = "Roomful/Bundles";
 		public static string AssetBundlesPathFull = "Assets/" + AssetBundlesPath;
 
 		public string _SessionId = string.Empty;
@@ -48,6 +48,10 @@ namespace RF.AssetWizzard {
 		public bool ShowWebOutLogs = false;
 
 		public string LastBundlePath = string.Empty;
+
+        public AssetTemplate UploadTemplate = null;
+        public int UploadPlatfromIndex = 0;
+
 
 		#if UNITY_EDITOR
 		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
@@ -80,6 +84,17 @@ namespace RF.AssetWizzard {
 				return _Instance;
 			}
 		}
+
+
+        public bool IsUploadInProgress {
+            get {
+                if (AssetBundlesSettings.Instance.UploadTemplate == null || AssetBundlesSettings.Instance.UploadTemplate.Id.Equals(string.Empty)) {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
 		public string SessionId {
 			get {

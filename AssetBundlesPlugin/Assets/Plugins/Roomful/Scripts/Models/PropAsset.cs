@@ -13,8 +13,7 @@ namespace RF.AssetWizzard {
 		[SerializeField] [HideInInspector]
 		private AssetTemplate _Template;
 		public float Scale = 1f;
-		public bool ShowBounds = true;
-		public bool ShowCenter = true;
+		public bool DrawGizmos = true;
 
 
 		public PropDisplayMode DisplayMode = PropDisplayMode.Normal;
@@ -53,15 +52,12 @@ namespace RF.AssetWizzard {
 
 
 		protected virtual void OnDrawGizmos () {
-			if (ShowBounds) {
-				Gizmos.color = Color.blue;
-				DrawCube (_Size.center, transform.rotation, _Size.size);
+
+			if(!DrawGizmos) {
+				return;
 			}
 
-			if(ShowCenter) {
-				Gizmos.color = Color.green;
-				Gizmos.DrawWireSphere (transform.position, 0.1f);
-			}
+			GizmosDrawer.DrawCube (_Size.center, transform.rotation, _Size.size, Color.blue);
 
 		}
 

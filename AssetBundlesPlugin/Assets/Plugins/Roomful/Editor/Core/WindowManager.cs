@@ -33,9 +33,9 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		public static WizzardWindow Wizzard {
+		public static WizardWindow Wizzard {
 			get {
-				return EditorWindow.GetWindow<WizzardWindow>(true, "Asset Bundles Wizzard");
+				return EditorWindow.GetWindow<WizardWindow>(true, "Asset Bundles Wizzard");
 			}
 		}
 
