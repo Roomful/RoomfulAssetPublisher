@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 namespace RF.AssetWizzard {
 
 	public interface IPropComponent  {

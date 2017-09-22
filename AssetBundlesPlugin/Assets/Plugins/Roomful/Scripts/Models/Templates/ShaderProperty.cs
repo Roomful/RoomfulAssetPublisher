@@ -11,5 +11,5 @@ public class ShaderProperty {
 
 	public Vector4 VectorValue;
 	public float FloatValue;
-	public Texture TextureValue;
+	public Texture TextureValue = null;
 }

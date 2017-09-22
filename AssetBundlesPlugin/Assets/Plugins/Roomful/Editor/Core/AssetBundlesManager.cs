@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 
 using RF.AssetBundles.Serialisation;
+using RF.AssetBundles;
 
 
 namespace RF.AssetWizzard.Editor {
@@ -279,7 +280,8 @@ namespace RF.AssetWizzard.Editor {
 						if (!FolderUtils.IsFolderExists(AssetBundlesSettings.AssetBundlesPathFull)) {
 		                    FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
 						}
-                        string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
+                        
+						string bundlePath = AssetBundlesSettings.AssetBundlesPathFull+"/"+prop.Title+"_"+pl;
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 
@@ -290,16 +292,12 @@ namespace RF.AssetWizzard.Editor {
 							CurrentAssetBundle.Unload(true);
                            
 							CurrentAssetBundle = null;
-
-
-                        }
+						}
                         
-
                         CurrentAssetBundle = AssetBundle.LoadFromFile(bundlePath);
 
 						RecreateProp(prop, CurrentAssetBundle.LoadAsset<Object>(prop.Title));
 
-						
 						AssetDatabase.DeleteAsset(bundlePath);
 					};
 
@@ -345,7 +343,37 @@ namespace RF.AssetWizzard.Editor {
 
 			createMeta.Send ();
 		}
-			
+
+		private static void RecreateProp(AssetTemplate tpl, Object prop) {
+			if (prop == null) {
+				Debug.Log ("Prop is null");
+
+				return;
+			}
+				
+			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
+			newGo.name = tpl.Title;
+
+			PropAsset asset = newGo.AddComponent<PropAsset> ();
+			asset.SetTemplate (tpl);
+
+			PropDataBase.ClearOldDataFolder (asset);
+
+			RunCollectors(asset);
+
+			WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+		}
+
+		private static void RunCollectors(PropAsset asset) {
+
+			new OldRendererCollector ().Run (asset); // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
+			new RendererCollector().Run (asset);
+			new TextCollector().Run (asset);
+			new MeshCollector().Run (asset);
+			new MeshThumbnailCollector().Run (asset);
+			new ThumbnailCollector().Run (asset);
+		}
+
 		public static void CheckAnimations(PropAsset prop) {
 			Animator[] anims = prop.GetComponentsInChildren<Animator> ();
 			Animator mainAnimator = null;
@@ -389,110 +417,10 @@ namespace RF.AssetWizzard.Editor {
 				Debug.Log ("Transitions:");
 
 				for (int i = 0; i < mainAnimator.layerCount; i++) {
-					
+
 				}
 			}
 		}
 
-		private static void RecreatePropAssets() {
-
-		}
-
-		private static void RecreateProp(AssetTemplate tpl, Object prop) {
-			if (prop == null) {
-				Debug.Log ("Prop is null");
-				return;
-			}
-				
-			GameObject newGo = (GameObject)Instantiate (prop) as GameObject;
-			newGo.name = tpl.Title;
-
-			PropAsset asset = newGo.AddComponent<PropAsset> ();
-			asset.SetTemplate (tpl);
-
-			FixShaders (newGo);
-
-			Transform thumbnails =  asset.GetLayer (HierarchyLayers.Thumbnails);
-			foreach(Transform tb in thumbnails) {
-				PropThumbnail thumbnail = tb.gameObject.AddComponent<PropThumbnail> ();
-				FixShaders (thumbnail.Border);
-				FixShaders (thumbnail.Corner);
-			}
-
-			List<Transform> pointers = new List<Transform> ();
-            Transform[] children = newGo.GetComponentsInChildren<Transform>();
-
-            for (int i = 0; i < children.Length; i++) {
-                Transform child = children[i];
-
-                if (child.name.Equals(AssetBundlesSettings.THUMBNAIL_POINTER)) {
-                    child.parent.gameObject.AddComponent<PropMeshThumbnail> ().Update();
-					pointers.Add (child);
-				}
-			}
-
-			foreach(Transform t in pointers) {
-				DestroyImmediate (t.gameObject);
-			}
-
-            AssetBundleContentCloner.Clone(asset);
-
-            //text component
-            foreach (SerializedText textInfo in asset.GetComponentsInChildren<SerializedText>()) {
-
-				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
-                   
-					string assetFolderPath = AssetBundlesSettings.AssetBundlesPathFull + "/" + tpl.Title + "/";
-					string fontsFolder = assetFolderPath + "Fonts/";
-					string fullPath = fontsFolder + textInfo.FullFontName;
-
-					if (!FolderUtils.IsFolderExists(assetFolderPath)) {
-						FolderUtils.CreateAssetComponentsFolder(assetFolderPath);
-					}
-
-					if (!FolderUtils.IsFolderExists(fontsFolder)) {
-						FolderUtils.CreateAssetComponentsFolder(fontsFolder);
-					}
-
-					SA.Common.Util.Files.WriteBytes (AssetBundlesSettings.AssetBundlesPath + "/" + tpl.Title + "/Fonts/" + textInfo.FullFontName, textInfo.FontFileContent);
-
-					textInfo.Font = (Font)AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
-
-				} else {
-					Debug.Log("no font content");
-				}
-  
-                var text =  textInfo.gameObject.AddComponent<RoomfulText>();
-                text.Restore(textInfo);
-                GameObject.DestroyImmediate(textInfo);
-            }
-
-			WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
-
-		}
-
-		private static void FixShaders(GameObject obj) {
-			if (obj == null) {
-				return;
-			}
-
-			var renderers = obj.GetComponentsInChildren<Renderer> ();
-
-			foreach (Renderer r in renderers) {
-				foreach(Material m in r.sharedMaterials) {
-					if(m == null) { continue; }
-					if (m.shader == null) { continue; }
-
-
-					var shaderName = m.shader.name;
-					var newShader = Shader.Find(shaderName);
-					if(newShader != null){
-						m.shader = newShader;
-					} else {
-						Debug.LogWarning("unable to refresh shader: "+shaderName+" in material "+m.name);
-					}
-				}
-			}
-		}
 	}
 }

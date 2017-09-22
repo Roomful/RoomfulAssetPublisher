@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class SerializedMaterial : MonoBehaviour {
 
+	public string MatName = string.Empty;
 	public string ShaderName = string.Empty;
 	public List<ShaderProperty> ShadersProperties = new List<ShaderProperty> ();
 
-	public void ImportMaterial(Material mat) {
+	public void Serialize(Material mat) {
 		#if UNITY_EDITOR
 
+		MatName = mat.name.Replace("/", "");
 		ShaderName = mat.shader.name;
 
 		int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (mat.shader);
@@ -45,32 +47,4 @@ public class SerializedMaterial : MonoBehaviour {
 		#endif
 	}
 
-	public Material ExportMaterial() {
-		Material mat = new Material(Shader.Find(ShaderName));
-
-		foreach (ShaderProperty property in ShadersProperties) {
-			ShaderPropertyType propertyType = (ShaderPropertyType)System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
-
-			switch(propertyType) {
-			case ShaderPropertyType.TexEnv:
-				mat.SetTexture (property.PropertyName, property.TextureValue);
-
-				break;
-			case ShaderPropertyType.Float:
-			case ShaderPropertyType.Range:
-				mat.SetFloat (property.PropertyName, property.FloatValue);
-				break;
-
-			case ShaderPropertyType.Vector:
-				mat.SetVector (property.PropertyName, property.VectorValue);
-				break;
-			case ShaderPropertyType.Color:
-				mat.SetColor (property.PropertyName, property.VectorValue);
-
-				break;
-			}
-		}
-
-		return mat;
-	}
 }

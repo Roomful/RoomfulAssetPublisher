@@ -82,7 +82,7 @@ namespace RF.AssetWizzard {
 		// Public Methods
 		//--------------------------------------
 
-
+		[ContextMenu("Prepare For Upload")]
 		public void PrepareForUpload () {
 			IPropComponent[] components = GetComponentsInChildren<IPropComponent> ();
 			foreach(var c in components) {
@@ -102,27 +102,30 @@ namespace RF.AssetWizzard {
 				c.PrepareForUpalod ();
 			}
 
+			FinalizeUploadPreparation ();
+		}
 
+		public void FinalizeUploadPreparation() {
 			DisplayMode = PropDisplayMode.Normal;
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 
-//			Transform graphTransform = GetLayer (HierarchyLayers.Graphics).transform;
-//
-//			for (int i = 0; i < graphTransform.childCount; i++) {
-//				Transform child = graphTransform.GetChild (i);
-//
-//				MeshRenderer mr = child.GetComponent<MeshRenderer> ();
-//
-//				if(mr != null) {
-//					foreach (Material mat in mr.sharedMaterials) {
-//						SerializedMaterial md = child.gameObject.AddComponent<SerializedMaterial> ();
-//						md.ImportMaterial (mat);
-//					}
-//
-//					DestroyImmediate (mr);
-//					child.gameObject.AddComponent<MeshRenderer> ();
-//				}
-//			}
+			Transform graphTransform = GetLayer (HierarchyLayers.Graphics).transform;
+
+			for (int i = 0; i < graphTransform.childCount; i++) {
+				Transform child = graphTransform.GetChild (i);
+
+				Renderer r = child.GetComponent<Renderer> ();
+
+				if(r != null) {
+					foreach (Material mat in r.sharedMaterials) {
+						SerializedMaterial md = child.gameObject.AddComponent<SerializedMaterial> ();
+						md.Serialize (mat);
+					}
+
+					r.sharedMaterials = new Material[0];
+
+				}
+			}
 		}
 
 		public void Refresh() {

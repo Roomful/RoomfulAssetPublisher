@@ -45,7 +45,7 @@ namespace RF.AssetWizzard {
             }
 
             if(Canvas.sharedMaterial.mainTexture != Thumbnail) {
-                gameObject.GetComponent<Renderer>().sharedMaterial.mainTexture = Thumbnail;
+				Canvas.sharedMaterial.mainTexture = Thumbnail;
             }
 
 			//gameObject.GetComponent<Renderer> ().sharedMaterial = new Material (gameObject.GetComponent<Renderer> ().sharedMaterial);
@@ -60,15 +60,12 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 		public void PrepareForUpalod() {
-
-
-			gameObject.GetComponent<Renderer> ().sharedMaterial.mainTexture = null;
-
 			GameObject pointer = new GameObject (AssetBundlesSettings.THUMBNAIL_POINTER);
 			pointer.transform.parent = transform;
 			pointer.transform.Reset ();
 			RemoveSilhouette ();
 
+			DestroyImmediate (Canvas);
 			DestroyImmediate (this);
 		}
 
@@ -98,9 +95,15 @@ namespace RF.AssetWizzard {
 
 
         public Renderer Canvas {
-            get {
-                return gameObject.GetComponent<Renderer>();
-            }
+			get {
+				MeshRenderer r = gameObject.GetComponent<MeshRenderer> ();
+
+				if (r == null) {
+					r = gameObject.AddComponent<MeshRenderer> ();
+				}
+
+				return r;
+			}
         }
 
         public bool IsBoundToResourceIndex {
@@ -147,11 +150,6 @@ namespace RF.AssetWizzard {
 				return GameObject.FindObjectOfType<PropAsset> ();
 			}
 		}
-
-
-
-
-
 
         //--------------------------------------
         // Private Methods
