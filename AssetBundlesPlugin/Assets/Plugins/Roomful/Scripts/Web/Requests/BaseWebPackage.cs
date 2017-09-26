@@ -115,7 +115,7 @@ namespace RF.AssetWizzard.Network.Request {
         public virtual void RequestFailed(long code,  string text) {
 
 #if UNITY_EDITOR
-            UnityEditor.EditorUtility.DisplayDialog("Server Comunication Eroor",  "Code: " + code +  "\nMessage: " + text, "Ok :(");
+			UnityEditor.EditorUtility.DisplayDialog("Server Comunication Eroor",  "Code: " + code +  "\nMessage: " + text, "Ok :(");
 #endif
 
             PackageCallbackError(code); 

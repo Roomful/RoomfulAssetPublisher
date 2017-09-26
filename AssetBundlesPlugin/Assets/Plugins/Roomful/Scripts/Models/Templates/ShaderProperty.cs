@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[Serializable]
-public class ShaderProperty {
+namespace RF.AssetBundles {
 
-	public string PropertyName = string.Empty;
-	public string  PropertyType = string.Empty;
+	[Serializable]
+	public class ShaderProperty {
 
-	public Vector4 VectorValue;
-	public float FloatValue;
-	public Texture TextureValue = null;
+		public string PropertyName = string.Empty;
+		public string  PropertyType = string.Empty;
+
+		public Vector4 VectorValue;
+		public float FloatValue;
+		public SerializedTexture TextureValue = null;
+	}
 }

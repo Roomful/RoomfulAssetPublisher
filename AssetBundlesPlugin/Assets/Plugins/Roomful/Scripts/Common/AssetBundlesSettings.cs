@@ -24,7 +24,6 @@ namespace RF.AssetWizzard {
 
 		public const string SETTINGS_LOCATION = "Plugins/Roomful/Settings/Editor/Resources/";
 
-
 		private const string SettingsAssetName = "AssetBundlesSettings";
 		private const string SettingsAssetExtension = ".asset";
 
@@ -37,12 +36,13 @@ namespace RF.AssetWizzard {
 
 		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
 
+		public List<AssetTemplate> TemporaryAssetTemplates = new List<AssetTemplate>(); //using for automatic reuploader
+
 		public const float MAX_AlLOWED_SIZE = 4f;
 		public const float MIN_ALLOWED_SIZE = 0.3f;
 
 		public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
         public const string THUMBNAIL_RESOURCE_INDEX_BOUND = "ResourceIndexBound";
-
 
         public bool ShowWebInLogs = true;
 		public bool ShowWebOutLogs = false;
@@ -52,6 +52,7 @@ namespace RF.AssetWizzard {
         public AssetTemplate UploadTemplate = null;
         public int UploadPlatfromIndex = 0;
 
+		public bool IsInAutoloading = false;
 
 		#if UNITY_EDITOR
 		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
@@ -73,18 +74,14 @@ namespace RF.AssetWizzard {
 							SettingsAssetName + SettingsAssetExtension
 						);
 
-
 						AssetDatabase.CreateAsset(_Instance, fullPath);
 						#endif
 					}
-
-					
 				}
 
 				return _Instance;
 			}
 		}
-
 
         public bool IsUploadInProgress {
             get {
@@ -101,7 +98,6 @@ namespace RF.AssetWizzard {
 				return _SessionId;
 			}
 		}
-
 
 		public void ReplaceTemplate(AssetTemplate tpl) {
 			for(int i = 0; i < LocalAssetTemplates.Count; i++) {
@@ -125,7 +121,6 @@ namespace RF.AssetWizzard {
 			#endif
 		}
 
-
 		public void RemoverFromLocalAssetTemplates(AssetTemplate tpl) {
 			LocalAssetTemplates.Remove (tpl);
 
@@ -138,10 +133,8 @@ namespace RF.AssetWizzard {
 				}
 			}
 
-
 			return false;
 		}
-
 	}
 }
 

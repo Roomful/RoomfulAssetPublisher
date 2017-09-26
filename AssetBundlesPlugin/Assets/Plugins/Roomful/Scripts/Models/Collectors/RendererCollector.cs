@@ -27,10 +27,10 @@ namespace RF.AssetBundles {
 							switch(propertyType) {
 							case ShaderPropertyType.TexEnv:
 
-								if (property.TextureValue != null) {
-									string texName = property.TextureValue.name;
+								if (property.TextureValue != null && property.TextureValue.MainTexture != null) {
+									string texName = property.TextureValue.MainTexture.name;
 
-									PropDataBase.SaveAsset<Texture> (propAsset, property.TextureValue);
+									PropDataBase.SaveAsset<Texture> (propAsset, property.TextureValue.MainTexture);
 
 									if (property.PropertyName.Equals("_BumpMap")) {
 										string path = UnityEditor.AssetDatabase.GetAssetPath(PropDataBase.LoadAsset<Texture>(propAsset, texName));

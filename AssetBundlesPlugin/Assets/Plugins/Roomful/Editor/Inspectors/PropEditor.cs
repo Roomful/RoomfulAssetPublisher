@@ -70,12 +70,12 @@ namespace RF.AssetWizzard.Editor {
 				} else {
 					bool re_upload = GUILayout.Button ("Re Upload", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if (re_upload) {
-						AssetBundlesManager.ReUploadAsset (Prop);
+						AssetBundlesManager.ReuploadAsset (Prop);
 					}
 
 					bool refresh =GUILayout.Button ("Refresh", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if (refresh) {
-						AssetBundlesManager.LoadAssetBundle (Prop.Template);
+						AssetBundlesManager.DownloadAssetBundle (Prop.Template);
 					}
 				}
 

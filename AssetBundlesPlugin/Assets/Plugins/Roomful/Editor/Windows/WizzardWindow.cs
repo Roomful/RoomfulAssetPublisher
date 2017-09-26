@@ -239,6 +239,10 @@ namespace RF.AssetWizzard.Editor {
 				if(GUILayout.Button("Create new")) {
 					WindowManager.ShowCreateNewAsset ();
 				}
+//
+//				if(GUILayout.Button("Reupload all assets")) {
+//					AutomaticReloader.ReloadAllAssets ();
+//				}
 				return;
 			}
 
@@ -338,17 +342,19 @@ namespace RF.AssetWizzard.Editor {
 					ReorderableListGUI.ListField(CurrentProp.Template.Tags, TagListItem, DrawEmptyTag);
 				} GUILayout.EndVertical();
 
-
 				GUILayout.BeginVertical(GUILayout.Width(225)); {
 
 					ReorderableListGUI.Title("Supported Content Types");
 					List<string> ContentTypes = new List<string> ();
+
 					foreach(ContentType t in CurrentProp.Template.ContentTypes) {
 						ContentTypes.Add (t.ToString ());
 					}
+
 					ReorderableListGUI.ListField(ContentTypes, ContentTypeListItem, DrawEmptyContentType);
 
 					CurrentProp.Template.ContentTypes = new List<ContentType> ();
+
 					foreach(string val in ContentTypes) {
 						ContentType parsed = SA.Common.Util.General.ParseEnum<ContentType> (val);
 						CurrentProp.Template.ContentTypes.Add (parsed);
@@ -357,8 +363,6 @@ namespace RF.AssetWizzard.Editor {
 				} GUILayout.EndVertical();
 
 				GUILayout.EndHorizontal();
-
-			
 
 			} if (EditorGUI.EndChangeCheck ()) {
 				//AssetBundlesManager.SavePrefab (CurrentProp);
@@ -376,18 +380,22 @@ namespace RF.AssetWizzard.Editor {
 			if (string.IsNullOrEmpty (CurrentProp.Template.Id)) {
 				bool upload = GUI.Button (buttonRect1, "Upload");
 				if (upload) {
+					AssetBundlesSettings.Instance.IsInAutoloading = false;
+
 					AssetBundlesManager.UploadAssets (CurrentProp);
 				}
 
 			} else {
 				bool upload = GUI.Button (buttonRect1, "Re Upload");
 				if (upload) {
-					AssetBundlesManager.ReUploadAsset (CurrentProp);
+					AssetBundlesSettings.Instance.IsInAutoloading = false;
+
+					AssetBundlesManager.ReuploadAsset (CurrentProp);
 				}
 
 				bool refresh = GUI.Button (buttonRect2, "Refresh");
 				if (refresh) {
-					AssetBundlesManager.LoadAssetBundle (CurrentProp.Template);
+					AssetBundlesManager.DownloadAssetBundle (CurrentProp.Template);
 				}
 			}
 
@@ -634,7 +642,7 @@ namespace RF.AssetWizzard.Editor {
 				Texture2D edit = Resources.Load ("edit") as Texture2D;
 				bool editAsset = GUILayout.Button (edit, WizardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 				if(editAsset) {
-					AssetBundlesManager.LoadAssetBundle (SelectedAsset);
+					AssetBundlesManager.DownloadAssetBundle (SelectedAsset);
 				}
 
 

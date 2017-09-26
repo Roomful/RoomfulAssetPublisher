@@ -118,7 +118,7 @@ namespace RF.AssetWizzard {
 
 				if(r != null) {
 					foreach (Material mat in r.sharedMaterials) {
-						SerializedMaterial md = child.gameObject.AddComponent<SerializedMaterial> ();
+						RF.AssetBundles.SerializedMaterial md = child.gameObject.AddComponent<RF.AssetBundles.SerializedMaterial> ();
 						md.Serialize (mat);
 					}
 
