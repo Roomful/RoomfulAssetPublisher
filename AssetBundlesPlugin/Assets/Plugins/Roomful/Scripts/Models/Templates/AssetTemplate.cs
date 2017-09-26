@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Moon.Network.Web;
-
 namespace RF.AssetWizzard {
 	
 	[Serializable]
 	public class AssetTemplate {
 
-		[Param("id")] public string Id = string.Empty;
-		[Param("created")] public DateTime Created = DateTime.MinValue;
+		public string Id = string.Empty;
+		public DateTime Created = DateTime.MinValue;
 
 
 		public DateTime Updated = DateTime.MinValue;
