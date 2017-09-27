@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+
 namespace RF.AssetBundles {
 	
 	public class RendererCollector : ICollector {
@@ -26,22 +31,21 @@ namespace RF.AssetBundles {
 
 							switch(propertyType) {
 							case ShaderPropertyType.TexEnv:
+								if (property.SerializedTextureValue != null && property.SerializedTextureValue.MainTexture != null) {
+									string texName = property.SerializedTextureValue.MainTexture.name;
 
-								if (property.TextureValue != null && property.TextureValue.MainTexture != null) {
-									string texName = property.TextureValue.MainTexture.name;
+									PropDataBase.SaveAsset<Texture> (propAsset, property.SerializedTextureValue.MainTexture);
 
-									PropDataBase.SaveAsset<Texture> (propAsset, property.TextureValue.MainTexture);
+									string path = AssetDatabase.GetAssetPath(PropDataBase.LoadAsset<Texture>(propAsset, texName));
+									TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
 
-									if (property.PropertyName.Equals("_BumpMap")) {
-										string path = UnityEditor.AssetDatabase.GetAssetPath(PropDataBase.LoadAsset<Texture>(propAsset, texName));
+									TextureImporterSettings settings = new TextureImporterSettings();
+									ti.ReadTextureSettings(settings);
 
-										UnityEditor.TextureImporter ti = (UnityEditor.TextureImporter)UnityEditor.TextureImporter.GetAtPath(path);
-										UnityEditor.TextureImporterSettings settings = new UnityEditor.TextureImporterSettings();
-										ti.ReadTextureSettings(settings);
-										settings.textureType = UnityEditor.TextureImporterType.NormalMap;
-										ti.SetTextureSettings(settings);
-										ti.SaveAndReimport();
-									}
+									//settings.textureType = (TextureImporterType)System.Enum.Parse(typeof(TextureImporterType), property.SerializedTextureValue.TextureType);
+
+									ti.SetTextureSettings(settings);
+									ti.SaveAndReimport();
 
 									newMaterial.SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
 								}

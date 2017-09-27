@@ -13,6 +13,6 @@ namespace RF.AssetBundles {
 
 		public Vector4 VectorValue;
 		public float FloatValue;
-		public SerializedTexture TextureValue = null;
+		public SerializedTexture SerializedTextureValue = null;
 	}
 }

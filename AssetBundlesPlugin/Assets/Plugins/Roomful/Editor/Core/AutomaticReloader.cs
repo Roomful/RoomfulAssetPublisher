@@ -26,11 +26,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void StartLoop() {
-			Debug.Log ("TemporaryAssetTemplates "+AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count);
-
 			if (AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count > 0) {
-				Debug.Log ("now reuploaded " + Peek ().Title);
-
 				AssetBundlesSettings.Instance.IsInAutoloading = true;
 				AssetBundlesManager.AssetBundleDownloadedEvent += AssetBundleDownloadedHandler;
 				AssetBundlesManager.DownloadAssetBundle (Dequeue ());
@@ -40,7 +36,6 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void AssetBundleDownloadedHandler() {
-			Debug.Log ("AssetBundle Downloaded Handler");
 			AssetBundlesManager.AssetBundleDownloadedEvent -= AssetBundleDownloadedHandler;
 
 			UnityEditor.EditorApplication.update += OnUpdate;
@@ -54,7 +49,6 @@ namespace RF.AssetWizzard.Editor {
 				#if UNITY_EDITOR
 				counter = 0;
 				UnityEditor.EditorApplication.update -= OnUpdate;
-				Debug.Log ("OnUpdate "+AssetBundlesSettings.Instance.IsInAutoloading);
 				if (AssetBundlesSettings.Instance.IsInAutoloading) {
 					AssetBundlesManager.ReuploadAsset (CurrentProp);
 				}
@@ -65,7 +59,6 @@ namespace RF.AssetWizzard.Editor {
 		[UnityEditor.Callbacks.DidReloadScripts]
 		private static void OnScriptsReloaded() {
 			#if UNITY_EDITOR
-			Debug.Log ("OnScriptsReloaded "+AssetBundlesSettings.Instance.IsInAutoloading);
 			if (AssetBundlesSettings.Instance.IsInAutoloading) {
 				AssetBundlesManager.AssetBundleUploadedEvent += AssetBundleUploadedHandler;
 			}
@@ -73,7 +66,6 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void AssetBundleUploadedHandler() {
-			Debug.Log ("AssetBundle Uploaded Handler");
 			AssetBundlesManager.AssetBundleUploadedEvent -= AssetBundleUploadedHandler;
 
 			StartLoop ();

@@ -27,8 +27,8 @@ namespace RF.AssetBundles {
 
 				switch(propertyType) {
 				case UnityEditor.ShaderUtil.ShaderPropertyType.TexEnv:
-					property.TextureValue = new SerializedTexture();
-					property.TextureValue.MainTexture = mat.GetTexture(propertyName);
+					property.SerializedTextureValue = new SerializedTexture();
+					property.SerializedTextureValue.MainTexture = mat.GetTexture(propertyName);
 
 					break;
 				case UnityEditor.ShaderUtil.ShaderPropertyType.Float:
