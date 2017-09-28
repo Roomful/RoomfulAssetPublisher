@@ -25,7 +25,7 @@ namespace RF.AssetWizzard {
 
 		public const string SETTINGS_LOCATION = "Plugins/Roomful/Editor/Resources/Settings/";
 
-		private const string SettingsAssetName = "Settings/AssetBundlesSettings";
+		private const string SettingsAssetName = "AssetBundlesSettings";
 		private const string SettingsAssetExtension = ".asset";
 
 		public static string AssetBundlesPath = "Roomful/Bundles";
@@ -67,7 +67,7 @@ namespace RF.AssetWizzard {
 		public static AssetBundlesSettings Instance {
 			get {
 				if (_Instance == null) {
-					_Instance = Resources.Load(SettingsAssetName) as AssetBundlesSettings;
+					_Instance = Resources.Load("Settings/" + SettingsAssetName) as AssetBundlesSettings;
 
 					if (_Instance == null) {
 
@@ -103,6 +103,12 @@ namespace RF.AssetWizzard {
 				return m_sessionId;
 			}
 		}
+
+        public bool IsLoggedIn {
+            get {
+                return string.IsNullOrEmpty(SessionId);
+            }
+        }
 
 		public void ReplaceTemplate(AssetTemplate tpl) {
 			for(int i = 0; i < LocalAssetTemplates.Count; i++) {
