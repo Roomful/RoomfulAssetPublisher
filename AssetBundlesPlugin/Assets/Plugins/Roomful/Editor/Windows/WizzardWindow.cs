@@ -86,7 +86,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-		private int m_SelectedSectionIndex;
+		private int m_selectedSectionIndex;
 		private Vector2 m_SectionScrollPos;
 		private List<WizardWindow.Section> m_Sections;
 		private static WizardWindow.Constants constants = null;
@@ -122,7 +122,10 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-			GUILayout.BeginHorizontal(new GUILayoutOption[0]);
+            SelectedSectionIndex = 0;
+
+
+            GUILayout.BeginHorizontal(new GUILayoutOption[0]);
 
 
 			m_SectionScrollPos = GUILayout.BeginScrollView(this.m_SectionScrollPos, WizardWindow.constants.sectionScrollView, new GUILayoutOption[]{ GUILayout.Width(120f)});
@@ -146,8 +149,8 @@ namespace RF.AssetWizzard.Editor {
 				}
 
 				EditorGUI.BeginChangeCheck();
-				if (GUI.Toggle(rect, this.selectedSectionIndex == i, section.content, WizardWindow.constants.sectionElement)) {
-					this.selectedSectionIndex = i;
+				if (GUI.Toggle(rect, this.SelectedSectionIndex == i, section.content, WizardWindow.constants.sectionElement)) {
+					SelectedSectionIndex = i;
 				} if (EditorGUI.EndChangeCheck()){
 					GUIUtility.keyboardControl = 0;
 				}
@@ -179,16 +182,16 @@ namespace RF.AssetWizzard.Editor {
 		//--------------------------------------
 
 
-		private int selectedSectionIndex {
+		private int SelectedSectionIndex {
 			get {
-				return this.m_SelectedSectionIndex;
+				return this.m_selectedSectionIndex;
 			} set {
 
-				this.m_SelectedSectionIndex = value;
-				if (this.m_SelectedSectionIndex >= this.m_Sections.Count) {
-					this.m_SelectedSectionIndex = 0;
-				} else if (this.m_SelectedSectionIndex < 0) {
-					this.m_SelectedSectionIndex = this.m_Sections.Count - 1;
+				this.m_selectedSectionIndex = value;
+				if (this.m_selectedSectionIndex >= this.m_Sections.Count) {
+					this.m_selectedSectionIndex = 0;
+				} else if (this.m_selectedSectionIndex < 0) {
+					this.m_selectedSectionIndex = this.m_Sections.Count - 1;
 				}
 			}
 		}
@@ -196,7 +199,7 @@ namespace RF.AssetWizzard.Editor {
 
 		private WizardWindow.Section selectedSection {
 			get {
-				return this.m_Sections[this.m_SelectedSectionIndex];
+				return this.m_Sections[this.m_selectedSectionIndex];
 			}
 		}
 
@@ -212,7 +215,7 @@ namespace RF.AssetWizzard.Editor {
 		//--------------------------------------
 
 		public void SiwtchTab(WizardTabs tab) {
-			selectedSectionIndex = (int)tab;
+			SelectedSectionIndex = (int)tab;
 		}
 
 
