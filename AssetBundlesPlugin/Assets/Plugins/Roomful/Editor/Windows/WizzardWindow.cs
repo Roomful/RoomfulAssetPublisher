@@ -169,6 +169,7 @@ namespace RF.AssetWizzard.Editor {
 			if(GUI.changed) {
 				DirtyEditor();
 			}
+
 		}
 
 
@@ -845,7 +846,7 @@ namespace RF.AssetWizzard.Editor {
 		//--------------------------------------
 
 		private static void DirtyEditor() {
-
+          //  AssetBundlesSettings.Save();
 		}
 
 

@@ -88,8 +88,8 @@ namespace RF.AssetWizzard.Network {
 			}
 
 			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
-				Debug.Log ("WEB::OUT::" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText);
-			}
+                U.Log(package.MethodName + "::" + www.url + " | " + package.GeneratedDataText, SA.UltimateLogger.DefaultTags.OUT);
+            }
 
             string cleanedUrl = www.url.Replace(" ", "%20");
             www.url = cleanedUrl;
@@ -104,7 +104,7 @@ namespace RF.AssetWizzard.Network {
                         string logStrning = CleanUpInput(www.downloadHandler.text);
 
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
-                            Debug.Log("WEB::IN::" + logStrning);
+                            U.Log(logStrning, SA.UltimateLogger.DefaultTags.IN);
                         }
                         package.PackageCallbackText(www.downloadHandler.text);
                         package.PackageCallbackData(www.downloadHandler.data);
@@ -112,12 +112,11 @@ namespace RF.AssetWizzard.Network {
                         package.RequestFailed(www.responseCode, www.downloadHandler.text);
 
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
-                            Debug.Log("Response code: " + www.responseCode + ", message: " + www.downloadHandler.text);
+                            U.Log("Response code: " + www.responseCode + ", message: " + www.downloadHandler.text, SA.UltimateLogger.DefaultTags.IN);
                         }
 
                     }
                 }
-
             });
         }
 

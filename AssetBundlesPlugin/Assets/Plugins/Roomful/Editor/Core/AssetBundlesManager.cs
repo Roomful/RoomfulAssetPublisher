@@ -335,6 +335,7 @@ namespace RF.AssetWizzard.Editor {
 			GameObject newGo = (GameObject)GameObject.Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
 
+            Debug.Log(tpl);
 			PropAsset asset = newGo.AddComponent<PropAsset> ();
 			asset.SetTemplate (tpl);
 

@@ -13,6 +13,7 @@ namespace RF.AssetWizzard {
 	[InitializeOnLoad]
 	#endif
 	public class AssetBundlesSettings : ScriptableObject {
+
 		
 		public static string WEB_SERVER_URL = "https://demo.roomful.co:3443"; 
 	
@@ -22,15 +23,19 @@ namespace RF.AssetWizzard {
 		public const string PLUGIN_LOCATION = "Assets/Plugins/Roomful/";
 		public const string PLUGIN_PREFABS_LOCATION = PLUGIN_LOCATION + "Prefabs/";
 
-		public const string SETTINGS_LOCATION = "Plugins/Roomful/Settings/Editor/Resources/";
+		public const string SETTINGS_LOCATION = "Plugins/Roomful/Editor/Resources/Settings/";
 
-		private const string SettingsAssetName = "AssetBundlesSettings";
+		private const string SettingsAssetName = "Settings/AssetBundlesSettings";
 		private const string SettingsAssetExtension = ".asset";
 
 		public static string AssetBundlesPath = "Roomful/Bundles";
 		public static string AssetBundlesPathFull = "Assets/" + AssetBundlesPath;
 
-		public string _SessionId = string.Empty;
+        [SerializeField]
+		private string m_sessionId = string.Empty;
+
+
+
 		public string SeartchPattern = string.Empty;
 		public SeartchRequestType SeartchType = SeartchRequestType.ByTag;
 
@@ -95,7 +100,7 @@ namespace RF.AssetWizzard {
 
 		public string SessionId {
 			get {
-				return _SessionId;
+				return m_sessionId;
 			}
 		}
 
@@ -109,8 +114,9 @@ namespace RF.AssetWizzard {
 			}
 		}
 
+
 		public void SetSessionId(string id) {
-			_SessionId = id;
+			m_sessionId = id;
 			Save ();
 		}
 
