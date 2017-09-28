@@ -121,8 +121,11 @@ namespace RF.AssetWizzard.Editor {
 			}
 
 
+            if (AssetBundlesSettings.Instance.IsLoggedIn) {
+                SelectedSectionIndex = 3;
+            }
 
-            SelectedSectionIndex = 0;
+              
 
 
             GUILayout.BeginHorizontal(new GUILayoutOption[0]);
@@ -789,7 +792,7 @@ namespace RF.AssetWizzard.Editor {
 
             GUILayout.Label("Account", WizardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 
-            if (string.IsNullOrEmpty (AssetBundlesSettings.Instance.SessionId)) {
+            if (AssetBundlesSettings.Instance.IsLoggedIn) {
 				GUILayout.Label ("Use your Roomful account email and password to sign in.");
 
 				AuthWindow ();

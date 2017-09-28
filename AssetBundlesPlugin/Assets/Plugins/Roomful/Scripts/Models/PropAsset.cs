@@ -71,7 +71,6 @@ namespace RF.AssetWizzard {
 
 			Gizmos.matrix = oldGizmosMatrix;
 
-
 		}
 
 		#endif

@@ -104,6 +104,12 @@ namespace RF.AssetWizzard {
 			}
 		}
 
+        public bool IsLoggedIn {
+            get {
+                return string.IsNullOrEmpty(SessionId);
+            }
+        }
+
 		public void ReplaceTemplate(AssetTemplate tpl) {
 			for(int i = 0; i < LocalAssetTemplates.Count; i++) {
 				if(LocalAssetTemplates[i].Id.Equals(tpl.Id)) {
