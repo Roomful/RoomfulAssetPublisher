@@ -69,21 +69,16 @@ namespace RF.AssetBundles {
 			ti.wrapModeW = 			(TextureWrapMode)System.Enum.Parse(typeof(TextureWrapMode), st.WrapModeW);
 
 			for ( int i = 0; i < st.PlatformsSettings.Length; i++ ) {
+				TextureImporterPlatformSettings settings = new TextureImporterPlatformSettings();
 
-                var settings = new TextureImporterPlatformSettings();
-
-                settings.name = 					st.PlatformsSettings [i].Platform;
-                settings.maxTextureSize = 				st.PlatformsSettings [i].MaxTextureSize;
-                settings.compressionQuality = 			st.PlatformsSettings [i].CompressionQuality;
-                settings.allowsAlphaSplitting = 			st.PlatformsSettings [i].Etc1AlphaSplitEnabled;
-                settings.format = 	(TextureImporterFormat)System.Enum.Parse(typeof(TextureImporterFormat), st.PlatformsSettings [i].TextureFormat);
-
-            
+				settings.name = 				st.PlatformsSettings [i].Platform;
+                settings.maxTextureSize = 		st.PlatformsSettings [i].MaxTextureSize;
+                settings.compressionQuality = 	st.PlatformsSettings [i].CompressionQuality;
+      			settings.allowsAlphaSplitting = st.PlatformsSettings [i].Etc1AlphaSplitEnabled;
+                settings.format = 				(TextureImporterFormat)System.Enum.Parse(typeof(TextureImporterFormat), st.PlatformsSettings [i].TextureFormat);
 
                 ti.SetPlatformTextureSettings (settings);
 			}
-
-
 
 			ti.SaveAndReimport();
 			#endif

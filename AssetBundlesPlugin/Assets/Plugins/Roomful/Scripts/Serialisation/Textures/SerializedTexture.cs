@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEditor;
 #endif
 namespace RF.AssetBundles {
-
 	[System.Serializable]
 	public class SerializedTexture {
 		public Texture MainTexture;
@@ -111,6 +110,7 @@ namespace RF.AssetBundles {
 			WrapModeW = 				ti.wrapModeW.ToString();
 
 			List<SerializedPlatformTextureSettings> ps = new List<SerializedPlatformTextureSettings>();
+
 			for (int i = 0; i < Platforms.Length; i++) {
 				string  				platformString = Platforms[i];
 				int     				platformMaxTextureSize;
@@ -144,7 +144,6 @@ namespace RF.AssetBundles {
 			DefaultSettings.TextureCompression = ti.GetDefaultPlatformTextureSettings().textureCompression.ToString();
 
 			#endif
-
 		}
 	}
 }
