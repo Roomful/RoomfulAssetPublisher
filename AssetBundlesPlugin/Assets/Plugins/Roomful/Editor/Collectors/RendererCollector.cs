@@ -35,17 +35,7 @@ namespace RF.AssetBundles {
 									string texName = property.SerializedTextureValue.MainTexture.name;
 
 									PropDataBase.SaveAsset<Texture> (propAsset, property.SerializedTextureValue.MainTexture);
-
-									string path = AssetDatabase.GetAssetPath(PropDataBase.LoadAsset<Texture>(propAsset, texName));
-									TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
-
-									TextureImporterSettings settings = new TextureImporterSettings();
-									ti.ReadTextureSettings(settings);
-
-									//settings.textureType = (TextureImporterType)System.Enum.Parse(typeof(TextureImporterType), property.SerializedTextureValue.TextureType);
-
-									ti.SetTextureSettings(settings);
-									ti.SaveAndReimport();
+									new TextureCollector().Run(propAsset, property.SerializedTextureValue);
 
 									newMaterial.SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
 								}
