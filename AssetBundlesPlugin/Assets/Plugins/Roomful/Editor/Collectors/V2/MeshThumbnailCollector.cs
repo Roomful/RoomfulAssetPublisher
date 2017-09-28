@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetWizzard;
 
-namespace RF.AssetBundles {
+namespace RF.AssetWizzard
+{
 	public class MeshThumbnailCollector : ICollector {
 
 		public void Run(PropAsset propAsset) {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-using RF.AssetBundles.Serialisation;
+using RF.AssetBundles.Serialization;
 
 
 namespace RF.AssetWizzard.Editor {

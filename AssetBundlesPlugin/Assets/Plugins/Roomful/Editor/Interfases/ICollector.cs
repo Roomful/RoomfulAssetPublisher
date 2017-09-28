@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetBundles {
+namespace RF.AssetWizzard
+{
 	public interface ICollector  {
 		void Run(RF.AssetWizzard.PropAsset propAsset);
 	}

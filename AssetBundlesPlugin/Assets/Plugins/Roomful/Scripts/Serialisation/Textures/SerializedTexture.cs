@@ -5,7 +5,8 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-namespace RF.AssetBundles {
+namespace RF.AssetBundles.Serialization
+{
 	[System.Serializable]
 	public class SerializedTexture {
 		public Texture MainTexture;

@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetWizzard;
-using RF.AssetBundles.Serialisation;
+using RF.AssetBundles.Serialization;
 
-namespace RF.AssetBundles {
+namespace RF.AssetWizzard
+{
 	public class PropDataBase : MonoBehaviour {
 		#if UNITY_EDITOR
 		public static void SaveFontAsset(PropAsset propAsset, SerializedText st) {

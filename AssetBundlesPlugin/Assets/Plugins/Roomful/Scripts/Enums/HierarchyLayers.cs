@@ -8,10 +8,6 @@ namespace RF.AssetWizzard {
 	public enum HierarchyLayers  {
 
 		Graphics,
-		IgnoredGraphics,
-		StandSurface,
-		Thumbnails,
-		Titles,
 		Silhouette
 	}
 

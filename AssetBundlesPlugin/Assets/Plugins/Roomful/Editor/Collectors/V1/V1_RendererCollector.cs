@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetBundles {
+namespace RF.AssetWizzard
+{
 
-	public class OldRendererCollector : ICollector {
+	public class V1_RendererCollector : ICollector {
 
 		public void Run(RF.AssetWizzard.PropAsset propAsset) {
 			#if UNITY_EDITOR
 
-			Renderer[] rens = propAsset.GetLayer(RF.AssetWizzard.HierarchyLayers.Graphics).GetComponentsInChildren<Renderer> ();
+			Renderer[] rens = propAsset.GetComponentsInChildren<Renderer> ();
 
 			foreach (Renderer ren in rens) {
 				if (ren.sharedMaterials.Length > 0) {

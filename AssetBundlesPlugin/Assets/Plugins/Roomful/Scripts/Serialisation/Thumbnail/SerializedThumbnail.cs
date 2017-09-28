@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetBundles.Serialisation
+namespace RF.AssetBundles.Serialization
 {
 	public class SerializedThumbnail : MonoBehaviour
     {
 
-		public bool IsFixedRatio;
-		public int XRatio;
-		public int YRatio;
+		public bool IsFixedRatio = false;
+		public int XRatio = 1;
+		public int YRatio = 1;
 
 
-		public bool IsBoundToResourceIndex;
-		public int ResourceIndex;
+		public bool IsBoundToResourceIndex = false;
+		public int ResourceIndex = 1;
 
     }
 }

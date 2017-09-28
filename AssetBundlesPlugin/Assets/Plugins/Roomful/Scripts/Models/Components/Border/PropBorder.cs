@@ -9,7 +9,8 @@ namespace RF.AssetWizzard
 #if UNITY_EDITOR
     [ExecuteInEditMode]
 #endif
-    public class PropBorder : MonoBehaviour {
+    public class PropBorder : BaseComponent, IPropComponent
+    {
 
         public GameObject Corner;
         public GameObject Border;
@@ -105,6 +106,31 @@ namespace RF.AssetWizzard
         }
 
 
+        public void PrepareForUpalod() {
+
+            if (Border != null) {
+                Border.SetActive(true);
+            }
+
+            if (Corner != null) {
+                Corner.SetActive(true);
+            }
+
+            DestroyImmediate(GetLayer(BorderLayers.GeneratedBorder).gameObject);
+        }
+
+
+        public void GenerateSilhouette() {
+            if (Border != null && Corner != null) {
+                Transform GeneratedBorder = GetLayer(BorderLayers.GeneratedBorder);
+                GameObject borderSilhouette = Instantiate(GeneratedBorder.gameObject) as GameObject;
+
+                borderSilhouette.transform.parent = Silhouette;
+                borderSilhouette.Reset();
+            }
+        }
+
+
         private void CheckhHierarchy() {
      
 
@@ -125,8 +151,15 @@ namespace RF.AssetWizzard
             }
         }
 
+
+
+
         private void GenerateFrame() {
             if (Border != null && Corner != null) {
+
+                Quaternion oldRotation = transform.rotation;
+                transform.rotation = Quaternion.identity;
+
 
                 Transform GeneratedBorder = GetLayer(BorderLayers.GeneratedBorder);
 
@@ -153,8 +186,6 @@ namespace RF.AssetWizzard
                 GameObject corner_left_bottom = InstantiateBorderPart(Corner.gameObject);
                 corner_left_bottom.transform.Rotate(Vector3.forward, 270);
                 PutObjectAt(corner_left_bottom, VertexX.Left, VertexY.Bottom, VertexX.Right, VertexY.Top);
-
-
 
 
                 GameObject border_top = InstantiateBorderPart(Border.gameObject);
@@ -198,8 +229,8 @@ namespace RF.AssetWizzard
                 border_left.transform.Rotate(Vector3.forward, 270);
                 PutObjectAt(border_left, VertexX.Left, VertexY.Top, VertexX.Right, VertexY.Top);
 
+                transform.rotation = oldRotation;
 
-               // GenerateSilhouette();
             } 
         }
 

@@ -10,7 +10,7 @@ namespace RF.AssetWizzard {
 	[ExecuteInEditMode]
 	#endif
 
-	public class PropMeshThumbnail : MonoBehaviour, IPropComponent {
+	public class PropMeshThumbnail : BaseComponent, IPropComponent {
 
 
 
@@ -40,17 +40,12 @@ namespace RF.AssetWizzard {
                 Canvas.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
             }
 
-            if(!Canvas.sharedMaterial.HasProperty("_MainTex")) {
-                Canvas.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
-            }
-
             if(Canvas.sharedMaterial.mainTexture != Thumbnail) {
-				Canvas.sharedMaterial.mainTexture = Thumbnail;
+                Canvas.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
+                Canvas.sharedMaterial.mainTexture = Thumbnail;
             }
 
-			//gameObject.GetComponent<Renderer> ().sharedMaterial = new Material (gameObject.GetComponent<Renderer> ().sharedMaterial);
-			
-		//	GenerateSilhouette ();
+			GenerateSilhouette ();
 		}
 
 		#endif
@@ -68,11 +63,6 @@ namespace RF.AssetWizzard {
 			DestroyImmediate (Canvas);
 			DestroyImmediate (this);
 		}
-
-		public void RemoveSilhouette() {
-			//DestroyImmediate (Silhouette.gameObject);
-		}
-
 
 
         public void SetResourceIndexBound(bool enabled) {
@@ -125,31 +115,6 @@ namespace RF.AssetWizzard {
         }
 
 
-        /*
-
-        public Transform Silhouette {
-			get {
-				Transform silhouette = Prop.GetLayer (HierarchyLayers.Silhouette).Find (gameObject.GetInstanceID ().ToString());
-				if(silhouette == null) {
-					silhouette = new GameObject (gameObject.GetInstanceID ().ToString()).transform;
-					silhouette.parent = Prop.GetLayer (HierarchyLayers.Silhouette);
-				}
-
-				silhouette.localPosition = transform.localPosition;
-				silhouette.localRotation = transform.localRotation;
-				silhouette.localScale = transform.localScale;
-
-				return silhouette;
-			}
-		}
-
-    */
-
-        public PropAsset Prop {
-			get {
-				return GameObject.FindObjectOfType<PropAsset> ();
-			}
-		}
 
         //--------------------------------------
         // Private Methods
@@ -174,24 +139,20 @@ namespace RF.AssetWizzard {
 
 
 
+        private void GenerateSilhouette() {
+            Silhouette.Clear();
+
+            GameObject canvasSilhouette = Instantiate(Canvas.gameObject) as GameObject;
+            canvasSilhouette.transform.parent = Silhouette;
+            canvasSilhouette.transform.Reset();
+            canvasSilhouette.transform.Clear();
+          
+
+            canvasSilhouette.AddComponent<SilhouetteCustomMaterial>();
 
 
-        /*
+        }
 
-    private void GenerateSilhouette() {
-        Silhouette.Clear ();
-
-        Vector3 storedPos = Prop.transform.position;
-        Prop.transform.position = Vector3.zero;
-
-        GameObject silhouette = Instantiate (gameObject) as GameObject;
-        silhouette.transform.parent = Silhouette;
-
-
-        Prop.transform.position = storedPos;
-    }
-
-*/
 
 
     }

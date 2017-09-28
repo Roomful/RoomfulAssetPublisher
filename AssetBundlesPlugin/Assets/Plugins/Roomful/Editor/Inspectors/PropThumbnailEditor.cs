@@ -26,8 +26,8 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.Space ();
 				EditorGUILayout.HelpBox ("Add part of the frame 3D parts (Not Required)", MessageType.Info);
 
-				Model.Border = (GameObject) EditorGUILayout.ObjectField("Border (top)", Model.Border, typeof (GameObject), true);
-				Model.Corner = (GameObject) EditorGUILayout.ObjectField("Corner (top / left)", Model.Corner, typeof (GameObject), true);
+				//Model.Border = (GameObject) EditorGUILayout.ObjectField("Border (top)", Model.Border, typeof (GameObject), true);
+			//	Model.Corner = (GameObject) EditorGUILayout.ObjectField("Corner (top / left)", Model.Corner, typeof (GameObject), true);
 
 
 

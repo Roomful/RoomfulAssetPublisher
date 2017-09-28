@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace RF.AssetBundles {
+namespace RF.AssetBundles.Serialization
+{
 
 	[Serializable]
-	public class ShaderProperty {
+	public class SerializedShaderProperty {
 
 		public string PropertyName = string.Empty;
 		public string  PropertyType = string.Empty;

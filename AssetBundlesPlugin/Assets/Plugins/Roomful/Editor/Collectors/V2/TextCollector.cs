@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetBundles.Serialisation;
-using RF.AssetWizzard;
+using RF.AssetBundles.Serialization;
 
-namespace RF.AssetBundles {
+namespace RF.AssetWizzard
+{
 	public class TextCollector : ICollector {
 
 		public void Run(PropAsset propAsset) {

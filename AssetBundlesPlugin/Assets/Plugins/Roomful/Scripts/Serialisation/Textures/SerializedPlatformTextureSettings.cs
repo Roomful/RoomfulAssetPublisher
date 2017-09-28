@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetBundles {
+namespace RF.AssetBundles.Serialization
+{
 
 	[System.Serializable]
 	public class SerializedPlatformTextureSettings {

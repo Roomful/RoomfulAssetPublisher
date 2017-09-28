@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RF.AssetBundles.Serialization;
+
 namespace RF.AssetWizzard {
 
 	#if UNITY_EDITOR
@@ -122,7 +124,7 @@ namespace RF.AssetWizzard {
 
 				if(r != null) {
 					foreach (Material mat in r.sharedMaterials) {
-						RF.AssetBundles.SerializedMaterial md = child.gameObject.AddComponent<RF.AssetBundles.SerializedMaterial> ();
+						var md = child.gameObject.AddComponent<SerializedMaterial> ();
 						md.Serialize (mat);
 					}
 
@@ -163,26 +165,30 @@ namespace RF.AssetWizzard {
 		}
 
 		public Transform GetLayer (HierarchyLayers layer) {
-			Transform hLayer = Model.Find (layer.ToString ());
-			if (hLayer == null) {
-				GameObject go = new GameObject (layer.ToString ());
-				go.transform.parent = Model;
-				go.transform.localPosition = Vector3.zero;
-				go.transform.localScale = Vector3.one;
-				go.transform.localRotation = Quaternion.identity;
-
-				hLayer = go.transform;
-			}
-
-			return hLayer;
+            return GetLayer(layer.ToString()) ;
 		}
-			
 
-		//--------------------------------------
-		// Get / Set
-		//--------------------------------------
+        public Transform GetLayer(string layer) {
+            Transform hLayer = Model.Find(layer);
+            if (hLayer == null) {
+                GameObject go = new GameObject(layer);
+                go.transform.parent = Model;
+                go.transform.localPosition = Vector3.zero;
+                go.transform.localScale = Vector3.one;
+                go.transform.localRotation = Quaternion.identity;
 
-		public AssetTemplate Template {
+                hLayer = go.transform;
+            }
+
+            return hLayer;
+        }
+
+
+        //--------------------------------------
+        // Get / Set
+        //--------------------------------------
+
+        public AssetTemplate Template {
 			get {
 				if (_Template == null) {
 					_Template = new AssetTemplate ();
@@ -261,7 +267,8 @@ namespace RF.AssetWizzard {
 
 		public bool HasStandSurface {
 			get {
-				if(GetLayer (HierarchyLayers.StandSurface).childCount != 0) {
+               
+				if (gameObject.GetComponentsInChildren<SerializedStandMarker>().Length != 0) {
 					return true;
 				}
 
@@ -300,12 +307,6 @@ namespace RF.AssetWizzard {
 			}
 
 			GetLayer (HierarchyLayers.Silhouette).gameObject.SetActive (false);
-			GetLayer (HierarchyLayers.IgnoredGraphics).gameObject.SetActive (false);
-
-
-
-
-
 		}
 
 
@@ -363,7 +364,7 @@ namespace RF.AssetWizzard {
 
 			foreach (Renderer child in ChildrenRenderer) {
 	
-				if (child.transform.IsChildOf (GetLayer (HierarchyLayers.IgnoredGraphics))) {
+				if (child.transform.gameObject.GetComponent<SerializedBoundsIgnoreMarker>() != null) {
 					continue;
 				}
 

@@ -6,8 +6,11 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+using RF.AssetBundles.Serialization;
 
-namespace RF.AssetBundles {
+
+namespace RF.AssetWizzard
+{
 	
 	public class RendererCollector : ICollector {
 
@@ -26,7 +29,7 @@ namespace RF.AssetBundles {
 						Material newMaterial = new Material(Shader.Find(sm.ShaderName));
 						newMaterial.name = sm.MatName;
 
-						foreach (ShaderProperty property in sm.ShadersProperties) {
+						foreach (SerializedShaderProperty property in sm.ShadersProperties) {
 							ShaderPropertyType propertyType = (ShaderPropertyType)System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
 
 							switch(propertyType) {

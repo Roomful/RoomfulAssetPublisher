@@ -99,7 +99,6 @@ namespace RF.AssetWizzard.Editor {
 		[MenuItem("GameObject/Roomful/Add Component/Floor", false, 101)]
 		static void MarkAsStand () {
 
-			var prop = GameObject.FindObjectOfType<PropAsset> ();
 
 			bool valid = IsValidPropGameobject();
 			if(Selection.activeGameObject.GetComponent<BoxCollider>() == null) {
@@ -107,15 +106,13 @@ namespace RF.AssetWizzard.Editor {
 				EditorUtility.DisplayDialog ("Error", "Object should have BoxCollider component", "Ok");
 			}
 
-
 			if(valid) {
-				Selection.activeGameObject.transform.parent = prop.GetLayer(HierarchyLayers.StandSurface);
+                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedStandMarker>();  
 			}
 		}
 
 		[MenuItem("GameObject/Roomful/Add Component/Mesh Thumbnail", false, 102)]
 		static void MarkAsThumbnail () {
-			//var prop = GameObject.FindObjectOfType<PropAsset> ();
 			bool valid = IsValidPropGameobject();
 
 			if(valid) {
@@ -137,13 +134,8 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-
-	
-
 		[MenuItem("GameObject/Roomful/Add Component/Ignore Bounds", false, 103)]
 		static void IgnoreObjectBounds () {
-
-			var prop = GameObject.FindObjectOfType<PropAsset> ();
 			bool valid = IsValidPropGameobject();
 			if(valid) {
 
@@ -152,13 +144,10 @@ namespace RF.AssetWizzard.Editor {
 					GameObject.DestroyImmediate (c);
 				}
 
-				Selection.activeGameObject.transform.parent = prop.GetLayer(HierarchyLayers.IgnoredGraphics);
-			}
+                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedBoundsIgnoreMarker>();
+            }
 
 		}
-
-
-
 
 
 

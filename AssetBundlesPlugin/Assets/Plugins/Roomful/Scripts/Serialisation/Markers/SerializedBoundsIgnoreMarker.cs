@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace RF.AssetBundles.Serialization
 {
-	public enum SerializedDataProvider  {
-		Prop,
-		Resource
-	}
+    public class SerializedBoundsIgnoreMarker : MonoBehaviour {
+
+	
+    }
 }

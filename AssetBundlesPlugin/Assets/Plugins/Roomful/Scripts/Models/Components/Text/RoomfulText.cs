@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetBundles.Serialisation;
+using RF.AssetBundles.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -78,7 +78,7 @@ namespace RF.AssetWizzard {
 
         public void PrepareForUpalod() {
 
-            var textInfo = gameObject.AddComponent<RF.AssetBundles.Serialisation.SerializedText>();
+            var textInfo = gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedText>();
             textInfo.PlaceHolderText = PlaceHolderText;
             textInfo.Color = Color;
             textInfo.Font = FontData.font;

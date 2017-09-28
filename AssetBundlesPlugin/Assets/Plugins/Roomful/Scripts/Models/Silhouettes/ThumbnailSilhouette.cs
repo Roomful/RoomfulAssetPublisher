@@ -23,10 +23,12 @@ namespace RF.AssetWizzard {
 
         public ThumbnailSilhouette(PropThumbnail thumbnail) {
 
+            /*
 			if(thumbnail.Border != null && thumbnail.Corner != null) {
 				BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Border);
 				CornerMeshData = MeshSerializer.SerializerMesh (thumbnail.Corner);
 			}
+            */
 
 			Position = thumbnail.transform.localPosition;
 			Scale = thumbnail.transform.localScale;

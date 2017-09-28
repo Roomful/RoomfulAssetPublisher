@@ -6,8 +6,11 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+using RF.AssetBundles.Serialization;
 
-namespace RF.AssetBundles {
+
+namespace RF.AssetWizzard
+{
 	public class TextureCollector {
 		public void Run(RF.AssetWizzard.PropAsset propAsset, SerializedTexture st) {
 			#if UNITY_EDITOR

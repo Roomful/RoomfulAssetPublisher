@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-using RF.AssetBundles.Serialisation;
+using RF.AssetBundles.Serialization;
 using RF.AssetBundles;
 
 namespace RF.AssetWizzard.Editor {
@@ -347,12 +347,12 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void RunCollectors(PropAsset asset) {
-			new OldRendererCollector ().Run (asset); // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
-			new RendererCollector().Run (asset);
+            new V1_RendererCollector().Run(asset); // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
+            new RendererCollector().Run (asset);
 			new TextCollector().Run (asset);
 			new MeshCollector().Run (asset);
 			new MeshThumbnailCollector().Run (asset);
-			new ThumbnailCollector().Run (asset);
+			new V1_ThumbnailCollector().Run (asset);
 		}
 
 		public static void CheckAnimations(PropAsset prop) {

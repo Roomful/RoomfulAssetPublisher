@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetBundles {
+namespace RF.AssetBundles.Serialization {
 	public class SerializedMaterial : MonoBehaviour {
 
 		public string MatName = string.Empty;
 		public string ShaderName = string.Empty;
-		public List<ShaderProperty> ShadersProperties = new List<ShaderProperty> ();
+		public List<SerializedShaderProperty> ShadersProperties = new List<SerializedShaderProperty> ();
 
 		public void Serialize(Material mat) {
 			#if UNITY_EDITOR
@@ -17,7 +17,7 @@ namespace RF.AssetBundles {
 
 			int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (mat.shader);
 			for (int i = 0; i < shadersPropertyLength; i++) {
-				ShaderProperty property = new ShaderProperty();
+				SerializedShaderProperty property = new SerializedShaderProperty();
 
 				string propertyName = UnityEditor.ShaderUtil.GetPropertyName (mat.shader, i);
 				UnityEditor.ShaderUtil.ShaderPropertyType propertyType = UnityEditor.ShaderUtil.GetPropertyType (mat.shader, i);
