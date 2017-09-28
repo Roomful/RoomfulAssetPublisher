@@ -57,9 +57,14 @@ namespace RF.AssetWizzard {
 				return;
 			}
 
-			GizmosDrawer.DrawCube (_Size.center, transform.rotation, _Size.size, Color.blue);
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(transform.position, 0.04f);
+
+
+            GizmosDrawer.DrawCube (_Size.center, transform.rotation, _Size.size, Color.blue);
 
 		}
+
 
 		public static void DrawCube (Vector3 position, Quaternion rotation, Vector3 scale) {
 			Matrix4x4 cubeTransform = Matrix4x4.TRS (position, rotation, scale);

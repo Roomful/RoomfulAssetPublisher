@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RF.AssetWizzard {
 
-	public enum FrameLayers  {
+	public enum BorderLayers  {
 
 		BorderParts,
 		GeneratedBorder

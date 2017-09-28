@@ -29,12 +29,12 @@ namespace RF.AssetWizzard {
 			Thumbnail = Resources.Load ("logo_square") as Texture2D;
 
 		
-			Transform c = GetLayer (FrameLayers.BorderParts).Find ("Corner");
+			Transform c = GetLayer (BorderLayers.BorderParts).Find ("Corner");
 			if(c != null) {
 				Corner = c.gameObject;
 			}
 
-			Transform b = GetLayer (FrameLayers.BorderParts).Find ("Border");
+			Transform b = GetLayer (BorderLayers.BorderParts).Find ("Border");
 			if(b != null) {
 				Border = b.gameObject;
 			}
@@ -74,7 +74,7 @@ namespace RF.AssetWizzard {
 				Corner.SetActive (true);
 			}
 
-			DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
+			DestroyImmediate (GetLayer (BorderLayers.GeneratedBorder).gameObject);
 			DestroyImmediate (Canvas.GetComponent<Renderer> ().sharedMaterial = null);
 		
 			RemoveSilhouette ();
@@ -86,7 +86,7 @@ namespace RF.AssetWizzard {
 		}
 
 
-		public Transform GetLayer(FrameLayers layer) {
+		public Transform GetLayer(BorderLayers layer) {
 			Transform hLayer = transform.Find (layer.ToString ());
 			if(hLayer == null) {
 				GameObject go = new GameObject (layer.ToString());
@@ -290,7 +290,7 @@ namespace RF.AssetWizzard {
 
 
 			if(Corner != null) {
-				Corner.transform.parent = GetLayer (FrameLayers.BorderParts);
+				Corner.transform.parent = GetLayer (BorderLayers.BorderParts);
 				Corner.gameObject.SetActive (false);
 				Corner.gameObject.name = "Corner";
 
@@ -300,7 +300,7 @@ namespace RF.AssetWizzard {
 
 			if(Border != null) {
 				
-				Border.transform.parent = GetLayer (FrameLayers.BorderParts);
+				Border.transform.parent = GetLayer (BorderLayers.BorderParts);
 				Border.gameObject.SetActive (false);
 				Border.gameObject.name = "Border";
 			}
@@ -380,7 +380,7 @@ namespace RF.AssetWizzard {
 		private void GenerateFrame() {
 			if(Border != null && Corner != null) {
 
-				Transform GeneratedBorder = GetLayer (FrameLayers.GeneratedBorder);
+				Transform GeneratedBorder = GetLayer (BorderLayers.GeneratedBorder);
 
 				// remove all chields from GeneratedBorder
 				var children = new List<GameObject>();
@@ -457,7 +457,7 @@ namespace RF.AssetWizzard {
 
 			} else {
 				GenerateSilhouette ();
-				DestroyImmediate (GetLayer (FrameLayers.GeneratedBorder).gameObject);
+				DestroyImmediate (GetLayer (BorderLayers.GeneratedBorder).gameObject);
 			}
 		}
 
@@ -466,7 +466,7 @@ namespace RF.AssetWizzard {
 			Silhouette.Clear ();
 
 			if (Border != null && Corner != null) {
-				Transform GeneratedBorder = GetLayer (FrameLayers.GeneratedBorder);
+				Transform GeneratedBorder = GetLayer (BorderLayers.GeneratedBorder);
 				GameObject borderSilhouette = Instantiate (GeneratedBorder.gameObject) as GameObject;
 				borderSilhouette.transform.parent = Silhouette;
 				borderSilhouette.Reset ();
@@ -486,7 +486,7 @@ namespace RF.AssetWizzard {
 		private GameObject InstantiateBorderPart(GameObject reference) {
 			GameObject p = Instantiate (reference) as GameObject;
 			p.SetActive (true);
-			p.transform.parent = GetLayer (FrameLayers.GeneratedBorder);
+			p.transform.parent = GetLayer (BorderLayers.GeneratedBorder);
 			p.transform.localScale = reference.transform.localScale;
 			return p;
 		}
