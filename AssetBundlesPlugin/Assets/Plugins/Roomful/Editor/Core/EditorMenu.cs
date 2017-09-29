@@ -84,7 +84,10 @@ namespace RF.AssetWizzard.Editor {
 			GameObject Thumbnail = new GameObject ("Thumbnail");
 			Thumbnail.AddComponent<PropThumbnail>();
 			Thumbnail.transform.localScale = Vector3.one * 1.5f;
-		}
+
+            Selection.activeGameObject = Thumbnail;
+
+        }
 
 
 	

@@ -30,16 +30,33 @@ namespace RF.AssetWizzard.Editor
             EditorGUILayout.LabelField("Frame", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(m_corner);
             EditorGUILayout.PropertyField(m_border);
-            Frame.Settings.FrameOffset = EditorGUILayout.FloatField("Frame Offset", Frame.Settings.FrameOffset);
+           
+
+
+            EditorGUI.BeginChangeCheck();
+            float frameOffset = EditorGUILayout.FloatField("Frame Offset", Frame.Settings.FrameOffset);
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(Frame.Settings, "Frame Offset");
+                Frame.Settings.FrameOffset = frameOffset;
+            }
 
 
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
             EditorGUILayout.PropertyField(m_back); 
-            Frame.Settings.BackOffset = EditorGUILayout.FloatField("Back Offset", Frame.Settings.BackOffset);
-            
-            if(EditorGUI.EndChangeCheck()) {
+           
+
+            EditorGUI.BeginChangeCheck();
+            float backOffset  = EditorGUILayout.FloatField("Back Offset", Frame.Settings.BackOffset);
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(Frame.Settings, "Back Offset");
+                Frame.Settings.BackOffset = backOffset;
+            }
+
+
+
+            if (EditorGUI.EndChangeCheck()) {
                 Frame.Update();
             }
            

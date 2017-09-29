@@ -51,6 +51,10 @@ namespace RF.AssetWizzard
         public void Update() {
             CheckhHierarchy();
             GenerateFrame();
+
+            if(Prop != null) {
+                Prop.UpdateBounds();
+            }
         }
 
 
@@ -173,9 +177,6 @@ namespace RF.AssetWizzard
                 return settings;
             }
         }
-
-
-       
 
 
         private void CheckhHierarchy() {

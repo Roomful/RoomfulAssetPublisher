@@ -341,7 +341,7 @@ namespace RF.AssetWizzard {
 
 		}
 
-		public void AutosizeCollider () {
+		public void UpdateBounds () {
 
 			bool hasBounds = false;
 
@@ -489,7 +489,7 @@ namespace RF.AssetWizzard {
 			}
 
 
-			AutosizeCollider ();
+			UpdateBounds ();
 			FinalVisualisation ();
 
 		}
