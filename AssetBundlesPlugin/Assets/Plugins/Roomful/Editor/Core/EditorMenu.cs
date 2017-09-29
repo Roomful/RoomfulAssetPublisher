@@ -34,9 +34,9 @@ namespace RF.AssetWizzard.Editor {
 			MarkAsThumbnail ();
 		}
 
-		[MenuItem("Roomful/Add Component/Border &#b", false, 3)]
+		[MenuItem("Roomful/Add Component/Frame &#b", false, 3)]
 		public static void ShowWizzrd4() {
-			AddBorder ();
+			AddFrame ();
 		}
 
 
@@ -89,9 +89,9 @@ namespace RF.AssetWizzard.Editor {
 
 	
 
-		[MenuItem("GameObject/Roomful/Add Component/Border", false, 100)]
-		static void AddBorder () {
-			
+		[MenuItem("GameObject/Roomful/Add Component/Frame", false, 100)]
+		public static void AddFrame () {
+			Selection.activeGameObject.AddComponent<PropFrame>(); 
 		}
 
 

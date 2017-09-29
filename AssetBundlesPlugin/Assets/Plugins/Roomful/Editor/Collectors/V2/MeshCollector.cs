@@ -7,8 +7,6 @@ namespace RF.AssetWizzard {
 	public class MeshCollector : ICollector {
 
 		public void Run(PropAsset propAsset) {
-#if UNITY_EDITOR
-
 			MeshFilter[] meshes = propAsset.gameObject.GetComponentsInChildren<MeshFilter> ();
 
 			for (int i = 0; i < meshes.Length; i++) {
@@ -24,8 +22,6 @@ namespace RF.AssetWizzard {
 				PropDataBase.SaveAsset<Mesh> (propAsset, newmesh);
 				meshes[i].sharedMesh = PropDataBase.LoadAsset<Mesh> (propAsset, newmesh.name);
 			}
-
-#endif
 		}
 	}
 }

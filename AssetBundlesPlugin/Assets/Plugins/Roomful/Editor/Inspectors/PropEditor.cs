@@ -175,7 +175,18 @@ namespace RF.AssetWizzard.Editor {
 		public bool HasMeshCollisison {
 			get {
 				MeshCollider[] colliders = Prop.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<MeshCollider> ();
-				return colliders.Length != 0;
+
+				foreach(MeshCollider c in colliders) {
+					if(c.transform.parent != null) {
+						if(c.transform.parent.GetComponent<PropThumbnail>() != null) {
+							continue;
+						}
+					}
+
+					return true;
+				}
+
+				return false;
 			}
 		}
 

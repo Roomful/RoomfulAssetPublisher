@@ -13,16 +13,6 @@ namespace RF.AssetWizzard
 
 
 
-        public bool IsFixedRatio = false;
-        public int XRatio = 1;
-        public int YRatio = 1;
-
-
-        public bool IsBoundToResourceIndex = false;
-        public int ResourceIndex = 1;
-
-
-
         public int ImageIndex = 0;
 		public Texture2D Thumbnail;
 
@@ -56,77 +46,13 @@ namespace RF.AssetWizzard
 
 		public void PrepareForUpalod() {
 
-            var info = new SerializedThumbnail();
-            info.IsFixedRatio = IsFixedRatio;
-            info.XRatio = XRatio;
-            info.YRatio = YRatio;
-
-            info.IsBoundToResourceIndex = IsBoundToResourceIndex;
-            info.ResourceIndex = ResourceIndex;
-
 
             DestroyImmediate (Canvas.GetComponent<Renderer> ().sharedMaterial = null);
 		
 			RemoveSilhouette ();
 			DestroyImmediate (this);
-
         }
-
-
-        public void Restore(SerializedThumbnail info) {
-
-            IsFixedRatio = info.IsFixedRatio;
-            IsBoundToResourceIndex = info.IsBoundToResourceIndex;
-            XRatio = info.XRatio;
-            YRatio = info.YRatio;
-
-            /*
-            PlaceHolderText = info.PlaceHolderText;
-            Color = info.Color;
-            FontData.font = info.Font;
-            FontData.fontSize = info.FontSize;
-            FontData.lineSpacing = info.LineSpacing;
-            FontData.fontStyle = info.FontStyle;
-            FontData.alignment = info.Alignment;
-            FontData.horizontalOverflow = info.HorizontalOverflow;
-            FontData.verticalOverflow = info.VerticalOverflow;
-
-
-            Source.DataProvider = info.DataProvider;
-            Source.ResourceIndex = info.ResourceIndex;
-            Source.ResourceContentSource = info.ResourceContentSource;
-
-    */
-
-            Refresh();
-
-        }
-
-
-
-        public void SetFixedRatioMode (bool enabled) {
-			if(enabled && !IsFixedRatio) {
-				GameObject ratio = new GameObject ("CanvasRatio");
-				ratio.transform.parent = transform;
-			}
-
-			if(!enabled && IsFixedRatio) {
-				GameObject ratio = transform.Find ("CanvasRatio").gameObject;
-				DestroyImmediate (ratio);
-			}
-		}
-
-        public void SetResourceIndexBound(bool enabled) {
-            if (enabled && !IsBoundToResourceIndex) {
-                GameObject obj = new GameObject(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
-                obj.transform.parent = transform;
-            }
-
-            if (!enabled && IsBoundToResourceIndex) {
-                GameObject obj = transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND).gameObject;
-                DestroyImmediate(obj);
-            }
-        }
+			
 
         public void SetThumbnail(Texture2D newTex) {
 			Thumbnail = newTex;
@@ -166,12 +92,26 @@ namespace RF.AssetWizzard
 		}
 
 
-        public PropBorder Border {
+        public PropFrame Frame {
             get {
-                return gameObject.GetComponent<PropBorder>();
+                return gameObject.GetComponent<PropFrame>();
             }
         }
 
+		public SerializedThumbnail Settings {
+			get {
+
+				var settings = GetComponent<SerializedThumbnail> ();
+				if(settings == null) {
+					settings = gameObject.AddComponent<SerializedThumbnail> ();
+				}
+
+				settings.hideFlags = HideFlags.HideInInspector;
+
+				return settings;
+			}
+		}
+			
 
         //--------------------------------------
         // Private Methods
@@ -181,7 +121,7 @@ namespace RF.AssetWizzard
 
         private void CheckhHierarchy() {
 
-			if(IsFixedRatio) {
+			if(Settings.IsFixedRatio) {
 				Crop ();
 			} else {
 				Resize ();
@@ -204,7 +144,7 @@ namespace RF.AssetWizzard
 
 
 		private void Crop() {
-			float ratio = (float) XRatio /  (float) YRatio;
+			float ratio = (float) Settings.XRatio /  (float) Settings.YRatio;
 
 		
 			float yScale = 1f / ratio;
@@ -215,7 +155,7 @@ namespace RF.AssetWizzard
 
 
 		public Texture2D Crop(Texture2D orTexture) {
-			float surfaceAspectRatio = (float) XRatio / YRatio;
+			float surfaceAspectRatio = (float) Settings.XRatio / Settings.YRatio;
 
 			float textureRatio = (float) orTexture.width / orTexture.height;
 
@@ -268,8 +208,8 @@ namespace RF.AssetWizzard
 			canvasSilhouette.transform.localRotation = Canvas.localRotation;
 			canvasSilhouette.AddComponent<SilhouetteCustomMaterial> ();
 
-            if(Border != null) {
-                Border.GenerateSilhouette();
+            if(Frame != null) {
+                Frame.GenerateSilhouette();
             }
 
 		}

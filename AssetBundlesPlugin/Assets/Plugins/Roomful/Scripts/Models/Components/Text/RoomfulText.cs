@@ -40,6 +40,7 @@ namespace RF.AssetWizzard {
 
    
 		private Bounds m_textBounds = new Bounds (Vector3.zero, Vector3.zero);
+		private static float DEFAULT_TEXT_SCALE = 0.05f;
 
 		void Update () {
 			Refersh ();
@@ -81,8 +82,13 @@ namespace RF.AssetWizzard {
             var textInfo = gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedText>();
             textInfo.PlaceHolderText = PlaceHolderText;
             textInfo.Color = Color;
-            textInfo.Font = FontData.font;
-            textInfo.Font.material.shader = Shader.Find("GUI/Text Shader");
+
+			if(FontData.font != null) {
+				textInfo.Font = FontData.font;
+				textInfo.Font.material.shader = Shader.Find("GUI/Text Shader");
+			}
+
+           
             textInfo.FontSize = FontData.fontSize;
             textInfo.LineSpacing = FontData.lineSpacing;
             textInfo.FontStyle = FontData.fontStyle;
@@ -154,6 +160,11 @@ namespace RF.AssetWizzard {
             TextRenderer.color = Color;
 
             TextRenderer.font = FontData.font;
+
+			/*	if(FontData.font == null) {
+				FontData.font = TextRenderer.font;
+			}*/
+
             if(TextRenderer.font != null) {
                 TextRenderer.GetComponent<MeshRenderer>().sharedMaterial = TextRenderer.font.material;
 
@@ -167,12 +178,12 @@ namespace RF.AssetWizzard {
 			TextRenderer.tabSize = 4;
 			TextRenderer.offsetZ = 0;
 			TextRenderer.richText = true;
-			TextRenderer.transform.localScale = Vector3.one * 0.1f;
+			TextRenderer.transform.localScale = Vector3.one * DEFAULT_TEXT_SCALE;
 			TextRenderer.anchor = TextAnchor.MiddleCenter;
 
 			UpdateTextRendererBounds ();
 
-            TextRenderer.transform.localScale = Vector3.one;
+
 
             if (FontData.horizontalOverflow == SerializedTextWrapMode.Truncate) {
 				while(m_textBounds.size.x > Width) {

@@ -31,20 +31,12 @@ namespace RF.AssetWizzard.Editor {
             EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Options", MessageType.Info);
 
+		
 
-            bool boundToResourceIndex = Model.IsBoundToResourceIndex;
-            EditorGUI.BeginChangeCheck();
-            {
-                boundToResourceIndex = SA.Common.Editor.Tools.ToggleFiled("Bound To Resource Index", boundToResourceIndex);
-            }
-            if (EditorGUI.EndChangeCheck()) {
-                Model.SetResourceIndexBound(boundToResourceIndex);
-            }
-
-
-            if (boundToResourceIndex) {
-                Model.ResourceIndex = EditorGUILayout.IntField("Resource Index", Model.ResourceIndex);
-            }
+			Model.Settings.IsBoundToResourceIndex = SA.Common.Editor.Tools.ToggleFiled("Bound To Resource Index", Model.Settings.IsBoundToResourceIndex);
+			if (Model.Settings.IsBoundToResourceIndex) {
+				Model.Settings.ResourceIndex = EditorGUILayout.IntField("Resource Index", Model.Settings.ResourceIndex);
+			}
 
 
             EditorGUILayout.Space ();

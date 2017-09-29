@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RF.AssetBundles.Serialization;
 
 
 namespace RF.AssetWizzard {
 
-	#if UNITY_EDITOR
 	[ExecuteInEditMode]
-	#endif
-
 	public class PropMeshThumbnail : BaseComponent, IPropComponent {
 
 
@@ -55,6 +53,7 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 		public void PrepareForUpalod() {
+			
 			GameObject pointer = new GameObject (AssetBundlesSettings.THUMBNAIL_POINTER);
 			pointer.transform.parent = transform;
 			pointer.transform.Reset ();
@@ -64,20 +63,7 @@ namespace RF.AssetWizzard {
 			DestroyImmediate (this);
 		}
 
-
-        public void SetResourceIndexBound(bool enabled) {
-            if (enabled && !IsBoundToResourceIndex) {
-                GameObject obj = new GameObject(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
-                obj.transform.parent = transform;
-            }
-
-            if (!enabled && IsBoundToResourceIndex) {
-                GameObject obj = transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND).gameObject;
-                DestroyImmediate(obj);
-            }
-        }
-
-
+	
 
         //--------------------------------------
         // Get / Set
@@ -96,47 +82,27 @@ namespace RF.AssetWizzard {
 			}
         }
 
-        public bool IsBoundToResourceIndex {
-            get {
-                return transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND) != null;
-            }
-        }
+		public SerializedMeshThumbnail Settings {
+			get {
 
-        public int ResourceIndex {
-            get {
-                Transform obj = GetResourceIndexBound();
-                return System.Convert.ToInt32(obj.GetChild(0).name);
-            }
+				var settings = GetComponent<SerializedMeshThumbnail> ();
+				if(settings == null) {
+					settings = gameObject.AddComponent<SerializedMeshThumbnail> ();
+				}
 
-            set {
-                Transform obj = GetResourceIndexBound();
-                obj.GetChild(0).name = value.ToString();
-            }
-        }
+				settings.hideFlags = HideFlags.HideInInspector;
+
+				return settings;
+			}
+		}
+
+      
 
 
 
         //--------------------------------------
         // Private Methods
         //--------------------------------------
-
-
-
-        private Transform GetResourceIndexBound() {
-
-            Transform obj = transform.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
-            if (obj == null) {
-                obj = new GameObject(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND).transform;
-                obj.parent = transform;
-            }
-
-            if (obj.childCount == 0) {
-                new GameObject("0").transform.parent = obj;
-            }
-
-            return obj;
-        }
-
 
 
         private void GenerateSilhouette() {

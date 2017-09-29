@@ -18,9 +18,11 @@ namespace RF.AssetWizzard {
 
 		public ThumbnailMeshSilhouette(PropMeshThumbnail thumbnail) {
             MeshData = MeshSerializer.SerializerMesh(thumbnail.gameObject);
-			Position = thumbnail.transform.position;
-			Scale = thumbnail.transform.lossyScale;
-			Rotation = thumbnail.transform.rotation.eulerAngles;
+
+
+			Position = thumbnail.Silhouette.localPosition;
+			Scale = thumbnail.Silhouette.localScale;
+			Rotation = thumbnail.Silhouette.localRotation.eulerAngles;
 		}
 
 		public ThumbnailMeshSilhouette(JSONData thumbnailInfo) {

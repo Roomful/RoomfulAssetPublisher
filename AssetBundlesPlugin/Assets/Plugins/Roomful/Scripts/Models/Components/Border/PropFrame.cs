@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RF.AssetBundles.Serialization;
+
 
 namespace RF.AssetWizzard
 {
 
-#if UNITY_EDITOR
     [ExecuteInEditMode]
-#endif
-    public class PropBorder : BaseComponent, IPropComponent
+    public class PropFrame : BaseComponent, IPropComponent
     {
 
         public GameObject Corner;
@@ -31,22 +31,19 @@ namespace RF.AssetWizzard
             if (b != null) {
                 Border = b.gameObject;
             }
-
-
-#if UNITY_EDITOR
+				
             Update();
-#endif
         }
 
 
+		public void OnDestroy() {
+			DestroyImmediate (GetLayer (BorderLayers.GeneratedBorder).gameObject);
+		}
 
-#if UNITY_EDITOR
         public void Update() {
             CheckhHierarchy();
             GenerateFrame();
         }
-#endif
-
 
         public Transform GetLayer(BorderLayers layer) {
             Transform hLayer = transform.Find(layer.ToString());
@@ -92,8 +89,6 @@ namespace RF.AssetWizzard
                 transform.rotation = oldRotation;
 
 
-
-
                 foreach (BorderLayers layer in System.Enum.GetValues(typeof(BorderLayers))) {
                     GetLayer(layer).gameObject.SetActive(true);
                 }
@@ -116,7 +111,12 @@ namespace RF.AssetWizzard
                 Corner.SetActive(true);
             }
 
+
+			gameObject.AddComponent<SerializedFrame> ();
+
             DestroyImmediate(GetLayer(BorderLayers.GeneratedBorder).gameObject);
+			DestroyImmediate (this);
+
         }
 
 

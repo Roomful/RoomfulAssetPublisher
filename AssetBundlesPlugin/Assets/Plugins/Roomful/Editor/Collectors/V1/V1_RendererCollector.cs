@@ -8,15 +8,17 @@ namespace RF.AssetWizzard
 	public class V1_RendererCollector : ICollector {
 
 		public void Run(RF.AssetWizzard.PropAsset propAsset) {
-			#if UNITY_EDITOR
-
+			
 			Renderer[] rens = propAsset.GetComponentsInChildren<Renderer> ();
-
 			foreach (Renderer ren in rens) {
 				if (ren.sharedMaterials.Length > 0) {
 					List<Material> recreatedMterials = new List<Material> ();
 
 					foreach (Material m in ren.sharedMaterials) {
+						if(m == null) {
+							continue;
+						}
+
 						Material newMaterial = new Material(m);
 						newMaterial.name = m.name.Replace("/", "");
 
@@ -77,7 +79,6 @@ namespace RF.AssetWizzard
 					ren.materials = recreatedMterials.ToArray ();
 				}
 			}
-			#endif
 		}
 	}
 }

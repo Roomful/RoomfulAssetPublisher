@@ -41,7 +41,7 @@ namespace RF.AssetWizzard
 			{
 				return new FontData
 				{
-					m_FontSize = 100,
+					m_FontSize = 50,
 					m_LineSpacing = 1f,
 					m_FontStyle = FontStyle.Normal,
 					m_Alignment = TextAnchor.UpperLeft,

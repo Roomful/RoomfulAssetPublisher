@@ -36,38 +36,44 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.HelpBox ("Scaling Options", MessageType.Info);
 
 
-				bool fixedRatio = Model.IsFixedRatio;
-				EditorGUI.BeginChangeCheck(); {
-					fixedRatio = SA.Common.Editor.Tools.ToggleFiled ("Fixed Ratio", fixedRatio);
-				} if (EditorGUI.EndChangeCheck ()) {
-					
-					Model.SetFixedRatioMode (fixedRatio);
-				}
+				Model.Settings.IsFixedRatio = SA.Common.Editor.Tools.ToggleFiled ("Fixed Ratio", Model.Settings.IsFixedRatio);
 
-				if(fixedRatio) {
-						Model.XRatio = EditorGUILayout.IntField ("X", Model.XRatio);
-						Model.YRatio = EditorGUILayout.IntField ("Y", Model.YRatio);
+
+
+				if(Model.Settings.IsFixedRatio) {
+					Model.Settings.XRatio = EditorGUILayout.IntField ("X", Model.Settings.XRatio);
+					Model.Settings.YRatio = EditorGUILayout.IntField ("Y", Model.Settings.YRatio);
 				}
 
 
 
-
-                bool boundToResourceIndex = Model.IsBoundToResourceIndex;
-                EditorGUI.BeginChangeCheck(); {
-                    boundToResourceIndex = SA.Common.Editor.Tools.ToggleFiled("Bound To Resource Index", boundToResourceIndex);
-                }
-                if (EditorGUI.EndChangeCheck()) {
-                    Debug.Log(boundToResourceIndex);
-                    Model.SetResourceIndexBound(boundToResourceIndex);
+				Model.Settings.IsBoundToResourceIndex = SA.Common.Editor.Tools.ToggleFiled("Bound To Resource Index", Model.Settings.IsBoundToResourceIndex);
+				if (Model.Settings.IsBoundToResourceIndex) {
+					Model.Settings.ResourceIndex = EditorGUILayout.IntField("Resource Index", Model.Settings.ResourceIndex);
                 }
 
 
-                if (boundToResourceIndex) {
-                    Model.ResourceIndex = EditorGUILayout.IntField("Resource Index", Model.ResourceIndex);
-                }
+				EditorGUILayout.Space ();
+				EditorGUILayout.Space ();
+				EditorGUILayout.BeginHorizontal ();
+				EditorGUILayout.Space ();
+
+
+				if(Model.Frame == null) {
+					bool pressed = GUILayout.Button ("Add Frame", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
+					if(pressed) {
+						EditorMenu.AddFrame ();
+					}
+				} else {
+					bool pressed = GUILayout.Button ("Remove Frame", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
+					if(pressed) {
+						DestroyImmediate (Model.Frame);
+					}
+				}
 
 
 
+				EditorGUILayout.EndHorizontal ();
 
             } if(EditorGUI.EndChangeCheck()) {
 				var thumbnail = ImagesCintent [Model.ImageIndex].image as Texture2D;

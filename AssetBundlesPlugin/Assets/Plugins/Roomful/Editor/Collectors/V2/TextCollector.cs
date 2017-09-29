@@ -8,9 +8,8 @@ namespace RF.AssetWizzard
 	public class TextCollector : ICollector {
 
 		public void Run(PropAsset propAsset) {
-#if UNITY_EDITOR
+			
 			foreach (SerializedText textInfo in propAsset.gameObject.GetComponentsInChildren<SerializedText>()) {
-
 				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
 					PropDataBase.SaveFontAsset(propAsset, textInfo); 
 
@@ -24,8 +23,6 @@ namespace RF.AssetWizzard
 				text.Restore(textInfo);
 				GameObject.DestroyImmediate(textInfo);
 			}
-
-#endif
 		}
 	}
 }

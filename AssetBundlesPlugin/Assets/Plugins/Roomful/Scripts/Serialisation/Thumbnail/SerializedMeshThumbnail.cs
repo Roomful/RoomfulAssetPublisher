@@ -4,15 +4,12 @@ using UnityEngine;
 
 namespace RF.AssetBundles.Serialization
 {
-	public class SerializedThumbnail : MonoBehaviour
+	public class SerializedMeshThumbnail : MonoBehaviour
     {
 
 		public bool IsBoundToResourceIndex = false;
 		public int ResourceIndex = 1;
 
-		public bool IsFixedRatio = false;
-		public int XRatio = 1;
-		public int YRatio = 1;
     }
 }
 

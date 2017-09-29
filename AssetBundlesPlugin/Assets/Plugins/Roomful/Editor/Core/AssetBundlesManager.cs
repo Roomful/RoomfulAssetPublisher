@@ -335,7 +335,6 @@ namespace RF.AssetWizzard.Editor {
 			GameObject newGo = (GameObject)GameObject.Instantiate (prop) as GameObject;
 			newGo.name = tpl.Title;
 
-            Debug.Log(tpl);
 			PropAsset asset = newGo.AddComponent<PropAsset> ();
 			asset.SetTemplate (tpl);
 
@@ -351,8 +350,11 @@ namespace RF.AssetWizzard.Editor {
             new RendererCollector().Run (asset);
 			new TextCollector().Run (asset);
 			new MeshCollector().Run (asset);
-			new MeshThumbnailCollector().Run (asset);
-			new V1_ThumbnailCollector().Run (asset);
+			new ComponentsCollector().Run (asset);
+
+
+			new V1_ThumbnailsCollector().Run (asset);
+			new V1_MarkersCollector ().Run (asset);
 		}
 
 		public static void CheckAnimations(PropAsset prop) {

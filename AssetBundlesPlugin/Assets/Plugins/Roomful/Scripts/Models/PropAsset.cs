@@ -455,11 +455,11 @@ namespace RF.AssetWizzard {
 			if (DisplayMode == PropDisplayMode.Silhouette) {
 
 				foreach (Transform undefined in UndefinedObjects) {
-					undefined.parent = GetLayer (HierarchyLayers.Silhouette);
+					undefined.SetParent (GetLayer (HierarchyLayers.Silhouette));
 				}
 			} else {
 				foreach (Transform undefined in UndefinedObjects) {
-					undefined.parent = GetLayer (HierarchyLayers.Graphics);
+					undefined.SetParent(GetLayer (HierarchyLayers.Graphics));
 				}
 			}
 

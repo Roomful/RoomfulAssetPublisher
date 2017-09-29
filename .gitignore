@@ -38,3 +38,4 @@ ProjectSettings.asset
 ProjectVersion.txt
 
 AssetBundlesPlugin/AssetBundlesPlugin.csproj
+Bundles.meta

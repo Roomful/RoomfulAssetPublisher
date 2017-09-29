@@ -455,9 +455,12 @@ namespace RF.AssetWizzard.Editor {
 			
 		private void Settings() {
 
+
             GUILayout.Label("Settings", WizardWindow.constants.sectionHeader, new GUILayoutOption[0]);
 
             GUILayout.Space(10f);
+
+			EditorGUI.BeginChangeCheck ();
 
 
 			ReorderableListGUI.Title("Build Platfroms");
@@ -479,6 +482,11 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.Space(10f);
 			AssetBundlesSettings.Instance.ShowWebInLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB IN Logs", AssetBundlesSettings.Instance.ShowWebInLogs);
 			AssetBundlesSettings.Instance.ShowWebOutLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB OUT Logs", AssetBundlesSettings.Instance.ShowWebOutLogs);
+
+
+			if(EditorGUI.EndChangeCheck()) {
+				AssetBundlesSettings.Save ();
+			}
 
 		}
 

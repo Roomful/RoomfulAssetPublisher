@@ -23,21 +23,27 @@ namespace RF.AssetWizzard {
 
         public ThumbnailSilhouette(PropThumbnail thumbnail) {
 
-            /*
-			if(thumbnail.Border != null && thumbnail.Corner != null) {
-				BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Border);
-				CornerMeshData = MeshSerializer.SerializerMesh (thumbnail.Corner);
-			}
-            */
+			if(thumbnail.Frame != null) {
 
-			Position = thumbnail.transform.localPosition;
-			Scale = thumbnail.transform.localScale;
-			Rotation = thumbnail.transform.localRotation.eulerAngles;
-			IsFixedRation = thumbnail.IsFixedRatio;
-			if(IsFixedRation) {
-				RatioX = thumbnail.XRatio;
-				RatioY = thumbnail.YRatio;
+				if(thumbnail.Frame.Border != null && thumbnail.Frame.Corner != null) {
+					BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Frame.Border);
+					CornerMeshData = MeshSerializer.SerializerMesh (thumbnail.Frame.Corner);
+				}
 			}
+
+			IsFixedRation = thumbnail.Settings.IsFixedRatio;
+			if(IsFixedRation) {
+				RatioX = thumbnail.Settings.XRatio;
+				RatioY = thumbnail.Settings.YRatio;
+			}
+
+
+
+
+			Position = thumbnail.Silhouette.localPosition;
+			Scale = thumbnail.Silhouette.localScale;
+			Rotation = thumbnail.Silhouette.localRotation.eulerAngles;
+
 
 
 		}
