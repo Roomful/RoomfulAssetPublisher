@@ -53,7 +53,7 @@ namespace RF.AssetWizzard
             GenerateFrame();
 
             if(Prop != null) {
-                Prop.UpdateBounds();
+                Prop.Update();
             }
         }
 
@@ -183,7 +183,7 @@ namespace RF.AssetWizzard
      
 
             if (Corner != null) {
-                Corner.transform.parent = GetLayer(BorderLayers.BorderParts);
+                Corner.transform.parent = GetLayer(BorderLayers.BorderParts); 
                 Corner.gameObject.SetActive(false);
                 Corner.gameObject.name = CORNER_NAME;
 
@@ -193,17 +193,28 @@ namespace RF.AssetWizzard
 
             if (Border != null) {
 
-                Border.transform.parent = GetLayer(BorderLayers.BorderParts);
+                Border.transform.parent = GetLayer(BorderLayers.BorderParts); 
                 Border.gameObject.SetActive(false);
                 Border.gameObject.name = BORDER_NAME;
             }
 
             if (Back != null) {
 
-                Back.transform.parent = GetLayer(BorderLayers.BorderParts);
+                Back.transform.parent = GetLayer(BorderLayers.BorderParts); 
                 Back.gameObject.SetActive(false);
                 Back.gameObject.name = BACK_NAME;
             }
+
+            GameObject borderParts = GetLayer(BorderLayers.BorderParts).gameObject;
+            Transform[] parts = GetLayer(BorderLayers.BorderParts).GetComponentsInChildren<Transform>(true);
+            foreach(Transform part in parts) {
+                GameObject go = part.gameObject;
+                if(go != Border && go != Corner && go != Back && go != borderParts) {
+                    DestroyImmediate(go);
+                }
+            }
+
+
         }
 
 

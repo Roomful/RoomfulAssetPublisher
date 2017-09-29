@@ -9,27 +9,13 @@ namespace RF.AssetWizzard.Editor
     public class PropFrameEditor : UnityEditor.Editor {
 
 
-        public GameObject Corner;
-        public GameObject Border;
-        public GameObject Back;
-
-        SerializedProperty m_corner;
-        SerializedProperty m_border;
-        SerializedProperty m_back;
-
-        void OnEnable() {
-            m_corner = serializedObject.FindProperty("Corner");
-            m_border = serializedObject.FindProperty("Border");
-            m_back = serializedObject.FindProperty("Back");
-        }
-
         public override void OnInspectorGUI() {
 
             EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.LabelField("Frame", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(m_corner);
-            EditorGUILayout.PropertyField(m_border);
+            Frame.Corner =  EditorGUILayout.ObjectField(new GUIContent("Corner"), Frame.Corner, typeof(GameObject), true) as GameObject;
+            Frame.Border = EditorGUILayout.ObjectField(new GUIContent("Border"), Frame.Border, typeof(GameObject), true) as GameObject;
            
 
 
@@ -43,9 +29,8 @@ namespace RF.AssetWizzard.Editor
 
             EditorGUILayout.Space();
             EditorGUILayout.Space();
+            Frame.Back = EditorGUILayout.ObjectField(new GUIContent("Border"), Frame.Back, typeof(GameObject), true) as GameObject;
 
-            EditorGUILayout.PropertyField(m_back); 
-           
 
             EditorGUI.BeginChangeCheck();
             float backOffset  = EditorGUILayout.FloatField("Back Offset", Frame.Settings.BackOffset);

@@ -38,9 +38,7 @@ namespace RF.AssetWizzard {
 		//--------------------------------------
 
 
-		#if UNITY_EDITOR
-
-		void Update () {
+		public void Update () {
 			PreliminaryVisualisation ();
 			CheckhHierarchy ();
 		}
@@ -72,8 +70,6 @@ namespace RF.AssetWizzard {
 			Gizmos.matrix = oldGizmosMatrix;
 
 		}
-
-		#endif
 
 
 	
