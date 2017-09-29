@@ -47,8 +47,21 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUILayout.PropertyField (DrawGizmos);
 
 
+            Enviroment env = GameObject.FindObjectOfType<Enviroment>();
+            if(env != null) {
+                EditorGUI.BeginChangeCheck();
+                env.RenderEnviroment = EditorGUILayout.Toggle("Render Enviroment", env.RenderEnviroment);
+                if(EditorGUI.EndChangeCheck()) {
+                    env.Update();
+                }
+            }
 
-			EditorGUILayout.Space ();
+       
+            
+
+
+
+            EditorGUILayout.Space ();
 			GUILayout.BeginHorizontal (); {
 
 			
