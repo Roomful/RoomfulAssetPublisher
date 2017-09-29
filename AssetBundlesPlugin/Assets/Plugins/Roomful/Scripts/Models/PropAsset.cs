@@ -42,10 +42,7 @@ namespace RF.AssetWizzard {
 
 		void Update () {
 			PreliminaryVisualisation ();
-
-
 			CheckhHierarchy ();
-
 		}
 
 
@@ -450,21 +447,18 @@ namespace RF.AssetWizzard {
 				UndefinedObjects.Add (child);
 			}
 
-			foreach (Transform undefined in UndefinedObjects) {
-				undefined.position = Vector3.zero;
-			}
-
-
-
 			if (DisplayMode == PropDisplayMode.Silhouette) {
 
 				foreach (Transform undefined in UndefinedObjects) {
 					undefined.SetParent (GetLayer (HierarchyLayers.Silhouette));
-				}
+                    undefined.localPosition = Vector3.zero;
+
+                }
 			} else {
 				foreach (Transform undefined in UndefinedObjects) {
 					undefined.SetParent(GetLayer (HierarchyLayers.Graphics));
-				}
+                    undefined.localPosition = Vector3.zero;
+                }
 			}
 
 

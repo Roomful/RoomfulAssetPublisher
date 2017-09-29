@@ -137,7 +137,7 @@ namespace RF.AssetWizzard.Editor {
 		
 			if(HasMeshCollisison) {
 				valid = false;
-				EditorGUILayout.HelpBox("Hving MeshColliders inside your asset mey cause a low performance. Consider replasing it with primitive colliders.", MessageType.Warning);
+				EditorGUILayout.HelpBox("Having MeshColliders inside your asset mey cause a low performance. Consider replacing it with primitive colliders.", MessageType.Warning);
 			}
 
 
