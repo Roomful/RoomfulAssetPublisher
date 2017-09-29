@@ -91,8 +91,15 @@ namespace RF.AssetWizzard.Editor {
 
 		[MenuItem("GameObject/Roomful/Add Component/Frame", false, 100)]
 		public static void AddFrame () {
-			Selection.activeGameObject.AddComponent<PropFrame>(); 
-		}
+			var frame = Selection.activeGameObject.AddComponent<PropFrame>();
+
+            var border = PrefabManager.CreatePrefab("Frame/DefaultBorder");
+            var corner = PrefabManager.CreatePrefab("Frame/DefaultCorner");
+
+            frame.Border = border;
+            frame.Corner = corner;
+
+        }
 
 
 

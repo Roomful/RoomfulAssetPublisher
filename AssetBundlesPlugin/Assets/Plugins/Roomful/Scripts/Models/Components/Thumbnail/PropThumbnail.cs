@@ -47,7 +47,7 @@ namespace RF.AssetWizzard
 		public void PrepareForUpalod() {
 
 
-            DestroyImmediate (Canvas.GetComponent<Renderer> ().sharedMaterial = null);
+            DestroyImmediate (Canvas.gameObject);
 		
 			RemoveSilhouette ();
 			DestroyImmediate (this);

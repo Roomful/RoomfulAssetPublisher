@@ -27,12 +27,9 @@ namespace RF.AssetBundles.Serialization {
 
 				switch(propertyType) {
 				case UnityEditor.ShaderUtil.ShaderPropertyType.TexEnv:
-					Debug.Log("TexEnv");
 					if (mat.GetTexture(propertyName) != null) {
-						Debug.Log("TexEnv begin serialize");
 						property.SerializedTextureValue = new SerializedTexture();
 						property.SerializedTextureValue.Serialize(mat.GetTexture(propertyName));
-						Debug.Log("TexEnv end serialize");
 					}
 
 					break;

@@ -115,23 +115,19 @@ namespace RF.AssetWizzard {
 			DisplayMode = PropDisplayMode.Normal;
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 
-			Transform graphTransform = GetLayer (HierarchyLayers.Graphics).transform;
 
-			for (int i = 0; i < graphTransform.childCount; i++) {
-				Transform child = graphTransform.GetChild (i);
+            Renderer[] renderers = transform.GetComponentsInChildren<Renderer>();
+            foreach (Renderer renderer in renderers) {
+                if (renderer != null) {
 
-				Renderer r = child.GetComponent<Renderer> ();
+                    foreach (Material mat in renderer.sharedMaterials) {
+                        var md = renderer.gameObject.AddComponent<SerializedMaterial>();
+                        md.Serialize(mat);
+                    }
 
-				if(r != null) {
-					foreach (Material mat in r.sharedMaterials) {
-						var md = child.gameObject.AddComponent<SerializedMaterial> ();
-						md.Serialize (mat);
-					}
-
-					r.sharedMaterials = new Material[0];
-
-				}
-			}
+                    renderer.sharedMaterials = new Material[0];
+                }
+            }
 		}
 
 		public void Refresh() {

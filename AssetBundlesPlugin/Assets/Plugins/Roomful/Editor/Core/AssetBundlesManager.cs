@@ -346,6 +346,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void RunCollectors(PropAsset asset) {
+            return;
             new V1_RendererCollector().Run(asset); // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
             new RendererCollector().Run (asset);
 			new TextCollector().Run (asset);
