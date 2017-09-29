@@ -6,6 +6,8 @@ namespace RF.AssetBundles.Serialization
 {
 
 	public class SerializedFrame : MonoBehaviour  {
-      
+
+        public float FrameOffset = 0f;
+        public float BackOffset = 0f;
     }
 }

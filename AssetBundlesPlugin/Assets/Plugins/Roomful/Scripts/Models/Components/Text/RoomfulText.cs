@@ -34,7 +34,6 @@ namespace RF.AssetWizzard {
 		[TextArea(3, 10)]
 		public string PlaceHolderText = "Hello Roomful";
 		public FontData FontData = FontData.defaultFontData;
-		public bool DrawGizmos = true;
 		public Color Color = Color.white;
 		public TextContent Source = new TextContent();
 
@@ -47,11 +46,15 @@ namespace RF.AssetWizzard {
 		}
 
 		protected virtual void OnDrawGizmos () {
-			if(!DrawGizmos) {
-				return;
-			}
+            if (Prop == null) {
+                return;
+            }
 
-			GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.white);
+            if (!Prop.DrawGizmos) {
+                return;
+            }
+
+            GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.white);
 		}
 
 
@@ -85,8 +88,8 @@ namespace RF.AssetWizzard {
 
 			if(FontData.font != null) {
 				textInfo.Font = FontData.font;
-				textInfo.Font.material.shader = Shader.Find("GUI/Text Shader");
-			}
+                textInfo.Font.material.shader = Shader.Find("GUI/Text Shader");
+            }
 
            
             textInfo.FontSize = FontData.fontSize;
@@ -151,6 +154,21 @@ namespace RF.AssetWizzard {
             }
         }
 
+        public PropAsset Prop {
+            get {
+                Transform go = gameObject.transform;
+                while (go != null) {
+                    if (go.GetComponent<PropAsset>() != null) {
+                        return go.GetComponent<PropAsset>();
+                    }
+
+                    go = go.parent;
+                }
+
+                return null;
+            }
+        }
+
 
         private void Refersh() {
 			TextRenderer.text = PlaceHolderText;
@@ -158,20 +176,16 @@ namespace RF.AssetWizzard {
 			TextRenderer.lineSpacing = FontData.lineSpacing;
 			TextRenderer.fontStyle = FontData.fontStyle;
             TextRenderer.color = Color;
-
             TextRenderer.font = FontData.font;
+            TextRenderer.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
-			/*	if(FontData.font == null) {
-				FontData.font = TextRenderer.font;
-			}*/
+            if (TextRenderer.font != null) {
 
-            if(TextRenderer.font != null) {
-                TextRenderer.GetComponent<MeshRenderer>().sharedMaterial = TextRenderer.font.material;
+                Material m = new Material(TextRenderer.font.material);
+                m.shader = Shader.Find("Roomful/Text");
+                m.SetColor("_Color", Color);
 
-				Shader textShader = Shader.Find ("Roomful/Text");
-				TextRenderer.GetComponent<MeshRenderer> ().sharedMaterial.shader = textShader;
-				               
-                TextRenderer.GetComponent<MeshRenderer>().sharedMaterial.SetColor("_Color", Color);
+                TextRenderer.GetComponent<MeshRenderer>().sharedMaterial = m;
 			}
            
             TextRenderer.characterSize = 1;

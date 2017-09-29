@@ -51,8 +51,8 @@ namespace RF.AssetWizzard.Editor {
 			}
 
 			if(max > AssetBundlesSettings.MAX_AlLOWED_SIZE) {
-				EditorUtility.DisplayDialog ("Error", "Your Asset is too big", "Ok");
-				return false;
+				//EditorUtility.DisplayDialog ("Error", "Your Asset is too big", "Ok");
+				//return false;
 			}
 	
 			if (asset.Model.childCount < 1) {
@@ -346,7 +346,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void RunCollectors(PropAsset asset) {
-            return;
+            //return;
             new V1_RendererCollector().Run(asset); // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
             new RendererCollector().Run (asset);
 			new TextCollector().Run (asset);

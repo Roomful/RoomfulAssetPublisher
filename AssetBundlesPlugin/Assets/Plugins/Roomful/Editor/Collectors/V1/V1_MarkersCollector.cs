@@ -11,7 +11,7 @@ namespace RF.AssetWizzard
 
             Transform stands = propAsset.GetLayer("StandSurface");
             foreach (Transform tb in stands) {
-                tb.gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedStandMarker>();
+                tb.gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedFloorMarker>();
                 tb.transform.parent = propAsset.GetLayer(HierarchyLayers.Graphics);
             }
 
@@ -22,7 +22,7 @@ namespace RF.AssetWizzard
 			}
 
 
-            Transform ignoredGpahics = propAsset.GetLayer("IgnoredGraphics'");
+            Transform ignoredGpahics = propAsset.GetLayer("IgnoredGraphics");
             foreach (Transform tb in ignoredGpahics) {
                 tb.gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedBoundsIgnoreMarker>();
                 tb.transform.parent = propAsset.GetLayer(HierarchyLayers.Graphics);

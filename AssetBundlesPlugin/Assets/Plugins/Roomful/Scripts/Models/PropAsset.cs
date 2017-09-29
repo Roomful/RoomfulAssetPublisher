@@ -6,10 +6,7 @@ using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard {
 
-	#if UNITY_EDITOR
 	[ExecuteInEditMode]
-	#endif
-
 	public class PropAsset : MonoBehaviour {
 		
 		[SerializeField] [HideInInspector]
@@ -62,8 +59,7 @@ namespace RF.AssetWizzard {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position, 0.04f);
 
-
-            GizmosDrawer.DrawCube (_Size.center, transform.rotation, _Size.size, Color.blue);
+            GizmosDrawer.DrawCube (_Size.center, transform.rotation, _Size.size, Color.cyan);
 
 		}
 
@@ -264,7 +260,7 @@ namespace RF.AssetWizzard {
 		public bool HasStandSurface {
 			get {
                
-				if (gameObject.GetComponentsInChildren<SerializedStandMarker>().Length != 0) {
+				if (gameObject.GetComponentsInChildren<SerializedFloorMarker>().Length != 0) {
 					return true;
 				}
 
@@ -347,9 +343,6 @@ namespace RF.AssetWizzard {
 
 		public void AutosizeCollider () {
 
-
-			//_Size = transform.GetRendererBounds ();
-
 			bool hasBounds = false;
 
 			_Size = new Bounds (Vector3.zero, Vector3.zero);
@@ -360,13 +353,14 @@ namespace RF.AssetWizzard {
 
 			foreach (Renderer child in ChildrenRenderer) {
 	
-				if (child.transform.gameObject.GetComponent<SerializedBoundsIgnoreMarker>() != null) {
+				if (IsIgnored(child.transform)) {
 					continue;
 				}
 
 				if (child.transform.IsChildOf (GetLayer (HierarchyLayers.Silhouette))) {
 					continue;
 				}
+
 
 				if (!hasBounds) {
 					_Size = child.bounds;
@@ -381,6 +375,20 @@ namespace RF.AssetWizzard {
 			Template.Size = _Size.size;
 		}
 
+
+        public bool IsIgnored(Transform go) {
+
+            Transform testedObject = go;
+            while(testedObject != null) {
+                if (testedObject.GetComponent<SerializedBoundsIgnoreMarker>() != null) {
+                    return true;
+                }
+                testedObject = testedObject.parent;
+            }
+
+     
+            return false;
+        }
 
 
 

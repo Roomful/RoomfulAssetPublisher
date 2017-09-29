@@ -20,7 +20,9 @@ namespace RF.AssetWizzard
 						}
 
 						Material newMaterial = new Material(m);
-						newMaterial.name = m.name.Replace("/", "");
+                        newMaterial.shader = Shader.Find(newMaterial.shader.name);
+
+                        newMaterial.name = m.name.Replace("/", "");
 
 						int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (newMaterial.shader);
 						for (int i = 0; i < shadersPropertyLength; i++) {

@@ -32,6 +32,7 @@ namespace RF.AssetWizzard
 
 				tb.gameObject.AddComponent<PropThumbnail> ();
                 tb.gameObject.AddComponent<PropFrame>();
+
             }
 
 			if(thumbnails.childCount == 0) {
@@ -41,20 +42,27 @@ namespace RF.AssetWizzard
 			}
 
 
-			//Mesh Thumbnails
-			foreach (Transform child in propAsset.transform) {
-			
-				if(child.name.Equals(AssetBundlesSettings.THUMBNAIL_POINTER)) {
-					var info = child.gameObject.AddComponent<SerializedMeshThumbnail>();
+            //Mesh Thumbnails
+            Transform[] allChilds = propAsset.GetComponentsInChildren<Transform>();
+            foreach (Transform child in allChilds) {
 
-					info.IsBoundToResourceIndex = child.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND) != null;
-					if (info.IsBoundToResourceIndex) {
-						Transform obj = child.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
-						info.ResourceIndex =  System.Convert.ToInt32(obj.GetChild(0).name);
-					}
+                if (child.name.Equals(AssetBundlesSettings.THUMBNAIL_POINTER)) {
 
-					child.gameObject.AddComponent<PropMeshThumbnail> ();
-				}
+                    Transform parent = child.parent;
+
+                    var info = parent.gameObject.AddComponent<SerializedMeshThumbnail>();
+
+                    info.IsBoundToResourceIndex = parent.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND) != null;
+                    if (info.IsBoundToResourceIndex) {
+                        Transform obj = parent.Find(AssetBundlesSettings.THUMBNAIL_RESOURCE_INDEX_BOUND);
+                        info.ResourceIndex = System.Convert.ToInt32(obj.GetChild(0).name);
+                    }
+
+                    parent.gameObject.AddComponent<PropMeshThumbnail>();
+
+                    GameObject.DestroyImmediate(child.gameObject);
+
+                }
 			}
 
 				
