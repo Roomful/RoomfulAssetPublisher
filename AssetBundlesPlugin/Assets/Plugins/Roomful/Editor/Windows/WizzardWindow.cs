@@ -86,7 +86,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-		private int m_selectedSectionIndex;
+		private static int s_selectedSectionIndex;
 		private Vector2 m_SectionScrollPos;
 		private List<WizardWindow.Section> m_Sections;
 		private static WizardWindow.Constants constants = null;
@@ -152,7 +152,7 @@ namespace RF.AssetWizzard.Editor {
 				}
 
 				EditorGUI.BeginChangeCheck();
-				if (GUI.Toggle(rect, this.SelectedSectionIndex == i, section.content, WizardWindow.constants.sectionElement)) {
+				if (GUI.Toggle(rect, SelectedSectionIndex == i, section.content, WizardWindow.constants.sectionElement)) {
 					SelectedSectionIndex = i;
 				} if (EditorGUI.EndChangeCheck()){
 					GUIUtility.keyboardControl = 0;
@@ -185,24 +185,18 @@ namespace RF.AssetWizzard.Editor {
 		//--------------------------------------
 
 
-		private int SelectedSectionIndex {
+		public static int SelectedSectionIndex {
 			get {
-				return this.m_selectedSectionIndex;
+				return s_selectedSectionIndex;
 			} set {
-
-				this.m_selectedSectionIndex = value;
-				if (this.m_selectedSectionIndex >= this.m_Sections.Count) {
-					this.m_selectedSectionIndex = 0;
-				} else if (this.m_selectedSectionIndex < 0) {
-					this.m_selectedSectionIndex = this.m_Sections.Count - 1;
-				}
+                s_selectedSectionIndex = value;
 			}
 		}
 
 
 		private WizardWindow.Section selectedSection {
 			get {
-				return this.m_Sections[this.m_selectedSectionIndex];
+				return this.m_Sections[s_selectedSectionIndex];
 			}
 		}
 

@@ -7,7 +7,7 @@ namespace RF.AssetBundles.Serialization
 	public enum SerializedResourceTextContentSource
     {
         Title,
-        Desciprion,
+        Description,
 		Location,
 		Date
     }

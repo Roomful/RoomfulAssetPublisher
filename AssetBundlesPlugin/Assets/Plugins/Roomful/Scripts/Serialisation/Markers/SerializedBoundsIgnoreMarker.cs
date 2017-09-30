@@ -7,6 +7,7 @@ using RF.AssetWizzard;
 namespace RF.AssetBundles.Serialization
 {
     [ExecuteInEditMode]
+    [AddComponentMenu("Roomful/Bounds Ignore Marker")]
     public class SerializedBoundsIgnoreMarker : MonoBehaviour {
 
         private Bounds m_size = new Bounds(Vector3.zero, Vector3.zero);

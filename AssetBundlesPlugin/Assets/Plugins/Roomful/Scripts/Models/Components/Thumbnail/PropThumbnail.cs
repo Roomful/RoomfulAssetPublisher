@@ -87,6 +87,13 @@ namespace RF.AssetWizzard
 				canvas.localRotation = Quaternion.Euler (0, 180, 0);
 				canvas.localPosition = Vector3.zero;
 
+                if(canvas.childCount > 0) {
+                    foreach(Transform child in canvas.transform) {
+                        child.parent = gameObject.transform;
+                    }
+                }
+
+
 				return canvas;
 			}
 		}
