@@ -95,14 +95,16 @@ namespace RF.AssetWizzard
                 if (EnableXScale) {
                     var text = GetComponent<RoomfulText>();
                     if(text != null) {
-						text.RectTransform.sizeDelta = new Vector2(parentBounds.size.x * XSize, text.RectTransform.sizeDelta.y);
+						float x = parentBounds.size.x * XSize / text.transform.lossyScale.x;
+						text.RectTransform.sizeDelta = new Vector2(x, text.RectTransform.sizeDelta.y);
                     }
                 }
 
                 if (EnableYScale) {
                     var text = GetComponent<RoomfulText>();
                     if (text != null) {
-						text.RectTransform.sizeDelta = new Vector2(text.RectTransform.sizeDelta.x, parentBounds.size.y * YSize) ;
+						float y = parentBounds.size.y * YSize / text.transform.lossyScale.y;
+						text.RectTransform.sizeDelta = new Vector2(text.RectTransform.sizeDelta.x, y) ;
                     }
                 }
 
