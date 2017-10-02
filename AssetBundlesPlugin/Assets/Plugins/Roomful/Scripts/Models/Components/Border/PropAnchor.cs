@@ -33,6 +33,9 @@ namespace RF.AssetWizzard
             Anchor.y = Mathf.Clamp(Anchor.y, 0f, 1f);
             Anchor.z = Mathf.Clamp(Anchor.z, 0f, 1f);
 
+            XSize = Mathf.Clamp(XSize, 0f, 1f);
+            YSize = Mathf.Clamp(YSize, 0f, 1f);
+
 
             if (Parent != null) {
                 transform.position = Bounds.center;
