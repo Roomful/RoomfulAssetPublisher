@@ -18,8 +18,8 @@ namespace RF.AssetWizzard
         public Vector3 Offset = Vector3.zero;
 
 
-		public bool UseRendererAnchor = true;
-		public Vector3 RendererAnchor = new Vector3(0.5f, 0.5f, 0.5f);
+		public bool UseRendererPivot = true;
+		public Vector3 RendererPivot = new Vector3(0.5f, 0.5f, 0.5f);
 
         [Header("Size Scale")]
 
@@ -38,9 +38,9 @@ namespace RF.AssetWizzard
             Anchor.z = Mathf.Clamp(Anchor.z, 0f, 1f);
 
 
-			RendererAnchor.x = Mathf.Clamp(RendererAnchor.x, 0f, 1f);
-			RendererAnchor.y = Mathf.Clamp(RendererAnchor.y, 0f, 1f);
-			RendererAnchor.z = Mathf.Clamp(RendererAnchor.z, 0f, 1f);
+			RendererPivot.x = Mathf.Clamp(RendererPivot.x, 0f, 1f);
+			RendererPivot.y = Mathf.Clamp(RendererPivot.y, 0f, 1f);
+			RendererPivot.z = Mathf.Clamp(RendererPivot.z, 0f, 1f);
 
             XSize = Mathf.Clamp(XSize, 0.001f, 1f);
             YSize = Mathf.Clamp(YSize, 0.001f, 1f);
@@ -70,11 +70,11 @@ namespace RF.AssetWizzard
                 transform.position = new Vector3(xPos, yPos, zPos);
 				Bounds bounds = Scene.GetBounds (gameObject, true);
 
-				if(UseRendererAnchor) {
+				if(UseRendererPivot) {
 
-					float x = bounds.center.x - bounds.extents.x + bounds.size.x * RendererAnchor.x;
-					float y = bounds.center.y - bounds.extents.y + bounds.size.y * RendererAnchor.y;
-					float z = bounds.center.z - bounds.extents.z + bounds.size.z * RendererAnchor.z;
+					float x = bounds.center.x - bounds.extents.x + bounds.size.x * RendererPivot.x;
+					float y = bounds.center.y - bounds.extents.y + bounds.size.y * RendererPivot.y;
+					float z = bounds.center.z - bounds.extents.z + bounds.size.z * RendererPivot.z;
 
 
 					Vector3 anchorPoint = new Vector3 (x, y, z);
