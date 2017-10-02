@@ -144,8 +144,6 @@ namespace RF.AssetWizzard
 
                 return bounds;
             }
-
-
         }
 
         public bool IsIgnored(Transform go) {
@@ -255,7 +253,6 @@ namespace RF.AssetWizzard
 
                 Vector3 rendererPoint = back.GetVertex(VertexX.Right, VertexY.Top, VertexZ.Front);
                 Vector3 diff = back.transform.position - rendererPoint;
-               // diff.z += Settings.BackOffset;
                 back.transform.position += diff;
 
                 Vector3 localPos = back.transform.localPosition;
