@@ -110,9 +110,11 @@ namespace RF.AssetWizzard {
                 if (renderer != null) {
 
                     foreach (Material mat in renderer.sharedMaterials) {
-                        var md = renderer.gameObject.AddComponent<SerializedMaterial>();
-                        md.Serialize(mat);
-                    }
+						if (mat != null) {
+							var md = renderer.gameObject.AddComponent<SerializedMaterial>();
+							md.Serialize(mat);
+						}
+                   	}
 
                     renderer.sharedMaterials = new Material[0];
                 }
