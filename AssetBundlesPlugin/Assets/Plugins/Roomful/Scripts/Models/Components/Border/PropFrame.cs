@@ -255,8 +255,12 @@ namespace RF.AssetWizzard
 
                 Vector3 rendererPoint = back.GetVertex(VertexX.Right, VertexY.Top, VertexZ.Front);
                 Vector3 diff = back.transform.position - rendererPoint;
-                diff.z += Settings.BackOffset;
+               // diff.z += Settings.BackOffset;
                 back.transform.position += diff;
+
+                Vector3 localPos = back.transform.localPosition;
+                localPos.z += Settings.BackOffset;
+                back.transform.localPosition = localPos;
 
             }
 
@@ -342,9 +346,13 @@ namespace RF.AssetWizzard
 
             Vector3 rendererPoint = obj.GetVertex(ObjectVertexX, ObjectVertexY, VertexZ.Back);
             Vector3 diff = obj.transform.position - rendererPoint;
-            diff.z += Settings.FrameOffset;
-
             obj.transform.position += diff;
+
+
+            Vector3 localPos = obj.transform.localPosition;
+            localPos.z += Settings.FrameOffset;
+            obj.transform.localPosition = localPos;
+
         }
 
     }
