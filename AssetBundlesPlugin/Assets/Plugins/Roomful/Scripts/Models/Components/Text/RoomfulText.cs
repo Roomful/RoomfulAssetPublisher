@@ -271,7 +271,7 @@ namespace RF.AssetWizzard {
 			float y = 0f;
 
 			switch(horizontal) {
-			case AlignmentHorizontal.Left:
+			case AlignmentHorizontal.Right: 
 				TextRenderer.alignment = TextAlignment.Left;
 				x = -Width / 2f + m_textBounds.size.x / 2f;
 				break;
@@ -279,7 +279,7 @@ namespace RF.AssetWizzard {
 				TextRenderer.alignment = TextAlignment.Center;
 				x = 0;
 				break;
-			case AlignmentHorizontal.Right:
+			case AlignmentHorizontal.Left:
 				TextRenderer.alignment = TextAlignment.Right;
 				x = Width / 2f -  m_textBounds.size.x / 2f;
 				break;
