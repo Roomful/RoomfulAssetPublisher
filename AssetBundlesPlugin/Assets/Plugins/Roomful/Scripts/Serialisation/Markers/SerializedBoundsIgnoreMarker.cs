@@ -28,31 +28,11 @@ namespace RF.AssetBundles.Serialization
 			}
 		}
 
-        private void Update() {
-            AutosizeCollider();
+		public void Update() {
+			m_size = Scene.GetBounds (gameObject, true);
         }
 
-        public void AutosizeCollider() {
-			bool hasBounds = false;
-
-            m_size = new Bounds(Vector3.zero, Vector3.zero);
-            Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer>();
-
-            Quaternion oldRotation = transform.rotation;
-            transform.rotation = Quaternion.identity;
-
-            foreach (Renderer child in ChildrenRenderer) {
-
-                if (!hasBounds) {
-                    m_size = child.bounds;
-                    hasBounds = true;
-                } else {
-                    m_size.Encapsulate(child.bounds);
-                }
-            }
-
-            transform.rotation = oldRotation;
-        }
+     
 
         public PropAsset Prop {
             get {

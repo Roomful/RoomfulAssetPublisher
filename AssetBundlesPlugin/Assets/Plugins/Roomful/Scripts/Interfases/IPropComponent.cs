@@ -8,6 +8,8 @@ namespace RF.AssetWizzard {
 
 		void PrepareForUpalod();
 		void RemoveSilhouette();
+
+		void Update();
 	}
 
 }

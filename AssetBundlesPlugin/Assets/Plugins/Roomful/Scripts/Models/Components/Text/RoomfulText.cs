@@ -38,7 +38,7 @@ namespace RF.AssetWizzard {
 		private Bounds m_textBounds = new Bounds (Vector3.zero, Vector3.zero);
 		private static float DEFAULT_TEXT_SCALE = 0.05f;
 
-		void Update () {
+		public void Update () {
 			Refersh ();
 		}
 
@@ -272,7 +272,7 @@ namespace RF.AssetWizzard {
 
 			switch(horizontal) {
 			case AlignmentHorizontal.Right: 
-				TextRenderer.alignment = TextAlignment.Left;
+				TextRenderer.alignment = TextAlignment.Right;
 				x = -Width / 2f + m_textBounds.size.x / 2f;
 				break;
 			case AlignmentHorizontal.Center:
@@ -280,7 +280,7 @@ namespace RF.AssetWizzard {
 				x = 0;
 				break;
 			case AlignmentHorizontal.Left:
-				TextRenderer.alignment = TextAlignment.Right;
+				TextRenderer.alignment = TextAlignment.Left;
 				x = Width / 2f -  m_textBounds.size.x / 2f;
 				break;
 			}
