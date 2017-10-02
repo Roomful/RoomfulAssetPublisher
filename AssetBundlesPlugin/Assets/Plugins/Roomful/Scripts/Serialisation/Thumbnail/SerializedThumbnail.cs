@@ -8,7 +8,7 @@ namespace RF.AssetBundles.Serialization
     {
 
 		public bool IsBoundToResourceIndex = false;
-		public int ResourceIndex = 1;
+		public int ResourceIndex = 0;
 
 		public bool IsFixedRatio = false;
 		public int XRatio = 1;

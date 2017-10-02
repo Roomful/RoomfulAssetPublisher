@@ -16,7 +16,7 @@ namespace RF.AssetWizzard
 					textInfo.Font = PropDataBase.LoadFontAsset (propAsset, textInfo);
 				
 				} else {
-					Debug.Log("no font content");
+					//Debug.Log("no font content");
 				}
 
 				var text =  textInfo.gameObject.AddComponent<RoomfulText>();

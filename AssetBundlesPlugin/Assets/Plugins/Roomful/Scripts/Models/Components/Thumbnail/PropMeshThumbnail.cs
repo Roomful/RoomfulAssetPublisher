@@ -54,9 +54,6 @@ namespace RF.AssetWizzard {
 
 		public void PrepareForUpalod() {
 			
-			GameObject pointer = new GameObject (AssetBundlesSettings.THUMBNAIL_POINTER);
-			pointer.transform.parent = transform;
-			pointer.transform.Reset ();
 			RemoveSilhouette ();
 
 			DestroyImmediate (Canvas);

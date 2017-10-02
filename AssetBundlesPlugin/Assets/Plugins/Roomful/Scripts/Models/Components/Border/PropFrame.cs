@@ -14,10 +14,12 @@ namespace RF.AssetWizzard
 
         public GameObject Corner;
         public GameObject Border;
+        public GameObject Back;
 
 
         private const string CORNER_NAME = "Corner";
         private const string BORDER_NAME = "Border";
+        private const string BACK_NAME = "Back";
 
 
         void Awake() {
@@ -31,7 +33,13 @@ namespace RF.AssetWizzard
             if (b != null) {
                 Border = b.gameObject;
             }
-				
+
+
+            Transform back = GetLayer(BorderLayers.BorderParts).Find(BACK_NAME);
+            if (back != null) {
+                Back = back.gameObject;
+            }
+
             Update();
         }
 
@@ -43,6 +51,41 @@ namespace RF.AssetWizzard
         public void Update() {
             CheckhHierarchy();
             GenerateFrame();
+
+            if(Prop != null) {
+                Prop.Update();
+            }
+        }
+
+
+        public void PrepareForUpalod() {
+
+            if (Border != null) {
+                Border.SetActive(true);
+            }
+
+            if (Corner != null) {
+                Corner.SetActive(true);
+            }
+
+            if (Back != null) {
+                Back.SetActive(true);
+            }
+
+
+            DestroyImmediate(GetLayer(BorderLayers.GeneratedBorder).gameObject);
+            DestroyImmediate(this);
+
+        }
+
+        public void GenerateSilhouette() {
+            if (Border != null && Corner != null) {
+                Transform GeneratedBorder = GetLayer(BorderLayers.GeneratedBorder);
+                GameObject borderSilhouette = Instantiate(GeneratedBorder.gameObject) as GameObject;
+
+                borderSilhouette.transform.parent = Silhouette;
+                borderSilhouette.Reset();
+            }
         }
 
         public Transform GetLayer(BorderLayers layer) {
@@ -79,6 +122,11 @@ namespace RF.AssetWizzard
                 transform.rotation = Quaternion.identity;
 
                 foreach (Renderer child in ChildrenRenderer) {
+
+                    if (IsIgnored(child.transform)) {
+                        continue;
+                    }
+
                     if (!hasBounds) {
                         bounds = child.bounds;
                         hasBounds = true;
@@ -100,33 +148,33 @@ namespace RF.AssetWizzard
 
         }
 
+        public bool IsIgnored(Transform go) {
 
-        public void PrepareForUpalod() {
-
-            if (Border != null) {
-                Border.SetActive(true);
+            Transform testedObject = go;
+            while (testedObject != null) {
+                if (testedObject.GetComponent<SerializedBoundsIgnoreMarker>() != null) {
+                    return true;
+                }
+                testedObject = testedObject.parent;
             }
 
-            if (Corner != null) {
-                Corner.SetActive(true);
-            }
 
-
-			gameObject.AddComponent<SerializedFrame> ();
-
-            DestroyImmediate(GetLayer(BorderLayers.GeneratedBorder).gameObject);
-			DestroyImmediate (this);
-
+            return false;
         }
 
 
-        public void GenerateSilhouette() {
-            if (Border != null && Corner != null) {
-                Transform GeneratedBorder = GetLayer(BorderLayers.GeneratedBorder);
-                GameObject borderSilhouette = Instantiate(GeneratedBorder.gameObject) as GameObject;
 
-                borderSilhouette.transform.parent = Silhouette;
-                borderSilhouette.Reset();
+        public SerializedFrame Settings {
+            get {
+
+                var settings = GetComponent<SerializedFrame>();
+                if (settings == null) {
+                    settings = gameObject.AddComponent<SerializedFrame>();
+                }
+
+                settings.hideFlags = HideFlags.HideInInspector;
+
+                return settings;
             }
         }
 
@@ -135,7 +183,7 @@ namespace RF.AssetWizzard
      
 
             if (Corner != null) {
-                Corner.transform.parent = GetLayer(BorderLayers.BorderParts);
+                Corner.transform.parent = GetLayer(BorderLayers.BorderParts); 
                 Corner.gameObject.SetActive(false);
                 Corner.gameObject.name = CORNER_NAME;
 
@@ -145,29 +193,75 @@ namespace RF.AssetWizzard
 
             if (Border != null) {
 
-                Border.transform.parent = GetLayer(BorderLayers.BorderParts);
+                Border.transform.parent = GetLayer(BorderLayers.BorderParts); 
                 Border.gameObject.SetActive(false);
                 Border.gameObject.name = BORDER_NAME;
             }
+
+            if (Back != null) {
+
+                Back.transform.parent = GetLayer(BorderLayers.BorderParts); 
+                Back.gameObject.SetActive(false);
+                Back.gameObject.name = BACK_NAME;
+            }
+
+            GameObject borderParts = GetLayer(BorderLayers.BorderParts).gameObject;
+            Transform[] parts = GetLayer(BorderLayers.BorderParts).GetComponentsInChildren<Transform>(true);
+            foreach(Transform part in parts) {
+                GameObject go = part.gameObject;
+                if(go != Border && go != Corner && go != Back && go != borderParts) {
+                    DestroyImmediate(go);
+                }
+            }
+
+
         }
 
 
 
 
         private void GenerateFrame() {
+
+            Quaternion oldRotation = transform.rotation;
+            transform.rotation = Quaternion.identity;
+
+            Transform GeneratedBorder = GetLayer(BorderLayers.GeneratedBorder);
+
+            // remove all chields from GeneratedBorder
+            var children = new List<GameObject>();
+            foreach (Transform child in GeneratedBorder) children.Add(child.gameObject);
+            children.ForEach(child => DestroyImmediate(child));
+
+            if (Back != null) {
+                GameObject back = InstantiateBorderPart(Back.gameObject);
+
+
+                float canvasW = Bounds.extents.x;
+                float canvasH = Bounds.extents.y;
+
+                float backW = back.GetRendererBounds().extents.x;
+                float backH = back.GetRendererBounds().extents.x;
+
+
+                float scaleX = canvasW / backW;
+                float scaleY = canvasH / backH;
+
+               // Vector3 backLocaclScale = new Vector3(back.transform.localScale.x, back.transform.localScale.y, back.transform.localScale.z);
+                Vector3 newScale = new Vector3(back.transform.localScale.x * scaleX, back.transform.localScale.y * scaleY, back.transform.localScale.z);
+                back.transform.localScale = newScale;
+
+
+                back.transform.position = Bounds.GetVertex(VertexX.Right, VertexY.Top, VertexZ.Back);
+
+                Vector3 rendererPoint = back.GetVertex(VertexX.Right, VertexY.Top, VertexZ.Front);
+                Vector3 diff = back.transform.position - rendererPoint;
+                diff.z += Settings.BackOffset;
+                back.transform.position += diff;
+
+            }
+
+
             if (Border != null && Corner != null) {
-
-                Quaternion oldRotation = transform.rotation;
-                transform.rotation = Quaternion.identity;
-
-
-                Transform GeneratedBorder = GetLayer(BorderLayers.GeneratedBorder);
-
-                // remove all chields from GeneratedBorder
-                var children = new List<GameObject>();
-                foreach (Transform child in GeneratedBorder) children.Add(child.gameObject);
-                children.ForEach(child => DestroyImmediate(child));
-
 
                 GameObject corner_left_top = InstantiateBorderPart(Corner.gameObject);
                 PutObjectAt(corner_left_top, VertexX.Left, VertexY.Top, VertexX.Right, VertexY.Bottom);
@@ -228,10 +322,10 @@ namespace RF.AssetWizzard
                 border_left.transform.localScale = yScale;
                 border_left.transform.Rotate(Vector3.forward, 270);
                 PutObjectAt(border_left, VertexX.Left, VertexY.Top, VertexX.Right, VertexY.Top);
+            }
 
-                transform.rotation = oldRotation;
 
-            } 
+            transform.rotation = oldRotation;
         }
 
 
@@ -248,6 +342,8 @@ namespace RF.AssetWizzard
 
             Vector3 rendererPoint = obj.GetVertex(ObjectVertexX, ObjectVertexY, VertexZ.Back);
             Vector3 diff = obj.transform.position - rendererPoint;
+            diff.z += Settings.FrameOffset;
+
             obj.transform.position += diff;
         }
 

@@ -253,8 +253,8 @@ public static class SA_UnityExtensions  {
 		Bounds Bounds = new Bounds(Vector3.zero, Vector3.zero);
 		Renderer[] ChildrenRenderer = obj.GetComponentsInChildren<Renderer>();
 
-		//Quaternion oldRotation = obj.transform.rotation;
-		//obj.transform.rotation = Quaternion.identity;
+	//	Quaternion oldRotation = obj.transform.rotation;
+	//	obj.transform.rotation = Quaternion.identity;
 
 		Renderer rnd = obj.GetComponent<Renderer> ();
 		if(rnd != null) {
@@ -272,7 +272,7 @@ public static class SA_UnityExtensions  {
 			}
 		}
 
-		//obj.transform.rotation = oldRotation;
+	//	obj.transform.rotation = oldRotation;
 
 		return Bounds;
 	}

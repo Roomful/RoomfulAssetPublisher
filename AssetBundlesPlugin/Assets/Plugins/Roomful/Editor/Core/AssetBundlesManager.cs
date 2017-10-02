@@ -42,26 +42,6 @@ namespace RF.AssetWizzard.Editor {
 			FileUtil.DeleteFileOrDirectory(AssetBundlesSettings.FULL_ASSETS_LOCATION + name+".prefab");
 		} 
 
-		public static bool ValidateAsset(RF.AssetWizzard.PropAsset asset) {
-			float max = Mathf.Max (asset.Size.x, asset.Size.y, asset.Size.z);
-
-			if(max < AssetBundlesSettings.MIN_ALLOWED_SIZE) {
-				EditorUtility.DisplayDialog ("Error", "Your Asset is too small", "Ok");
-				return false;
-			}
-
-			if(max > AssetBundlesSettings.MAX_AlLOWED_SIZE) {
-				EditorUtility.DisplayDialog ("Error", "Your Asset is too big", "Ok");
-				return false;
-			}
-	
-			if (asset.Model.childCount < 1) {
-				EditorUtility.DisplayDialog ("Error", "Asset is empty!", "Ok");
-				return false;
-			}
-
-			return true;
-		}
 
         private static float s_uploadProgress = 0f;
 
@@ -290,7 +270,7 @@ namespace RF.AssetWizzard.Editor {
 
 		public static void ReuploadAsset(PropAsset prop) {
 
-			if(!AssetBundlesManager.ValidateAsset(prop)) { return; }
+			if(!Validation.Run(prop)) { return; }
 
             //just to mark that uploading process has started
             AssetBundlesSettings.Instance.UploadTemplate = prop.Template;
@@ -307,7 +287,7 @@ namespace RF.AssetWizzard.Editor {
 
 		public static void UploadAssets(PropAsset prop) {
 
-			if(!AssetBundlesManager.ValidateAsset(prop)) { return; }
+			if(!Validation.Run(prop)) { return; }
 
             //just to mark that uploading process has started
             AssetBundlesSettings.Instance.UploadTemplate = prop.Template;
@@ -346,7 +326,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void RunCollectors(PropAsset asset) {
-            return;
+            //return;
             new V1_RendererCollector().Run(asset); // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
             new RendererCollector().Run (asset);
 			new TextCollector().Run (asset);

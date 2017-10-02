@@ -47,8 +47,21 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUILayout.PropertyField (DrawGizmos);
 
 
+            Enviroment env = GameObject.FindObjectOfType<Enviroment>();
+            if(env != null) {
+                EditorGUI.BeginChangeCheck();
+                env.RenderEnviroment = EditorGUILayout.Toggle("Render Enviroment", env.RenderEnviroment);
+                if(EditorGUI.EndChangeCheck()) {
+                    env.Update();
+                }
+            }
 
-			EditorGUILayout.Space ();
+       
+            
+
+
+
+            EditorGUILayout.Space ();
 			GUILayout.BeginHorizontal (); {
 
 			
@@ -124,7 +137,7 @@ namespace RF.AssetWizzard.Editor {
 		
 			if(HasMeshCollisison) {
 				valid = false;
-				EditorGUILayout.HelpBox("Hving MeshColliders inside your asset mey cause a low performance. Consider replasing it with primitive colliders.", MessageType.Warning);
+				EditorGUILayout.HelpBox("Having MeshColliders inside your asset mey cause a low performance. Consider replacing it with primitive colliders.", MessageType.Warning);
 			}
 
 

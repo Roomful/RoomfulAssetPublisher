@@ -22,8 +22,6 @@ namespace RF.AssetWizzard
 
 			foreach (SerializedFrame frame in propAsset.gameObject.GetComponentsInChildren<SerializedFrame>()) {
 				frame.gameObject.AddComponent<PropFrame> ();
-				GameObject.DestroyImmediate (frame);
-
 			}
 
 

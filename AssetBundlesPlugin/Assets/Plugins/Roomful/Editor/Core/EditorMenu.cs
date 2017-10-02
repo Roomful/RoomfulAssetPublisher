@@ -73,7 +73,7 @@ namespace RF.AssetWizzard.Editor {
 			var text = new GameObject ("Text").AddComponent<RoomfulText>();
 			text.RectTransform.sizeDelta = new Vector2(1f, 1f / 5f); 
 
-			text.transform.localRotation = Quaternion.Euler(0f, 180f, 0f); 
+			//text.transform.localRotation = Quaternion.Euler(0f, 180f, 0f); 
 
 			Selection.activeObject = text.gameObject;
 		}
@@ -84,7 +84,10 @@ namespace RF.AssetWizzard.Editor {
 			GameObject Thumbnail = new GameObject ("Thumbnail");
 			Thumbnail.AddComponent<PropThumbnail>();
 			Thumbnail.transform.localScale = Vector3.one * 1.5f;
-		}
+
+            Selection.activeGameObject = Thumbnail;
+
+        }
 
 
 	
@@ -95,9 +98,13 @@ namespace RF.AssetWizzard.Editor {
 
             var border = PrefabManager.CreatePrefab("Frame/DefaultBorder");
             var corner = PrefabManager.CreatePrefab("Frame/DefaultCorner");
+            var back = PrefabManager.CreatePrefab("Frame/DefaultBacking");
 
             frame.Border = border;
             frame.Corner = corner;
+            frame.Back = back;
+
+            frame.Settings.BackOffset = -0.001f;
 
         }
 
@@ -114,7 +121,7 @@ namespace RF.AssetWizzard.Editor {
 			}
 
 			if(valid) {
-                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedStandMarker>();  
+                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedFloorMarker>();  
 			}
 		}
 
