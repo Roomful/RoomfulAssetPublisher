@@ -12,10 +12,8 @@ namespace RF.AssetBundles.Serialization
 
         private Bounds m_size = new Bounds(Vector3.zero, Vector3.zero);
 
-
         protected  void OnDrawGizmos() {
-        
-            if(Prop == null) {
+        	if(Prop == null) {
                 return;
             }
 
@@ -23,19 +21,19 @@ namespace RF.AssetBundles.Serialization
                 return;
             }
 
+			RoomfulText rt = GetComponent<RoomfulText> ();
 
-            GizmosDrawer.DrawCube(m_size.center, transform.rotation, m_size.size, Color.red);
-
-        }
+			if (rt == null) {
+				GizmosDrawer.DrawCube(m_size.center, transform.rotation, m_size.size, Color.red);
+			}
+		}
 
         private void Update() {
             AutosizeCollider();
         }
 
-
         public void AutosizeCollider() {
-
-            bool hasBounds = false;
+			bool hasBounds = false;
 
             m_size = new Bounds(Vector3.zero, Vector3.zero);
             Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer>();
@@ -55,7 +53,6 @@ namespace RF.AssetBundles.Serialization
 
             transform.rotation = oldRotation;
         }
-
 
         public PropAsset Prop {
             get {

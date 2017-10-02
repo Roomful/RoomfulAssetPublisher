@@ -8,14 +8,11 @@ using UnityEditor;
 #endif
 
 namespace RF.AssetWizzard {
-
-
+	
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(RectTransform))]
 	public class RoomfulText : MonoBehaviour, IPropComponent
     {
-
-
 		public enum AlignmentVertical {
 			Upper,
 			Middle,
@@ -54,7 +51,13 @@ namespace RF.AssetWizzard {
                 return;
             }
 
-            GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.white);
+			SerializedBoundsIgnoreMarker sbim = GetComponent<SerializedBoundsIgnoreMarker> ();
+			if (sbim == null) {
+				GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.white);
+			} else {
+				GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.red);
+			}
+           
 		}
 
 
