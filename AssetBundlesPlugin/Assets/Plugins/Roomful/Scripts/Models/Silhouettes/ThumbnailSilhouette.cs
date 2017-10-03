@@ -26,9 +26,15 @@ namespace RF.AssetWizzard {
 			if(thumbnail.Frame != null) {
 
 				if(thumbnail.Frame.Border != null && thumbnail.Frame.Corner != null) {
-					BorderMeshData = MeshSerializer.SerializerMesh (thumbnail.Frame.Border);
-					CornerMeshData = MeshSerializer.SerializerMesh (thumbnail.Frame.Corner);
-				}
+                    GameObject border = GameObject.Instantiate(thumbnail.Frame.Border, Vector3.zero, Quaternion.identity);
+                    GameObject corner = GameObject.Instantiate(thumbnail.Frame.Corner, Vector3.zero, Quaternion.identity);
+                    BorderMeshData = MeshSerializer.SerializerMesh (border);
+					CornerMeshData = MeshSerializer.SerializerMesh (corner);
+
+                    GameObject.DestroyImmediate(border);
+                    GameObject.DestroyImmediate(corner);
+
+                }
 			}
 
 			IsFixedRation = thumbnail.Settings.IsFixedRatio;

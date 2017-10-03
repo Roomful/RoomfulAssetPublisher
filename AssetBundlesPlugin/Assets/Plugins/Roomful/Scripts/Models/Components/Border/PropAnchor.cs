@@ -10,71 +10,40 @@ namespace RF.AssetWizzard
 	public class PropAnchor : MonoBehaviour, IPropComponent {
 
 
-        public GameObject Parent;
-
-        [Header("Anchoring")]
-
-        public Vector3 Anchor = new Vector3(0.5f, 0.5f, 0.5f);
-        public Vector3 Offset = Vector3.zero;
-
-
-		public bool UseRendererPivot = true;
-		public Vector3 RendererPivot = new Vector3(0.5f, 0.5f, 0.5f);
-
-        [Header("Size Scale")]
-
-        public bool EnableXScale = false;
-        public float XSize = 1f;
-
-
-        public bool EnableYScale = false;
-        public float YSize = 1f;
-
-
-
         public void Update() {
-            Anchor.x = Mathf.Clamp(Anchor.x, 0f, 1f);
-            Anchor.y = Mathf.Clamp(Anchor.y, 0f, 1f);
-            Anchor.z = Mathf.Clamp(Anchor.z, 0f, 1f);
+            Settings.Anchor.x = Mathf.Clamp(Settings.Anchor.x, 0f, 1f);
+            Settings.Anchor.y = Mathf.Clamp(Settings.Anchor.y, 0f, 1f);
+            Settings.Anchor.z = Mathf.Clamp(Settings.Anchor.z, 0f, 1f);
 
 
-			RendererPivot.x = Mathf.Clamp(RendererPivot.x, 0f, 1f);
-			RendererPivot.y = Mathf.Clamp(RendererPivot.y, 0f, 1f);
-			RendererPivot.z = Mathf.Clamp(RendererPivot.z, 0f, 1f);
+            Settings.RendererPivot.x = Mathf.Clamp(Settings.RendererPivot.x, 0f, 1f);
+            Settings.RendererPivot.y = Mathf.Clamp(Settings.RendererPivot.y, 0f, 1f);
+            Settings.RendererPivot.z = Mathf.Clamp(Settings.RendererPivot.z, 0f, 1f);
 
-            XSize = Mathf.Clamp(XSize, 0.001f, 1f);
-            YSize = Mathf.Clamp(YSize, 0.001f, 1f);
+            Settings.XSize = Mathf.Clamp(Settings.XSize, 0.001f, 1f);
+            Settings.YSize = Mathf.Clamp(Settings.YSize, 0.001f, 1f);
 
 
 		
-            if (Parent != null) {
+            if (Settings.Parent != null) {
 
-
-				Bounds parentBounds = Scene.GetBounds (Parent);
-
-
+   
+                Bounds parentBounds = Scene.GetBounds (Settings.Parent);
 				transform.position = parentBounds.center;
 
-
-
-
-
-				float xPos = parentBounds.center.x - parentBounds.extents.x + parentBounds.size.x * Anchor.x;
-				float yPos = parentBounds.center.y - parentBounds.extents.y + parentBounds.size.y * Anchor.y;
-				float zPos = parentBounds.center.z - parentBounds.extents.z + parentBounds.size.z * Anchor.z;
-
-
-
+				float xPos = parentBounds.center.x - parentBounds.extents.x + parentBounds.size.x * Settings.Anchor.x;
+				float yPos = parentBounds.center.y - parentBounds.extents.y + parentBounds.size.y * Settings.Anchor.y;
+				float zPos = parentBounds.center.z - parentBounds.extents.z + parentBounds.size.z * Settings.Anchor.z;
 
 
                 transform.position = new Vector3(xPos, yPos, zPos);
 				Bounds bounds = Scene.GetBounds (gameObject, true);
 
-				if(UseRendererPivot) {
+				if(Settings.UseRendererPivot) {
 
-					float x = bounds.center.x - bounds.extents.x + bounds.size.x * RendererPivot.x;
-					float y = bounds.center.y - bounds.extents.y + bounds.size.y * RendererPivot.y;
-					float z = bounds.center.z - bounds.extents.z + bounds.size.z * RendererPivot.z;
+					float x = bounds.center.x - bounds.extents.x + bounds.size.x * Settings.RendererPivot.x;
+					float y = bounds.center.y - bounds.extents.y + bounds.size.y * Settings.RendererPivot.y;
+					float z = bounds.center.z - bounds.extents.z + bounds.size.z * Settings.RendererPivot.z;
 
 
 					Vector3 anchorPoint = new Vector3 (x, y, z);
@@ -89,24 +58,29 @@ namespace RF.AssetWizzard
 
 
 
-                transform.localPosition = transform.localPosition + Offset;
+                transform.localPosition = transform.localPosition + Settings.Offset;
 
 
-                if (EnableXScale) {
+                if (Settings.EnableXScale) {
                     var text = GetComponent<RoomfulText>();
                     if(text != null) {
-						float x = parentBounds.size.x * XSize / text.transform.lossyScale.x;
+						float x = parentBounds.size.x * Settings.XSize / text.transform.lossyScale.x;
 						text.RectTransform.sizeDelta = new Vector2(x, text.RectTransform.sizeDelta.y);
                     }
                 }
 
-                if (EnableYScale) {
+                if (Settings.EnableYScale) {
                     var text = GetComponent<RoomfulText>();
                     if (text != null) {
-						float y = parentBounds.size.y * YSize / text.transform.lossyScale.y;
-						text.RectTransform.sizeDelta = new Vector2(text.RectTransform.sizeDelta.x, y) ;
+						float y = parentBounds.size.y * Settings.YSize / text.transform.lossyScale.y;
+						text.RectTransform.sizeDelta = new Vector2(text.RectTransform.sizeDelta.x, y);
                     }
                 }
+
+                if(GetComponent<IPropComponent>() != null) {
+                    GetComponent<IPropComponent>().Update();
+                }
+
 
             }
 
@@ -114,7 +88,7 @@ namespace RF.AssetWizzard
 
 
 		public void PrepareForUpalod() {
-			
+            DestroyImmediate(this);
 		}
 
 		public void RemoveSilhouette() {
@@ -123,7 +97,21 @@ namespace RF.AssetWizzard
 
 
 
-       
+        public SerializedAnchor Settings {
+            get {
+
+                var settings = GetComponent<SerializedAnchor>();
+                if (settings == null) {
+                    settings = gameObject.AddComponent<SerializedAnchor>();
+                }
+
+               // settings.hideFlags = HideFlags.HideInInspector;
+
+                return settings;
+            }
+        }
+
+
 
 
     }

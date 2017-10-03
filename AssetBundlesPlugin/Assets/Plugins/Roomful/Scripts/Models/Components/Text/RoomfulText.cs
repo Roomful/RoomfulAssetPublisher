@@ -269,9 +269,6 @@ namespace RF.AssetWizzard {
             Quaternion oldRotation = transform.rotation;
             transform.rotation = Quaternion.identity;
 
-          
-
-
             float x = 0;
             float y = 0;
 

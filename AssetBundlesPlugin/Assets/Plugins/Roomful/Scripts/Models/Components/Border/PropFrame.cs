@@ -108,34 +108,14 @@ namespace RF.AssetWizzard
         public Bounds Bounds {
             get {
 
-                bool hasBounds = false;
-                var bounds = new Bounds(Vector3.zero, Vector3.zero);
-
+  
 
                 foreach (BorderLayers layer in System.Enum.GetValues(typeof(BorderLayers))) {
                     GetLayer(layer).gameObject.SetActive(false);
                 }
 
 
-                Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer>();
-                Quaternion oldRotation = transform.rotation;
-                transform.rotation = Quaternion.identity;
-
-                foreach (Renderer child in ChildrenRenderer) {
-
-                    if (IsIgnored(child.transform)) {
-                        continue;
-                    }
-
-                    if (!hasBounds) {
-                        bounds = child.bounds;
-                        hasBounds = true;
-                    } else {
-                        bounds.Encapsulate(child.bounds);
-                    }
-                }
-                transform.rotation = oldRotation;
-
+                var bounds = Scene.GetBounds(gameObject);
 
                 foreach (BorderLayers layer in System.Enum.GetValues(typeof(BorderLayers))) {
                     GetLayer(layer).gameObject.SetActive(true);
@@ -146,19 +126,7 @@ namespace RF.AssetWizzard
             }
         }
 
-        public bool IsIgnored(Transform go) {
-
-            Transform testedObject = go;
-            while (testedObject != null) {
-                if (testedObject.GetComponent<SerializedBoundsIgnoreMarker>() != null) {
-                    return true;
-                }
-                testedObject = testedObject.parent;
-            }
-
-
-            return false;
-        }
+     
 
 
 

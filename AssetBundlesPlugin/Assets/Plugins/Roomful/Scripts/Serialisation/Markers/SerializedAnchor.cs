@@ -1,0 +1,32 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using RF.AssetWizzard;
+
+namespace RF.AssetBundles.Serialization
+{
+
+    public class SerializedAnchor : MonoBehaviour  {
+
+        public GameObject Parent;
+
+        [Header("Anchoring")]
+
+        public Vector3 Anchor = new Vector3(0.5f, 0.5f, 0.5f);
+        public Vector3 Offset = Vector3.zero;
+
+
+        public bool UseRendererPivot = true;
+        public Vector3 RendererPivot = new Vector3(0.5f, 0.5f, 0.5f);
+
+        [Header("Size Scale")]
+
+        public bool EnableXScale = false;
+        public float XSize = 1f;
+
+
+        public bool EnableYScale = false;
+        public float YSize = 1f;
+
+    }
+}
