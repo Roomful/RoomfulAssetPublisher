@@ -454,6 +454,12 @@ namespace RF.AssetWizzard.Editor {
 
             GUILayout.Space(10f);
 
+//			ReorderableListGUI.Title("Publisher plugin settings");
+//			GUILayout.Space(10f);
+//
+//			AssetBundlesSettings.Instance.PublisherCurrentVersionIndex = EditorGUILayout.Popup("Version: ", AssetBundlesSettings.Instance.PublisherCurrentVersionIndex, AssetBundlesSettings.Instance.PublisherExistingVersions); 
+
+//			GUILayout.Space(10f);
 			EditorGUI.BeginChangeCheck ();
 
 
@@ -472,6 +478,8 @@ namespace RF.AssetWizzard.Editor {
 			}
 
 
+
+
 			ReorderableListGUI.Title("Plugin Settings");
 			GUILayout.Space(10f);
 			AssetBundlesSettings.Instance.ShowWebInLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB IN Logs", AssetBundlesSettings.Instance.ShowWebInLogs);
@@ -481,6 +489,8 @@ namespace RF.AssetWizzard.Editor {
 			if(EditorGUI.EndChangeCheck()) {
 				AssetBundlesSettings.Save ();
 			}
+
+
 
 		}
 

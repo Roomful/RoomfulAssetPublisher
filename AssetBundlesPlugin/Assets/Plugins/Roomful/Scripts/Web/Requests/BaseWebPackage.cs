@@ -30,6 +30,8 @@ namespace RF.AssetWizzard.Network.Request {
 			_TimeStamp = WebServer.CurrentTimeStamp;
 
 			_Headers.Add(WebServer.HeaderSessionId, AssetBundlesSettings.Instance.SessionId);
+			_Headers.Add(WebServer.HeaderPublisherVersion, AssetBundlesSettings.Instance.PublisherCurrentVersion);
+			Debug.Log (AssetBundlesSettings.Instance.PublisherCurrentVersion);
 		}
 
 		public BaseWebPackage(string url, RequestMethods methodName) : this(url) {

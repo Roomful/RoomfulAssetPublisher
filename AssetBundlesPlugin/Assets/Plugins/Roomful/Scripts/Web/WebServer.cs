@@ -16,6 +16,7 @@ namespace RF.AssetWizzard.Network {
 
 
 		public const string HeaderSessionId = "x-session-id";
+		public const string HeaderPublisherVersion = "X-Publisher-Version";
 		//--------------------------------------
 		// Public Methods
 		//--------------------------------------
