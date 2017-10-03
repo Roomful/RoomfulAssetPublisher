@@ -53,22 +53,25 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-
-	
-
-
-
-
+        [MenuItem("Roomful/Add Component/Add Anchor &#a", false, 5)]
+        public static void ShowWizzrd8() {
+            AddAnchor();
+        }
 
 
 
 
-		//--------------------------------------
-		//  Context Menu
-		//--------------------------------------
 
 
-		[MenuItem("GameObject/Roomful/Text", false, 0)]
+
+
+
+        //--------------------------------------
+        //  Context Menu
+        //--------------------------------------
+
+
+        [MenuItem("GameObject/Roomful/Text", false, 0)]
 		static void AddTextComponent () {
 			var text = new GameObject ("Text").AddComponent<RoomfulText>();
 			text.RectTransform.sizeDelta = new Vector2(1f, 1f / 5f); 
@@ -90,9 +93,13 @@ namespace RF.AssetWizzard.Editor {
         }
 
 
-	
+        [MenuItem("GameObject/Roomful/Add Component/Anchor", false, 104)]
+        static void AddAnchor() {
+            Selection.activeGameObject.AddComponent<PropAnchor>();
+        }
 
-		[MenuItem("GameObject/Roomful/Add Component/Frame", false, 100)]
+
+        [MenuItem("GameObject/Roomful/Add Component/Frame", false, 100)]
 		public static void AddFrame () {
 			var frame = Selection.activeGameObject.AddComponent<PropFrame>();
 
@@ -163,9 +170,11 @@ namespace RF.AssetWizzard.Editor {
 
 		}
 
+       
 
 
-		private static bool IsValidPropGameobject() {
+
+        private static bool IsValidPropGameobject() {
 			var prop = GameObject.FindObjectOfType<PropAsset> ();
 
 			bool valid = true;

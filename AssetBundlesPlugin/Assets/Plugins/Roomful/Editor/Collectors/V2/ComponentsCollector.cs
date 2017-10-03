@@ -25,6 +25,10 @@ namespace RF.AssetWizzard
 			}
 
 
-		}
+            foreach (SerializedAnchor frame in propAsset.gameObject.GetComponentsInChildren<SerializedAnchor>()) {
+                frame.gameObject.AddComponent<PropAnchor>();
+            }
+
+        }
 	}
 }

@@ -108,34 +108,14 @@ namespace RF.AssetWizzard
         public Bounds Bounds {
             get {
 
-                bool hasBounds = false;
-                var bounds = new Bounds(Vector3.zero, Vector3.zero);
-
+  
 
                 foreach (BorderLayers layer in System.Enum.GetValues(typeof(BorderLayers))) {
                     GetLayer(layer).gameObject.SetActive(false);
                 }
 
 
-                Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer>();
-                Quaternion oldRotation = transform.rotation;
-                transform.rotation = Quaternion.identity;
-
-                foreach (Renderer child in ChildrenRenderer) {
-
-                    if (IsIgnored(child.transform)) {
-                        continue;
-                    }
-
-                    if (!hasBounds) {
-                        bounds = child.bounds;
-                        hasBounds = true;
-                    } else {
-                        bounds.Encapsulate(child.bounds);
-                    }
-                }
-                transform.rotation = oldRotation;
-
+                var bounds = Scene.GetBounds(gameObject);
 
                 foreach (BorderLayers layer in System.Enum.GetValues(typeof(BorderLayers))) {
                     GetLayer(layer).gameObject.SetActive(true);
@@ -144,23 +124,9 @@ namespace RF.AssetWizzard
 
                 return bounds;
             }
-
-
         }
 
-        public bool IsIgnored(Transform go) {
-
-            Transform testedObject = go;
-            while (testedObject != null) {
-                if (testedObject.GetComponent<SerializedBoundsIgnoreMarker>() != null) {
-                    return true;
-                }
-                testedObject = testedObject.parent;
-            }
-
-
-            return false;
-        }
+     
 
 
 
@@ -255,8 +221,11 @@ namespace RF.AssetWizzard
 
                 Vector3 rendererPoint = back.GetVertex(VertexX.Right, VertexY.Top, VertexZ.Front);
                 Vector3 diff = back.transform.position - rendererPoint;
-                diff.z += Settings.BackOffset;
                 back.transform.position += diff;
+
+                Vector3 localPos = back.transform.localPosition;
+                localPos.z += Settings.BackOffset;
+                back.transform.localPosition = localPos;
 
             }
 
@@ -342,9 +311,13 @@ namespace RF.AssetWizzard
 
             Vector3 rendererPoint = obj.GetVertex(ObjectVertexX, ObjectVertexY, VertexZ.Back);
             Vector3 diff = obj.transform.position - rendererPoint;
-            diff.z += Settings.FrameOffset;
-
             obj.transform.position += diff;
+
+
+            Vector3 localPos = obj.transform.localPosition;
+            localPos.z += Settings.FrameOffset;
+            obj.transform.localPosition = localPos;
+
         }
 
     }

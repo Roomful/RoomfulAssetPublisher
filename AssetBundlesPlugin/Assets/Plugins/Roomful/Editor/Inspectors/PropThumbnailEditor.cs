@@ -79,6 +79,8 @@ namespace RF.AssetWizzard.Editor {
 				var thumbnail = ImagesCintent [Model.ImageIndex].image as Texture2D;
 				Model.SetThumbnail (thumbnail);
 				Model.Update ();
+
+				Scene.Update ();
 			}
 
 

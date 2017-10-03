@@ -11,7 +11,6 @@ namespace RF.AssetWizzard {
 	public class PropMeshThumbnail : BaseComponent, IPropComponent {
 
 
-
 		public int ImageIndex = 0;
 		public Texture2D Thumbnail;
 
@@ -29,9 +28,6 @@ namespace RF.AssetWizzard {
 		// Unity Editor
 		//--------------------------------------
 
-
-		#if UNITY_EDITOR
-	
 		public void Update() {
 
             if(Canvas.sharedMaterial == null) {
@@ -46,7 +42,6 @@ namespace RF.AssetWizzard {
 			GenerateSilhouette ();
 		}
 
-		#endif
 
 		//--------------------------------------
 		// Public Methods
