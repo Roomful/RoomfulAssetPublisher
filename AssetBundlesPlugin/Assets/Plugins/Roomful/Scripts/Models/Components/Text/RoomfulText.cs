@@ -43,13 +43,12 @@ namespace RF.AssetWizzard {
 		}
 
 		protected virtual void OnDrawGizmos () {
-            if (Prop == null) {
-                return;
-            }
+            
 
-            if (!Prop.DrawGizmos) {
+            if (Prop != null  && !Prop.DrawGizmos) {
                 return;
             }
+        
 
 			SerializedBoundsIgnoreMarker sbim = GetComponent<SerializedBoundsIgnoreMarker> ();
 			if (sbim == null) {
@@ -57,8 +56,10 @@ namespace RF.AssetWizzard {
 			} else {
 				GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.red);
 			}
-           
-		}
+
+          //  GizmosDrawer.DrawCube(m_textBounds.center, transform.rotation, m_textBounds.size, Color.white);
+
+        }
 
 
         public void Restore(SerializedText info) {
@@ -111,18 +112,16 @@ namespace RF.AssetWizzard {
 			if (textInfo.Font != null) {
 				string fontFilePath = AssetDatabase.GetAssetPath(textInfo.Font);
 
-				if(System.IO.File.Exists(fontFilePath)) {
-					
-					//remove Assets/ string from a path. Yes I know that is not stable hack.
-					//If you know a better way, make it happend
-					fontFilePath = fontFilePath.Substring(7, fontFilePath.Length -7);
-					byte[] data = SA.Common.Util.Files.ReadBytes(fontFilePath);
+                if (System.IO.File.Exists(fontFilePath)) {
 
-					textInfo.FontFileContent = data;
-					textInfo.FullFontName = System.IO.Path.GetFileName(fontFilePath);
-				}
+                    //remove Assets/ string from a path. Yes I know that is not stable hack.
+                    //If you know a better way, make it happend
+                    fontFilePath = fontFilePath.Substring(7, fontFilePath.Length - 7);
+                    byte[] data = SA.Common.Util.Files.ReadBytes(fontFilePath);
 
-
+                    textInfo.FontFileContent = data;
+                    textInfo.FullFontName = System.IO.Path.GetFileName(fontFilePath);
+                }
 			}
 #endif
 			DestroyImmediate(TextRenderer.gameObject);
@@ -267,40 +266,67 @@ namespace RF.AssetWizzard {
 
 		private void ApplayAlligment(AlignmentVertical vertical, AlignmentHorizontal horizontal) {
 
-			float x = 0f;
-			float y = 0f;
+            Quaternion oldRotation = transform.rotation;
+            transform.rotation = Quaternion.identity;
+
+          
+
+
+            float x = 0;
+            float y = 0;
 
 			switch(horizontal) {
-			case AlignmentHorizontal.Right: 
-				TextRenderer.alignment = TextAlignment.Right;
-				x = -Width / 2f + m_textBounds.size.x / 2f;
-				break;
-			case AlignmentHorizontal.Center:
-				TextRenderer.alignment = TextAlignment.Center;
-				x = 0;
-				break;
-			case AlignmentHorizontal.Left:
-				TextRenderer.alignment = TextAlignment.Left;
-				x = Width / 2f -  m_textBounds.size.x / 2f;
-				break;
+			    case AlignmentHorizontal.Right: 
+				    TextRenderer.alignment = TextAlignment.Right;
+                    x = 0;
+                    break;
+			    case AlignmentHorizontal.Center:
+				    TextRenderer.alignment = TextAlignment.Center;
+                    x = 0.5f;
+                    break;
+			    case AlignmentHorizontal.Left:
+				    TextRenderer.alignment = TextAlignment.Left;
+                    x = 1;
+                    break;
 			}
 
 
 			switch(vertical) {
-			case AlignmentVertical.Upper:
-
-				y = Height / 2f - m_textBounds.size.y / 2f;
-				break;
-			case AlignmentVertical.Middle:
-				y = 0;
-				break;
-			case AlignmentVertical.Lower:
-				y = -Height / 2f +  m_textBounds.size.y / 2f;
-				break;
+			    case AlignmentVertical.Upper:
+                    y = 1;
+                    break;
+			    case AlignmentVertical.Middle:
+                    y = 0.5f;
+                    break;
+			    case AlignmentVertical.Lower:
+                    y = 0;
+                    break;
 			}
 
-			TextRenderer.transform.localPosition = new Vector3 (x, y, 0);
-		}
+            Vector2 anchor = new Vector2(x, y);
+
+
+            float xPos = transform.position.x - Width / 2f + Width  * anchor.x;
+            float yPos = transform.position.y - Height /2f + Height * anchor.y;
+
+            TextRenderer.transform.localPosition = Vector3.zero;
+            TextRenderer.transform.position = new Vector3(xPos, yPos, TextRenderer.transform.position.z);
+                    
+
+            UpdateTextRendererBounds();
+
+            x = m_textBounds.center.x - m_textBounds.extents.x + m_textBounds.size.x * x;
+            y = m_textBounds.center.y - m_textBounds.extents.y + m_textBounds.size.y * y;
+          
+
+            Vector3 pivotPoint = new Vector3(x, y, TextRenderer.transform.position.z);
+            Vector3 diff = TextRenderer.transform.position - pivotPoint;
+            TextRenderer.transform.position = TextRenderer.transform.position + diff;
+
+            UpdateTextRendererBounds();
+
+            transform.rotation = oldRotation;
+        }
 
 
 		private void UpdateTextRendererBounds () {
