@@ -89,7 +89,8 @@ namespace RF.AssetWizzard.Network {
 			}
 
 			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
-                U.Log(package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText, SA.UltimateLogger.DefaultTags.OUT);
+                string h = SA.Common.Data.Json.Serialize(package.Headers);
+                U.Log(package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText + " | headers: " + h, SA.UltimateLogger.DefaultTags.OUT);
             }
 
             string cleanedUrl = www.url.Replace(" ", "%20");
