@@ -8,6 +8,8 @@ namespace RF.AssetWizzard {
 
 	[ExecuteInEditMode]
 	public class PropAsset : MonoBehaviour {
+
+        public static event System.Action PropInstantieted = delegate { };
 		
 		[SerializeField] [HideInInspector]
 		private AssetTemplate _Template;
@@ -23,7 +25,7 @@ namespace RF.AssetWizzard {
 
 		private Bounds _Size = new Bounds (Vector3.zero, Vector3.zero);
 
-	
+        public bool IsInited = false;
 
 		//--------------------------------------
 		// Initialization
@@ -33,6 +35,14 @@ namespace RF.AssetWizzard {
 			FinalVisualisation ();
 		}
 
+        void Start() {
+            
+            if (!IsInited) {
+                PropInstantieted();
+            }
+
+            IsInited = true;
+        }
 		//--------------------------------------
 		// Unity Editor
 		//--------------------------------------

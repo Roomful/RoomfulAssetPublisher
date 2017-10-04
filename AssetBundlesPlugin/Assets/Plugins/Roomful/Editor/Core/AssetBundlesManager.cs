@@ -225,13 +225,13 @@ namespace RF.AssetWizzard.Editor {
 					EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 				}
 
-				EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
+                EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
 
 				string pl = EditorUserBuildSettings.activeBuildTarget.ToString();
 
 				Network.Request.GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl (prop.Id, pl);
                 getAssetUrl.PackageCallbackText = (assetUrl) => {
-					
+                    					
                     Network.Request.DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset (assetUrl);
                     loadAsset.PackageCallbackData = (loadCallback) => {
 						
@@ -337,6 +337,14 @@ namespace RF.AssetWizzard.Editor {
 			new V1_ThumbnailsCollector().Run (asset);
 			new V1_MarkersCollector ().Run (asset);
 		}
+
+        public static void ClearLocalCache() {
+            if (FolderUtils.IsFolderExists(AssetBundlesSettings.AssetBundlesPath)) {
+                FolderUtils.DeleteFolder(AssetBundlesSettings.AssetBundlesPath);
+            }
+
+            FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
+        }
 
 		public static void CheckAnimations(PropAsset prop) {
 			Animator[] anims = prop.GetComponentsInChildren<Animator> ();

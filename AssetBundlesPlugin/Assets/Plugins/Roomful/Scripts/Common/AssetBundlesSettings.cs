@@ -14,10 +14,11 @@ namespace RF.AssetWizzard {
 	#endif
 	public class AssetBundlesSettings : ScriptableObject {
 
-//		public int PublisherCurrentVersionIndex = 0;
-//		public string[] PublisherExistingVersions = new string[] {"1", "2"};
-		
-		public static string WEB_SERVER_URL = "https://demo.roomful.co:3443";
+        private string m_publisherCurrentVersion = "2.0";
+        //		public int PublisherCurrentVersionIndex = 0;
+        //		public string[] PublisherExistingVersions = new string[] {"1", "2"};
+
+        public static string WEB_SERVER_URL = "https://demo.roomful.co:3443";
 	
 		public const string ASSETS_LOCATION = "Roomful/Assets/";
 		public const string FULL_ASSETS_LOCATION = "Assets/" + ASSETS_LOCATION;
@@ -35,9 +36,7 @@ namespace RF.AssetWizzard {
 
         [SerializeField]
 		private string m_sessionId = string.Empty;
-
-
-
+        
 		public string SeartchPattern = string.Empty;
 		public SeartchRequestType SeartchType = SeartchRequestType.ByTag;
 
@@ -102,8 +101,11 @@ namespace RF.AssetWizzard {
 
 		public string PublisherCurrentVersion {
 			get {
-				return "2";//PublisherExistingVersions[PublisherCurrentVersionIndex];
+                return m_publisherCurrentVersion;
 			}
+            set {
+                m_publisherCurrentVersion = value;
+            }
 		}
 
 		public string SessionId {

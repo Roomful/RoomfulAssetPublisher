@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace RF.AssetWizzard.Editor {
 	public class AutomaticReloader {
-		
+        
 		public static void ReloadAllAssets() {
-			var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (0, 10, new List<string> (){"whisper"});
-			AssetBundlesSettings.Instance.TemporaryAssetTemplates.Clear ();
+            AssetBundlesSettings.Instance.TemporaryAssetTemplates.Clear();
 
+            var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (0, 3, new List<string>() {""});
+			
 			allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
 				List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
 
@@ -26,35 +27,68 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void StartLoop() {
+            Debug.Log("TemporaryAssetTemplates.Count "+ AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count);
 			if (AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count > 0) {
-				AssetBundlesSettings.Instance.IsInAutoloading = true;
-				AssetBundlesManager.AssetBundleDownloadedEvent += AssetBundleDownloadedHandler;
-				AssetBundlesManager.DownloadAssetBundle (Dequeue ());
+
+                bool isUrlValid = false;
+#if UNITY_EDITOR
+
+                string pl = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+
+                foreach (var u in Peek().Urls) {
+                    if (u.Platform.Equals(pl)) {
+                        isUrlValid = !string.IsNullOrEmpty(u.Url);
+
+                        break;
+                    }
+                }
+
+#endif          
+                if (isUrlValid) {
+                    AssetBundlesSettings.Instance.IsInAutoloading = true;
+
+                    AssetBundlesManager.ClearLocalCache();
+
+                    PropAsset.PropInstantieted += PropInstantiedtedHandler;
+
+                    AssetBundlesSettings.Instance.PublisherCurrentVersion = "1.0";
+                    AssetBundlesManager.DownloadAssetBundle(Dequeue());
+
+                } else {
+                    Debug.Log("Url is invalid, load next");
+                    Dequeue();
+                    StartLoop();
+                }
+                
 			} else {
 				AssetBundlesSettings.Instance.IsInAutoloading = false;
 			}
 		}
 
-		private static void AssetBundleDownloadedHandler() {
-			AssetBundlesManager.AssetBundleDownloadedEvent -= AssetBundleDownloadedHandler;
+		private static void PropInstantiedtedHandler() {
+            Debug.Log("PropInstantiedtedHandler");
+            PropAsset.PropInstantieted -= PropInstantiedtedHandler;
 
-			UnityEditor.EditorApplication.update += OnUpdate;
+            UnityEditor.EditorApplication.update += OnUpdate;
 		}
 
 		private static int counter = 0;
 		private static void OnUpdate() {
 			counter += 1;
 
-			if (counter > 360) {
-				#if UNITY_EDITOR
+			if (counter > 2000) {
+#if UNITY_EDITOR
+                Debug.Log("Delay call done for reuplaod");
 				counter = 0;
 				UnityEditor.EditorApplication.update -= OnUpdate;
 				if (AssetBundlesSettings.Instance.IsInAutoloading) {
-					AssetBundlesManager.ReuploadAsset (CurrentProp);
+
+                    AssetBundlesSettings.Instance.PublisherCurrentVersion = "2.0";
+                    AssetBundlesManager.ReuploadAsset (CurrentProp);
 				}
-				#endif
-			}
-		}
+#endif
+            }
+        }
 
 		[UnityEditor.Callbacks.DidReloadScripts]
 		private static void OnScriptsReloaded() {
@@ -66,6 +100,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private static void AssetBundleUploadedHandler() {
+            Debug.Log("Reupload complete");
 			AssetBundlesManager.AssetBundleUploadedEvent -= AssetBundleUploadedHandler;
 
 			StartLoop ();
