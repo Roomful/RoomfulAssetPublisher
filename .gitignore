@@ -39,3 +39,10 @@ ProjectVersion.txt
 
 AssetBundlesPlugin/AssetBundlesPlugin.csproj
 Bundles.meta
+AssetBundlesPlugin/Assets/Test/MyCCalss.cs
+AssetBundlesPlugin/Assets/Test/MyCCalss.cs.meta
+AssetBundlesPlugin/Assets/Test/MyTest.cs
+AssetBundlesPlugin/Assets/Test/MyTest.cs.meta
+AssetBundlesPlugin/Assets/Test/MyTestSingle.cs
+AssetBundlesPlugin/Assets/Test/MyTestSingle.cs.meta
+AssetBundlesPlugin/Assets/Test.meta
