@@ -14,9 +14,9 @@ namespace RF.AssetWizzard {
 	#endif
 	public class AssetBundlesSettings : ScriptableObject {
 
-        private string m_publisherCurrentVersion = "2.0";
-        //		public int PublisherCurrentVersionIndex = 0;
-        //		public string[] PublisherExistingVersions = new string[] {"1", "2"};
+        
+        public int PublisherCurrentVersionIndex = 0;
+        public string[] PublisherExistingVersions = new string[] {"1.0", "2.0"};
 
         public static string WEB_SERVER_URL = "https://demo.roomful.co:3443";
 	
@@ -101,12 +101,9 @@ namespace RF.AssetWizzard {
 
 		public string PublisherCurrentVersion {
 			get {
-                return m_publisherCurrentVersion;
+                return PublisherExistingVersions[PublisherCurrentVersionIndex];
 			}
-            set {
-                m_publisherCurrentVersion = value;
-            }
-		}
+        }
 
 		public string SessionId {
 			get {

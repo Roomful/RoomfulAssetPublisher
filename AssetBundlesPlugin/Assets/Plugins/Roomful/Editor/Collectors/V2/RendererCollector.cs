@@ -40,7 +40,11 @@ namespace RF.AssetWizzard
 									PropDataBase.SaveAsset<Texture> (propAsset, property.SerializedTextureValue.MainTexture);
 									new TextureCollector().Run(propAsset, property.SerializedTextureValue);
 
-									newMaterial.SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
+                                        if (property.PropertyName.Equals("_BumpMap")) {
+                                            newMaterial.EnableKeyword("_NORMALMAP");
+                                        }
+                                        
+                                    newMaterial.SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
 								}
 								break;
 
@@ -66,20 +70,25 @@ namespace RF.AssetWizzard
 									newMaterial.renderQueue = -1;
 									break;
 								case 1: // Cut out
-									newMaterial.renderQueue = 2450;
+                                    newMaterial.renderQueue = 2450;
 									break;
 								case 2: // Fade
-									newMaterial.renderQueue = 3000;
+                                    newMaterial.renderQueue = 3000;
 									break;
 								case 3: // Transparent
-									newMaterial.renderQueue = 3000;
+                                    newMaterial.renderQueue = 3000;
 									break;
 								}
 							}
+                        }
 
-						}
+                        foreach (string keyword in sm.ShaderKeywords) {
+                            if (!newMaterial.IsKeywordEnabled(keyword)) {
+                                newMaterial.EnableKeyword(keyword);
+                            }
+                        }
 
-						PropDataBase.SaveAsset<Material> (propAsset, newMaterial);
+                        PropDataBase.SaveAsset<Material> (propAsset, newMaterial);
 
 						exportedMterials.Add (PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
 					}

@@ -51,7 +51,7 @@ namespace RF.AssetWizzard.Editor {
 
                     PropAsset.PropInstantieted += PropInstantiedtedHandler;
 
-                    AssetBundlesSettings.Instance.PublisherCurrentVersion = "1.0";
+                    //AssetBundlesSettings.Instance.PublisherCurrentVersion = "1.0";
                     AssetBundlesManager.DownloadAssetBundle(Dequeue());
 
                 } else {
@@ -83,7 +83,7 @@ namespace RF.AssetWizzard.Editor {
 				UnityEditor.EditorApplication.update -= OnUpdate;
 				if (AssetBundlesSettings.Instance.IsInAutoloading) {
 
-                    AssetBundlesSettings.Instance.PublisherCurrentVersion = "2.0";
+                    //AssetBundlesSettings.Instance.PublisherCurrentVersion = "2.0";
                     AssetBundlesManager.ReuploadAsset (CurrentProp);
 				}
 #endif

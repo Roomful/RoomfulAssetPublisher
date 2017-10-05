@@ -24,7 +24,9 @@ namespace RF.AssetWizzard
 
                         newMaterial.name = m.name.Replace("/", "");
 
-						int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (newMaterial.shader);
+                        PropDataBase.SaveAsset<Material>(propAsset, newMaterial);
+
+                        int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (newMaterial.shader);
 						for (int i = 0; i < shadersPropertyLength; i++) {
 
 							string propertyName = UnityEditor.ShaderUtil.GetPropertyName (newMaterial.shader, i);
@@ -49,7 +51,7 @@ namespace RF.AssetWizzard
 										ti.SaveAndReimport();
 									}
 
-									newMaterial.SetTexture(propertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
+                                    PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).SetTexture(propertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
 								}
 							}
 
@@ -57,24 +59,22 @@ namespace RF.AssetWizzard
 								int renderMode = (int) newMaterial.GetFloat(propertyName);
 								switch (renderMode) {
 								case 0: //Opaque
-									newMaterial.renderQueue = -1;
+                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = -1;
 									break;
 								case 1: // Cut out
-									newMaterial.renderQueue = 2450;
+                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = 2450;
 									break;
 								case 2: // Fade
-									newMaterial.renderQueue = 3000;
+                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = 3000;
 									break;
 								case 3: // Transparent
-									newMaterial.renderQueue = 3000;
+                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = 3000;
 									break;
 								}
 							}
 
 						}
-
-						PropDataBase.SaveAsset<Material> (propAsset, newMaterial);
-
+                        
 						recreatedMterials.Add (PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
 					}
 

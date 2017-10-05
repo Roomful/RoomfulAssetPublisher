@@ -478,8 +478,9 @@ namespace RF.AssetWizzard.Editor {
 			AssetBundlesSettings.Instance.ShowWebInLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB IN Logs", AssetBundlesSettings.Instance.ShowWebInLogs);
 			AssetBundlesSettings.Instance.ShowWebOutLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB OUT Logs", AssetBundlesSettings.Instance.ShowWebOutLogs);
 
+            AssetBundlesSettings.Instance.PublisherCurrentVersionIndex = EditorGUILayout.Popup("Version: ", AssetBundlesSettings.Instance.PublisherCurrentVersionIndex, AssetBundlesSettings.Instance.PublisherExistingVersions);
 
-			if(EditorGUI.EndChangeCheck()) {
+            if (EditorGUI.EndChangeCheck()) {
 				AssetBundlesSettings.Save ();
 			}
 

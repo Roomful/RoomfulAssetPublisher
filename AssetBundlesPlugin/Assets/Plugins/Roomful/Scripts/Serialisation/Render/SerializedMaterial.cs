@@ -8,14 +8,21 @@ namespace RF.AssetBundles.Serialization {
 		public string MatName = string.Empty;
 		public string ShaderName = string.Empty;
 		public List<SerializedShaderProperty> ShadersProperties = new List<SerializedShaderProperty> ();
+		public List<string> ShaderKeywords = new List<string> ();
 
-		public void Serialize(Material mat) {
-			#if UNITY_EDITOR
+        public void Serialize(Material mat) {
+#if UNITY_EDITOR
 
 			MatName = mat.name.Replace("/", "");
 			ShaderName = mat.shader.name;
 
-			int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (mat.shader);
+            foreach (string keyword in mat.shaderKeywords) {
+                if (!ShaderKeywords.Contains(keyword)) {
+                    ShaderKeywords.Add(keyword);
+                }
+            }
+           
+            int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (mat.shader);
 			for (int i = 0; i < shadersPropertyLength; i++) {
 				SerializedShaderProperty property = new SerializedShaderProperty();
 
@@ -48,8 +55,7 @@ namespace RF.AssetBundles.Serialization {
 				ShadersProperties.Add(property);
 			}
 
-			#endif
+#endif
 		}
-
-	}
+    }
 }
