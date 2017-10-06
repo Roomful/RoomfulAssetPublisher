@@ -461,6 +461,7 @@ namespace RF.AssetWizzard.Editor {
 			foreach (var platform in AssetBundlesSettings.Instance.TargetPlatforms) {
 				PlatfromsList.Add (platform.ToString ());
 			}
+
 			ReorderableListGUI.ListField(PlatfromsList, PlatformListItem, DrawEmptyPlatform);
 
 			AssetBundlesSettings.Instance.TargetPlatforms = new List<BuildTarget> ();
@@ -469,10 +470,7 @@ namespace RF.AssetWizzard.Editor {
 				BuildTarget parsed = SA.Common.Util.General.ParseEnum<BuildTarget> (val);
 				AssetBundlesSettings.Instance.TargetPlatforms.Add (parsed);
 			}
-
-
-
-
+            
 			ReorderableListGUI.Title("Plugin Settings");
 			GUILayout.Space(10f);
 			AssetBundlesSettings.Instance.ShowWebInLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB IN Logs", AssetBundlesSettings.Instance.ShowWebInLogs);
