@@ -43,7 +43,7 @@ namespace RF.AssetWizzard
 									new TextureCollector().Run(propAsset, property.SerializedTextureValue);
 
                                         if (property.PropertyName.Equals("_BumpMap")) {
-                                            newMaterial.EnableKeyword("_NORMALMAP");
+											PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).EnableKeyword("_NORMALMAP");
                                         }
 
                                         PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
