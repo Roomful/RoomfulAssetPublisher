@@ -29,7 +29,9 @@ namespace RF.AssetWizzard
 						Material newMaterial = new Material(Shader.Find(sm.ShaderName));
 						newMaterial.name = sm.MatName;
 
-						foreach (SerializedShaderProperty property in sm.ShadersProperties) {
+                        PropDataBase.SaveAsset<Material>(propAsset, newMaterial);
+
+                        foreach (SerializedShaderProperty property in sm.ShadersProperties) {
 							ShaderPropertyType propertyType = (ShaderPropertyType)System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
 
 							switch(propertyType) {
@@ -43,8 +45,8 @@ namespace RF.AssetWizzard
                                         if (property.PropertyName.Equals("_BumpMap")) {
                                             newMaterial.EnableKeyword("_NORMALMAP");
                                         }
-                                        
-                                    newMaterial.SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
+
+                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
 								}
 								break;
 
