@@ -17,12 +17,14 @@ namespace RF.AssetWizzard {
             
             foreach (SerializedAnimatorController sac in animators) {
                 PropDataBase.SaveAnimatorController(propAsset, sac);
-
-                AnimatorController control = PropDataBase.LoadAsset<AnimatorController>(propAsset, sac.ControllerName);
-
-                foreach (AnimationClip ac in sac.AnimationsClips) {
-                    PropDataBase.SaveAsset<AnimationClip>(propAsset, ac);
+                
+                if (sac.SerializedClips != null) {
+                    foreach (SerializedAnimationClip ac in sac.SerializedClips) {
+                        PropDataBase.SaveAnimationClipByData(propAsset, ac);
+                    }
                 }
+                
+                AnimatorController control = PropDataBase.LoadAsset<AnimatorController>(propAsset, sac.ControllerName);
 
                 foreach (var lay in control.layers) {
                     foreach (var sm in lay.stateMachine.states) {

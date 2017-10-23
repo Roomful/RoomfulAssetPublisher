@@ -19,6 +19,14 @@ namespace RF.AssetWizzard
 			SaveFont (propTitle, st.Font, st.FullFontName, st.FontFileContent);
 		}
 
+        public static void SaveAnimationClipByData(PropAsset propAsset, SerializedAnimationClip serializedClip) {
+            string propTitle = propAsset.Template.Title;
+
+            ValidateBundleFolder(propTitle);
+
+            SaveAnimationClip(propTitle, serializedClip.AnimationClipName, serializedClip.ClipData);
+        }
+
         public static void SaveAnimatorController(PropAsset propAsset,  SerializedAnimatorController serializedAnimator) {
             string propTitle = propAsset.Template.Title;
 
@@ -99,11 +107,20 @@ namespace RF.AssetWizzard
                 FolderUtils.WriteBytes(fullPath, assetData);
             }
         }
-
+        
         private static void SaveAnimator(string propTitle, string animatorName, byte[] assetData) {
             string fullPath = GetFullFilePath(typeof(UnityEditor.Animations.AnimatorController), propTitle, animatorName, true);
             string path = GetShortFilePath(typeof(UnityEditor.Animations.AnimatorController), propTitle, animatorName, true);
             
+            if (!FolderUtils.IsFileExists(path)) {
+                FolderUtils.WriteBytes(fullPath, assetData);
+            }
+        }
+
+        private static void SaveAnimationClip(string propTitle, string clipName, byte[] assetData) {
+            string fullPath = GetFullFilePath(typeof(AnimationClip), propTitle, clipName, true);
+            string path = GetShortFilePath(typeof(AnimationClip), propTitle, clipName, true);
+
             if (!FolderUtils.IsFileExists(path)) {
                 FolderUtils.WriteBytes(fullPath, assetData);
             }
@@ -135,7 +152,7 @@ namespace RF.AssetWizzard
         //////////////////////
 
         private static void ValidateBundleFolder(string propTitle) {
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + propTitle;
+			string path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propTitle;
 
 			if (!FolderUtils.IsFolderExists(path)) {
 				FolderUtils.CreateAssetComponentsFolder (path);
@@ -143,7 +160,7 @@ namespace RF.AssetWizzard
 		}
 
         public static void ClearOldDataFolder(PropAsset propAsset) {
-            string path = AssetBundlesSettings.AssetBundlesPath + "/" + propAsset.Template.Title;
+            string path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propAsset.Template.Title;
 
             if (FolderUtils.IsFolderExists(path)) {
                 FolderUtils.DeleteFolder(path);
@@ -155,7 +172,7 @@ namespace RF.AssetWizzard
 			string assetName = asset.name;
 			string assetExtension = GetExtensionByType (typeof(T));
 
-			return AssetBundlesSettings.AssetBundlesPath + "/" + propTitle + folder + assetName + assetExtension;
+			return AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetName + assetExtension;
 		}
 
 		private static string GetFullFilePath<T>(T asset, string propTitle) where T: Object {
@@ -163,13 +180,13 @@ namespace RF.AssetWizzard
 			string assetName = asset.name;
 			string assetExtension = GetExtensionByType (typeof(T));
 
-			return AssetBundlesSettings.AssetBundlesPathFull + "/" + propTitle + folder + assetName + assetExtension;
+			return AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetName + assetExtension;
 		}
         
         private static string GetShortFilePath(System.Type assetType, string propTitle, string assetFullName, bool useExtension = false) {
 			string folder = GetFolderByType (assetType);
 
-            string path = AssetBundlesSettings.AssetBundlesPath + "/" + propTitle + folder + assetFullName;
+            string path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetFullName;
 
             if (useExtension) {
                 path += GetExtensionByType(assetType);
@@ -181,7 +198,7 @@ namespace RF.AssetWizzard
 		private static string GetFullFilePath(System.Type assetType, string propTitle, string assetFullName, bool useExtension = false) {
 			string folder = GetFolderByType (assetType);
 
-            string path = AssetBundlesSettings.AssetBundlesPathFull + "/" + propTitle + folder + assetFullName;
+            string path = AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetFullName;
 
             if (useExtension) {
                 path += GetExtensionByType(assetType);
