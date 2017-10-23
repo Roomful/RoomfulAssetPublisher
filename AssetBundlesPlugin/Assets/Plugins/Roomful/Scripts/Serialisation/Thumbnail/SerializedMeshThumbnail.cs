@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RF.AssetBundles.Serialization
 {
-	public class SerializedMeshThumbnail : MonoBehaviour
+	public class SerializedMeshThumbnail : MonoBehaviour, IRecreatableOnLoad
     {
 
 		public bool IsBoundToResourceIndex = false;

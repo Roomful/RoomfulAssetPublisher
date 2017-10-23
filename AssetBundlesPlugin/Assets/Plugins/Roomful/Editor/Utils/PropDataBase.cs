@@ -50,7 +50,7 @@ namespace RF.AssetWizzard
 		}
 
 		public static void ClearOldDataFolder(PropAsset propAsset) {
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + propAsset.Template.Title;
+			string path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propAsset.Template.Title;
 
 			if (FolderUtils.IsFolderExists(path)) {
 				FolderUtils.DeleteFolder (path);
@@ -108,7 +108,7 @@ namespace RF.AssetWizzard
 		}
 
 		private static void ValidateBundleFolder(string propTitle) {
-			string path = AssetBundlesSettings.AssetBundlesPath + "/" + propTitle;
+			string path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propTitle;
 
 			if (!FolderUtils.IsFolderExists(path)) {
 				FolderUtils.CreateAssetComponentsFolder (path);
@@ -120,7 +120,7 @@ namespace RF.AssetWizzard
 			string assetName = asset.name;
 			string assetExtension = GetExtensionByType (typeof(T));
 
-			return AssetBundlesSettings.AssetBundlesPath + "/" + propTitle + folder + assetName + assetExtension;
+			return AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetName + assetExtension;
 		}
 
 		private static string GetFullFilePath<T>(T asset, string propTitle) where T: Object {
@@ -128,19 +128,19 @@ namespace RF.AssetWizzard
 			string assetName = asset.name;
 			string assetExtension = GetExtensionByType (typeof(T));
 
-			return AssetBundlesSettings.AssetBundlesPathFull + "/" + propTitle + folder + assetName + assetExtension;
+			return AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetName + assetExtension;
 		}
 
 		private static string GetShortFilePath(System.Type assetType, string propTitle, string assetFullName) {
 			string folder = GetFolderByType (assetType);
 
-			return AssetBundlesSettings.AssetBundlesPath + "/" + propTitle + folder + assetFullName;
+			return AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetFullName;
 		}
 
 		private static string GetFullFilePath(System.Type assetType, string propTitle, string assetFullName) {
 			string folder = GetFolderByType (assetType);
 
-			return AssetBundlesSettings.AssetBundlesPathFull + "/" + propTitle + folder + assetFullName;
+			return AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + propTitle + folder + assetFullName;
 		}
 
 		private const string m_TexturesExtension = ".png";

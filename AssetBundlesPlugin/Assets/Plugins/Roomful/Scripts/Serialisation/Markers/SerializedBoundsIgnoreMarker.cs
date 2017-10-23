@@ -8,8 +8,8 @@ namespace RF.AssetBundles.Serialization
 {
     [ExecuteInEditMode]
     [AddComponentMenu("Roomful/Bounds Ignore Marker")]
-    public class SerializedBoundsIgnoreMarker : MonoBehaviour {
-
+    public class SerializedBoundsIgnoreMarker : MonoBehaviour, IRecreatableOnLoad
+    {
         private Bounds m_size = new Bounds(Vector3.zero, Vector3.zero);
 
         protected  void OnDrawGizmos() {

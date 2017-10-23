@@ -89,6 +89,7 @@ namespace RF.AssetWizzard {
 
 		[ContextMenu("Prepare For Upload")]
 		public void PrepareForUpload () {
+
 			IPropComponent[] components = GetComponentsInChildren<IPropComponent> ();
 			foreach(var c in components) {
 				c.RemoveSilhouette ();
@@ -110,7 +111,9 @@ namespace RF.AssetWizzard {
 			FinalizeUploadPreparation ();
 		}
 
-		public void FinalizeUploadPreparation() {
+
+
+        public void FinalizeUploadPreparation() {
 			DisplayMode = PropDisplayMode.Normal;
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RF.AssetBundles.Serialization
 {
-	public class SerializedThumbnail : MonoBehaviour
+	public class SerializedThumbnail : MonoBehaviour, IRecreatableOnLoad
     {
 
 		public bool IsBoundToResourceIndex = false;
@@ -13,6 +13,7 @@ namespace RF.AssetBundles.Serialization
 		public bool IsFixedRatio = false;
 		public int XRatio = 1;
 		public int YRatio = 1;
+
     }
 }
 

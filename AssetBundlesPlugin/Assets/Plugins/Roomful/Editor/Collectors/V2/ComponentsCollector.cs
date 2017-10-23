@@ -9,9 +9,15 @@ namespace RF.AssetWizzard
 	public class ComponentsCollector : ICollector {
 
 		public void Run(PropAsset propAsset) {
-			
 
-			foreach (SerializedThumbnail thumbnail in propAsset.gameObject.GetComponentsInChildren<SerializedThumbnail>()) {
+            IRecreatableOnLoad[] scripts = propAsset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>();
+            foreach (var script in scripts) {
+                CopySerializedComponent(script, script.gameObject);
+                GameObject.DestroyImmediate(script as Component);
+            }
+
+
+            foreach (SerializedThumbnail thumbnail in propAsset.gameObject.GetComponentsInChildren<SerializedThumbnail>()) {
 				thumbnail.gameObject.AddComponent<PropThumbnail> ();
 			}
 
@@ -30,5 +36,17 @@ namespace RF.AssetWizzard
             }
 
         }
-	}
+
+        private void CopySerializedComponent(IRecreatableOnLoad original, GameObject destination) {
+            System.Type type = original.GetType();
+            Component copy = destination.AddComponent(type);
+            System.Reflection.FieldInfo[] fields = type.GetFields();
+            foreach (System.Reflection.FieldInfo field in fields) {
+                field.SetValue(copy, field.GetValue(original));
+            }
+        }
+
+    }
+ 
 }
+
