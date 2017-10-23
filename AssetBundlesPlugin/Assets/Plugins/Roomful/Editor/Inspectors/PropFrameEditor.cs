@@ -29,7 +29,7 @@ namespace RF.AssetWizzard.Editor
 
             EditorGUILayout.Space();
             EditorGUILayout.Space();
-            Frame.Back = EditorGUILayout.ObjectField(new GUIContent("Border"), Frame.Back, typeof(GameObject), true) as GameObject;
+            Frame.Back = EditorGUILayout.ObjectField(new GUIContent("Back"), Frame.Back, typeof(GameObject), true) as GameObject;
 
 
             EditorGUI.BeginChangeCheck();
