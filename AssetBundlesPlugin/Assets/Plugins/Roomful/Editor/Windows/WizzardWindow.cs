@@ -475,6 +475,7 @@ namespace RF.AssetWizzard.Editor {
 			GUILayout.Space(10f);
 			AssetBundlesSettings.Instance.ShowWebInLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB IN Logs", AssetBundlesSettings.Instance.ShowWebInLogs);
 			AssetBundlesSettings.Instance.ShowWebOutLogs = SA.Common.Editor.Tools.YesNoFiled ("WEB OUT Logs", AssetBundlesSettings.Instance.ShowWebOutLogs);
+            AssetBundlesSettings.Instance.AutomaticCacheClean = SA.Common.Editor.Tools.YesNoFiled("Automatic Cache Clean", AssetBundlesSettings.Instance.AutomaticCacheClean);
 
             //AssetBundlesSettings.Instance.PublisherCurrentVersionIndex = EditorGUILayout.Popup("Version: ", AssetBundlesSettings.Instance.PublisherCurrentVersionIndex, AssetBundlesSettings.Instance.PublisherExistingVersions);
 
@@ -491,7 +492,7 @@ namespace RF.AssetWizzard.Editor {
             //}
 
             if (GUILayout.Button("Clear local cache")) {
-                RF.AssetWizzard.Editor.AssetBundlesManager.ClearLocalCache();
+                AssetBundlesManager.ClearLocalCache();
             }
 
         }

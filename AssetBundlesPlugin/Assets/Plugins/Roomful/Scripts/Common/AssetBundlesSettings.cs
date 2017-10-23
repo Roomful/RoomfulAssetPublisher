@@ -20,19 +20,22 @@ namespace RF.AssetWizzard {
 
         public static string WEB_SERVER_URL = "https://demo.roomful.co:3443";
 	
-		public const string ASSETS_LOCATION = "Roomful/Assets/";
-		public const string FULL_ASSETS_LOCATION = "Assets/" + ASSETS_LOCATION;
+		public const string ASSETS_PREFABS_LOCATION = "Roomful/Prefabs/";
+		public const string FULL_ASSETS_PREFABS_LOCATION = "Assets/" + ASSETS_PREFABS_LOCATION;
 
-		public const string PLUGIN_LOCATION = "Assets/Plugins/Roomful/";
+        public const string ASSETS_RESOURCES_LOCATION = "Roomful/Bundles";
+        public const string FULL_ASSETS_RESOURCES_LOCATION = "Assets/" + ASSETS_RESOURCES_LOCATION;
+
+        public const string PLUGIN_LOCATION = "Assets/Plugins/Roomful/";
 		public const string PLUGIN_PREFABS_LOCATION = PLUGIN_LOCATION + "Prefabs/";
 
 		public const string SETTINGS_LOCATION = "Plugins/Roomful/Editor/Resources/Settings/";
 
-		private const string SettingsAssetName = "AssetBundlesSettings";
-		private const string SettingsAssetExtension = ".asset";
+	
 
-		public static string AssetBundlesPath = "Roomful/Bundles";
-		public static string AssetBundlesPathFull = "Assets/" + AssetBundlesPath;
+
+        private const string SettingsAssetName = "AssetBundlesSettings";
+        private const string SettingsAssetExtension = ".asset";
 
         [SerializeField]
 		private string m_sessionId = string.Empty;
@@ -52,8 +55,9 @@ namespace RF.AssetWizzard {
 
         public bool ShowWebInLogs = true;
 		public bool ShowWebOutLogs = false;
+        public bool AutomaticCacheClean = true;
 
-		public string LastBundlePath = string.Empty;
+        public string LastBundlePath = string.Empty;
 
         public AssetTemplate UploadTemplate = null;
         public int UploadPlatfromIndex = 0;

@@ -8,7 +8,8 @@ namespace RF.AssetBundles.Serialization
 
     [ExecuteInEditMode]
     [AddComponentMenu("Roomful/Floor Marker")]
-    public class SerializedFloorMarker : MonoBehaviour  {
+    public class SerializedFloorMarker : MonoBehaviour, IRecreatableOnLoad
+    {
  
         protected void OnDrawGizmos() {
 

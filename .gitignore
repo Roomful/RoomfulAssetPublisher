@@ -46,3 +46,6 @@ AssetBundlesPlugin/Assets/Test/MyTest.cs.meta
 AssetBundlesPlugin/Assets/Test/MyTestSingle.cs
 AssetBundlesPlugin/Assets/Test/MyTestSingle.cs.meta
 AssetBundlesPlugin/Assets/Test.meta
+AssetBundlesPlugin/Assets/Roomful/Prefabs/NewImageEffectShader.shader
+AssetBundlesPlugin/Assets/Roomful/Prefabs/NewImageEffectShader.shader.meta
+AssetBundlesPlugin/Assets/Roomful/Prefabs.meta

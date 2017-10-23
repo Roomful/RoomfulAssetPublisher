@@ -6,7 +6,8 @@ using RF.AssetWizzard;
 namespace RF.AssetBundles.Serialization
 {
 
-    public class SerializedAnchor : MonoBehaviour  {
+    public class SerializedAnchor : MonoBehaviour, IRecreatableOnLoad
+    {
 
         public GameObject Parent;
 

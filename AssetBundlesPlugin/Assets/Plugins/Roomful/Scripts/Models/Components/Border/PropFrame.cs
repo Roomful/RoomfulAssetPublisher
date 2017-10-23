@@ -303,6 +303,7 @@ namespace RF.AssetWizzard
             p.SetActive(true);
             p.transform.parent = GetLayer(BorderLayers.GeneratedBorder);
             p.transform.localScale = reference.transform.localScale;
+            p.transform.localRotation = Quaternion.identity;
             return p;
         }
 
