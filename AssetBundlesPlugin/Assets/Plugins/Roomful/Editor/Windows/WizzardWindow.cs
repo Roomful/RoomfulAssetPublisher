@@ -85,8 +85,6 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-
-		private static int s_selectedSectionIndex;
 		private Vector2 m_SectionScrollPos;
 		private List<WizardWindow.Section> m_Sections;
 		private static WizardWindow.Constants constants = null;
@@ -122,7 +120,7 @@ namespace RF.AssetWizzard.Editor {
 
 
             if (AssetBundlesSettings.Instance.IsLoggedIn) {
-                SelectedSectionIndex = 3;
+                AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = 3;
             }
 
               
@@ -152,15 +150,27 @@ namespace RF.AssetWizzard.Editor {
 				}
 
 				EditorGUI.BeginChangeCheck();
-				if (GUI.Toggle(rect, SelectedSectionIndex == i, section.content, WizardWindow.constants.sectionElement)) {
-					SelectedSectionIndex = i;
+				if (GUI.Toggle(rect, AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex == i, section.content, WizardWindow.constants.sectionElement)) {
+                    AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = i;
 				} if (EditorGUI.EndChangeCheck()){
 					GUIUtility.keyboardControl = 0;
 				}
 			}
 
 
-			GUILayout.EndScrollView();
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginHorizontal(WizardWindow.constants.settingsBoxTitle);
+            {
+                GUILayout.FlexibleSpace();
+                bool platfromClick = GUILayout.Button(EditorUserBuildSettings.activeBuildTarget.ToString(), EditorStyles.label);
+                if (platfromClick) {
+                    SiwtchTab(WizardTabs.Platforms);
+                }
+                GUILayout.FlexibleSpace();
+            } GUILayout.EndHorizontal();
+
+
+            GUILayout.EndScrollView();
 			GUILayout.Space(10f);
 
 			GUILayout.BeginVertical(new GUILayoutOption[0]);
@@ -184,19 +194,9 @@ namespace RF.AssetWizzard.Editor {
 		//  Get / Set
 		//--------------------------------------
 
-
-		public static int SelectedSectionIndex {
-			get {
-				return s_selectedSectionIndex;
-			} set {
-                s_selectedSectionIndex = value;
-			}
-		}
-
-
 		private WizardWindow.Section selectedSection {
 			get {
-				return this.m_Sections[s_selectedSectionIndex];
+				return this.m_Sections[AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex];
 			}
 		}
 
@@ -212,10 +212,8 @@ namespace RF.AssetWizzard.Editor {
 		//--------------------------------------
 
 		public void SiwtchTab(WizardTabs tab) {
-			SelectedSectionIndex = (int)tab;
+            AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = (int)tab;
 		}
-
-
 
 
 		//--------------------------------------
@@ -462,7 +460,7 @@ namespace RF.AssetWizzard.Editor {
 				PlatfromsList.Add (platform.ToString ());
 			}
 
-			ReorderableListGUI.ListField(PlatfromsList, PlatformListItem, DrawEmptyPlatform);
+			ReorderableListGUI.ListField(PlatfromsList, DrawPlatformListItem, DrawEmptyPlatform);
 
 			AssetBundlesSettings.Instance.TargetPlatforms = new List<BuildTarget> ();
 
@@ -497,16 +495,51 @@ namespace RF.AssetWizzard.Editor {
 
         }
 
-        public string PlatformListItem(Rect position, string itemValue) {
+        public string DrawPlatformListItem(Rect position, string itemValue) {
 
 			position.y += 2;
 			if (string.IsNullOrEmpty(itemValue)) {
 				itemValue = BuildTarget.iOS.ToString ();
 			}
 
-			BuildTarget t = SA.Common.Util.General.ParseEnum<BuildTarget> (itemValue);
-			t =  (BuildTarget) EditorGUI.EnumPopup(position, t);
-			return t.ToString ();
+            position.width -= 25;
+
+            BuildTarget buildTraget = SA.Common.Util.General.ParseEnum<BuildTarget> (itemValue);
+			buildTraget =  (BuildTarget) EditorGUI.EnumPopup(position, buildTraget);
+
+
+            position.x += position.width + 2;
+            position.width = 20;
+            position.height = 15;
+
+
+            GUIContent buttonContent = new GUIContent();
+            buttonContent.image = IconManager.GetIcon(Icon.refresh_black);
+
+
+            if (EditorUserBuildSettings.activeBuildTarget == buildTraget) {
+                GUI.enabled = false;
+            }
+
+            bool switchPlatfrom = GUI.Button(position, buttonContent, EditorStyles.miniButton);
+            if (switchPlatfrom) {
+
+                BuildTargetGroup group = BuildTargetGroup.Unknown;
+                switch(buildTraget) {
+                    case BuildTarget.iOS:
+                        group = BuildTargetGroup.iOS;
+                        break;
+                    case BuildTarget.WebGL:
+                        group = BuildTargetGroup.WebGL;
+                        break;
+                }
+
+                EditorUserBuildSettings.SwitchActiveBuildTargetAsync(group, buildTraget);
+            }
+
+            GUI.enabled = true;
+
+            return buildTraget.ToString ();
 		}
 
 		public void DrawEmptyPlatform() {
@@ -578,8 +611,7 @@ namespace RF.AssetWizzard.Editor {
 					GUI.FocusControl(null);
 				}
 
-
-				Texture2D refreshIcon = Resources.Load ("refresh") as Texture2D;
+                Texture2D refreshIcon = IconManager.GetIcon(Icon.refresh_black);
 				bool refresh = GUILayout.Button (refreshIcon, WizardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 				if (refresh) {
 					AssetBundlesSettings.Instance.LocalAssetTemplates.Clear ();

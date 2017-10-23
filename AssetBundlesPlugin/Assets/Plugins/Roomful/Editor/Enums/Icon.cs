@@ -9,6 +9,8 @@ namespace RF.AssetWizzard.Editor
     public enum Icon
     {
         wizard,
-        loader
+        loader,
+        refresh_black,
+        refresh_white
     }
 }

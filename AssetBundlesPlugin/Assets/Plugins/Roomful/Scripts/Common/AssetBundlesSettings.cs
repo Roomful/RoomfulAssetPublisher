@@ -64,8 +64,11 @@ namespace RF.AssetWizzard {
 
 		public bool IsInAutoloading = false;
 
-		#if UNITY_EDITOR
-		public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
+
+        public int WizardWindowSelectedTabIndex = 0;
+
+        #if UNITY_EDITOR
+        public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
 		#endif
 
 		private static AssetBundlesSettings _Instance = null;
