@@ -114,6 +114,20 @@ namespace RF.AssetWizzard {
 			DisplayMode = PropDisplayMode.Normal;
 			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
 
+            Animator[] animators = transform.GetComponentsInChildren<Animator>();
+            for (int i = animators.Length - 1; i >= 0; i--) {
+                if (animators[i].runtimeAnimatorController == null) {
+                    DestroyImmediate(animators[i]);
+                } else {
+#if UNITY_EDITOR
+                    SerializedAnimatorController sac = animators[i].gameObject.AddComponent<SerializedAnimatorController>();
+                    sac.Serialize(animators[i].runtimeAnimatorController as UnityEditor.Animations.AnimatorController);
+
+                    animators[i].runtimeAnimatorController = null;
+#endif
+                }
+            }
+            
 
             Renderer[] renderers = transform.GetComponentsInChildren<Renderer>();
             foreach (Renderer renderer in renderers) {

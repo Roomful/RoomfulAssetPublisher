@@ -15,93 +15,99 @@ namespace RF.AssetWizzard
 	public class RendererCollector : ICollector {
 
 		public void Run(RF.AssetWizzard.PropAsset propAsset) {
-			#if UNITY_EDITOR
+
+            #if UNITY_EDITOR
 
 			Renderer[] rens = propAsset.gameObject.GetComponentsInChildren<Renderer> ();
-
-			foreach (Renderer ren in rens) {
-				SerializedMaterial[] materialsData = ren.gameObject.GetComponents<SerializedMaterial> ();
+            
+            foreach (Renderer ren in rens) {
+                SerializedMaterial[] materialsData = ren.gameObject.GetComponents<SerializedMaterial> ();
 
 				if (materialsData.Length > 0) {
-					List<Material> exportedMterials = new List<Material> ();
-
+                    List<Material> exportedMterials = new List<Material> ();
+                   
 					foreach (SerializedMaterial sm in materialsData) {
 						Material newMaterial = new Material(Shader.Find(sm.ShaderName));
-						newMaterial.name = sm.MatName;
+                        newMaterial.name = sm.MatName;
 
-                        PropDataBase.SaveAsset<Material>(propAsset, newMaterial);
+                        if (PropDataBase.IsAssetExist<Material>(propAsset, newMaterial)) {
+                           exportedMterials.Add(PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
 
-                        foreach (SerializedShaderProperty property in sm.ShadersProperties) {
-							ShaderPropertyType propertyType = (ShaderPropertyType)System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
+                        } else {
+                            PropDataBase.SaveAsset<Material>(propAsset, newMaterial);
 
-							switch(propertyType) {
-							case ShaderPropertyType.TexEnv:
-								if (property.SerializedTextureValue != null && property.SerializedTextureValue.MainTexture != null) {
-									string texName = property.SerializedTextureValue.MainTexture.name;
+                            foreach (SerializedShaderProperty property in sm.ShadersProperties) {
+                                ShaderPropertyType propertyType = (ShaderPropertyType)System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
 
-									PropDataBase.SaveAsset<Texture> (propAsset, property.SerializedTextureValue.MainTexture);
-									new TextureCollector().Run(propAsset, property.SerializedTextureValue);
+                                switch (propertyType) {
+                                    case ShaderPropertyType.TexEnv:
+                                        if (property.SerializedTextureValue != null && property.SerializedTextureValue.MainTexture != null) {
+                                            string texName = property.SerializedTextureValue.MainTexture.name;
 
-                                        if (property.PropertyName.Equals("_BumpMap")) {
-											PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).EnableKeyword("_NORMALMAP");
+                                            PropDataBase.SaveAsset<Texture>(propAsset, property.SerializedTextureValue.MainTexture);
+                                            new TextureCollector().Run(propAsset, property.SerializedTextureValue);
+
+                                            if (property.PropertyName.Equals("_BumpMap")) {
+                                                PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).EnableKeyword("_NORMALMAP");
+                                            }
+
+                                            PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
                                         }
+                                        break;
 
-                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
-								}
-								break;
+                                    case ShaderPropertyType.Float:
+                                    case ShaderPropertyType.Range:
+                                        newMaterial.SetFloat(property.PropertyName, property.FloatValue);
+                                        break;
 
-							case ShaderPropertyType.Float:
-							case ShaderPropertyType.Range:
-								newMaterial.SetFloat (property.PropertyName, property.FloatValue);
-								break;
+                                    case ShaderPropertyType.Vector:
+                                        newMaterial.SetVector(property.PropertyName, property.VectorValue);
 
-							case ShaderPropertyType.Vector:
-								newMaterial.SetVector (property.PropertyName, property.VectorValue);
+                                        break;
+                                    case ShaderPropertyType.Color:
+                                        newMaterial.SetColor(property.PropertyName, property.VectorValue);
 
-								break;
-							case ShaderPropertyType.Color:
-								newMaterial.SetColor (property.PropertyName, property.VectorValue);
+                                        break;
+                                }
 
-								break;
-							}
-
-							if (property.PropertyName.Equals("_Mode")) {
-								int renderMode = (int) property.FloatValue;
-								switch (renderMode) {
-								case 0: //Opaque
-									newMaterial.renderQueue = -1;
-									break;
-								case 1: // Cut out
-                                    newMaterial.renderQueue = 2450;
-									break;
-								case 2: // Fade
-                                    newMaterial.renderQueue = 3000;
-									break;
-								case 3: // Transparent
-                                    newMaterial.renderQueue = 3000;
-									break;
-								}
-							}
-                        }
-
-                        foreach (string keyword in sm.ShaderKeywords) {
-                            if (!newMaterial.IsKeywordEnabled(keyword)) {
-                                newMaterial.EnableKeyword(keyword);
+                                if (property.PropertyName.Equals("_Mode")) {
+                                    int renderMode = (int)property.FloatValue;
+                                    switch (renderMode) {
+                                        case 0: //Opaque
+                                            newMaterial.renderQueue = -1;
+                                            break;
+                                        case 1: // Cut out
+                                            newMaterial.renderQueue = 2450;
+                                            break;
+                                        case 2: // Fade
+                                            newMaterial.renderQueue = 3000;
+                                            break;
+                                        case 3: // Transparent
+                                            newMaterial.renderQueue = 3000;
+                                            break;
+                                    }
+                                }
                             }
+
+                            foreach (string keyword in sm.ShaderKeywords) {
+                                if (!newMaterial.IsKeywordEnabled(keyword)) {
+                                    newMaterial.EnableKeyword(keyword);
+                                }
+                            }
+                            
+                            exportedMterials.Add(PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
                         }
-
-                        PropDataBase.SaveAsset<Material> (propAsset, newMaterial);
-
-						exportedMterials.Add (PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
-					}
-
-					ren.materials = exportedMterials.ToArray ();
-
-					for (int i = materialsData.Length - 1; i >= 0; i--) {
+                    }
+                    
+                    ren.sharedMaterials = exportedMterials.ToArray ();
+                    
+                    for (int i = materialsData.Length - 1; i >= 0; i--) {
 						GameObject.DestroyImmediate(materialsData[i]); 
 					}
-				}
+                }
+                
 			}
+            
 			#endif
 		}
 	}

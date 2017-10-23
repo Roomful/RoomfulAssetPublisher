@@ -511,9 +511,7 @@ namespace RF.AssetWizzard.Editor {
 		public void DrawEmptyPlatform() {
 			GUILayout.Label("Please select atleas one asset platfrom", EditorStyles.miniLabel);
 		}
-
-	
-
+        
 		//--------------------------------------
 		//  Assets
 		//--------------------------------------
@@ -521,12 +519,13 @@ namespace RF.AssetWizzard.Editor {
 		private Vector2 m_KeyScrollPos;
 		private AssetTemplate SelectedAsset = null;
 		private const string SEARTCH_BAR_CONTROL_NAME = "seartchBat";
-
-
+        
         int RotationAnimatorAgnle = 0;
         private void DrawPreloaderAt(Rect rect) {
             Texture2D preloader = IconManager.GetIcon(Icon.loader); 
+
             RotationAnimatorAgnle++;
+
             if (RotationAnimatorAgnle > 360) {
                 RotationAnimatorAgnle = 0;
             }
@@ -540,14 +539,12 @@ namespace RF.AssetWizzard.Editor {
         private void Assets() {
 
             GUILayout.Label("Assets", WizardWindow.constants.sectionHeader, new GUILayoutOption[0]);
-
-           
-
+            
             if (!AssetBundlesSettings.Instance.LocalAssetTemplates.Contains(SelectedAsset)) {
 				SelectedAsset = null;
 			}
 
-			if(SelectedAsset == null) {
+			if (SelectedAsset == null) {
 				if(AssetBundlesSettings.Instance.LocalAssetTemplates.Count > 0) {
 					SelectedAsset = AssetBundlesSettings.Instance.LocalAssetTemplates [0];
 				}
@@ -557,10 +554,9 @@ namespace RF.AssetWizzard.Editor {
                 DrawPreloaderAt(new Rect(570, 12, 20, 20));
                 GUI.enabled = false;
             }
-				
+			
 			GUILayout.BeginHorizontal(WizardWindow.constants.settingsBoxTitle); {
-
-
+                
 				GUIStyle s = new GUIStyle (EditorStyles.boldLabel);
 				s.margin = new RectOffset (0, 0, 0, 0);
 				s.padding = new RectOffset (2, 2, 2, 2);

@@ -26,6 +26,9 @@ namespace RF.AssetWizzard {
 			CreateFolder (folderPath+"/Meshes");
 			CreateFolder (folderPath+"/Textures");
             CreateFolder (folderPath + "/Fonts");
+            CreateFolder (folderPath + "/Animations");
+            CreateFolder (folderPath + "/Animations/Controller");
+            CreateFolder (folderPath + "/Animations/Clips");
         }
 
 		public static bool IsFolderExists(string folderPath) {

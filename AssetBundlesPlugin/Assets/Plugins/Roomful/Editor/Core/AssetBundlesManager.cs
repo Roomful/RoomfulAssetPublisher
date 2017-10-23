@@ -329,12 +329,13 @@ namespace RF.AssetWizzard.Editor {
             //return;
             new V1_RendererCollector().Run(asset); // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
             new RendererCollector().Run (asset);
-			new TextCollector().Run (asset);
+		    new TextCollector().Run (asset);
 			new MeshCollector().Run (asset);
-			new ComponentsCollector().Run (asset);
+		    new ComponentsCollector().Run (asset);
+			new AnimationCollector().Run (asset);
+            new AnimatorCollector().Run(asset);
 
-
-			new V1_ThumbnailsCollector().Run (asset);
+            new V1_ThumbnailsCollector().Run (asset);
 			new V1_MarkersCollector ().Run (asset);
 		}
 
@@ -345,54 +346,5 @@ namespace RF.AssetWizzard.Editor {
 
             FolderUtils.CreateFolder(AssetBundlesSettings.AssetBundlesPath);
         }
-
-		public static void CheckAnimations(PropAsset prop) {
-			Animator[] anims = prop.GetComponentsInChildren<Animator> ();
-			Animator mainAnimator = null;
-
-			int AnimatorsNumber = anims.Length;
-
-			if (AnimatorsNumber > 1) {
-				Debug.Log ("Animators number is more than 1");
-				mainAnimator = anims [0];
-			} else if (AnimatorsNumber == 1) {
-				mainAnimator = anims [0];
-			}
-
-			if (mainAnimator != null) {
-				Debug.Log ("Parameters:");
-				for (int i = 0; i < mainAnimator.parameterCount; i++) {
-					string n = mainAnimator.GetParameter (i).name;
-					string t = mainAnimator.GetParameter (i).type.ToString();
-
-					string log = "Parameter: " + n + ", type: " + t +", default: ";
-
-					switch(mainAnimator.GetParameter (i).type) {
-					case AnimatorControllerParameterType.Bool:
-						log += mainAnimator.GetParameter (i).defaultBool.ToString ();
-						break;
-					case AnimatorControllerParameterType.Trigger:
-						log += "Trigger has no init value";
-						break;
-					case AnimatorControllerParameterType.Int:
-						log += mainAnimator.GetParameter (i).defaultInt.ToString ();
-
-						break;
-					case AnimatorControllerParameterType.Float:
-						log += mainAnimator.GetParameter (i).defaultFloat.ToString ();
-						break;
-					}
-
-					Debug.Log (log);
-				}
-
-				Debug.Log ("Transitions:");
-
-				for (int i = 0; i < mainAnimator.layerCount; i++) {
-
-				}
-			}
-		}
-
-	}
+    }
 }
