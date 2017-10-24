@@ -6,8 +6,11 @@ namespace RF.AssetBundles.Serialization {
     public class SerializedAnimatorController : MonoBehaviour {
 
         public string ControllerName;
+
+        [HideInInspector]
         public byte[] SerializedData;
 
+        [HideInInspector]
         public SerializedAnimationClip[] SerializedClips;
 #if UNITY_EDITOR
         public void Serialize(UnityEditor.Animations.AnimatorController controller) {
