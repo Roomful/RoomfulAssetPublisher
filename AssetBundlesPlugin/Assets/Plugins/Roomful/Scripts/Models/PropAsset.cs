@@ -125,8 +125,7 @@ namespace RF.AssetWizzard {
 #if UNITY_EDITOR
                     SerializedAnimatorController sac = animators[i].gameObject.AddComponent<SerializedAnimatorController>();
                     sac.Serialize(animators[i].runtimeAnimatorController as UnityEditor.Animations.AnimatorController);
-
-                    animators[i].runtimeAnimatorController = null;
+                    
 #endif
                 }
             }
