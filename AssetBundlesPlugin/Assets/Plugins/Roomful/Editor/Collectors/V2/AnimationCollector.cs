@@ -11,7 +11,7 @@ namespace RF.AssetWizzard  {
     public class AnimationCollector : ICollector {
         
         public void Run(RF.AssetWizzard.PropAsset propAsset) {
-            Animation[] anims = propAsset.GetComponentsInChildren<Animation>();
+            Animation[] anims = propAsset.GetComponentsInChildren<Animation>(true);
 
             foreach (Animation a in anims) {
                 string defaultAnimName = string.Empty;

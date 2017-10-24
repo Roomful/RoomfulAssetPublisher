@@ -13,7 +13,7 @@ namespace RF.AssetWizzard {
         
         public void Run(RF.AssetWizzard.PropAsset propAsset) {
             
-            SerializedAnimatorController[] animators = propAsset.GetComponentsInChildren<SerializedAnimatorController>();
+            SerializedAnimatorController[] animators = propAsset.GetComponentsInChildren<SerializedAnimatorController>(true);
             
             foreach (SerializedAnimatorController sac in animators) {
                 PropDataBase.SaveAnimatorController(propAsset, sac);
@@ -41,7 +41,7 @@ namespace RF.AssetWizzard {
 
                 Animator a = sac.GetComponent<Animator>();
                 a.runtimeAnimatorController = PropDataBase.LoadAsset<AnimatorController>(propAsset, sac.ControllerName);
-
+                
                 GameObject.DestroyImmediate(sac);
             }
         }

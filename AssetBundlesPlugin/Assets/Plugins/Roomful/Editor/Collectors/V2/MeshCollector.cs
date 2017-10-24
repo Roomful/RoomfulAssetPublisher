@@ -7,7 +7,7 @@ namespace RF.AssetWizzard {
 	public class MeshCollector : ICollector {
 
 		public void Run(PropAsset propAsset) {
-			MeshFilter[] meshes = propAsset.gameObject.GetComponentsInChildren<MeshFilter> ();
+			MeshFilter[] meshes = propAsset.gameObject.GetComponentsInChildren<MeshFilter> (true);
 
 			for (int i = 0; i < meshes.Length; i++) {
 				Mesh newmesh = new Mesh();

@@ -9,7 +9,7 @@ namespace RF.AssetWizzard
 
 		public void Run(PropAsset propAsset) {
 			
-			foreach (SerializedText textInfo in propAsset.gameObject.GetComponentsInChildren<SerializedText>()) {
+			foreach (SerializedText textInfo in propAsset.gameObject.GetComponentsInChildren<SerializedText>(true)) {
 				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
 					PropDataBase.SaveFontAsset(propAsset, textInfo); 
 

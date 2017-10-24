@@ -10,7 +10,7 @@ namespace RF.AssetWizzard
 
 		public void Run(PropAsset propAsset) {
 
-            IRecreatableOnLoad[] scripts = propAsset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>();
+            IRecreatableOnLoad[] scripts = propAsset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>(true);
             foreach (var script in scripts) {
                 CopySerializedComponent(script, script.gameObject);
                 GameObject.DestroyImmediate(script as Component);

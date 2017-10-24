@@ -18,7 +18,7 @@ namespace RF.AssetWizzard
 
             #if UNITY_EDITOR
 
-			Renderer[] rens = propAsset.gameObject.GetComponentsInChildren<Renderer> ();
+			Renderer[] rens = propAsset.gameObject.GetComponentsInChildren<Renderer> (true);
             
             foreach (Renderer ren in rens) {
                 SerializedMaterial[] materialsData = ren.gameObject.GetComponents<SerializedMaterial> ();

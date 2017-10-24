@@ -9,7 +9,7 @@ namespace RF.AssetWizzard
 
 		public void Run(RF.AssetWizzard.PropAsset propAsset) {
 			
-			Renderer[] rens = propAsset.GetComponentsInChildren<Renderer> ();
+			Renderer[] rens = propAsset.GetComponentsInChildren<Renderer> (true);
 			foreach (Renderer ren in rens) {
 				if (ren.sharedMaterials.Length > 0) {
 					List<Material> recreatedMterials = new List<Material> ();
