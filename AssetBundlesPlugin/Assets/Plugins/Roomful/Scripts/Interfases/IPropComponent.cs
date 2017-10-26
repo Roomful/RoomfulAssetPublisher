@@ -10,6 +10,11 @@ namespace RF.AssetWizzard {
 		void RemoveSilhouette();
 
 		void Update();
-	}
+
+
+        Priority UpdatePriority { get; }
+        GameObject gameObject { get; }
+
+    }
 
 }

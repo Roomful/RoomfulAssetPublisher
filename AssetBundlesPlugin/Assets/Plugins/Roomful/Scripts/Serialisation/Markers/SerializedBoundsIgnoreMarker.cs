@@ -10,7 +10,6 @@ namespace RF.AssetBundles.Serialization
     [AddComponentMenu("Roomful/Bounds Ignore Marker")]
     public class SerializedBoundsIgnoreMarker : MonoBehaviour, IRecreatableOnLoad
     {
-        private Bounds m_size = new Bounds(Vector3.zero, Vector3.zero);
 
         protected  void OnDrawGizmos() {
         	if(Prop == null) {
@@ -20,19 +19,15 @@ namespace RF.AssetBundles.Serialization
             if (!Prop.DrawGizmos) {
                 return;
             }
+            Bounds m_size = Scene.GetBounds(gameObject, true);
 
-			RoomfulText rt = GetComponent<RoomfulText> ();
+            RoomfulText rt = GetComponent<RoomfulText> ();
 
 			if (rt == null) {
 				GizmosDrawer.DrawCube(m_size.center, transform.rotation, m_size.size, Color.red);
 			}
 		}
 
-		public void Update() {
-			m_size = Scene.GetBounds (gameObject, true);
-        }
-
-     
 
         public PropAsset Prop {
             get {

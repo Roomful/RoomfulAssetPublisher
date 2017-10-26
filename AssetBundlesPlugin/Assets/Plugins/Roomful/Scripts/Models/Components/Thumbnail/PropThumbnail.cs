@@ -118,7 +118,13 @@ namespace RF.AssetWizzard
 				return settings;
 			}
 		}
-			
+
+
+        public Priority UpdatePriority {
+            get {
+                return Priority.High;
+            }
+        }
 
         //--------------------------------------
         // Private Methods

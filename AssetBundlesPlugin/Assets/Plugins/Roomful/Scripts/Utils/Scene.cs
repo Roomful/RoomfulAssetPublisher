@@ -9,24 +9,52 @@ namespace RF.AssetWizzard
 	public static class Scene  {
 
 		public static void Update() {
-			MonoBehaviour[] components = GameObject.FindObjectsOfType<MonoBehaviour> ();
+
+            Component[] components =  GameObject.FindObjectsOfType<Component>();
+            List<IPropComponent> propComponents = new List<IPropComponent>();
+
+ 
 			foreach(var component in components) {
 				if(component is IPropComponent) {
-					(component as IPropComponent).Update ();
-				}
-
-				if(component is SerializedBoundsIgnoreMarker) {
-					(component as SerializedBoundsIgnoreMarker).Update ();
-				}
-
-
+                    if (!IsAnchored(component)) {
+                        propComponents.Add(component as IPropComponent);
+                    }  
+                }
 			}
-		}
+
+            propComponents.Sort(new PriorityComparer());
+
+            foreach(var c in propComponents) {
+                c.Update();
+            }
+            
+
+        }
+
+
+ 
+
+        public static bool IsAnchored(Component comp) {
+
+            Transform testedObject = comp.transform;
+            while (testedObject != null) {
+                PropAnchor anchor = testedObject.GetComponent<PropAnchor>();
+                if (anchor != null) {
+                    if(anchor.GetInstanceID() != comp.GetInstanceID()) {
+                        return true;
+                    }  
+                }
+                testedObject = testedObject.parent;
+            }
+
+
+            return false;
+        }
 
 
 
 
-		public  static Bounds GetBounds(Transform transfrom, bool includeIgnoredLayers = false) {
+        public  static Bounds GetBounds(Transform transfrom, bool includeIgnoredLayers = false) {
 			return GetBounds (transfrom.gameObject, includeIgnoredLayers);
 		}
 

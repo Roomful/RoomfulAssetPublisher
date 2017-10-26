@@ -8,9 +8,10 @@ namespace RF.AssetWizzard
 
     [ExecuteInEditMode]
 	public class PropAnchor : MonoBehaviour, IPropComponent {
-
+        
 
         public void Update() {
+
             Settings.Anchor.x = Mathf.Clamp(Settings.Anchor.x, 0f, 1f);
             Settings.Anchor.y = Mathf.Clamp(Settings.Anchor.y, 0f, 1f);
             Settings.Anchor.z = Mathf.Clamp(Settings.Anchor.z, 0f, 1f);
@@ -77,13 +78,27 @@ namespace RF.AssetWizzard
                     }
                 }
 
-                if(GetComponent<IPropComponent>() != null) {
-                    GetComponent<IPropComponent>().Update();
-                }
-
-
+                UpdateChildComponents();
             }
 
+        }
+
+        private void UpdateChildComponents() {
+            Component[] components = transform.GetComponentsInChildren<Component>();
+            List<IPropComponent> propComponents = new List<IPropComponent>();
+
+
+            foreach (var component in components) {
+                if (component is IPropComponent && (component.GetInstanceID() != GetInstanceID())) {
+                    propComponents.Add(component as IPropComponent);
+                }
+            }
+
+            propComponents.Sort(new PriorityComparer());
+
+            foreach (var c in propComponents) {
+                c.Update();
+            }
         }
 
 
@@ -96,6 +111,11 @@ namespace RF.AssetWizzard
 		}
 
 
+        public Priority UpdatePriority {
+            get {
+                return Priority.Lowest;
+            }
+        }
 
         public SerializedAnchor Settings {
             get {

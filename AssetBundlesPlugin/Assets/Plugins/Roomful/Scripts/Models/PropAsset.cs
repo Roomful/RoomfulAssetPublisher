@@ -98,11 +98,9 @@ namespace RF.AssetWizzard {
 			Scale = 1f;
 			Template.Silhouette = SilhouetteMeshData;
 
-
-			if(HasStandSurface) {
+            if (HasStandSurface) {
 				Template.CanStack = false;
 			}
-				
 
 			foreach(var c in components) {
 				c.PrepareForUpalod ();

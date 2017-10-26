@@ -126,8 +126,11 @@ namespace RF.AssetWizzard
             }
         }
 
-     
-
+        public Priority UpdatePriority {
+            get {
+                return Priority.Medium;
+            }
+        }
 
 
         public SerializedFrame Settings {

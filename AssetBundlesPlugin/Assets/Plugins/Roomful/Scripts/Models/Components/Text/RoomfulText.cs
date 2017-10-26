@@ -171,6 +171,12 @@ namespace RF.AssetWizzard {
             }
         }
 
+        public Priority UpdatePriority {
+            get {
+                return Priority.High;
+            }
+        }
+
 
         private void Refersh() {
 			TextRenderer.text = PlaceHolderText;

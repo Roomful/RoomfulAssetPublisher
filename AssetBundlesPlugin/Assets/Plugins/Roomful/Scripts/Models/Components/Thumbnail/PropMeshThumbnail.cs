@@ -88,8 +88,13 @@ namespace RF.AssetWizzard {
 			}
 		}
 
-      
 
+
+        public Priority UpdatePriority {
+            get {
+                return Priority.High;
+            }
+        }
 
 
         //--------------------------------------
