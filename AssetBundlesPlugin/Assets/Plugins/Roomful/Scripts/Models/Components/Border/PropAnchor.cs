@@ -56,9 +56,6 @@ namespace RF.AssetWizzard
 				}
 
 
-
-
-
                 transform.localPosition = transform.localPosition + Settings.Offset;
 
 

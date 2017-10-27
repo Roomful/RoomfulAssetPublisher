@@ -11,12 +11,25 @@ namespace RF.AssetWizzard.Editor
 
         public override void OnInspectorGUI() {
 
-            EditorGUI.BeginChangeCheck();
-
             EditorGUILayout.LabelField("Frame", EditorStyles.boldLabel);
+
+
+            EditorGUI.BeginChangeCheck();
             Frame.Corner =  EditorGUILayout.ObjectField(new GUIContent("Corner"), Frame.Corner, typeof(GameObject), true) as GameObject;
+            if (EditorGUI.EndChangeCheck()) {
+                if (Frame.Corner.GetComponent<Collider>() == null) {
+                    Frame.Corner.AddComponent<BoxCollider>();
+                }
+            }
+
+            EditorGUI.BeginChangeCheck();
             Frame.Border = EditorGUILayout.ObjectField(new GUIContent("Border"), Frame.Border, typeof(GameObject), true) as GameObject;
-           
+            if (EditorGUI.EndChangeCheck()) {
+                if (Frame.Border.GetComponent<Collider>() == null) {
+                    Frame.Border.AddComponent<BoxCollider>();
+                }
+            }
+
 
 
             EditorGUI.BeginChangeCheck();
@@ -29,7 +42,13 @@ namespace RF.AssetWizzard.Editor
 
             EditorGUILayout.Space();
             EditorGUILayout.Space();
+            EditorGUI.BeginChangeCheck();
             Frame.Back = EditorGUILayout.ObjectField(new GUIContent("Back"), Frame.Back, typeof(GameObject), true) as GameObject;
+            if (EditorGUI.EndChangeCheck()) {
+                if (Frame.Back.GetComponent<Collider>() == null) {
+                    Frame.Back.AddComponent<BoxCollider>();
+                }
+            }
 
 
             EditorGUI.BeginChangeCheck();
@@ -41,7 +60,7 @@ namespace RF.AssetWizzard.Editor
 
 
 
-            if (EditorGUI.EndChangeCheck()) {
+            if (GUI.changed) {
                 Frame.Update();
             }
            

@@ -300,12 +300,17 @@ namespace RF.AssetWizzard
             transform.rotation = oldRotation;
         }
 
+        private static PropAsset CurrentProp {
+            get {
+                return GameObject.FindObjectOfType<PropAsset>();
+            }
+        }
 
         private GameObject InstantiateBorderPart(GameObject reference) {
             GameObject p = Instantiate(reference) as GameObject;
             p.SetActive(true);
             p.transform.parent = GetLayer(BorderLayers.GeneratedBorder);
-            p.transform.localScale = reference.transform.localScale;
+            p.transform.localScale = reference.transform.localScale / CurrentProp.Scale;
             p.transform.localRotation = Quaternion.identity;
             return p;
         }
