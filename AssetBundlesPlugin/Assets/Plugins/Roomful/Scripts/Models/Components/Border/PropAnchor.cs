@@ -56,7 +56,7 @@ namespace RF.AssetWizzard
 				}
 
 
-                transform.localPosition = transform.localPosition + Settings.Offset;
+                transform.localPosition = transform.localPosition + (Settings.Offset / CurrentProp.Scale);
 
 
                 if (Settings.EnableXScale) {
@@ -129,7 +129,11 @@ namespace RF.AssetWizzard
         }
 
 
-
+        private PropAsset CurrentProp {
+            get {
+                return GameObject.FindObjectOfType<PropAsset>();
+            }
+        }
 
     }
 }
