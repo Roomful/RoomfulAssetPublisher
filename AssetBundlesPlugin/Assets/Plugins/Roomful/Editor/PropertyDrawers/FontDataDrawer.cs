@@ -99,8 +99,9 @@ namespace RF.AssetWizzard.Editor {
 		private SerializedProperty m_FontSize;
 
 		private SerializedProperty m_LineSpacing;
+        private SerializedProperty m_LineCharacterLimit;
 
-		private SerializedProperty m_FontStyle;
+        private SerializedProperty m_FontStyle;
 
 		private SerializedProperty m_HorizontalOverflow;
 
@@ -116,7 +117,8 @@ namespace RF.AssetWizzard.Editor {
 		private float m_FontSizeHeight = 0f;
 
 		private float m_LineSpacingHeight = 0f;
-		private float m_HorizontalOverflowHeight = 0f;
+        private float m_LineCharacterLimitHeight = 0f;
+        private float m_HorizontalOverflowHeight = 0f;
 		private float m_VerticalOverflowHeight = 0f;
 
 
@@ -125,7 +127,9 @@ namespace RF.AssetWizzard.Editor {
 			this.m_Font = property.FindPropertyRelative("m_Font");
 			this.m_FontSize = property.FindPropertyRelative("m_FontSize");
 			this.m_LineSpacing = property.FindPropertyRelative("m_LineSpacing");
-			this.m_FontStyle = property.FindPropertyRelative("m_FontStyle");
+            this.m_LineCharacterLimit = property.FindPropertyRelative("m_LineCharacterLimit");
+
+            this.m_FontStyle = property.FindPropertyRelative("m_FontStyle");
 
 			this.m_HorizontalOverflow = property.FindPropertyRelative("m_HorizontalOverflow");
 			this.m_VerticalOverflow = property.FindPropertyRelative("m_VerticalOverflow");
@@ -140,9 +144,11 @@ namespace RF.AssetWizzard.Editor {
 			this.m_FontStyleHeight = EditorGUI.GetPropertyHeight(this.m_FontStyle);
 			this.m_FontSizeHeight = EditorGUI.GetPropertyHeight(this.m_FontSize);
 			this.m_LineSpacingHeight = EditorGUI.GetPropertyHeight(this.m_LineSpacing);
-			this.m_HorizontalOverflowHeight = EditorGUI.GetPropertyHeight(this.m_HorizontalOverflow);
+            this.m_LineCharacterLimitHeight = EditorGUI.GetPropertyHeight(this.m_LineCharacterLimit);
+
+            this.m_HorizontalOverflowHeight = EditorGUI.GetPropertyHeight(this.m_HorizontalOverflow);
 			this.m_VerticalOverflowHeight = EditorGUI.GetPropertyHeight(this.m_VerticalOverflow);
-			float num = this.m_FontFieldfHeight + this.m_FontStyleHeight + this.m_FontSizeHeight + this.m_LineSpacingHeight + this.m_HorizontalOverflowHeight + this.m_VerticalOverflowHeight + EditorGUIUtility.singleLineHeight * 3f + EditorGUIUtility.standardVerticalSpacing * 10f;
+			float num = m_FontFieldfHeight + m_FontStyleHeight + m_FontSizeHeight + m_LineSpacingHeight + m_LineCharacterLimitHeight + m_HorizontalOverflowHeight + m_VerticalOverflowHeight + EditorGUIUtility.singleLineHeight * 3f + EditorGUIUtility.standardVerticalSpacing * 10f;
 			return num;
 		}
 
@@ -178,10 +184,13 @@ namespace RF.AssetWizzard.Editor {
 			position2.y += position2.height + EditorGUIUtility.standardVerticalSpacing;
 			position2.height = this.m_LineSpacingHeight;
 			EditorGUI.PropertyField(position2, this.m_LineSpacing);
-			//position2.y += position2.height + EditorGUIUtility.standardVerticalSpacing;
+
+            position2.y += position2.height + EditorGUIUtility.standardVerticalSpacing;
+            position2.height = this.m_LineSpacingHeight;
+            EditorGUI.PropertyField(position2, this.m_LineCharacterLimit);
 
 
-			EditorGUI.indentLevel--;
+            EditorGUI.indentLevel--;
 			position2.y += position2.height + EditorGUIUtility.standardVerticalSpacing;
 			position2.height = EditorGUIUtility.singleLineHeight;
 			EditorGUI.LabelField(position2, "Paragraph", EditorStyles.boldLabel);

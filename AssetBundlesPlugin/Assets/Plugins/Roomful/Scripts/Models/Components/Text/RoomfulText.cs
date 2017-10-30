@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RF.AssetBundles.Serialization;
+using System.Text;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -69,6 +70,7 @@ namespace RF.AssetWizzard {
             FontData.font = info.Font;
             FontData.fontSize = info.FontSize;
             FontData.lineSpacing = info.LineSpacing;
+            FontData.lineSpacing = info.LineCharacterLimit;
             FontData.fontStyle = info.FontStyle;
             FontData.alignment = info.Alignment;
             FontData.horizontalOverflow = info.HorizontalOverflow;
@@ -98,6 +100,7 @@ namespace RF.AssetWizzard {
            
             textInfo.FontSize = FontData.fontSize;
             textInfo.LineSpacing = FontData.lineSpacing;
+            textInfo.LineCharacterLimit = FontData.LineCharacterLimit;
             textInfo.FontStyle = FontData.fontStyle;
             textInfo.Alignment = FontData.alignment;
             textInfo.HorizontalOverflow = FontData.horizontalOverflow;
@@ -177,9 +180,42 @@ namespace RF.AssetWizzard {
             }
         }
 
+        private string WrapText(string text) {
+      
+            string[] words = text.Split(' ');
+
+            StringBuilder result = new StringBuilder();
+
+         
+            string line = string.Empty;
+            foreach(string word in words) {
+                if(line.Equals(string.Empty)) {
+                    line = word;
+                    continue;
+                }
+
+                int charactedsCount = line.Length + word.Length;
+                if(charactedsCount >= FontData.LineCharacterLimit) {
+                    result.Append(line);
+                    result.Append(System.Environment.NewLine);
+
+                    line = word;
+                } else {
+                    line = line + " " + word;
+                }
+            }
+
+            result.Append(line);
+
+
+            return result.ToString();
+
+        }
 
         private void Refersh() {
-			TextRenderer.text = PlaceHolderText;
+
+ 
+			TextRenderer.text = WrapText(PlaceHolderText);
 			TextRenderer.fontSize = FontData.fontSize;
 			TextRenderer.lineSpacing = FontData.lineSpacing;
 			TextRenderer.fontStyle = FontData.fontStyle;
