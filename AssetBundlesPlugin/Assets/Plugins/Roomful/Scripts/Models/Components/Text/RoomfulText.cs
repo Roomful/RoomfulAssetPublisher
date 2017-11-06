@@ -70,7 +70,7 @@ namespace RF.AssetWizzard {
             FontData.font = info.Font;
             FontData.fontSize = info.FontSize;
             FontData.lineSpacing = info.LineSpacing;
-            FontData.lineSpacing = info.LineCharacterLimit;
+            FontData.LineCharacterLimit = info.LineCharacterLimit;
             FontData.fontStyle = info.FontStyle;
             FontData.alignment = info.Alignment;
             FontData.horizontalOverflow = info.HorizontalOverflow;
