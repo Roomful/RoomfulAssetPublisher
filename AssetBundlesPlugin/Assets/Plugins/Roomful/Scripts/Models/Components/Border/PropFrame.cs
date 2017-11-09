@@ -121,7 +121,6 @@ namespace RF.AssetWizzard
                     GetLayer(layer).gameObject.SetActive(true);
                 }
 
-
                 return bounds;
             }
         }
@@ -227,7 +226,7 @@ namespace RF.AssetWizzard
                 back.transform.position += diff;
 
                 Vector3 localPos = back.transform.localPosition;
-                localPos.z += Settings.BackOffset;
+                localPos.z += (Settings.BackOffset / CurrentProp.Scale); 
                 back.transform.localPosition = localPos;
 
             }
@@ -324,7 +323,7 @@ namespace RF.AssetWizzard
 
 
             Vector3 localPos = obj.transform.localPosition;
-            localPos.z += Settings.FrameOffset;
+            localPos.z += (Settings.FrameOffset / CurrentProp.Scale);
             obj.transform.localPosition = localPos;
 
         }

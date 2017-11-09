@@ -35,15 +35,18 @@ namespace RF.AssetWizzard
 		[SerializeField]
 		private float m_LineSpacing;
 
-		public static FontData defaultFontData
+        [SerializeField]
+        private int m_LineCharacterLimit;
+
+        public static FontData defaultFontData
 		{
 			get
 			{
-				return new FontData
-				{
-					m_FontSize = 50,
-					m_LineSpacing = 1f,
-					m_FontStyle = FontStyle.Normal,
+                return new FontData {
+                    m_FontSize = 50,
+                    m_LineSpacing = 1f,
+                    m_LineCharacterLimit = 30,
+                    m_FontStyle = FontStyle.Normal,
 					m_Alignment = TextAnchor.UpperLeft,
 					m_HorizontalOverflow = SerializedTextWrapMode.Truncate,
 					m_VerticalOverflow = SerializedTextWrapMode.Truncate,
@@ -139,7 +142,17 @@ namespace RF.AssetWizzard
 		}
 
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize()
+        public int LineCharacterLimit {
+            get {
+                return this.m_LineCharacterLimit;
+            }
+            set {
+                this.m_LineCharacterLimit = value;
+            }
+        }
+
+
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
 		{
 		}
 
