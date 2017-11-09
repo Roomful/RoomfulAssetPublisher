@@ -84,6 +84,8 @@ namespace RF.AssetWizzard
 					canvas.GetComponent<Renderer> ().sharedMaterial = new Material (Shader.Find ("Unlit/Transparent"));
 				}
 
+                canvas.GetComponent<Renderer>().sharedMaterial.renderQueue = 3005;
+
 				canvas.localRotation = Quaternion.Euler (0, 180, 0);
 				canvas.localPosition = Vector3.zero;
 
@@ -92,6 +94,7 @@ namespace RF.AssetWizzard
                         child.parent = gameObject.transform;
                     }
                 }
+
 
 
 				return canvas;
