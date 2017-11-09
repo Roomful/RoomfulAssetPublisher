@@ -74,27 +74,49 @@ namespace RF.AssetWizzard
                                     int renderMode = (int)property.FloatValue;
                                     switch (renderMode) {
                                         case 0: //Opaque
+                                            newMaterial.SetOverrideTag("RenderType","");
+                                            newMaterial.SetInt("_SrcBlend",(int)UnityEngine.Rendering.BlendMode.One);
+                                            newMaterial.SetInt("_DstBlend",(int)UnityEngine.Rendering.BlendMode.Zero);
+                                            newMaterial.SetInt("_ZWrite",1);
+                                            newMaterial.DisableKeyword("_ALPHATEST_ON");
+                                            newMaterial.DisableKeyword("_ALPHABLEND_ON");
+                                            newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
                                             newMaterial.renderQueue = -1;
                                             break;
                                         case 1: // Cut out
+                                            newMaterial.SetOverrideTag("RenderType","TransparentCutout");
+                                            newMaterial.SetInt("_SrcBlend",(int)UnityEngine.Rendering.BlendMode.One);
+                                            newMaterial.SetInt("_DstBlend",(int)UnityEngine.Rendering.BlendMode.Zero);
+                                            newMaterial.SetInt("_ZWrite",1);
+                                            newMaterial.EnableKeyword("_ALPHATEST_ON");
+                                            newMaterial.DisableKeyword("_ALPHABLEND_ON");
+                                            newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
                                             newMaterial.renderQueue = 2450;
                                             break;
                                         case 2: // Fade
+                                            newMaterial.SetOverrideTag("RenderType","Transparent");
+                                            newMaterial.SetInt("_SrcBlend",(int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                                            newMaterial.SetInt("_DstBlend",(int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                                            newMaterial.SetInt("_ZWrite",0);
+                                            newMaterial.DisableKeyword("_ALPHATEST_ON");
+                                            newMaterial.EnableKeyword("_ALPHABLEND_ON");
+                                            newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
                                             newMaterial.renderQueue = 3000;
                                             break;
                                         case 3: // Transparent
+                                            newMaterial.SetOverrideTag("RenderType","Transparent");
+                                            newMaterial.SetInt("_SrcBlend",(int)UnityEngine.Rendering.BlendMode.One);
+                                            newMaterial.SetInt("_DstBlend",(int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                                            newMaterial.SetInt("_ZWrite",0);
+                                            newMaterial.DisableKeyword("_ALPHATEST_ON");
+                                            newMaterial.DisableKeyword("_ALPHABLEND_ON");
+                                            newMaterial.EnableKeyword("_ALPHAPREMULTIPLY_ON");
                                             newMaterial.renderQueue = 3000;
                                             break;
                                     }
                                 }
                             }
 
-                            foreach (string keyword in sm.ShaderKeywords) {
-                                if (!newMaterial.IsKeywordEnabled(keyword)) {
-                                    newMaterial.EnableKeyword(keyword);
-                                }
-                            }
-                            
                             exportedMterials.Add(PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
                         }
                     }

@@ -15,13 +15,7 @@ namespace RF.AssetBundles.Serialization {
 
 			MatName = mat.name.Replace("/", "");
 			ShaderName = mat.shader.name;
-
-            foreach (string keyword in mat.shaderKeywords) {
-                if (!ShaderKeywords.Contains(keyword)) {
-                    ShaderKeywords.Add(keyword);
-                }
-            }
-           
+                       
             int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (mat.shader);
 			for (int i = 0; i < shadersPropertyLength; i++) {
 				SerializedShaderProperty property = new SerializedShaderProperty();
