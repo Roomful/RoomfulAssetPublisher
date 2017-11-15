@@ -8,7 +8,7 @@ using RF.AssetBundles.Serialization;
 using RF.AssetBundles;
 
 namespace RF.AssetWizzard.Editor {
-	public static class AssetBundlesManager  {
+	public static class AssetBundleManager  {
 
 		public static event System.Action AssetBundleDownloadedEvent = delegate{};
 		public static event System.Action AssetBundleUploadedEvent = delegate{};
@@ -28,10 +28,6 @@ namespace RF.AssetWizzard.Editor {
 		public static void CreatePrefabClone(string name, GameObject source) {
 			FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_PREFABS_LOCATION + "temp/");
 			PrefabUtility.CreatePrefab (AssetBundlesSettings.FULL_ASSETS_PREFABS_LOCATION + "temp/" + name + ".prefab", source);
-		}
-
-		public static void CreatePrefab(string name, GameObject source) {
-			PrefabUtility.CreatePrefab (AssetBundlesSettings.FULL_ASSETS_PREFABS_LOCATION + name + ".prefab", source);
 		}
 
 		public static void DelteTempFiles() {
@@ -83,12 +79,11 @@ namespace RF.AssetWizzard.Editor {
 
                         var resInfo = new JSONData(resData);
                         var res = new Resource(resInfo);
-
                         prop.Template.Icon = res;
-                        AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
 
-                        AssetBundlesManager.Clone(prop);
-                        AssetBundlesManager.AssetsUploadLoop(0, prop.Template);
+                        AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
+                        BundleUtility.GenerateUploadPrefab(prop);
+                        AssetBundleManager.AssetsUploadLoop(0, prop.Template);
                     };
                     confirmRequest.Send();
                 };
@@ -113,7 +108,6 @@ namespace RF.AssetWizzard.Editor {
 
 				FolderUtils.CreateFolder (AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
 				BuildPipeline.BuildAssetBundles (AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, BuildAssetBundleOptions.UncompressedAssetBundle, pl);
-                //AssetDatabase.Refresh ();
 			}
 		}
 
@@ -149,9 +143,9 @@ namespace RF.AssetWizzard.Editor {
                     Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, platform.ToString());
                     confirm.PackageCallbackText = (confirmCallback) => {
                         platformIndex++;
-                        CleanAssetBundleName(tpl.Title);
+                        AssetDatabase.RemoveUnusedAssetBundleNames();
 
-						if (platformIndex == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
+                        if (platformIndex == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
 							FinishAssetUpload();
                         } else {
 							AssetsUploadLoop(platformIndex, tpl);
@@ -172,7 +166,7 @@ namespace RF.AssetWizzard.Editor {
             AssetBundlesSettings.Instance.UploadTemplate = new AssetTemplate();
             AssetBundlesSettings.Save();
 
-            AssetBundlesManager.DelteTempFiles();
+            AssetBundleManager.DelteTempFiles();
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
 
@@ -184,17 +178,13 @@ namespace RF.AssetWizzard.Editor {
 			if (AssetBundlesSettings.Instance.IsInAutoloading) {
 				FinishUploadProgress();
 			} else { 
-				AssetBundlesManager.DownloadAssetBundle(tpl, false);
+				AssetBundleManager.DownloadAssetBundle(tpl, false);
 				FinishUploadProgress();
 				EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
 			}
 
 			AssetBundleUploadedEvent ();
         }
-
-        private static void CleanAssetBundleName(string assetName) {
-			AssetDatabase.RemoveUnusedAssetBundleNames ();
-		}
 
 		public static void CreateNewAsset(AssetTemplate tpl) {
 			if (string.IsNullOrEmpty(tpl.Title)) {
@@ -206,27 +196,23 @@ namespace RF.AssetWizzard.Editor {
 				EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
 				WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
-				string prefabPath = AssetBundlesSettings.FULL_ASSETS_PREFABS_LOCATION + tpl.Title + ".prefab";
 				PropAsset createdProp = new GameObject (tpl.Title).AddComponent<PropAsset> ();
 				createdProp.SetTemplate(tpl);
 
 				FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_PREFABS_LOCATION);
-				GameObject newPrfab = PrefabUtility.CreatePrefab (prefabPath, createdProp.gameObject);
-				PrefabUtility.ConnectGameObjectToPrefab (createdProp.gameObject, newPrfab);
 			};
 		}
 
-		private static AssetBundle CurrentAssetBundle = null;
+        private static AssetBundle CurrentAssetBundle = null;
 
         public static void DownloadAssetBundle(AssetTemplate prop, bool saveSceneRequest = true) {
 
             if (AssetBundlesSettings.Instance.AutomaticCacheClean) {
-                ClearLocalCache();
+                BundleUtility.ClearLocalCache();
             }
+
            
-
             EditorApplication.delayCall = () => {
-
 				if(saveSceneRequest) {
 					EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 				}
@@ -343,20 +329,6 @@ namespace RF.AssetWizzard.Editor {
             new V1_ThumbnailsCollector().Run (asset);
 			new V1_MarkersCollector ().Run (asset);
 		}
-
-        public static void ClearLocalCache() {
-            if (FolderUtils.IsFolderExists(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION)) {
-                FolderUtils.DeleteFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
-            }
-
-            //FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
-
-
-            if (FolderUtils.IsFolderExists(AssetBundlesSettings.ASSETS_PREFABS_LOCATION)) {
-                FolderUtils.DeleteFolder(AssetBundlesSettings.ASSETS_PREFABS_LOCATION);
-            }
-
-           // FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_PREFABS_LOCATION);
-        }
+ 
     }
 }

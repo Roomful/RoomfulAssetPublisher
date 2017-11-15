@@ -7,25 +7,20 @@ using RF.AssetBundles.Serialization;
 namespace RF.AssetWizzard {
 
 	[ExecuteInEditMode]
-	public class PropAsset : MonoBehaviour {
+	public class PropAsset : Asset<AssetTemplate>
+    {
 
         public static event System.Action PropInstantieted = delegate { };
 		
-		[SerializeField] [HideInInspector]
-		private AssetTemplate _Template;
 		public float Scale = 1f;
 		public bool DrawGizmos = true;
+        public bool IsInited = false;
 
-
-		public PropDisplayMode DisplayMode = PropDisplayMode.Normal;
-
-		public Texture2D Icon;
+        public PropDisplayMode DisplayMode = PropDisplayMode.Normal;
 		public Mesh Silhouette;
 
 
-		private Bounds _Size = new Bounds (Vector3.zero, Vector3.zero);
-
-        public bool IsInited = false;
+		private Bounds _Size = new Bounds (Vector3.zero, Vector3.zero); 
 
 		//--------------------------------------
 		// Initialization
@@ -82,70 +77,29 @@ namespace RF.AssetWizzard {
 		}
 
 
-	
-		//--------------------------------------
-		// Public Methods
-		//--------------------------------------
 
-		[ContextMenu("Prepare For Upload")]
-		public void PrepareForUpload () {
+        //--------------------------------------
+        // Public Methods
+        //--------------------------------------
 
-			IPropComponent[] components = GetComponentsInChildren<IPropComponent> ();
-			foreach(var c in components) {
-				c.RemoveSilhouette ();
-			}
+        [ContextMenu("Prepare For Upload")]
+        public void PrepareForUpload() {
 
-			Scale = 1f;
+            CleanUpSilhouette();
+
+            Scale = 1f;
 			Template.Silhouette = SilhouetteMeshData;
 
             if (HasStandSurface) {
 				Template.CanStack = false;
 			}
 
-			foreach(var c in components) {
-				c.PrepareForUpalod ();
-			}
 
-			FinalizeUploadPreparation ();
+            DisplayMode = PropDisplayMode.Normal;
+            DestroyImmediate(GetLayer(HierarchyLayers.Silhouette).gameObject);
+
+            PrepareCoponentsForUpload();
 		}
-
-
-
-        public void FinalizeUploadPreparation() {
-			DisplayMode = PropDisplayMode.Normal;
-			DestroyImmediate (GetLayer (HierarchyLayers.Silhouette).gameObject);
-
-            Animator[] animators = transform.GetComponentsInChildren<Animator>();
-            for (int i = animators.Length - 1; i >= 0; i--) {
-                if (animators[i].runtimeAnimatorController == null) {
-                    DestroyImmediate(animators[i]);
-                } else {
-#if UNITY_EDITOR
-                    SerializedAnimatorController sac = animators[i].gameObject.AddComponent<SerializedAnimatorController>();
-                    sac.Serialize(animators[i].runtimeAnimatorController as UnityEditor.Animations.AnimatorController);
-                    
-#endif
-                }
-            }
-
-
-            List<Renderer> renderers = GetAllRenderers(transform.gameObject);
-
-            foreach (Renderer renderer in renderers) {
-                if (renderer != null) {
-
-                    foreach (Material mat in renderer.sharedMaterials) {
-						if (mat != null) {
-							var md = renderer.gameObject.AddComponent<SerializedMaterial>();
-							md.Serialize(mat);
-						}
-                   	}
-
-                    renderer.sharedMaterials = new Material[0];
-                }
-            }
-		}
-
 
 
 		public void Refresh() {
@@ -202,15 +156,6 @@ namespace RF.AssetWizzard {
         // Get / Set
         //--------------------------------------
 
-        public AssetTemplate Template {
-			get {
-				if (_Template == null) {
-					_Template = new AssetTemplate ();
-				}
-
-				return _Template;
-			}
-		}
 
 		public Transform Model {
 			get {
@@ -414,13 +359,9 @@ namespace RF.AssetWizzard {
 
 
 
-		private void CheckhHierarchy () {
+		protected override void CheckhHierarchy () {
 
-
-			if(Icon == null) {
-				Icon = Template.Icon.Thumbnail;
-			}
-
+            base.CheckhHierarchy();
 
 			Model.localPosition = Vector3.zero;
 			Model.localScale = Vector3.one * Scale;
@@ -510,34 +451,6 @@ namespace RF.AssetWizzard {
 
 			UpdateBounds ();
 			FinalVisualisation ();
-
 		}
-
-        private static List<Renderer> GetAllRenderers(GameObject go) {
-            List<Renderer> rens = new List<Renderer>();
-
-            List<Transform> allTransforms = new List<Transform>();
-            GetAllChildren(go.transform, ref allTransforms);
-
-            foreach (Transform tr in allTransforms) {
-                if (tr.GetComponent<Renderer>() != null) {
-                    rens.Add(tr.GetComponent<Renderer>());
-                }
-            }
-
-            return rens;
-        }
-
-        private static void GetAllChildren(Transform tr, ref List<Transform> childrenList) {
-            if (tr.childCount == 0) {
-                return;
-            }
-
-            for (int i = 0; i < tr.childCount; i++) {
-                childrenList.Add(tr.GetChild(i));
-
-                GetAllChildren(tr.GetChild(i), ref childrenList);
-            }
-        }
     }
 }

@@ -11,6 +11,8 @@ namespace RF.AssetWizzard.Editor
         wizard,
         loader,
         refresh_black,
-        refresh_white
+        refresh_white,
+        enviroment_icon,
+        model_icon
     }
 }

@@ -31,7 +31,7 @@ namespace RF.AssetWizzard.Network
             #if UNITY_EDITOR
             EditorApplication.update += OnUpdate;
             #endif
-            m_request.Send();
+            m_request.SendWebRequest();
         }
 
         private void OnUpdate() {

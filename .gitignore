@@ -50,3 +50,6 @@ AssetBundlesPlugin/Assets/Roomful/Prefabs/NewImageEffectShader.shader
 AssetBundlesPlugin/Assets/Roomful/Prefabs/NewImageEffectShader.shader.meta
 AssetBundlesPlugin/Assets/Roomful/Prefabs.meta
 AssetBundlesPlugin/AssetBundlesPlugin.Editor.csproj
+AssetBundlesPlugin/ProjectSettings/DynamicsManager.asset
+AssetBundlesPlugin/ProjectSettings/Physics2DSettings.asset
+AssetBundlesPlugin/UnityPackageManager/manifest.json

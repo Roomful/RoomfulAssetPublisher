@@ -6,30 +6,22 @@ using UnityEngine;
 namespace RF.AssetWizzard {
 	
 	[Serializable]
-	public class AssetTemplate {
-
-		public string Id = string.Empty;
-		public DateTime Created = DateTime.MinValue;
-
-
-		public DateTime Updated = DateTime.MinValue;
-		public string Title = string.Empty;
+	public class AssetTemplate : Template
+    {
 		public Placing Placing = Placing.Floor;
 		public InvokeTypes InvokeType = InvokeTypes.Default;
-		public Resource Icon = null;
+		
 		public float MinSize = 0.5f;
 		public float MaxSize = 3f;
 		public bool CanStack = false;
 		public List<ContentType> ContentTypes =  new List<ContentType>();
-		public List<string> Tags =  new List<string>();
 		public AssetSilhouette Silhouette = null;
-		public List<AssetUrl> Urls = new List<AssetUrl>();
 
 
 		public Vector3 Size =  Vector3.one;
 
-		public AssetTemplate() {
-			Icon = new Resource ();
+		public AssetTemplate():base() {
+			
 		}
 
 		public AssetTemplate(AssetTemplate origin) {
@@ -154,24 +146,6 @@ namespace RF.AssetWizzard {
 			}
 
 
-		}
-
-
-
-
-		public GUIContent DisaplyContent {
-
-			get {
-				GUIContent content = new GUIContent ();
-
-
-				if(Icon != null && Icon.Thumbnail != null) {
-					content.image = Icon.Thumbnail;
-				}
-
-				content.text = Title;
-				return content;
-			}
 		}
 
 

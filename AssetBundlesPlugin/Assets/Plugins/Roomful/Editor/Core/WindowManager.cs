@@ -20,20 +20,31 @@ namespace RF.AssetWizzard.Editor {
 
 
 		public static void ShowCreateNewAsset() {
-
-
 			EditorWindow window = EditorWindow.GetWindow<CreateAssetWindow>(true, "New Asset");
+            ShowModal(window);
+        }
 
-			window.minSize = new Vector2(375f, 135f);
-			window.maxSize = new Vector2(window.minSize.x, window.maxSize.y);
-			window.position = new Rect(new Vector2(Wizzard.position.x + 100f, Wizzard.position.y + 100f), window.minSize);
+        public static void ShowCreateNewStyle() {
+            EditorWindow window = EditorWindow.GetWindow<CreateStyleWindow>(true, "New Style");
+            ShowModal(window);
+        }
+
+        public static void ShowCreateNewEnviroment() {
+            EditorWindow window = EditorWindow.GetWindow<CreateEnviromentWindow>(true, "New Enviroment");
+            ShowModal(window);
+        }
+
+        private static void ShowModal(EditorWindow window) {
+            window.minSize = new Vector2(375f, 135f);
+            window.maxSize = new Vector2(window.minSize.x, window.maxSize.y);
+            window.position = new Rect(new Vector2(Wizzard.position.x + 100f, Wizzard.position.y + 100f), window.minSize);
             window.Focus();
 
             window.Show();
-		}
+        }
 
 
-		public static WizardWindow Wizzard {
+        public static WizardWindow Wizzard {
 			get {
 				return EditorWindow.GetWindow<WizardWindow>(true, "Asset Bundles Wizzard");
 			}

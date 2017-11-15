@@ -122,40 +122,6 @@ namespace RF.AssetWizzard.Network {
             });
         }
 
-      
-
-        IEnumerator GetText() {
-            using (UnityWebRequest request = UnityWebRequest.Get("http://unity3d.com/")) {
-
-                Debug.Log(request.isDone);
-                yield return request.Send();
-                Debug.Log(request.isDone);
-
-                yield return new WaitForSeconds(2f);
-
-                Debug.Log(request.isDone);
-                if (request.isNetworkError) // Error
-                {
-                    Debug.Log(request.error);
-                } else // Success
-                  {
-                    Debug.Log(request.downloadHandler.text);
-                }
-            }
-        }
-
-
-        private IEnumerator ExecuteRequest(UnityWebRequest www, Request.BaseWebPackage package) {
-
-   
-            yield return www.Send();
-
-           
-
-           
-
-        }
-
 		private static string CleanUpInput(string json) {
 
 			string pattern = "\"assetmesh\":\".*?\"";

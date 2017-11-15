@@ -47,12 +47,12 @@ namespace RF.AssetWizzard.Editor {
                 if (isUrlValid) {
                     AssetBundlesSettings.Instance.IsInAutoloading = true;
 
-                    AssetBundlesManager.ClearLocalCache();
+                    BundleUtility.ClearLocalCache();
 
                     PropAsset.PropInstantieted += PropInstantiedtedHandler;
 
                     //AssetBundlesSettings.Instance.PublisherCurrentVersion = "1.0";
-                    AssetBundlesManager.DownloadAssetBundle(Dequeue());
+                    AssetBundleManager.DownloadAssetBundle(Dequeue());
 
                 } else {
                     Debug.Log("Url is invalid, load next");
@@ -84,7 +84,7 @@ namespace RF.AssetWizzard.Editor {
 				if (AssetBundlesSettings.Instance.IsInAutoloading) {
 
                     //AssetBundlesSettings.Instance.PublisherCurrentVersion = "2.0";
-                    AssetBundlesManager.ReuploadAsset (CurrentProp);
+                    AssetBundleManager.ReuploadAsset (CurrentProp);
 				}
 #endif
             }
@@ -94,14 +94,14 @@ namespace RF.AssetWizzard.Editor {
 		private static void OnScriptsReloaded() {
 			#if UNITY_EDITOR
 			if (AssetBundlesSettings.Instance.IsInAutoloading) {
-				AssetBundlesManager.AssetBundleUploadedEvent += AssetBundleUploadedHandler;
+				AssetBundleManager.AssetBundleUploadedEvent += AssetBundleUploadedHandler;
 			}
 			#endif
 		}
 
 		private static void AssetBundleUploadedHandler() {
             Debug.Log("Reupload complete");
-			AssetBundlesManager.AssetBundleUploadedEvent -= AssetBundleUploadedHandler;
+			AssetBundleManager.AssetBundleUploadedEvent -= AssetBundleUploadedHandler;
 
 			StartLoop ();
 		}
