@@ -8,72 +8,32 @@ using RF.AssetBundles.Serialization;
 using RF.AssetBundles;
 
 namespace RF.AssetWizzard.Editor {
-	public static class AssetBundleManager  {
+	public static class PropBundleManager  {
 
 		public static event System.Action AssetBundleDownloadedEvent = delegate{};
 		public static event System.Action AssetBundleUploadedEvent = delegate{};
 
-		public static void Clone(RF.AssetWizzard.PropAsset prop) {
-			GameObject clone =  GameObject.Instantiate(prop.gameObject);
-
-			var p = clone.GetComponent<RF.AssetWizzard.PropAsset> ();
-			GameObject.DestroyImmediate (p);
-
-			CreatePrefabClone (prop.Template.Title, clone);
-
-			GameObject.DestroyImmediate (clone);
-			AssetDatabase.SaveAssets ();
-		}
-
-		public static void CreatePrefabClone(string name, GameObject source) {
-			FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_PREFABS_LOCATION + "temp/");
-			PrefabUtility.CreatePrefab (AssetBundlesSettings.FULL_ASSETS_PREFABS_LOCATION + "temp/" + name + ".prefab", source);
-		}
-
-		public static void DelteTempFiles() {
-			FolderUtils.DeleteFolder (AssetBundlesSettings.ASSETS_PREFABS_LOCATION +"temp/");
-		}
-
-		public static void DeletePrefab(string name) {
-			FileUtil.DeleteFileOrDirectory(AssetBundlesSettings.FULL_ASSETS_PREFABS_LOCATION + name+".prefab");
-		} 
-
-
-        private static float s_uploadProgress = 0f;
-
-        public static void StartUploadProgress(string message) {
-            s_uploadProgress = 0f;
-            EditorUtility.DisplayProgressBar("Asset Upload", message, s_uploadProgress);
-        }
-
-        private static void AddProgress(string message, float progress) {
-          	s_uploadProgress += progress;
-           	EditorUtility.DisplayProgressBar("Asset Upload", message, s_uploadProgress);
-        }
-
-        private static void FinishUploadProgress() {
-            EditorUtility.ClearProgressBar();
-        }
+       
 
         private static void UploadAssetBundle(PropAsset prop) {
-			
-            AddProgress("Requesting Thumbnail Upload Link", 0.1f);
+
+            EditorProgressBar.AddProgress("Requesting Thumbnail Upload Link", 0.1f);
             var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail(prop.Template.Id);
             getIconUploadLink.PackageCallbackText = (linkCallback) => {
-				
-                AddProgress("Uploading Asset Thumbnail", 0.1f);
+
+                EditorProgressBar.AddProgress("Uploading Asset Thumbnail", 0.1f);
                 var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, prop.Icon);
 
-                float currentUploadProgress = s_uploadProgress;
+                float currentUploadProgress = EditorProgressBar.UploadProgress;
                 uploadRequest.UploadProgress = (float progress) => {
                     float p = progress / 2f;
-                    s_uploadProgress = currentUploadProgress + p;
-                    AddProgress("Uploading Asset Thumbnail", 0f);
+                    EditorProgressBar.UploadProgress = currentUploadProgress + p;
+                    EditorProgressBar.AddProgress("Uploading Asset Thumbnail", 0f);
                 };
 
                 uploadRequest.PackageCallbackText = (string uploadCallback) => {
-					
-                    AddProgress("Waiting Thumbnail Upload Confirmation", 0.3f);
+
+                    EditorProgressBar.AddProgress("Waiting Thumbnail Upload Confirmation", 0.3f);
                     var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(prop.Template.Id);
                     confirmRequest.PackageCallbackText = (string resData) => {
 
@@ -83,7 +43,7 @@ namespace RF.AssetWizzard.Editor {
 
                         AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
                         BundleUtility.GenerateUploadPrefab(prop);
-                        AssetBundleManager.AssetsUploadLoop(0, prop.Template);
+                        PropBundleManager.AssetsUploadLoop(0, prop.Template);
                     };
                     confirmRequest.Send();
                 };
@@ -123,23 +83,23 @@ namespace RF.AssetWizzard.Editor {
 
             string assetBundleName = tpl.Title + "_" + platform;
 
-            AddProgress("Getting Asset Upload URL (" + platform + ")", 0.2f);
+            EditorProgressBar.AddProgress("Getting Asset Upload URL (" + platform + ")", 0.2f);
             var uploadLinkRequest = new RF.AssetWizzard.Network.Request.GetUploadLink(tpl.Id, platform.ToString(), tpl.Title);
             uploadLinkRequest.PackageCallbackText = (linkCallback) => {
-				
-                AddProgress("Uploading Asset (" + platform + ")", 0.2f);
+
+                EditorProgressBar.AddProgress("Uploading Asset (" + platform + ")", 0.2f);
                 byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetBundleName);
                 Network.Request.UploadAsset uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset(linkCallback, assetBytes);
 
-                float currentUploadProgress = s_uploadProgress;
+                float currentUploadProgress = EditorProgressBar.UploadProgress;
                 uploadRequest.UploadProgress = (float progress) => {
                     float p = progress / 2f;
-                    s_uploadProgress = currentUploadProgress + p;
-                    AddProgress("Uploading Asset (" + platform + ")", 0f);
+                    EditorProgressBar.UploadProgress = currentUploadProgress + p;
+                    EditorProgressBar.AddProgress("Uploading Asset (" + platform + ")", 0f);
                 };
 
                 uploadRequest.PackageCallbackText = (uploadCallback) => {
-					AddProgress("Waiting Asset Upload Confirmation (" + platform + ")", 0.2f / (float)AssetBundlesSettings.Instance.TargetPlatforms.Count);
+                    EditorProgressBar.AddProgress("Waiting Asset Upload Confirmation (" + platform + ")", 0.2f / (float)AssetBundlesSettings.Instance.TargetPlatforms.Count);
                     Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, platform.ToString());
                     confirm.PackageCallbackText = (confirmCallback) => {
                         platformIndex++;
@@ -166,7 +126,7 @@ namespace RF.AssetWizzard.Editor {
             AssetBundlesSettings.Instance.UploadTemplate = new AssetTemplate();
             AssetBundlesSettings.Save();
 
-            AssetBundleManager.DelteTempFiles();
+            BundleUtility.DelteTempFiles();
             AssetDatabase.Refresh();
             AssetDatabase.SaveAssets();
 
@@ -176,10 +136,10 @@ namespace RF.AssetWizzard.Editor {
             };
 
 			if (AssetBundlesSettings.Instance.IsInAutoloading) {
-				FinishUploadProgress();
+                EditorProgressBar.FinishUploadProgress();
 			} else { 
-				AssetBundleManager.DownloadAssetBundle(tpl, false);
-				FinishUploadProgress();
+				PropBundleManager.DownloadAssetBundle(tpl, false);
+                EditorProgressBar.FinishUploadProgress();
 				EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
 			}
 
@@ -269,7 +229,7 @@ namespace RF.AssetWizzard.Editor {
 
             prop.PrepareForUpload ();
 
-            StartUploadProgress("Updating Asset Template");
+            EditorProgressBar.StartUploadProgress("Updating Asset Template");
             RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (prop.Template);
             updateRequest.PackageCallbackText = (updateCalback) => {
 				UploadAssetBundle(prop);
@@ -286,9 +246,9 @@ namespace RF.AssetWizzard.Editor {
 
             prop.PrepareForUpload ();
 
-            StartUploadProgress("Updating Asset Template");
+            EditorProgressBar.StartUploadProgress("Updating Asset Template");
 
-            Network.Request.CreateMetaData createMeta = new RF.AssetWizzard.Network.Request.CreateMetaData (prop.Template);
+            Network.Request.CreatePropMetaData createMeta = new RF.AssetWizzard.Network.Request.CreatePropMetaData (prop.Template);
             createMeta.PackageCallbackText = (callback) => { 
 				prop.Template.Id =  new AssetTemplate(callback).Id;
 				UploadAssetBundle(prop);

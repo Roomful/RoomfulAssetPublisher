@@ -4,7 +4,7 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public class CreateStyleWindow : EditorWindow {
 
-		private EnviromentTemplate Asset = new EnviromentTemplate();
+		private EnvironmentTemplate Asset = new EnvironmentTemplate();
 
 	
 		void OnGUI() {
@@ -35,7 +35,7 @@ namespace RF.AssetWizzard.Editor {
 				bool create = GUILayout.Button ("Create", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
 				if (create) {
 
-					EnviromentBundlesManager.CreateNewEnviroment (Asset);
+					EnvironmentBundleManager.CreateNewEnvironment (Asset);
 					Dismiss ();
 				}
 
@@ -46,7 +46,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void Dismiss() {
-			Asset = new EnviromentTemplate();
+			Asset = new EnvironmentTemplate();
 			this.Close ();
 		}
 	}

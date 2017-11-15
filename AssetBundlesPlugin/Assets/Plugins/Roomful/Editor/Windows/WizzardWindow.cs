@@ -206,9 +206,9 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
-        private EnviromentAsset CurrentEnviroment {
+        private EnvironmentAsset CurrentEnvironment {
             get {
-                return GameObject.FindObjectOfType<EnviromentAsset>();
+                return GameObject.FindObjectOfType<EnvironmentAsset>();
             }
         }
 
@@ -232,18 +232,18 @@ namespace RF.AssetWizzard.Editor {
             GUIContent createPropContent = new GUIContent();
             createPropContent.image = IconManager.GetIcon(Icon.model_icon);
 
-            GUIContent enviromentContent = new GUIContent();
-            enviromentContent.image = IconManager.GetIcon(Icon.enviroment_icon);
+            GUIContent environmentContent = new GUIContent();
+            environmentContent.image = IconManager.GetIcon(Icon.environment_icon);
 
             GUIContent styleContent = new GUIContent();
-            styleContent.image = IconManager.GetIcon(Icon.enviroment_icon);
+            styleContent.image = IconManager.GetIcon(Icon.environment_icon);
 
             var options =  new GUILayoutOption[2] { GUILayout.Width(150), GUILayout.Height(82) };
 
             GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button(enviromentContent, options)) {
-                WindowManager.ShowCreateNewEnviroment();
+            if (GUILayout.Button(environmentContent, options)) {
+                WindowManager.ShowCreateNewEnvironment();
             }
 
             if (GUILayout.Button(styleContent, options)) {
@@ -260,7 +260,7 @@ namespace RF.AssetWizzard.Editor {
         }
 
 
-        private void EnviromentWizard() {
+        private void EnvironmentWizard() {
 
         }
 
@@ -411,7 +411,7 @@ namespace RF.AssetWizzard.Editor {
                 if (upload) {
                     AssetBundlesSettings.Instance.IsInAutoloading = false;
 
-                    AssetBundleManager.UploadAssets(CurrentProp);
+                    PropBundleManager.UploadAssets(CurrentProp);
                 }
 
             } else {
@@ -419,12 +419,12 @@ namespace RF.AssetWizzard.Editor {
                 if (upload) {
                     AssetBundlesSettings.Instance.IsInAutoloading = false;
 
-                    AssetBundleManager.ReuploadAsset(CurrentProp);
+                    PropBundleManager.ReuploadAsset(CurrentProp);
                 }
 
                 bool refresh = GUI.Button(buttonRect2, "Refresh");
                 if (refresh) {
-                    AssetBundleManager.DownloadAssetBundle(CurrentProp.Template);
+                    PropBundleManager.DownloadAssetBundle(CurrentProp.Template);
                 }
             }
 
@@ -461,7 +461,7 @@ namespace RF.AssetWizzard.Editor {
             }
 
 
-            if (CurrentEnviroment == null) {
+            if (CurrentEnvironment == null) {
                 NoAssetWizard();
                 return;
 			}
@@ -754,7 +754,7 @@ namespace RF.AssetWizzard.Editor {
 				Texture2D edit = Resources.Load ("edit") as Texture2D;
 				bool editAsset = GUILayout.Button (edit, WizardWindow.constants.settingsBoxTitle, new GUILayoutOption[] {GUILayout.Width(20), GUILayout.Height(20)});
 				if(editAsset) {
-					AssetBundleManager.DownloadAssetBundle (SelectedAsset);
+					PropBundleManager.DownloadAssetBundle (SelectedAsset);
 				}
 
 

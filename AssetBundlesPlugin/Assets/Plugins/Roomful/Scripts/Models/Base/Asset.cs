@@ -27,6 +27,10 @@ namespace RF.AssetWizzard
             return Template;
         }
 
+        public Texture2D GetIcon() {
+            return Icon;
+        }
+
 
         //--------------------------------------
         // Protected Methods

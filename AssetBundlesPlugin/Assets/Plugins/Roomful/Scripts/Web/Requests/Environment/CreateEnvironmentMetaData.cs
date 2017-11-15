@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Network.Request {
-	public class CreateMetaData : BaseWebPackage {
+	public class CreateEnvironmentMetaData : BaseWebPackage {
 
-		private const string PackUrl = "/api/v0/asset/create";
+		private const string PackUrl = "/api/v0/environment/create";
 
-		private AssetTemplate _Template;
+		private EnvironmentTemplate _Template;
 
-		public CreateMetaData(AssetTemplate template):base(PackUrl) {
+		public CreateEnvironmentMetaData(EnvironmentTemplate template):base(PackUrl) {
 			_Template = template;
 		}
 

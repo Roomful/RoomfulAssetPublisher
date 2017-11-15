@@ -41,19 +41,13 @@ namespace RF.AssetWizzard {
 			ParseData (new JSONData(assetData));
 		}
 
-		public Dictionary<string, object> ToDictionary () {
-			Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
+		public override Dictionary<string, object> ToDictionary () {
+            Dictionary<string, object> OriginalJSON = base.ToDictionary();
 
-			OriginalJSON.Add("id", Id);
-			OriginalJSON.Add("created", SA.Common.Util.General.DateTimeToRfc3339(Created));
-			OriginalJSON.Add("updated", SA.Common.Util.General.DateTimeToRfc3339(Updated));
-			OriginalJSON.Add("title", Title);
+
+			
 			OriginalJSON.Add("placing", Placing.ToString());
 			OriginalJSON.Add("invokeType", InvokeType.ToString());
-
-			if(Icon != null) {
-				OriginalJSON.Add("thumbnail", Icon.ToDictionary());
-			}
 
 			OriginalJSON.Add("assetmesh", Silhouette.ToDictionary());
 
@@ -70,35 +64,20 @@ namespace RF.AssetWizzard {
 
 			OriginalJSON.Add ("canStack", CanStack);
 			OriginalJSON.Add ("contentType", ContentTypes);
-			OriginalJSON.Add ("tags", Tags);
 		
 
 			return OriginalJSON;
 		}
 
-		public void ParseData(JSONData assetData) {
-			Id = assetData.GetValue<string> ("id");
-			Created = assetData.GetValue<DateTime> ("created");
-			Updated = assetData.GetValue<DateTime> ("updated");
-			Title = assetData.GetValue<string> ("title");
+		public override void ParseData(JSONData assetData) {
 
 			Placing = SA.Common.Util.General.ParseEnum<Placing> (assetData.GetValue<string> ("placing"));
 			InvokeType = SA.Common.Util.General.ParseEnum<InvokeTypes> (assetData.GetValue<string> ("invokeType"));
-
-
-			if(assetData.HasValue("thumbnail")) {
-				var resInfo =  new JSONData(assetData.GetValue<Dictionary<string, object>>("thumbnail"));
-				Icon = new Resource(resInfo);
-			} else {
-				Icon = new Resource ();
-			}
-
 
 			if (assetData.HasValue("assetmesh")) {
 				var SilhouetteInfo = new JSONData(assetData.GetValue<Dictionary<string, object>>("assetmesh"));
 				Silhouette = new AssetSilhouette (SilhouetteInfo);
 			}
-				
 
 			MinSize = assetData.GetValue<float> ("minScale");
 			MaxSize = assetData.GetValue<float> ("maxScale");
@@ -121,31 +100,6 @@ namespace RF.AssetWizzard {
 			Size.x = sizeData.GetValue<float> ("x");
 			Size.y = sizeData.GetValue<float> ("y");
 			Size.z = sizeData.GetValue<float> ("z");
-
-
-			if (assetData.HasValue ("tags")) {
-				List<object> tags = assetData.GetValue<List<object>> ("tags");
-
-				if(tags != null) {
-					foreach (object tag in tags) {
-						string tagName = System.Convert.ToString (tag);
-						Tags.Add (tagName);
-					}
-				}
-			}
-
-
-			if(assetData.HasValue("urls")) {
-				var urlsList = assetData.GetValue<Dictionary<string, object>> ("urls");
-				if(urlsList != null) {
-					foreach(var pair in urlsList) {
-						AssetUrl url = new AssetUrl(pair.Key,System.Convert.ToString (pair.Value));
-						Urls.Add (url);
-					}
-				}
-			}
-
-
 		}
 
 

@@ -6,9 +6,11 @@ namespace RF.AssetWizzard
 {
     public interface IAsset
     {
+
         Template GetTemplate();
+        Texture2D GetIcon();
 
-
+     
         GameObject gameObject { get; }
         Component Component { get; }
     }

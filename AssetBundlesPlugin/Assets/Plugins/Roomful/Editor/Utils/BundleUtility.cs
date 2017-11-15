@@ -34,6 +34,11 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
+        public static void DelteTempFiles() {
+            FolderUtils.DeleteFolder(AssetBundlesSettings.ASSETS_PREFABS_LOCATION + "temp/");
+        }
+
+
 
         //--------------------------------------
         // Private Methods

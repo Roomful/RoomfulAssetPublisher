@@ -16,7 +16,18 @@ namespace RF.AssetWizzard.Editor
         }
 
 
+        public static bool Run(EnvironmentAsset asset) {
+            if (!IsValidAsset(asset)) { return false; }
+
+
+            return true;
+        }
+
+
         public static bool Run(PropAsset asset) {
+
+            if(!IsValidAsset(asset)) { return false; }
+
             float max = Mathf.Max(asset.Size.x, asset.Size.y, asset.Size.z);
 
             if (max < AssetBundlesSettings.MIN_ALLOWED_SIZE) {
@@ -34,20 +45,25 @@ namespace RF.AssetWizzard.Editor
                 return false;
             }
 
+            return true;
+        }
 
-            var icon = asset.Icon;
+
+
+        private static bool IsValidAsset(IAsset asset) {
+            var icon = asset.GetIcon();
             string path = UnityEditor.AssetDatabase.GetAssetPath(icon);
             TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
-            if(ti != null) {
-                if(!ti.isReadable) {
-                    ti.isReadable = true;  
+            if (ti != null) {
+                if (!ti.isReadable) {
+                    ti.isReadable = true;
                 }
 
                 TextureImporterPlatformSettings currentPlatfromSettings = ti.GetPlatformTextureSettings(EditorUserBuildSettings.activeBuildTarget.ToString());
 
                 currentPlatfromSettings.textureCompression = TextureImporterCompression.Uncompressed;
                 currentPlatfromSettings.maxTextureSize = 128;
-               
+
                 TextureImporterPlatformSettings defaultsettings = ti.GetDefaultPlatformTextureSettings();
                 defaultsettings.textureCompression = TextureImporterCompression.Uncompressed;
                 defaultsettings.maxTextureSize = 128;
@@ -56,17 +72,14 @@ namespace RF.AssetWizzard.Editor
                 ti.SetPlatformTextureSettings(defaultsettings);
                 ti.SetPlatformTextureSettings(currentPlatfromSettings);
 
-    
+
                 AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
             }
 
-            icon.EncodeToPNG();
-
-
 
             if (AssetBundlesSettings.Instance.TargetPlatforms.Count > 0) {
-                foreach(BuildTarget platfrom in AssetBundlesSettings.Instance.TargetPlatforms) {
-                    if(!s_allowedPlatfroms.Contains(platfrom)) {
+                foreach (BuildTarget platfrom in AssetBundlesSettings.Instance.TargetPlatforms) {
+                    if (!s_allowedPlatfroms.Contains(platfrom)) {
                         EditorUtility.DisplayDialog("Error", platfrom.ToString() + " platfrom is not supported", "Ok");
                         AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = 2;
                         return false;

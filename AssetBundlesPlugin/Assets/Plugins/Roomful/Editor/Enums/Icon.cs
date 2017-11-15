@@ -12,7 +12,7 @@ namespace RF.AssetWizzard.Editor
         loader,
         refresh_black,
         refresh_white,
-        enviroment_icon,
+        environment_icon,
         model_icon
     }
 }

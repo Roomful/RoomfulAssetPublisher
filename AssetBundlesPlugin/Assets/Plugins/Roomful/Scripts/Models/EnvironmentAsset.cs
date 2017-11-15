@@ -6,15 +6,11 @@ namespace RF.AssetWizzard
 {
 
     [ExecuteInEditMode]
-    public class EnviromentAsset : MonoBehaviour
+    public class EnvironmentAsset : Asset<EnvironmentTemplate>
     {
 
-        [SerializeField]
-        private EnviromentTemplate _Template;
-        public Texture2D Icon;
 
-
-        public void SetTemplate(EnviromentTemplate tpl) {
+        public void SetTemplate(EnvironmentTemplate tpl) {
             _Template = tpl;
         }
 
@@ -30,31 +26,33 @@ namespace RF.AssetWizzard
 
 
         //--------------------------------------
+        // Public Methods
+        //--------------------------------------
+
+        [ContextMenu("Prepare For Upload")]
+        public void PrepareForUpload() {
+
+            CleanUpSilhouette();
+            PrepareCoponentsForUpload();
+        }
+
+
+        //--------------------------------------
         // Get / Set
         //--------------------------------------
 
-        public EnviromentTemplate Template {
-            get {
-                if (_Template == null) {
-                    _Template = new EnviromentTemplate();
-                }
 
-                return _Template;
-            }
-        }
+
+
 
         //--------------------------------------
         // Private Methods
         //--------------------------------------
 
 
-        private void CheckhHierarchy() {
+        protected override void CheckhHierarchy() {
 
-
-            if (Icon == null) {
-                Icon = Template.Icon.Thumbnail;
-            }
-
+            base.CheckhHierarchy();
 
 
             List<Transform> UndefinedObjects = new List<Transform>();

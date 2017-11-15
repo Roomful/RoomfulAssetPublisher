@@ -2,9 +2,9 @@
 using UnityEditor;
 
 namespace RF.AssetWizzard.Editor {
-	public class CreateEnviromentWindow : EditorWindow {
+	public class CreateEnvironmentWindow : EditorWindow {
 
-		private EnviromentTemplate Asset = new EnviromentTemplate();
+		private EnvironmentTemplate Asset = new EnvironmentTemplate();
 
 	
 		void OnGUI() {
@@ -14,7 +14,7 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUI.LabelField (new Rect (10, 10, 70, 70), wizardContent);
 
 
-			GUIContent headerContent = new GUIContent ("Please provide general information required \nfor a new Roomful Enviroment");
+			GUIContent headerContent = new GUIContent ("Please provide general information required \nfor a new Roomful Environment");
 			EditorGUI.LabelField (new Rect (100, 10, 300, 40), headerContent);
 
 
@@ -35,7 +35,7 @@ namespace RF.AssetWizzard.Editor {
 				bool create = GUILayout.Button ("Create", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
 				if (create) {
 
-					EnviromentBundlesManager.CreateNewEnviroment (Asset);
+					EnvironmentBundleManager.CreateNewEnvironment (Asset);
 					Dismiss ();
 				}
 
@@ -46,7 +46,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void Dismiss() {
-			Asset = new EnviromentTemplate();
+			Asset = new EnvironmentTemplate();
 			this.Close ();
 		}
 	}

@@ -8,7 +8,7 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 
 	[CustomEditor(typeof(PropAsset))]
-	public class PropEditor : UnityEditor.Editor {
+	public class PropAssetEditor : UnityEditor.Editor {
 
 
 		SerializedProperty scaleProperty;
@@ -47,10 +47,10 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUILayout.PropertyField (DrawGizmos);
 
 
-            Enviroment env = GameObject.FindObjectOfType<Enviroment>();
+            Environment env = GameObject.FindObjectOfType<Environment>();
             if(env != null) {
                 EditorGUI.BeginChangeCheck();
-                env.RenderEnviroment = EditorGUILayout.Toggle("Render Enviroment", env.RenderEnviroment);
+                env.RenderEnvironment = EditorGUILayout.Toggle("Render Environment", env.RenderEnvironment);
                 if(EditorGUI.EndChangeCheck()) {
                     env.Update();
                 }
@@ -77,18 +77,18 @@ namespace RF.AssetWizzard.Editor {
 
 					bool upload = GUILayout.Button ("Upload", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if(upload) {
-						AssetBundleManager.UploadAssets (Prop);
+						PropBundleManager.UploadAssets (Prop);
 					}
 
 				} else {
 					bool re_upload = GUILayout.Button ("Re Upload", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if (re_upload) {
-						AssetBundleManager.ReuploadAsset (Prop);
+						PropBundleManager.ReuploadAsset (Prop);
 					}
 
 					bool refresh =GUILayout.Button ("Refresh", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if (refresh) {
-						AssetBundleManager.DownloadAssetBundle (Prop.Template);
+						PropBundleManager.DownloadAssetBundle (Prop.Template);
 					}
 				}
 

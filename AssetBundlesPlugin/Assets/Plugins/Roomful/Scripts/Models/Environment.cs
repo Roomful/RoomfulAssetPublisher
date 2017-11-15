@@ -6,7 +6,7 @@ namespace RF.AssetWizzard
 {
 
 	[ExecuteInEditMode]
-	public class Enviroment : MonoBehaviour {
+	public class Environment : MonoBehaviour {
 
 
 	    public GameObject Light;
@@ -14,13 +14,13 @@ namespace RF.AssetWizzard
 	    public GameObject SizeRef;
 
 
-	    public bool RenderEnviroment = true;
+	    public bool RenderEnvironment = true;
 
 
 	    public void Update() {
 
-	        Walls.SetActive(RenderEnviroment);
-	        SizeRef.SetActive(RenderEnviroment);
+	        Walls.SetActive(RenderEnvironment);
+	        SizeRef.SetActive(RenderEnvironment);
 
 
 	    }

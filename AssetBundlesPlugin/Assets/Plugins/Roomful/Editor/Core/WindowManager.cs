@@ -29,8 +29,8 @@ namespace RF.AssetWizzard.Editor {
             ShowModal(window);
         }
 
-        public static void ShowCreateNewEnviroment() {
-            EditorWindow window = EditorWindow.GetWindow<CreateEnviromentWindow>(true, "New Enviroment");
+        public static void ShowCreateNewEnvironment() {
+            EditorWindow window = EditorWindow.GetWindow<CreateEnvironmentWindow>(true, "New Environment");
             ShowModal(window);
         }
 

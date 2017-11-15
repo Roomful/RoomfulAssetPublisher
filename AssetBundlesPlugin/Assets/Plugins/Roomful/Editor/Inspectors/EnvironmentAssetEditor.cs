@@ -6,8 +6,8 @@ using UnityEditor;
 
 namespace RF.AssetWizzard.Editor
 {
-    [CustomEditor(typeof(EnviromentAsset))]
-    public class EnviromentAssetEditor : UnityEditor.Editor
+    [CustomEditor(typeof(EnvironmentAsset))]
+    public class EnvironmentAssetEditor : UnityEditor.Editor
     {
 
 
@@ -22,9 +22,9 @@ namespace RF.AssetWizzard.Editor
 
         }
 
-        public EnviromentAsset Enviroment {
+        public EnvironmentAsset Environment {
             get {
-                return target as EnviromentAsset;
+                return target as EnvironmentAsset;
             }
         }
     }

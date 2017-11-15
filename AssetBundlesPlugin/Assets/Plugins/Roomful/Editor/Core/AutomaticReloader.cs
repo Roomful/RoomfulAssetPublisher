@@ -52,7 +52,7 @@ namespace RF.AssetWizzard.Editor {
                     PropAsset.PropInstantieted += PropInstantiedtedHandler;
 
                     //AssetBundlesSettings.Instance.PublisherCurrentVersion = "1.0";
-                    AssetBundleManager.DownloadAssetBundle(Dequeue());
+                    PropBundleManager.DownloadAssetBundle(Dequeue());
 
                 } else {
                     Debug.Log("Url is invalid, load next");
@@ -84,7 +84,7 @@ namespace RF.AssetWizzard.Editor {
 				if (AssetBundlesSettings.Instance.IsInAutoloading) {
 
                     //AssetBundlesSettings.Instance.PublisherCurrentVersion = "2.0";
-                    AssetBundleManager.ReuploadAsset (CurrentProp);
+                    PropBundleManager.ReuploadAsset (CurrentProp);
 				}
 #endif
             }
@@ -94,14 +94,14 @@ namespace RF.AssetWizzard.Editor {
 		private static void OnScriptsReloaded() {
 			#if UNITY_EDITOR
 			if (AssetBundlesSettings.Instance.IsInAutoloading) {
-				AssetBundleManager.AssetBundleUploadedEvent += AssetBundleUploadedHandler;
+				PropBundleManager.AssetBundleUploadedEvent += AssetBundleUploadedHandler;
 			}
 			#endif
 		}
 
 		private static void AssetBundleUploadedHandler() {
             Debug.Log("Reupload complete");
-			AssetBundleManager.AssetBundleUploadedEvent -= AssetBundleUploadedHandler;
+			PropBundleManager.AssetBundleUploadedEvent -= AssetBundleUploadedHandler;
 
 			StartLoop ();
 		}

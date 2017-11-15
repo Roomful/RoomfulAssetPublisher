@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RF.AssetWizzard
 {
     [Serializable]
-    public class EnviromentTemplate : Template
+    public class EnvironmentTemplate : Template
     {
        
        
