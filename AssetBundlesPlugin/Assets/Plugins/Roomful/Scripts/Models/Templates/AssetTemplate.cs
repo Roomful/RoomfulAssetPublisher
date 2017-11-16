@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RF.AssetWizzard {
 	
 	[Serializable]
-	public class AssetTemplate : Template
+	public class PropTemplate : Template
     {
 		public Placing Placing = Placing.Floor;
 		public InvokeTypes InvokeType = InvokeTypes.Default;
@@ -20,38 +20,18 @@ namespace RF.AssetWizzard {
 
 		public Vector3 Size =  Vector3.one;
 
-		public AssetTemplate():base() {
-			
-		}
+		public PropTemplate():base() {}
+        public PropTemplate(string data) : base(data) { }
 
-		public AssetTemplate(AssetTemplate origin) {
-			Id = origin.Id;
-			Created = origin.Created;
-			Updated = origin.Updated;
-			Title = origin.Title;
-			Placing = origin.Placing;
-			InvokeType = origin.InvokeType;
-			Icon = origin.Icon;
-			MinSize = origin.MinSize;
-			MaxSize = origin.MaxSize;
-		}
-			
 
-		public AssetTemplate(string assetData) {
-			ParseData (new JSONData(assetData));
-		}
+
 
 		public override Dictionary<string, object> ToDictionary () {
             Dictionary<string, object> OriginalJSON = base.ToDictionary();
-
-
-			
 			OriginalJSON.Add("placing", Placing.ToString());
 			OriginalJSON.Add("invokeType", InvokeType.ToString());
 
 			OriginalJSON.Add("assetmesh", Silhouette.ToDictionary());
-
-
 
 			OriginalJSON.Add("minScale", MinSize);
 			OriginalJSON.Add("maxScale", MaxSize);
@@ -64,12 +44,15 @@ namespace RF.AssetWizzard {
 
 			OriginalJSON.Add ("canStack", CanStack);
 			OriginalJSON.Add ("contentType", ContentTypes);
-		
 
 			return OriginalJSON;
 		}
 
+
+
 		public override void ParseData(JSONData assetData) {
+
+            base.ParseData(assetData);
 
 			Placing = SA.Common.Util.General.ParseEnum<Placing> (assetData.GetValue<string> ("placing"));
 			InvokeType = SA.Common.Util.General.ParseEnum<InvokeTypes> (assetData.GetValue<string> ("invokeType"));
@@ -101,8 +84,6 @@ namespace RF.AssetWizzard {
 			Size.y = sizeData.GetValue<float> ("y");
 			Size.z = sizeData.GetValue<float> ("z");
 		}
-
-
 
 	}
 }

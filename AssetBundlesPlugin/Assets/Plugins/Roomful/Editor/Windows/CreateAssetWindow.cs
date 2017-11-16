@@ -4,7 +4,7 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public class CreateAssetWindow : EditorWindow {
 
-		private AssetTemplate Asset = new AssetTemplate();
+		private PropTemplate Asset = new PropTemplate();
 
 	
 		void OnGUI() {
@@ -50,7 +50,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void Dismiss() {
-			Asset = new AssetTemplate ();
+			Asset = new PropTemplate ();
 			this.Close ();
 		}
 	}

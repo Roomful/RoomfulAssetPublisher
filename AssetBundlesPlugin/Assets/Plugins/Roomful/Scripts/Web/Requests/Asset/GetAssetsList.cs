@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Network.Request {
-	public class GetAllAssets : BaseWebPackage {
+	public abstract class GetAssetsList : BaseWebPackage {
 
 		public const string PackUrl = "/api/v0/asset/list";
 		private string Title = string.Empty;
@@ -14,16 +14,14 @@ namespace RF.AssetWizzard.Network.Request {
 
 
 
-	
-
-		public GetAllAssets(int offset, int size, List<string> tags):base(PackUrl) {
+		public GetAssetsList(int offset, int size, List<string> tags, string url):base(url) {
 			Offset = offset;
 			Size = size;
 
 			Tags.AddRange (tags);
 		}
 
-		public GetAllAssets(int offset, int size, string title):base(PackUrl) {
+		public GetAssetsList(int offset, int size, string title, string url):base(url) {
 			Offset = offset;
 			Size = size;
 			Title = title;

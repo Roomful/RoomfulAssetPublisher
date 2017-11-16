@@ -43,7 +43,7 @@ namespace RF.AssetWizzard.Editor {
 
                         AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
                         BundleUtility.GenerateUploadPrefab(prop);
-                        PropBundleManager.AssetsUploadLoop(0, prop.Template);
+                        AssetsUploadLoop(0, prop.Template);
                     };
                     confirmRequest.Send();
                 };
@@ -52,7 +52,7 @@ namespace RF.AssetWizzard.Editor {
             getIconUploadLink.Send();
 		}
 
-        public static void AssetsUploadLoop(int platformIndex, AssetTemplate tpl) {
+        public static void AssetsUploadLoop(int platformIndex, PropTemplate tpl) {
 			AssetBundlesSettings.Instance.UploadTemplate = tpl;
             AssetBundlesSettings.Instance.UploadPlatfromIndex = platformIndex;
 
@@ -78,7 +78,7 @@ namespace RF.AssetWizzard.Editor {
             }
 
 			int platformIndex = AssetBundlesSettings.Instance.UploadPlatfromIndex;
-            AssetTemplate tpl = AssetBundlesSettings.Instance.UploadTemplate;
+            PropTemplate tpl = AssetBundlesSettings.Instance.UploadTemplate;
             BuildTarget platform = AssetBundlesSettings.Instance.TargetPlatforms[platformIndex];
 
             string assetBundleName = tpl.Title + "_" + platform;
@@ -121,9 +121,9 @@ namespace RF.AssetWizzard.Editor {
         }
 
 		private static void FinishAssetUpload() {
-	        AssetTemplate tpl = AssetBundlesSettings.Instance.UploadTemplate;
+	        PropTemplate tpl = AssetBundlesSettings.Instance.UploadTemplate;
 
-            AssetBundlesSettings.Instance.UploadTemplate = new AssetTemplate();
+            AssetBundlesSettings.Instance.UploadTemplate = new PropTemplate();
             AssetBundlesSettings.Save();
 
             BundleUtility.DelteTempFiles();
@@ -146,7 +146,7 @@ namespace RF.AssetWizzard.Editor {
 			AssetBundleUploadedEvent ();
         }
 
-		public static void CreateNewAsset(AssetTemplate tpl) {
+		public static void CreateNewAsset(PropTemplate tpl) {
 			if (string.IsNullOrEmpty(tpl.Title)) {
 				Debug.Log ("Prop's name is empty");
 				return;
@@ -165,7 +165,7 @@ namespace RF.AssetWizzard.Editor {
 
         private static AssetBundle CurrentAssetBundle = null;
 
-        public static void DownloadAssetBundle(AssetTemplate prop, bool saveSceneRequest = true) {
+        public static void DownloadAssetBundle(PropTemplate prop, bool saveSceneRequest = true) {
 
             if (AssetBundlesSettings.Instance.AutomaticCacheClean) {
                 BundleUtility.ClearLocalCache();
@@ -230,7 +230,7 @@ namespace RF.AssetWizzard.Editor {
             prop.PrepareForUpload ();
 
             EditorProgressBar.StartUploadProgress("Updating Asset Template");
-            RF.AssetWizzard.Network.Request.UpdateAsset updateRequest = new RF.AssetWizzard.Network.Request.UpdateAsset (prop.Template);
+            RF.AssetWizzard.Network.Request.PropMetaDataUpdate updateRequest = new RF.AssetWizzard.Network.Request.PropMetaDataUpdate (prop.Template);
             updateRequest.PackageCallbackText = (updateCalback) => {
 				UploadAssetBundle(prop);
 			};
@@ -248,16 +248,16 @@ namespace RF.AssetWizzard.Editor {
 
             EditorProgressBar.StartUploadProgress("Updating Asset Template");
 
-            Network.Request.CreatePropMetaData createMeta = new RF.AssetWizzard.Network.Request.CreatePropMetaData (prop.Template);
+            Network.Request.PropMetaDataCreate createMeta = new RF.AssetWizzard.Network.Request.PropMetaDataCreate (prop.Template);
             createMeta.PackageCallbackText = (callback) => { 
-				prop.Template.Id =  new AssetTemplate(callback).Id;
+				prop.Template.Id =  new PropTemplate(callback).Id;
 				UploadAssetBundle(prop);
 			};
 
 			createMeta.Send ();
 		}
 
-		private static void RecreateProp(AssetTemplate tpl, Object prop) {
+		private static void RecreateProp(PropTemplate tpl, Object prop) {
 			if (prop == null) {
 				Debug.Log ("Prop is null");
 

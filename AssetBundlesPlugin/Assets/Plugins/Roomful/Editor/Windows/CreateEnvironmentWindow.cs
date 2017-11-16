@@ -35,7 +35,7 @@ namespace RF.AssetWizzard.Editor {
 				bool create = GUILayout.Button ("Create", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
 				if (create) {
 
-					EnvironmentBundleManager.CreateNewEnvironment (Asset);
+					//EnvironmentBundleManager.CreateNewEnvironment (Asset);
 					Dismiss ();
 				}
 

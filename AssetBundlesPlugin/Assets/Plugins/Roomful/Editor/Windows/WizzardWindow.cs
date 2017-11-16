@@ -613,7 +613,7 @@ namespace RF.AssetWizzard.Editor {
 		//--------------------------------------
 
 		private Vector2 m_KeyScrollPos;
-		private AssetTemplate SelectedAsset = null;
+		private PropTemplate SelectedAsset = null;
 		private const string SEARTCH_BAR_CONTROL_NAME = "seartchBat";
         
         int RotationAnimatorAgnle = 0;

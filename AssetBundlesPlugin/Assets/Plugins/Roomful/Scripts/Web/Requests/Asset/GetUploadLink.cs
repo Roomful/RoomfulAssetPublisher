@@ -9,12 +9,12 @@ namespace RF.AssetWizzard.Network.Request {
 
 		private string _AssetId;
 		private string _Platform;
-		private string _FIleName;
+		private string _AssetTitle;
 
 		public GetUploadLink (string assetId, string platform, string fileName) : base (PackUrl) {
 			_AssetId = assetId;
 			_Platform = platform;
-			_FIleName = fileName;
+			_AssetTitle = fileName;
 		}
 
 		public override Dictionary<string, object> GenerateData () {
@@ -22,7 +22,7 @@ namespace RF.AssetWizzard.Network.Request {
 
 			OriginalJSON.Add ("asset", _AssetId);
 			OriginalJSON.Add ("platform", _Platform);
-			OriginalJSON.Add ("fileName", _FIleName);
+			OriginalJSON.Add ("fileName", _AssetTitle);
 
 			return OriginalJSON;
 		}

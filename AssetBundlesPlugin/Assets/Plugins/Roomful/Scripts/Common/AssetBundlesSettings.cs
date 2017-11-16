@@ -43,10 +43,7 @@ namespace RF.AssetWizzard {
 		public string SeartchPattern = string.Empty;
 		public SeartchRequestType SeartchType = SeartchRequestType.ByTag;
 
-		public List<AssetTemplate> LocalAssetTemplates = new List<AssetTemplate>();
-
-		public List<AssetTemplate> TemporaryAssetTemplates = new List<AssetTemplate>(); //using for automatic reuploader
-
+		public List<PropTemplate> LocalAssetTemplates = new List<PropTemplate>();
 		public const float MAX_AlLOWED_SIZE = 4f;
 		public const float MIN_ALLOWED_SIZE = 0.3f;
 
@@ -59,7 +56,7 @@ namespace RF.AssetWizzard {
 
         public string LastBundlePath = string.Empty;
 
-        public AssetTemplate UploadTemplate = null;
+        public PropTemplate UploadTemplate = null;
         public int UploadPlatfromIndex = 0;
 
 		public bool IsInAutoloading = false;
@@ -124,7 +121,7 @@ namespace RF.AssetWizzard {
             }
         }
 
-		public void ReplaceTemplate(AssetTemplate tpl) {
+		public void ReplaceTemplate(PropTemplate tpl) {
 			for(int i = 0; i < LocalAssetTemplates.Count; i++) {
 				if(LocalAssetTemplates[i].Id.Equals(tpl.Id)) {
 					LocalAssetTemplates [i] = tpl;
@@ -147,13 +144,13 @@ namespace RF.AssetWizzard {
 			#endif
 		}
 
-		public void RemoverFromLocalAssetTemplates(AssetTemplate tpl) {
+		public void RemoverFromLocalAssetTemplates(PropTemplate tpl) {
 			LocalAssetTemplates.Remove (tpl);
 
 		}
 
 		public bool IsAssetInLocal(string id) {
-			foreach (AssetTemplate at in LocalAssetTemplates) {
+			foreach (PropTemplate at in LocalAssetTemplates) {
 				if (at.Id.Equals (id)) {
 					return true;
 				}

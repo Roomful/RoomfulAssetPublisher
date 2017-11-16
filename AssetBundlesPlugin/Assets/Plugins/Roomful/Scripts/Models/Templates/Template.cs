@@ -29,6 +29,10 @@ namespace RF.AssetWizzard
             Icon = new Resource();
         }
 
+        public Template(string data) {
+            ParseData(new JSONData(data));
+        }
+
 
 
         //--------------------------------------

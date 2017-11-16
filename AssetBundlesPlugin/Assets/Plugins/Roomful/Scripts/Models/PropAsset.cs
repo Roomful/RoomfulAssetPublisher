@@ -7,7 +7,7 @@ using RF.AssetBundles.Serialization;
 namespace RF.AssetWizzard {
 
 	[ExecuteInEditMode]
-	public class PropAsset : Asset<AssetTemplate>
+	public class PropAsset : Asset<PropTemplate>
     {
 
         public static event System.Action PropInstantieted = delegate { };
@@ -107,7 +107,7 @@ namespace RF.AssetWizzard {
 		}
 
 
-		public void SetTemplate (AssetTemplate tpl) {
+		public void SetTemplate (PropTemplate tpl) {
 
 			_Template = tpl;
 

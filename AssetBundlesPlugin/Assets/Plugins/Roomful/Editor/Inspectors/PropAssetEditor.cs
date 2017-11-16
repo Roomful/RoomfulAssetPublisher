@@ -158,7 +158,7 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
-		public AssetTemplate Template {
+		public PropTemplate Template {
 			get {
 				return Prop.Template;
 			}
