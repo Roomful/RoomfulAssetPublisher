@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetWizzard
+namespace RF.AssetWizzard.Editor
 {
 
 	public class V1_RendererCollector : ICollector {
 
-		public void Run(RF.AssetWizzard.PropAsset propAsset) {
+		public void Run(IAsset asset) {
 			
-			Renderer[] rens = propAsset.GetComponentsInChildren<Renderer> (true);
+			Renderer[] rens = asset.gameObject.GetComponentsInChildren<Renderer> (true);
 			foreach (Renderer ren in rens) {
 				if (ren.sharedMaterials.Length > 0) {
 					List<Material> recreatedMterials = new List<Material> ();
@@ -24,7 +24,7 @@ namespace RF.AssetWizzard
 
                         newMaterial.name = m.name.Replace("/", "");
 
-                        PropDataBase.SaveAsset<Material>(propAsset, newMaterial);
+                        AssetDatabase.SaveAsset<Material>(asset, newMaterial);
 
                         int shadersPropertyLength = UnityEditor.ShaderUtil.GetPropertyCount (newMaterial.shader);
 						for (int i = 0; i < shadersPropertyLength; i++) {
@@ -38,10 +38,10 @@ namespace RF.AssetWizzard
 								if (tex != null) {
 									string texName = tex.name;
 
-									PropDataBase.SaveAsset<Texture> (propAsset, tex);
+									AssetDatabase.SaveAsset<Texture> (asset, tex);
 
 									if (propertyName.Equals("_BumpMap")) {
-										string path = UnityEditor.AssetDatabase.GetAssetPath(PropDataBase.LoadAsset<Texture>(propAsset, texName));
+										string path = UnityEditor.AssetDatabase.GetAssetPath(AssetDatabase.LoadAsset<Texture>(asset, texName));
 
 										UnityEditor.TextureImporter ti = (UnityEditor.TextureImporter)UnityEditor.TextureImporter.GetAtPath(path);
 										UnityEditor.TextureImporterSettings settings = new UnityEditor.TextureImporterSettings();
@@ -51,7 +51,7 @@ namespace RF.AssetWizzard
 										ti.SaveAndReimport();
 									}
 
-                                    PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).SetTexture(propertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
+                                    AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).SetTexture(propertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
 								}
 							}
 
@@ -59,23 +59,23 @@ namespace RF.AssetWizzard
 								int renderMode = (int) newMaterial.GetFloat(propertyName);
 								switch (renderMode) {
 								case 0: //Opaque
-                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = -1;
+                                        AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).renderQueue = -1;
 									break;
 								case 1: // Cut out
-                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = 2450;
+                                        AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).renderQueue = 2450;
 									break;
 								case 2: // Fade
-                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = 3000;
+                                        AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).renderQueue = 3000;
 									break;
 								case 3: // Transparent
-                                        PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).renderQueue = 3000;
+                                        AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).renderQueue = 3000;
 									break;
 								}
 							}
 
 						}
                         
-						recreatedMterials.Add (PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
+						recreatedMterials.Add (AssetDatabase.LoadAsset<Material>(asset, newMaterial.name));
 					}
 
 					ren.materials = recreatedMterials.ToArray ();

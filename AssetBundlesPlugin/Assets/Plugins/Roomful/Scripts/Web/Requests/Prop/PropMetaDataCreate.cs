@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Network.Request {
-	public class PropMetaDataCreate : AssetMetaData
+	public class PropMetaDataCreate : AssetMetadataRequest
     {
         public const string RequestUrl = "/api/v0/asset/create";
 

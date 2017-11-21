@@ -9,16 +9,16 @@ using UnityEditor;
 using RF.AssetBundles.Serialization;
 
 
-namespace RF.AssetWizzard
+namespace RF.AssetWizzard.Editor
 {
 	
 	public class RendererCollector : ICollector {
 
-		public void Run(RF.AssetWizzard.PropAsset propAsset) {
+		public void Run(IAsset asset) {
 
             #if UNITY_EDITOR
 
-			Renderer[] rens = propAsset.gameObject.GetComponentsInChildren<Renderer> (true);
+			Renderer[] rens = asset.gameObject.GetComponentsInChildren<Renderer> (true);
             
             foreach (Renderer ren in rens) {
                 SerializedMaterial[] materialsData = ren.gameObject.GetComponents<SerializedMaterial> ();
@@ -30,11 +30,11 @@ namespace RF.AssetWizzard
 						Material newMaterial = new Material(Shader.Find(sm.ShaderName));
                         newMaterial.name = sm.MatName;
 
-                        if (PropDataBase.IsAssetExist<Material>(propAsset, newMaterial)) {
-                           exportedMterials.Add(PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
+                        if (AssetDatabase.IsAssetExist<Material>(asset, newMaterial)) {
+                           exportedMterials.Add(AssetDatabase.LoadAsset<Material>(asset, newMaterial.name));
 
                         } else {
-                            PropDataBase.SaveAsset<Material>(propAsset, newMaterial);
+                            AssetDatabase.SaveAsset<Material>(asset, newMaterial);
 
                             foreach (SerializedShaderProperty property in sm.ShadersProperties) {
                                 ShaderPropertyType propertyType = (ShaderPropertyType)System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
@@ -44,14 +44,14 @@ namespace RF.AssetWizzard
                                         if (property.SerializedTextureValue != null && property.SerializedTextureValue.MainTexture != null) {
                                             string texName = property.SerializedTextureValue.MainTexture.name;
 
-                                            PropDataBase.SaveAsset<Texture>(propAsset, property.SerializedTextureValue.MainTexture);
-                                            new TextureCollector().Run(propAsset, property.SerializedTextureValue);
+                                            AssetDatabase.SaveAsset<Texture>(asset, property.SerializedTextureValue.MainTexture);
+                                            new TextureCollector().Run(asset, property.SerializedTextureValue);
 
                                             if (property.PropertyName.Equals("_BumpMap")) {
-                                                PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).EnableKeyword("_NORMALMAP");
+                                                AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");
                                             }
 
-                                            PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name).SetTexture(property.PropertyName, PropDataBase.LoadAsset<Texture>(propAsset, texName));
+                                            AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
                                         }
                                         break;
 
@@ -117,7 +117,7 @@ namespace RF.AssetWizzard
                                 }
                             }
 
-                            exportedMterials.Add(PropDataBase.LoadAsset<Material>(propAsset, newMaterial.name));
+                            exportedMterials.Add(AssetDatabase.LoadAsset<Material>(asset, newMaterial.name));
                         }
                     }
                     

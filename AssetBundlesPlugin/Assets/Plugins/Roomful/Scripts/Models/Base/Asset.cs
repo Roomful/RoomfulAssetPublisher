@@ -19,6 +19,8 @@ namespace RF.AssetWizzard
         // Abstract Methods
         //--------------------------------------
 
+        public abstract void PrepareForUpload();
+
         //--------------------------------------
         // Public Methods
         //--------------------------------------

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using RF.AssetBundles.Serialization;
 
-namespace RF.AssetWizzard
+namespace RF.AssetWizzard.Editor
 {
 	public class TextCollector : ICollector {
 
-		public void Run(PropAsset propAsset) {
+		public void Run(IAsset asset) {
 			
-			foreach (SerializedText textInfo in propAsset.gameObject.GetComponentsInChildren<SerializedText>(true)) {
+			foreach (SerializedText textInfo in asset.gameObject.GetComponentsInChildren<SerializedText>(true)) {
 				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
-					PropDataBase.SaveFontAsset(propAsset, textInfo); 
+					AssetDatabase.SaveFontAsset(asset, textInfo); 
 
-					textInfo.Font = PropDataBase.LoadFontAsset (propAsset, textInfo);
+					textInfo.Font = AssetDatabase.LoadFontAsset (asset, textInfo);
 				
 				} else {
 					//Debug.Log("no font content");

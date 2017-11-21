@@ -10,11 +10,6 @@ using RF.AssetBundles;
 namespace RF.AssetWizzard.Editor {
 	public static class PropBundleManager  {
 
-		public static event System.Action AssetBundleDownloadedEvent = delegate{};
-		public static event System.Action AssetBundleUploadedEvent = delegate{};
-
-       
-
         private static void UploadAssetBundle(PropAsset prop) {
 
             EditorProgressBar.AddProgress("Requesting Thumbnail Upload Link", 0.1f);
@@ -58,7 +53,7 @@ namespace RF.AssetWizzard.Editor {
 
             if (platformIndex < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
 				BuildTarget pl = AssetBundlesSettings.Instance.TargetPlatforms [platformIndex];
-                string prefabPath = AssetBundlesSettings.FULL_ASSETS_PREFABS_LOCATION + "temp/" + tpl.Title + ".prefab";
+                string prefabPath = AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + tpl.Title + ".prefab";
 				string assetBundleName = tpl.Title + "_" + pl;
 
 				assetBundleName = assetBundleName.ToLower ();
@@ -103,7 +98,7 @@ namespace RF.AssetWizzard.Editor {
                     Network.Request.UploadConfirmation confirm = new Network.Request.UploadConfirmation(tpl.Id, platform.ToString());
                     confirm.PackageCallbackText = (confirmCallback) => {
                         platformIndex++;
-                        AssetDatabase.RemoveUnusedAssetBundleNames();
+                        UnityEditor.AssetDatabase.RemoveUnusedAssetBundleNames();
 
                         if (platformIndex == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
 							FinishAssetUpload();
@@ -127,29 +122,23 @@ namespace RF.AssetWizzard.Editor {
             AssetBundlesSettings.Save();
 
             BundleUtility.DelteTempFiles();
-            AssetDatabase.Refresh();
-            AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+            UnityEditor.AssetDatabase.SaveAssets();
 
             EditorApplication.delayCall = () => {
                 FolderUtils.DeleteFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION, false);
                 FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
             };
 
-			if (AssetBundlesSettings.Instance.IsInAutoloading) {
-                EditorProgressBar.FinishUploadProgress();
-			} else { 
-				PropBundleManager.DownloadAssetBundle(tpl, false);
-                EditorProgressBar.FinishUploadProgress();
-				EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
-			}
-
-			AssetBundleUploadedEvent ();
+			PropBundleManager.DownloadAssetBundle(tpl);
+            EditorProgressBar.FinishUploadProgress();
+			EditorUtility.DisplayDialog ("Success", " Asset has been successfully uploaded!", "Ok");
         }
 
 		public static void CreateNewAsset(PropTemplate tpl) {
 			if (string.IsNullOrEmpty(tpl.Title)) {
-				Debug.Log ("Prop's name is empty");
-				return;
+                EditorUtility.DisplayDialog("Error", "Name is empty!", "Ok");
+                return;
 			}
 
 			EditorApplication.delayCall = () => {
@@ -158,14 +147,10 @@ namespace RF.AssetWizzard.Editor {
 
 				PropAsset createdProp = new GameObject (tpl.Title).AddComponent<PropAsset> ();
 				createdProp.SetTemplate(tpl);
-
-				FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_PREFABS_LOCATION);
 			};
 		}
 
-        private static AssetBundle CurrentAssetBundle = null;
-
-        public static void DownloadAssetBundle(PropTemplate prop, bool saveSceneRequest = true) {
+        public static void DownloadAssetBundle(PropTemplate prop) {
 
             if (AssetBundlesSettings.Instance.AutomaticCacheClean) {
                 BundleUtility.ClearLocalCache();
@@ -173,9 +158,6 @@ namespace RF.AssetWizzard.Editor {
 
            
             EditorApplication.delayCall = () => {
-				if(saveSceneRequest) {
-					EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-				}
 
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
 
@@ -195,22 +177,15 @@ namespace RF.AssetWizzard.Editor {
 
 						FolderUtils.WriteBytes(bundlePath, loadCallback);
 
-                        Caching.ClearCache();
+                        AssetBundle.UnloadAllAssetBundles(true);
                         Resources.UnloadUnusedAssets();
+                        Caching.ClearCache();
 
-						if (CurrentAssetBundle  != null) {
-							CurrentAssetBundle.Unload(true);
-                           
-							CurrentAssetBundle = null;
-						}
-                        
-                        CurrentAssetBundle = AssetBundle.LoadFromFile(bundlePath);
+                        var bundle = AssetBundle.LoadFromFile(bundlePath);
 
-						RecreateProp(prop, CurrentAssetBundle.LoadAsset<Object>(prop.Title));
+						RecreateProp(prop, bundle.LoadAsset<Object>(prop.Title));
 
-						AssetDatabase.DeleteAsset(bundlePath);
-
-						AssetBundleDownloadedEvent();
+                        UnityEditor.AssetDatabase.DeleteAsset(bundlePath);
 					};
 
 					loadAsset.Send ();
@@ -270,7 +245,8 @@ namespace RF.AssetWizzard.Editor {
 			PropAsset asset = newGo.AddComponent<PropAsset> ();
 			asset.SetTemplate (tpl);
 
-			PropDataBase.ClearOldDataFolder (asset);
+            BundleUtility.ClearLocalCacheForAsset(tpl);
+			
 
 			RunCollectors(asset);
 

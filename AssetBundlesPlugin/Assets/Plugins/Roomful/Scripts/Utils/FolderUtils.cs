@@ -51,15 +51,28 @@ namespace RF.AssetWizzard {
 		public static void DeleteFolder(string folderPath, bool refresh = true) {
 			if (IsFolderExists (folderPath)) {
 
-				Directory.Delete(GetFullPath(folderPath), true);
+                string path = GetFullPath(folderPath);
 
-				if (refresh) {
-					AssetDatabase.Refresh();
-				}
-			}
+                Directory.Delete(GetFullPath(folderPath), true);
+                DeleteFile(path + ".meta", false);
+
+
+                if (refresh) { AssetDatabase.Refresh(); }
+            }
 		}
 
-		private static string GetFullPath(string srcName) {
+        public static void DeleteFile(string filePath, bool refresh = true) {
+            if(IsFileExists(filePath)) {
+
+                File.Delete(filePath);
+
+                if (refresh) { AssetDatabase.Refresh(); }
+            }
+        }
+
+
+
+        private static string GetFullPath(string srcName) {
 			if (srcName.Equals (string.Empty)) {
 				return Application.dataPath;
 			}

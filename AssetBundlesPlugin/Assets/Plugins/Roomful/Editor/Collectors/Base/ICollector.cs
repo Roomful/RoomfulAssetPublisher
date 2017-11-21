@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RF.AssetWizzard
 {
 	public interface ICollector  {
-		void Run(RF.AssetWizzard.PropAsset propAsset);
+		void Run(IAsset asset);
 	}
 }
 

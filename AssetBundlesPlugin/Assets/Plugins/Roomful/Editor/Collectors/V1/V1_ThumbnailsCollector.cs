@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using RF.AssetBundles.Serialization;
 
-namespace RF.AssetWizzard
+namespace RF.AssetWizzard.Editor
 {
 	public class V1_ThumbnailsCollector : ICollector {
 
-		public void Run(PropAsset propAsset) {
+		public void Run(IAsset asset) {
 
+            PropAsset propAsset = null;
+            if (asset is PropAsset) {
+                propAsset = (PropAsset)asset;
+            } else {
+                return;
+            }
 
-			Transform thumbnails =  propAsset.GetLayer ("Thumbnails");
+            Transform thumbnails =  propAsset.GetLayer ("Thumbnails");
 			foreach(Transform tb in thumbnails) {
 
 				var info = tb.gameObject.AddComponent<SerializedThumbnail>();

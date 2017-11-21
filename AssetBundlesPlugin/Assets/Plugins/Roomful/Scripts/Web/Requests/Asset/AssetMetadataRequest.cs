@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace RF.AssetWizzard.Network.Request
 {
-    public abstract class AssetMetaData : BaseWebPackage
+    public abstract class AssetMetadataRequest : BaseWebPackage
     {
 
         private Template m_template;
 
 
-        public AssetMetaData(string url) : base(url) {}
+        public AssetMetadataRequest(string url) : base(url) {}
 
         public override Dictionary<string, object> GenerateData() {
             Dictionary<string, object> OriginalJSON = new Dictionary<string, object>();

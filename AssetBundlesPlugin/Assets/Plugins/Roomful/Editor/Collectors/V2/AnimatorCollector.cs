@@ -8,31 +8,32 @@ using UnityEditor.Animations;
 #endif
 
 using RF.AssetBundles.Serialization;
-namespace RF.AssetWizzard {
+namespace RF.AssetWizzard.Editor
+{
     public class AnimatorCollector : ICollector {
         
-        public void Run(RF.AssetWizzard.PropAsset propAsset) {
+        public void Run(IAsset asset) {
             
-            SerializedAnimatorController[] animators = propAsset.GetComponentsInChildren<SerializedAnimatorController>(true);
+            SerializedAnimatorController[] animators = asset.gameObject.GetComponentsInChildren<SerializedAnimatorController>(true);
             
             foreach (SerializedAnimatorController sac in animators) {
-                PropDataBase.SaveAnimatorController(propAsset, sac);
+                AssetDatabase.SaveAnimatorController(asset, sac);
                 
                 if (sac.SerializedClips != null) {
                     foreach (SerializedAnimationClip ac in sac.SerializedClips) {
-                        PropDataBase.SaveAnimationClipByData(propAsset, ac);
+                        AssetDatabase.SaveAnimationClipByData(asset, ac);
                     }
                 }
                 
-                AnimatorController control = PropDataBase.LoadAsset<AnimatorController>(propAsset, sac.ControllerName);
+                AnimatorController control = AssetDatabase.LoadAsset<AnimatorController>(asset, sac.ControllerName);
 
                 foreach (var lay in control.layers) {
                     foreach (var sm in lay.stateMachine.states) {
                         if (sm.state.motion != null) {
                             AnimationClip ac = sm.state.motion as AnimationClip;
 
-                            if (PropDataBase.IsAssetExist<AnimationClip>(propAsset, ac)) {
-                                sm.state.motion = PropDataBase.LoadAsset<AnimationClip>(propAsset, ac.name);
+                            if (AssetDatabase.IsAssetExist<AnimationClip>(asset, ac)) {
+                                sm.state.motion = AssetDatabase.LoadAsset<AnimationClip>(asset, ac.name);
                             }
 
                         }
@@ -40,7 +41,7 @@ namespace RF.AssetWizzard {
                 }
 
                 Animator a = sac.GetComponent<Animator>();
-                a.runtimeAnimatorController = PropDataBase.LoadAsset<AnimatorController>(propAsset, sac.ControllerName);
+                a.runtimeAnimatorController = AssetDatabase.LoadAsset<AnimatorController>(asset, sac.ControllerName);
                 
                 GameObject.DestroyImmediate(sac);
             }

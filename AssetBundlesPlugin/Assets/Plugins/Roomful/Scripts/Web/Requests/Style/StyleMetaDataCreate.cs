@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Network.Request {
-	public class StyleMetaDataCreate : AssetMetaData
+	public class StyleMetaDataCreate : AssetMetadataRequest
     {
 
         public const string RequestUrl = "/api/v0/asset/style/create";

@@ -6,7 +6,7 @@ using System;
 
 namespace RF.AssetWizzard
 {
-    public abstract class Template 
+    public class Template 
     {
 
         public string Id = string.Empty;
@@ -30,8 +30,13 @@ namespace RF.AssetWizzard
         }
 
         public Template(string data) {
-            ParseData(new JSONData(data));
+            LoadData(data);
         }
+
+
+        //--------------------------------------
+        // Abstract Methods
+        //--------------------------------------
 
 
 
@@ -39,6 +44,10 @@ namespace RF.AssetWizzard
         // Public Methods
         //--------------------------------------
 
+        
+        public void LoadData(string data) {
+            ParseData(new JSONData(data));
+        }
 
         public virtual Dictionary<string, object> ToDictionary() {
             Dictionary<string, object> OriginalJSON = new Dictionary<string, object>();

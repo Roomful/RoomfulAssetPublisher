@@ -30,7 +30,7 @@ namespace RF.AssetWizzard
         //--------------------------------------
 
         [ContextMenu("Prepare For Upload")]
-        public void PrepareForUpload() {
+        public override void PrepareForUpload() {
 
             CleanUpSilhouette();
             PrepareCoponentsForUpload();

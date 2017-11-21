@@ -53,3 +53,6 @@ AssetBundlesPlugin/AssetBundlesPlugin.Editor.csproj
 AssetBundlesPlugin/ProjectSettings/DynamicsManager.asset
 AssetBundlesPlugin/ProjectSettings/Physics2DSettings.asset
 AssetBundlesPlugin/UnityPackageManager/manifest.json
+AssetBundlesPlugin/Assets/Roomful/Temp/PropTemplate.txt
+AssetBundlesPlugin/Assets/Roomful/Temp/PropTemplate.txt.meta
+AssetBundlesPlugin/Assets/Roomful/Temp.meta

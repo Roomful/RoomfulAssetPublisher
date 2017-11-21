@@ -50,7 +50,7 @@ namespace RF.AssetWizzard.Editor
 
 
 
-        private static bool IsValidAsset(IAsset asset) {
+        public static bool IsValidAsset(IAsset asset) {
             var icon = asset.GetIcon();
             string path = UnityEditor.AssetDatabase.GetAssetPath(icon);
             TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
@@ -73,7 +73,7 @@ namespace RF.AssetWizzard.Editor
                 ti.SetPlatformTextureSettings(currentPlatfromSettings);
 
 
-                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+                UnityEditor.AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
             }
 
 

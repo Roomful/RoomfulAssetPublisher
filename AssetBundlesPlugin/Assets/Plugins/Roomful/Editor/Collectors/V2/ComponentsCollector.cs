@@ -4,34 +4,34 @@ using UnityEngine;
 
 using RF.AssetBundles.Serialization;
 
-namespace RF.AssetWizzard
+namespace RF.AssetWizzard.Editor
 {
 	public class ComponentsCollector : ICollector {
 
-		public void Run(PropAsset propAsset) {
+		public void Run(IAsset asset) {
 
-            IRecreatableOnLoad[] scripts = propAsset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>(true);
+            IRecreatableOnLoad[] scripts = asset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>(true);
             foreach (var script in scripts) {
                 CopySerializedComponent(script, script.gameObject);
                 GameObject.DestroyImmediate(script as Component);
             }
 
 
-            foreach (SerializedThumbnail thumbnail in propAsset.gameObject.GetComponentsInChildren<SerializedThumbnail>()) {
+            foreach (SerializedThumbnail thumbnail in asset.gameObject.GetComponentsInChildren<SerializedThumbnail>()) {
 				thumbnail.gameObject.AddComponent<PropThumbnail> ();
 			}
 
-			foreach (SerializedMeshThumbnail meshThumbnail in propAsset.gameObject.GetComponentsInChildren<SerializedMeshThumbnail>()) {
+			foreach (SerializedMeshThumbnail meshThumbnail in asset.gameObject.GetComponentsInChildren<SerializedMeshThumbnail>()) {
 				meshThumbnail.gameObject.AddComponent<PropMeshThumbnail> ();
 			}
 
 
-			foreach (SerializedFrame frame in propAsset.gameObject.GetComponentsInChildren<SerializedFrame>()) {
+			foreach (SerializedFrame frame in asset.gameObject.GetComponentsInChildren<SerializedFrame>()) {
 				frame.gameObject.AddComponent<PropFrame> ();
 			}
 
 
-            foreach (SerializedAnchor frame in propAsset.gameObject.GetComponentsInChildren<SerializedAnchor>()) {
+            foreach (SerializedAnchor frame in asset.gameObject.GetComponentsInChildren<SerializedAnchor>()) {
                 frame.gameObject.AddComponent<PropAnchor>();
             }
 

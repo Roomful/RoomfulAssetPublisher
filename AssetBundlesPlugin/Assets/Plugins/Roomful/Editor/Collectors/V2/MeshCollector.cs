@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace RF.AssetWizzard {
+namespace RF.AssetWizzard.Editor
+{
 	public class MeshCollector : ICollector {
 
-		public void Run(PropAsset propAsset) {
-			MeshFilter[] meshes = propAsset.gameObject.GetComponentsInChildren<MeshFilter> (true);
+		public void Run(IAsset asset) {
+			MeshFilter[] meshes = asset.gameObject.GetComponentsInChildren<MeshFilter> (true);
 
 			for (int i = 0; i < meshes.Length; i++) {
 				Mesh newmesh = new Mesh();
@@ -19,8 +20,8 @@ namespace RF.AssetWizzard {
 				newmesh.tangents = meshes[i].sharedMesh.tangents;
 				newmesh.name = meshes[i].sharedMesh.name;
 
-				PropDataBase.SaveAsset<Mesh> (propAsset, newmesh);
-				meshes[i].sharedMesh = PropDataBase.LoadAsset<Mesh> (propAsset, newmesh.name);
+				AssetDatabase.SaveAsset<Mesh> (asset, newmesh);
+				meshes[i].sharedMesh = AssetDatabase.LoadAsset<Mesh> (asset, newmesh.name);
 			}
 		}
 	}

@@ -20,8 +20,8 @@ namespace RF.AssetWizzard {
 
         public static string WEB_SERVER_URL = "https://demo.roomful.co:3443";
 	
-		public const string ASSETS_PREFABS_LOCATION = "Roomful/Prefabs/";
-		public const string FULL_ASSETS_PREFABS_LOCATION = "Assets/" + ASSETS_PREFABS_LOCATION;
+		public const string ASSETS_TEMP_LOCATION = "Roomful/Temp/";
+		public const string FULL_ASSETS_TEMP_LOCATION = "Assets/" + ASSETS_TEMP_LOCATION;
 
         public const string ASSETS_RESOURCES_LOCATION = "Roomful/Bundles";
         public const string FULL_ASSETS_RESOURCES_LOCATION = "Assets/" + ASSETS_RESOURCES_LOCATION;
@@ -43,7 +43,7 @@ namespace RF.AssetWizzard {
 		public string SeartchPattern = string.Empty;
 		public SeartchRequestType SeartchType = SeartchRequestType.ByTag;
 
-		public List<PropTemplate> LocalAssetTemplates = new List<PropTemplate>();
+		public List<Template> LocalAssetTemplates = new List<Template>();
 		public const float MAX_AlLOWED_SIZE = 4f;
 		public const float MIN_ALLOWED_SIZE = 0.3f;
 
@@ -58,9 +58,6 @@ namespace RF.AssetWizzard {
 
         public PropTemplate UploadTemplate = null;
         public int UploadPlatfromIndex = 0;
-
-		public bool IsInAutoloading = false;
-
 
         public int WizardWindowSelectedTabIndex = 0;
 

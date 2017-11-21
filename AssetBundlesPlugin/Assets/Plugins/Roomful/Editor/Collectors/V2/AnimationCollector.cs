@@ -7,11 +7,12 @@ using UnityEditor;
 #endif
 
 using RF.AssetBundles.Serialization;
-namespace RF.AssetWizzard  { 
+namespace RF.AssetWizzard.Editor
+{ 
     public class AnimationCollector : ICollector {
         
-        public void Run(RF.AssetWizzard.PropAsset propAsset) {
-            Animation[] anims = propAsset.GetComponentsInChildren<Animation>(true);
+        public void Run(IAsset asset) {
+            Animation[] anims = asset.gameObject.GetComponentsInChildren<Animation>(true);
 
             foreach (Animation a in anims) {
                 string defaultAnimName = string.Empty;
@@ -19,14 +20,14 @@ namespace RF.AssetWizzard  {
 
                 if (a.clip != null) {
                     defaultAnimName = a.clip.name;
-                    PropDataBase.SaveAsset<AnimationClip>(propAsset, a.clip);
+                    AssetDatabase.SaveAsset<AnimationClip>(asset, a.clip);
                 }
 
                 AnimationClip[] animations = AnimationUtility.GetAnimationClips(a.gameObject);
 
                 foreach (AnimationClip clip in animations) {
                     animationsNames.Add(clip.name);
-                    PropDataBase.SaveAsset<AnimationClip>(propAsset, clip);
+                    AssetDatabase.SaveAsset<AnimationClip>(asset, clip);
                 }
                 
                 a.clip = null;
@@ -35,11 +36,11 @@ namespace RF.AssetWizzard  {
                 }
 
                 if (!string.IsNullOrEmpty(defaultAnimName)) {
-                    a.clip = PropDataBase.LoadAsset<AnimationClip>(propAsset, defaultAnimName);
+                    a.clip = AssetDatabase.LoadAsset<AnimationClip>(asset, defaultAnimName);
                 }
 
                 foreach (string acName in animationsNames) {
-                    a.AddClip(PropDataBase.LoadAsset<AnimationClip>(propAsset, acName), acName);
+                    a.AddClip(AssetDatabase.LoadAsset<AnimationClip>(asset, acName), acName);
                 }
             }
             

@@ -9,16 +9,16 @@ using UnityEditor;
 using RF.AssetBundles.Serialization;
 
 
-namespace RF.AssetWizzard
+namespace RF.AssetWizzard.Editor
 {
 	public class TextureCollector {
-		public void Run(RF.AssetWizzard.PropAsset propAsset, SerializedTexture st) {
+		public void Run(IAsset asset, SerializedTexture st) {
 			#if UNITY_EDITOR
 			string texName = st.MainTexture.name;
 
-			PropDataBase.SaveAsset<Texture> (propAsset, st.MainTexture);
+			AssetDatabase.SaveAsset<Texture> (asset, st.MainTexture);
 
-			string path = AssetDatabase.GetAssetPath(PropDataBase.LoadAsset<Texture>(propAsset, texName));
+			string path = UnityEditor.AssetDatabase.GetAssetPath(AssetDatabase.LoadAsset<Texture>(asset, texName));
 			TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
 
 			ti.allowAlphaSplitting = 		st.AllowAlphaSplitting;

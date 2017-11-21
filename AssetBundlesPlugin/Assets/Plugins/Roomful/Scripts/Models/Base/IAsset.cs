@@ -9,8 +9,10 @@ namespace RF.AssetWizzard
 
         Template GetTemplate();
         Texture2D GetIcon();
+        void PrepareForUpload();
 
-     
+
+
         GameObject gameObject { get; }
         Component Component { get; }
     }
