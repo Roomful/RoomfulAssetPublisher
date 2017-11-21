@@ -43,7 +43,7 @@ namespace RF.AssetWizzard {
 		public string SeartchPattern = string.Empty;
 		public SeartchRequestType SeartchType = SeartchRequestType.ByTag;
 
-		public List<PropTemplate> LocalAssetTemplates = new List<PropTemplate>();
+        public List<Template> LocalAssetTemplates = new List<Template>();
 		public const float MAX_AlLOWED_SIZE = 4f;
 		public const float MIN_ALLOWED_SIZE = 0.3f;
 
