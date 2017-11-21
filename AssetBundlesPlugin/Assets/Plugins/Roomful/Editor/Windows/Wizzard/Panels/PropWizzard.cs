@@ -1,272 +1,141 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Rotorz.ReorderableList;
+
 
 namespace RF.AssetWizzard.Editor
 {
-
-
-    public class PropWizzard : Panel
+    public class PropWizzard : AssetWizzard<PropAsset>
     {
 
-
-        public PropWizzard(EditorWindow window) : base(window) { }
-
-        public override void OnGUI() {
-
-            if (AssetBundlesSettings.Instance.IsUploadInProgress) {
-                DrawPreloaderAt(new Rect(570, 12, 20, 20));
-                GUI.enabled = false;
-            }
-
-            GUILayout.Space(10f);
-
-            if (CurrentProp != null) {
-                PropWizard(GUI.enabled);
-                return;
-            }
-
-
-            if (CurrentEnvironment == null) {
-                EnvironmentWizard();
-                return;
-            }
-
-            NoAssetWizard();
-
-
-
+        public override void Create() {
+            BundleService.Create<PropTemplate>(Asset.Template);
         }
 
-        private PropAsset CurrentProp {
-            get {
-                return Object.FindObjectOfType<PropAsset>();
-            }
+        public override void Download() {
+            BundleService.Download<PropTemplate>(Asset.Template);
         }
 
-        private EnvironmentAsset CurrentEnvironment {
-            get {
-                return Object.FindObjectOfType<EnvironmentAsset>();
-            }
+        public override void Upload() {
+            BundleService.Upload<PropAsset>(Asset);
         }
 
 
-
-        private void NoAssetWizard() {
-            GUILayout.Label("Create New Roomful Asset", EditorStyles.boldLabel);
-
-            GUIContent createPropContent = new GUIContent();
-            createPropContent.image = IconManager.GetIcon(Icon.model_icon);
-
-            GUIContent environmentContent = new GUIContent();
-            environmentContent.image = IconManager.GetIcon(Icon.environment_icon);
-
-            GUIContent styleContent = new GUIContent();
-            styleContent.image = IconManager.GetIcon(Icon.environment_icon);
-
-            var options = new GUILayoutOption[2] { GUILayout.Width(150), GUILayout.Height(82) };
+        public override void OnGUI(bool GUIState) {
 
             GUILayout.BeginHorizontal();
-
-            if (GUILayout.Button(environmentContent, options)) {
-                WindowManager.ShowCreateNewEnvironment();
-            }
-
-            if (GUILayout.Button(styleContent, options)) {
-                WindowManager.ShowCreateNewStyle();
-            }
-
-            if (GUILayout.Button(createPropContent, options)) {
-                WindowManager.ShowCreateNewAsset();
-            }
-
-            GUILayout.EndHorizontal();
-
-            return;
-        }
-
-
-        private void EnvironmentWizard() {
-
-        }
-
-        private void PropWizard(bool GUIState) {
-            EditorGUI.BeginChangeCheck();
+            GUILayout.BeginVertical(GUILayout.Width(370));
             {
 
+                DrawTitleFiled(GUIState);
 
                 GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Placing: ", GUILayout.Width(100));
+                Asset.Template.Placing = (Placing)EditorGUILayout.EnumPopup(Asset.Template.Placing, GUILayout.Width(240));
+                GUILayout.EndHorizontal();
 
-                GUILayout.BeginVertical(GUILayout.Width(370));
-                {
 
-                    GUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Title: ", GUILayout.Width(100));
-                    GUI.enabled = false;
-                    CurrentProp.Template.Title = EditorGUILayout.TextField(CurrentProp.Template.Title, GUILayout.Width(240));
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Invoke Type: ", GUILayout.Width(100));
+                Asset.Template.InvokeType = (InvokeTypes)EditorGUILayout.EnumPopup(Asset.Template.InvokeType, GUILayout.Width(240));
+                GUILayout.EndHorizontal();
+
+                if (Asset.HasStandSurface) {
+                    Asset.Template.CanStack = false;
                     GUI.enabled = GUIState;
-                    GUILayout.EndHorizontal();
-
-                    GUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Placing: ", GUILayout.Width(100));
-                    CurrentProp.Template.Placing = (Placing)EditorGUILayout.EnumPopup(CurrentProp.Template.Placing, GUILayout.Width(240));
-                    GUILayout.EndHorizontal();
-
-
-                    GUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Invoke Type: ", GUILayout.Width(100));
-                    CurrentProp.Template.InvokeType = (InvokeTypes)EditorGUILayout.EnumPopup(CurrentProp.Template.InvokeType, GUILayout.Width(240));
-                    GUILayout.EndHorizontal();
-
-                    if (CurrentProp.HasStandSurface) {
-                        CurrentProp.Template.CanStack = false;
-                        GUI.enabled = GUIState;
-                    }
-
-                    CurrentProp.Template.CanStack = YesNoFiled("CanStack", CurrentProp.Template.CanStack, 100, 240);
-                    GUI.enabled = GUIState;
-
-                }
-                GUILayout.EndVertical();
-
-
-                GUILayout.BeginVertical(GUILayout.Width(100));
-                {
-                    CurrentProp.Icon = (Texture2D)EditorGUILayout.ObjectField(CurrentProp.Icon, typeof(Texture2D), false, new GUILayoutOption[] { GUILayout.Width(70), GUILayout.Height(70) });
-
-
-                    if (CurrentProp.Icon == null) {
-                        DrawPreloaderAt(new Rect(525, 65, 32, 32));
-                    }
-
-                }
-                GUILayout.EndVertical();
-                GUILayout.EndHorizontal();
-
-
-
-                GUIStyle alignment_center = new GUIStyle(EditorStyles.label);
-                alignment_center.alignment = TextAnchor.MiddleCenter;
-
-                GUIStyle alignment_right = new GUIStyle(EditorStyles.label);
-                alignment_right.alignment = TextAnchor.MiddleRight;
-
-
-                GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Allowed Scale: ", GUILayout.Width(100));
-
-                float minLimit = AssetBundlesSettings.MIN_ALLOWED_SIZE;
-                float maxLimit = AssetBundlesSettings.MAX_AlLOWED_SIZE;
-
-                EditorGUILayout.MinMaxSlider(ref CurrentProp.Template.MinSize, ref CurrentProp.Template.MaxSize, minLimit, maxLimit, GUILayout.Width(240));  //    EditorGUILayout.MinMaxSlider (CurrentProp.Template.MinScale, GUILayout.Width (240));
-
-                if (CurrentProp.Template.MaxSize < CurrentProp.MaxAxisValue) {
-                    CurrentProp.Template.MaxSize = CurrentProp.MaxAxisValue;
                 }
 
-                EditorGUILayout.LabelField(Mathf.CeilToInt(CurrentProp.Template.MinSize * 100f) + "mm / " + Mathf.CeilToInt(CurrentProp.Template.MaxSize * 100f) + "mm", alignment_right, GUILayout.Width(99));
-                GUILayout.EndHorizontal();
-
-
-
-                GUILayout.BeginHorizontal();
-
-                float labelSize = 146;
-
-                Vector3 def = CurrentProp.Size * 100f;
-                Vector3 min = def * CurrentProp.MinScale;
-                Vector3 max = def * CurrentProp.MaxScale;
-
-
-                EditorGUILayout.LabelField("Min(" + Mathf.CeilToInt(CurrentProp.MinScale * 100f) + "%): " + (int)min.x + "x" + (int)min.y + "x" + (int)min.z, GUILayout.Width(labelSize));
-                EditorGUILayout.LabelField("Default: " + (int)def.x + "x" + (int)def.y + "x" + (int)def.z, alignment_center, GUILayout.Width(labelSize));
-                GUILayout.Space(1);
-                EditorGUILayout.LabelField("Max(" + Mathf.CeilToInt(CurrentProp.MaxScale * 100f) + "%):" + (int)max.x + "x" + (int)max.y + "x" + (int)max.z, alignment_right, GUILayout.Width(labelSize));
-                GUILayout.EndHorizontal();
-                GUILayout.Space(10f);
-
-                GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(225));
-                {
-
-                    ReorderableListGUI.Title("Asset Tags");
-                    ReorderableListGUI.ListField(CurrentProp.Template.Tags, TagListItem, DrawEmptyTag);
-                }
-                GUILayout.EndVertical();
-
-                GUILayout.BeginVertical(GUILayout.Width(225));
-                {
-
-                    ReorderableListGUI.Title("Supported Content Types");
-                    List<string> ContentTypes = new List<string>();
-
-                    foreach (ContentType t in CurrentProp.Template.ContentTypes) {
-                        ContentTypes.Add(t.ToString());
-                    }
-
-                    ReorderableListGUI.ListField(ContentTypes, ContentTypeListItem, DrawEmptyContentType);
-
-                    CurrentProp.Template.ContentTypes = new List<ContentType>();
-
-                    foreach (string val in ContentTypes) {
-                        ContentType parsed = SA.Common.Util.General.ParseEnum<ContentType>(val);
-                        CurrentProp.Template.ContentTypes.Add(parsed);
-                    }
-
-                }
-                GUILayout.EndVertical();
-
-                GUILayout.EndHorizontal();
+                Asset.Template.CanStack = YesNoFiled("CanStack", Asset.Template.CanStack, 100, 240);
+                GUI.enabled = GUIState;
 
             }
-            if (EditorGUI.EndChangeCheck()) {
-                //AssetBundlesManager.SavePrefab (CurrentProp);
+
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(GUILayout.Width(100));
+            {
+                Asset.Icon = (Texture2D)EditorGUILayout.ObjectField(Asset.Icon, typeof(Texture2D), false, new GUILayoutOption[] { GUILayout.Width(70), GUILayout.Height(70) });
+
+                if (Asset.Icon == null) {
+                    DrawPreloaderAt(new Rect(525, 65, 32, 32));
+                }
+
             }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
+
+
+            GUIStyle alignment_center = new GUIStyle(EditorStyles.label);
+            alignment_center.alignment = TextAnchor.MiddleCenter;
+
+            GUIStyle alignment_right = new GUIStyle(EditorStyles.label);
+            alignment_right.alignment = TextAnchor.MiddleRight;
+
+
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Allowed Scale: ", GUILayout.Width(100));
+
+            float minLimit = AssetBundlesSettings.MIN_ALLOWED_SIZE;
+            float maxLimit = AssetBundlesSettings.MAX_AlLOWED_SIZE;
+
+            EditorGUILayout.MinMaxSlider(ref Asset.Template.MinSize, ref Asset.Template.MaxSize, minLimit, maxLimit, GUILayout.Width(240));  //    EditorGUILayout.MinMaxSlider (CurrentProp.Template.MinScale, GUILayout.Width (240));
+
+            if (Asset.Template.MaxSize < Asset.MaxAxisValue) {
+                Asset.Template.MaxSize = Asset.MaxAxisValue;
+            }
+
+            EditorGUILayout.LabelField(Mathf.CeilToInt(Asset.Template.MinSize * 100f) + "mm / " + Mathf.CeilToInt(Asset.Template.MaxSize * 100f) + "mm", alignment_right, GUILayout.Width(99));
+            GUILayout.EndHorizontal();
+
+
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.FlexibleSpace();
+            float labelSize = 146;
 
-            Rect buttonRect1 = new Rect(460, 360, 120, 18);
-            Rect buttonRect2 = new Rect(310, 360, 120, 18);
-
-            Rect buttonRect3 = new Rect(460, 390, 120, 18);
-
-            if (string.IsNullOrEmpty(CurrentProp.Template.Id)) {
-                bool upload = GUI.Button(buttonRect1, "Upload");
-                if (upload) {
-                    AssetBundlesSettings.Instance.IsInAutoloading = false;
-
-                    PropBundleManager.UploadAssets(CurrentProp);
-                }
-
-            } else {
-                bool upload = GUI.Button(buttonRect1, "Re Upload");
-                if (upload) {
-                    AssetBundlesSettings.Instance.IsInAutoloading = false;
-
-                    PropBundleManager.ReuploadAsset(CurrentProp);
-                }
-
-                bool refresh = GUI.Button(buttonRect2, "Refresh");
-                if (refresh) {
-                    PropBundleManager.DownloadAssetBundle(CurrentProp.Template);
-                }
-            }
-
-            bool create = GUI.Button(buttonRect3, "Create New");
-            if (create) {
-                WindowManager.ShowCreateNewAsset();
-            }
+            Vector3 def = Asset.Size * 100f;
+            Vector3 min = def * Asset.MinScale;
+            Vector3 max = def * Asset.MaxScale;
 
 
-            GUILayout.Space(40f);
+            EditorGUILayout.LabelField("Min(" + Mathf.CeilToInt(Asset.MinScale * 100f) + "%): " + (int)min.x + "x" + (int)min.y + "x" + (int)min.z, GUILayout.Width(labelSize));
+            EditorGUILayout.LabelField("Default: " + (int)def.x + "x" + (int)def.y + "x" + (int)def.z, alignment_center, GUILayout.Width(labelSize));
+            GUILayout.Space(1);
+            EditorGUILayout.LabelField("Max(" + Mathf.CeilToInt(Asset.MaxScale * 100f) + "%):" + (int)max.x + "x" + (int)max.y + "x" + (int)max.z, alignment_right, GUILayout.Width(labelSize));
             GUILayout.EndHorizontal();
+            GUILayout.Space(10f);
+
+            GUILayout.BeginHorizontal();
+            DrawTags();
+
+            GUILayout.BeginVertical(GUILayout.Width(225));
+            {
+                ReorderableListGUI.Title("Supported Content Types");
+                List<string> ContentTypes = new List<string>();
+
+                foreach (ContentType t in Asset.Template.ContentTypes) {
+                    ContentTypes.Add(t.ToString());
+                }
+
+                ReorderableListGUI.ListField(ContentTypes, ContentTypeListItem, DrawEmptyContentType);
+
+                Asset.Template.ContentTypes = new List<ContentType>();
+
+                foreach (string val in ContentTypes) {
+                    ContentType parsed = SA.Common.Util.General.ParseEnum<ContentType>(val);
+                    Asset.Template.ContentTypes.Add(parsed);
+                }
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
+            DrawControlButtons();
 
 
             GUI.enabled = true;
-            Window.Repaint();
         }
 
 
@@ -286,17 +155,7 @@ namespace RF.AssetWizzard.Editor
         private void DrawEmptyContentType() {
             GUILayout.Label("Asset willn't support any content.", EditorStyles.miniLabel);
         }
-       
 
-        private string TagListItem(Rect position, string itemValue) {
-            if (itemValue == null)
-                itemValue = "new_tag";
-            return EditorGUI.TextField(position, itemValue);
-        }
-
-        private void DrawEmptyTag() {
-            GUILayout.Label("No items in list.", EditorStyles.miniLabel);
-        }
 
 
     }

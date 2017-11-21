@@ -24,8 +24,10 @@ namespace RF.AssetWizzard.Editor {
 		private void OnEnable() {
 
             m_sections = new List<WizzardSection>();
-            m_sections.Add(new WizzardSection("Wizzard", new PropWizzard(this)));
+            m_sections.Add(new WizzardSection("Wizzard", new WizzardPanel(this)));
             m_sections.Add(new WizzardSection("Props",   new PropsList(this)));
+            m_sections.Add(new WizzardSection("Styles", new StylesList(this)));
+            m_sections.Add(new WizzardSection("Environments", new EnvironmentList(this)));
             m_sections.Add(new WizzardSection("Settings", new SettingsPanel(this)));
             m_sections.Add(new WizzardSection("Account",  new AccountPanel(this)));
 		}
@@ -39,12 +41,10 @@ namespace RF.AssetWizzard.Editor {
 
 			GUI.changed = false;
 			EditorGUIUtility.labelWidth = 200f;
-
 		
             if (AssetBundlesSettings.Instance.IsLoggedIn) {
                 AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = 3;
             }
-
 
             GUILayout.BeginHorizontal(new GUILayoutOption[0]);
 

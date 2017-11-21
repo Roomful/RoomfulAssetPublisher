@@ -6,6 +6,8 @@ using System;
 
 namespace RF.AssetWizzard
 {
+
+    [Serializable]
     public class Template 
     {
 
@@ -119,6 +121,12 @@ namespace RF.AssetWizzard
 
                 content.text = Title;
                 return content;
+            }
+        }
+
+        public bool IsNew {
+            get {
+                return string.IsNullOrEmpty(Id);
             }
         }
 

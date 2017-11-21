@@ -12,7 +12,7 @@ namespace RF.AssetWizzard
         void PrepareForUpload();
 
 
-
+        
         GameObject gameObject { get; }
         Component Component { get; }
     }

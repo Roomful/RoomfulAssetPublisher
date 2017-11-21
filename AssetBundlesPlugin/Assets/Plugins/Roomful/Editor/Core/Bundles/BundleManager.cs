@@ -25,8 +25,12 @@ namespace RF.AssetWizzard.Editor
         // Public Methods
         //--------------------------------------
 
+            
+        public void Download(Template tpl) {
+            DownloadAsset((T)tpl);
+        }
 
-        public void Create(T tpl) {
+        public void Create(Template tpl) {
             if (string.IsNullOrEmpty(tpl.Title)) {
                 EditorUtility.DisplayDialog("Error", "Name is empty!", "Ok");
                 return;
@@ -36,19 +40,74 @@ namespace RF.AssetWizzard.Editor
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
                 WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
-                CreateAsset(tpl);
+                CreateAsset((T) tpl);
             };
         }
 
-        public void UploadNewAsset(A asset) {
-            Upload(GenerateMeta_Create_Request(asset), asset);
+        public void Upload(IAsset asset) {
+            if(asset.GetTemplate().IsNew) {
+                UploadNewAsset((A)asset);
+            } else {
+                UploadExistingAsset((A)asset);
+            }
         }
 
-        public void UploadExistingAsset(A asset) {
-            Upload(GenerateMeta_Update_Request(asset), asset);
+
+        //--------------------------------------
+        // Get / Set
+        //--------------------------------------
+
+
+        public System.Type TemplateType {
+            get {
+                return typeof(T);
+            }
         }
 
-        protected virtual void Upload(AssetMetadataRequest metaRequest, A asset) {
+        public System.Type AssetType {
+            get {
+                return typeof(A);
+            }
+        }
+
+
+        public bool IsUploadInProgress {
+            get {
+                return BundleUtility.FileExists(PersistentTemplatePath);
+            }
+        }
+
+        protected string PersistentTemplatePath {
+            get {
+                return AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + typeof(T).Name + ".txt";
+            }
+        }
+
+
+        //--------------------------------------
+        // Virtual Methods
+        //--------------------------------------
+
+        protected virtual bool IsAssetValid(A asset) {
+            return Validation.IsValidAsset(asset);
+        }
+
+        //--------------------------------------
+        // Private Methods
+        //--------------------------------------
+
+
+        private void UploadNewAsset(A asset) {
+            UploadAsset(GenerateMeta_Create_Request(asset), asset);
+        }
+
+        private void UploadExistingAsset(A asset) {
+            UploadAsset(GenerateMeta_Update_Request(asset), asset);
+        }
+
+
+
+        private void UploadAsset(AssetMetadataRequest metaRequest, A asset) {
             if (!IsAssetValid(asset)) { return; }
 
 
@@ -67,7 +126,12 @@ namespace RF.AssetWizzard.Editor
 
 
 
-        public void Download(T tpl) {
+        private void DownloadAsset(T tpl) {
+
+            if (AssetBundlesSettings.Instance.AutomaticCacheClean) {
+                BundleUtility.ClearLocalCache();
+            }
+
 
             EditorApplication.delayCall = () => {
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
@@ -77,7 +141,7 @@ namespace RF.AssetWizzard.Editor
                 GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl(tpl.Id, pl);
                 getAssetUrl.PackageCallbackText = (assetUrl) => {
 
-                   DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset(assetUrl);
+                    DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset(assetUrl);
                     loadAsset.PackageCallbackData = (byte[] assetData) => {
 
                         WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
@@ -119,29 +183,6 @@ namespace RF.AssetWizzard.Editor
         }
 
 
-        //--------------------------------------
-        // Get / Set
-        //--------------------------------------
-
-        protected string PersistentTemplatePath {
-            get {
-                return AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + typeof(T).Name + ".txt";
-            }
-        }
-
-        //--------------------------------------
-        // Virtual Methods
-        //--------------------------------------
-
-        protected virtual bool IsAssetValid(A asset) {
-            return Validation.IsValidAsset(asset);
-        }
-
-        //--------------------------------------
-        // Private Methods
-        //--------------------------------------
-
-
         private void RunCollectors(IAsset asset) {
             // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
             new V1_RendererCollector().Run(asset); 
@@ -181,9 +222,7 @@ namespace RF.AssetWizzard.Editor
                         var resInfo = new JSONData(resData);
                         var res = new Resource(resInfo);
                         asset.GetTemplate().Icon = res;
-
-
-                        //AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
+                        AssetBundlesSettings.Instance.ReplaceSavedTemplate(asset.GetTemplate());
 
 
                         BundleUtility.GenerateUploadPrefab(asset);
@@ -216,7 +255,7 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
-        private void ResumeUpload() {
+        public void ResumeUpload() {
 
             
             Template tpl = BundleUtility.LoadTemplateFromFile<Template>(PersistentTemplatePath);
@@ -265,13 +304,14 @@ namespace RF.AssetWizzard.Editor
             uploadLinkRequest.Send();
         }
 
-        private static void FinishAssetUpload() {
-            PropTemplate tpl = null; // AssetBundlesSettings.Instance.UploadTemplate;
+        private void FinishAssetUpload() {
 
-           // AssetBundlesSettings.Instance.UploadTemplate = new PropTemplate();
-          //  AssetBundlesSettings.Save();
 
-            BundleUtility.DelteTempFiles();
+            T tpl = BundleUtility.LoadTemplateFromFile<T>(PersistentTemplatePath);
+
+            
+            BundleUtility.DeleteTempFiles();
+
             UnityEditor.AssetDatabase.Refresh();
             UnityEditor.AssetDatabase.SaveAssets();
 
@@ -280,7 +320,7 @@ namespace RF.AssetWizzard.Editor
                 FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
             };
 
-            PropBundleManager.DownloadAssetBundle(tpl);
+            Download(tpl);
             EditorProgressBar.FinishUploadProgress();
             EditorUtility.DisplayDialog("Success", " Asset has been successfully uploaded!", "Ok");
         }

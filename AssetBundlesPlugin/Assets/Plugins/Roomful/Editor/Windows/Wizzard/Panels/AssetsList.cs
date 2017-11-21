@@ -1,23 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using RF.AssetWizzard.Network;
 
 namespace RF.AssetWizzard.Editor
 {
 
-
     public abstract class AssetsList<T> : Panel where T : Template
     {
+        protected T SelectedAsset = null;
+        protected SeartchRequestType SeartchType = SeartchRequestType.ByTag;
+        protected string SeartchPattern = string.Empty;
 
         private Vector2 m_KeyScrollPos;
         private int m_itemsPreloaderAgnle = 0;
-        private T SelectedAsset = null;
         private const string SEARTCH_BAR_CONTROL_NAME = "seartchBat";
-
+        public bool m_assetsSeartchInProgress = false;
 
 
         public AssetsList(EditorWindow window) : base(window) {}
+        protected abstract void DrawAssetInfo();
+        protected abstract RF.AssetWizzard.Network.Request.GetAssetsList CreateAssetsListRequests();
+
+
 
         public override void OnGUI() {
 
@@ -33,7 +40,7 @@ namespace RF.AssetWizzard.Editor
                 }
             }
 
-            if (RequestManager.ASSETS_SEARTCH_IN_PROGRESS) {
+            if (m_assetsSeartchInProgress) {
                 DrawPreloaderAt(new Rect(570, 12, 20, 20));
                 GUI.enabled = false;
             }
@@ -46,14 +53,14 @@ namespace RF.AssetWizzard.Editor
                 s.padding = new RectOffset(2, 2, 2, 2);
 
                 GUILayout.Label("Your Assets List", s, new GUILayoutOption[] { GUILayout.Width(130) });
-                AssetBundlesSettings.Instance.SeartchType = (SeartchRequestType)EditorGUILayout.EnumPopup(AssetBundlesSettings.Instance.SeartchType, GUILayout.Width(55));
+                SeartchType = (SeartchRequestType)EditorGUILayout.EnumPopup(SeartchType, GUILayout.Width(55));
 
 
                 GUI.SetNextControlName(SEARTCH_BAR_CONTROL_NAME);
-                AssetBundlesSettings.Instance.SeartchPattern = EditorGUILayout.TextField(AssetBundlesSettings.Instance.SeartchPattern, WizardWindow.Constants.toolbarSeachTextFieldStyle, GUILayout.MinWidth(150));
+                SeartchPattern = EditorGUILayout.TextField(SeartchPattern, WizardWindow.Constants.toolbarSeachTextFieldStyle, GUILayout.MinWidth(150));
 
                 if (GUILayout.Button("", WizardWindow.Constants.toolbarSeachCancelButtonStyle)) {
-                    AssetBundlesSettings.Instance.SeartchPattern = string.Empty;
+                    SeartchPattern = string.Empty;
                     GUI.FocusControl(null);
                 }
 
@@ -61,7 +68,7 @@ namespace RF.AssetWizzard.Editor
                 bool refresh = GUILayout.Button(refreshIcon, WizardWindow.Constants.settingsBoxTitle, new GUILayoutOption[] { GUILayout.Width(20), GUILayout.Height(20) });
                 if (refresh) {
                     AssetBundlesSettings.Instance.LocalAssetTemplates.Clear();
-                    RequestManager.SeartchAssets();
+                    SeartchAssets();
                 }
 
                 bool addnew = GUILayout.Button("+", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20));
@@ -99,6 +106,10 @@ namespace RF.AssetWizzard.Editor
 
             foreach (var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
 
+                if(asset.GetType() != typeof(T)) {
+                    continue;
+                }
+
                 GUIContent assetDisaplyContent = asset.DisaplyContent;
 
                 if (assetDisaplyContent.image == null) {
@@ -107,7 +118,7 @@ namespace RF.AssetWizzard.Editor
                 }
 
                 if (GUILayout.Toggle(SelectedAsset == asset, assetDisaplyContent, WizardWindow.Constants.keysElement, new GUILayoutOption[] { GUILayout.Width(ASSETS_LIST_WIDTH) })) {
-                    SelectedAsset = asset;
+                    SelectedAsset = (T) asset;
                 }
 
             }
@@ -116,7 +127,7 @@ namespace RF.AssetWizzard.Editor
                 EditorGUILayout.Space();
 
                 if (GUILayout.Button("Load more", EditorStyles.miniButton, GUILayout.Width(65))) {
-                    RequestManager.SeartchAssets();
+                    SeartchAssets();
                 }
             }
 
@@ -125,12 +136,7 @@ namespace RF.AssetWizzard.Editor
 
 
 
-
-
-
             GUILayout.BeginVertical(GUILayout.Width(ASSETS_INFO_WIDTH));
-
-
 
             if (SelectedAsset != null) {
 
@@ -143,7 +149,7 @@ namespace RF.AssetWizzard.Editor
                 Texture2D edit = Resources.Load("edit") as Texture2D;
                 bool editAsset = GUILayout.Button(edit, WizardWindow.Constants.settingsBoxTitle, new GUILayoutOption[] { GUILayout.Width(20), GUILayout.Height(20) });
                 if (editAsset) {
-                    PropBundleManager.DownloadAssetBundle(SelectedAsset);
+                    BundleService.Download<T>(SelectedAsset);
                 }
 
 
@@ -152,7 +158,6 @@ namespace RF.AssetWizzard.Editor
                 bool removeAsset = GUILayout.Button(trash, WizardWindow.Constants.settingsBoxTitle, new GUILayoutOption[] { GUILayout.Width(20), GUILayout.Height(20) });
                 if (removeAsset) {
                     if (EditorUtility.DisplayDialog("Delete " + SelectedAsset.Title, "Are you sure you want to remove this asset?", "Remove", "Cancel")) {
-                        ;
                         RequestManager.RemoveAsset(SelectedAsset);
                     }
                 }
@@ -164,12 +169,10 @@ namespace RF.AssetWizzard.Editor
 
                 AssetInfoLable("Id", SelectedAsset.Id);
                 AssetInfoLable("Title", SelectedAsset.Title);
-                AssetInfoLable("Size", SelectedAsset.Size);
-                AssetInfoLable("Placing", SelectedAsset.Placing);
-                AssetInfoLable("Invoke", SelectedAsset.InvokeType);
-                AssetInfoLable("Can Stack", SelectedAsset.CanStack);
-                AssetInfoLable("Max Scale", SelectedAsset.MaxSize);
-                AssetInfoLable("Min Scale", SelectedAsset.MinSize);
+
+
+
+                DrawAssetInfo();
 
 
                 string Plaforms = string.Empty;
@@ -178,24 +181,6 @@ namespace RF.AssetWizzard.Editor
                 }
                 AssetInfoLable("Plaforms", Plaforms);
 
-
-                //Types
-                string types = string.Empty;
-                foreach (ContentType t in SelectedAsset.ContentTypes) {
-                    types += t.ToString();
-
-                    if (SelectedAsset.ContentTypes.IndexOf(t) == (SelectedAsset.ContentTypes.Count - 1)) {
-                        types += ";";
-                    } else {
-                        types += ", ";
-                    }
-                }
-
-                if (types.Equals(string.Empty)) {
-                    types = "None;";
-                }
-
-                AssetInfoLable("Types", types);
 
 
                 //Tags
@@ -233,16 +218,11 @@ namespace RF.AssetWizzard.Editor
                     }
                 }
 
-
-
                 AssetInfoLable("Created", SelectedAsset.Created.ToString());
                 AssetInfoLable("Updated", SelectedAsset.Updated.ToString());
 
 
                 EditorGUILayout.Space();
-
-
-
             }
 
 
@@ -255,17 +235,13 @@ namespace RF.AssetWizzard.Editor
             Texture2D roomful_logo = Resources.Load("roomful_logo") as Texture2D;
             GUI.DrawTexture(new Rect(380, 358, roomful_logo.width, roomful_logo.height), roomful_logo);
 
-
-
             GUI.enabled = true;
-
-
             Window.Repaint();
 
         }
 
 
-        private void AssetInfoLable(string title, object msg) {
+        protected void AssetInfoLable(string title, object msg) {
             GUILayout.BeginHorizontal();
 
             if (!string.IsNullOrEmpty(title)) {
@@ -275,6 +251,45 @@ namespace RF.AssetWizzard.Editor
             EditorGUILayout.LabelField(title, EditorStyles.boldLabel, new GUILayoutOption[] { GUILayout.Height(16), GUILayout.Width(65) });
             EditorGUILayout.SelectableLabel(msg.ToString(), EditorStyles.label, new GUILayoutOption[] { GUILayout.Height(16) });
             GUILayout.EndHorizontal();
+        }
+
+
+        protected int ListSize {
+            get {
+                int size = 0;
+                foreach (var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
+                    if (asset.GetType() != typeof(T)) {  continue;  }
+                    size++;
+                }
+
+                return size;
+            }
+        }
+
+
+        
+        private void SeartchAssets() {
+
+            m_assetsSeartchInProgress = true;
+
+            var listRequest = CreateAssetsListRequests();
+
+            listRequest.PackageCallbackText = (allAssetsCallback) => {
+                List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
+
+                foreach (object assetData in allAssetsList) {
+                    string rawData = new JSONData(assetData).RawData;
+                    // PropTemplate at = new PropTemplate(new JSONData(assetData).RawData);
+                    T tpl = (T)Activator.CreateInstance(typeof(T), rawData);
+                    AssetBundlesSettings.Instance.LocalAssetTemplates.Add(tpl);
+                }
+
+
+                AssetBundlesSettings.Save();
+                m_assetsSeartchInProgress = false;
+            };
+
+            listRequest.Send();
         }
 
     }

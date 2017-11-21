@@ -36,7 +36,7 @@ namespace RF.AssetWizzard.Editor {
                         var res = new Resource(resInfo);
                         prop.Template.Icon = res;
 
-                        AssetBundlesSettings.Instance.ReplaceTemplate(prop.Template);
+                        AssetBundlesSettings.Instance.ReplaceSavedTemplate(prop.Template);
                         BundleUtility.GenerateUploadPrefab(prop);
                         AssetsUploadLoop(0, prop.Template);
                     };
@@ -121,7 +121,7 @@ namespace RF.AssetWizzard.Editor {
             AssetBundlesSettings.Instance.UploadTemplate = new PropTemplate();
             AssetBundlesSettings.Save();
 
-            BundleUtility.DelteTempFiles();
+            BundleUtility.DeleteTempFiles();
             UnityEditor.AssetDatabase.Refresh();
             UnityEditor.AssetDatabase.SaveAssets();
 

@@ -14,9 +14,13 @@ namespace RF.AssetWizzard {
 	#endif
 	public class AssetBundlesSettings : ScriptableObject {
 
-        
-        //public int PublisherCurrentVersionIndex = 1;
-        //public string[] PublisherExistingVersions = new string[] {"1.0", "2.0"};
+
+        //--------------------------------------
+        // Constants
+        //--------------------------------------
+
+        private const string SettingsAssetName = "AssetBundlesSettings";
+        private const string SettingsAssetExtension = ".asset";
 
         public static string WEB_SERVER_URL = "https://demo.roomful.co:3443";
 	
@@ -31,35 +35,42 @@ namespace RF.AssetWizzard {
 
 		public const string SETTINGS_LOCATION = "Plugins/Roomful/Editor/Resources/Settings/";
 
-	
+        public const float MAX_AlLOWED_SIZE = 4f;
+        public const float MIN_ALLOWED_SIZE = 0.3f;
+
+        public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
+        public const string THUMBNAIL_RESOURCE_INDEX_BOUND = "ResourceIndexBound";
 
 
-        private const string SettingsAssetName = "AssetBundlesSettings";
-        private const string SettingsAssetExtension = ".asset";
+
+        //--------------------------------------
+        // Session Data
+        //--------------------------------------
 
         [SerializeField]
 		private string m_sessionId = string.Empty;
-        
-		public string SeartchPattern = string.Empty;
-		public SeartchRequestType SeartchType = SeartchRequestType.ByTag;
 
-		public List<Template> LocalAssetTemplates = new List<Template>();
-		public const float MAX_AlLOWED_SIZE = 4f;
-		public const float MIN_ALLOWED_SIZE = 0.3f;
+        [SerializeField]
+        public List<PropTemplate> LocalPropTemplates = new List<PropTemplate>();
+        [SerializeField]
+        public List<StyleTemplate> LocalStyleTemplates = new List<StyleTemplate>();
+        [SerializeField]
+        public List<EnvironmentTemplate> LocalEnvironmentsTemplates = new List<EnvironmentTemplate>();
 
-		public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
-        public const string THUMBNAIL_RESOURCE_INDEX_BOUND = "ResourceIndexBound";
+        public int UploadPlatfromIndex = 0;
+        public int WizardWindowSelectedTabIndex = 0;
+
+
+        //--------------------------------------
+        // Config
+        //--------------------------------------
+
 
         public bool ShowWebInLogs = true;
 		public bool ShowWebOutLogs = false;
         public bool AutomaticCacheClean = true;
 
-        public string LastBundlePath = string.Empty;
-
-        public PropTemplate UploadTemplate = null;
-        public int UploadPlatfromIndex = 0;
-
-        public int WizardWindowSelectedTabIndex = 0;
+   
 
         #if UNITY_EDITOR
         public List<BuildTarget> TargetPlatforms = new List<BuildTarget>();
@@ -90,17 +101,12 @@ namespace RF.AssetWizzard {
 			}
 		}
 
-        public bool IsUploadInProgress {
-            get {
-                if (AssetBundlesSettings.Instance.UploadTemplate == null || AssetBundlesSettings.Instance.UploadTemplate.Id.Equals(string.Empty)) {
-                    return false;
-                }
 
-                return true;
-            }
-        }
+        //--------------------------------------
+        // Get / Set
+        //--------------------------------------
 
-		public string PublisherCurrentVersion {
+        public string PublisherCurrentVersion {
 			get {
                 return "2.0";
 			}
@@ -118,18 +124,14 @@ namespace RF.AssetWizzard {
             }
         }
 
-		public void ReplaceTemplate(PropTemplate tpl) {
-			for(int i = 0; i < LocalAssetTemplates.Count; i++) {
-				if(LocalAssetTemplates[i].Id.Equals(tpl.Id)) {
-					LocalAssetTemplates [i] = tpl;
-					Save ();
-					return;
-				}
-			}
-		}
 
 
-		public void SetSessionId(string id) {
+        //--------------------------------------
+        // Public Methods
+        //--------------------------------------
+
+
+        public void SetSessionId(string id) {
 			m_sessionId = id;
 			Save ();
 		}
@@ -141,20 +143,47 @@ namespace RF.AssetWizzard {
 			#endif
 		}
 
-		public void RemoverFromLocalAssetTemplates(PropTemplate tpl) {
-			LocalAssetTemplates.Remove (tpl);
+		public void RemoveSavedTemplate(Template tpl) {
 
-		}
+            RemoveTemplateFromList<PropTemplate>(tpl, LocalPropTemplates);
+            RemoveTemplateFromList<StyleTemplate>(tpl, LocalStyleTemplates);
+            RemoveTemplateFromList<EnvironmentTemplate>(tpl, LocalEnvironmentsTemplates);
 
-		public bool IsAssetInLocal(string id) {
-			foreach (PropTemplate at in LocalAssetTemplates) {
-				if (at.Id.Equals (id)) {
-					return true;
-				}
-			}
 
-			return false;
-		}
-	}
+            Save();
+        }
+
+        public void ReplaceSavedTemplate(Template tpl) {
+            ReplaceTemplateInList<PropTemplate>(tpl, LocalPropTemplates);
+            ReplaceTemplateInList<StyleTemplate>(tpl, LocalStyleTemplates);
+            ReplaceTemplateInList<EnvironmentTemplate>(tpl, LocalEnvironmentsTemplates);
+
+            Save();
+        }
+
+
+        //--------------------------------------
+        // Private Methods
+        //--------------------------------------
+
+        private void ReplaceTemplateInList<T>(Template tpl, List<T> templates)  where T : Template {
+            for (int i = 0; i < templates.Count; i++) {
+                if (templates[i].Id.Equals(tpl.Id)) {
+                    templates[i] = (T) tpl;
+                    return;
+                }
+            }
+        }
+
+        private void RemoveTemplateFromList<T>(Template tpl, List<T> templates) where T : Template {
+            for (int i = 0; i < templates.Count; i++) {
+                if (templates[i].Id.Equals(tpl.Id)) {
+                    templates.Remove(templates[i]);
+                    return;
+                }
+            }
+        }
+
+    }
 }
 

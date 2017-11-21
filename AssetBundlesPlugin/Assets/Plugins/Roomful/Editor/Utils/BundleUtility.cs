@@ -20,22 +20,25 @@ namespace RF.AssetWizzard.Editor
             File.WriteAllText(path, content);
         }
 
-        public static T LoadTemplateFromFile<T>(string path) where T : Template, new(){
+        public static T LoadTemplateFromFile<T>(string path) where T : Template {
 
             string content = File.ReadAllText(path);
             if(string.IsNullOrEmpty(content)) {
                 return null;
             }
 
-            T tpl = new T();
-            tpl.LoadData(content);
-
+            T tpl = (T)System.Activator.CreateInstance(typeof(T), content);
             return tpl;
         }
 
-        public static void RemoveTemplateFile(string path) {
+        public static void DeleteTemplateFile(string path) {
             File.Delete(path);
         }
+
+        public static bool FileExists(string path) {
+            return File.Exists(path);
+        }
+
 
 
 
@@ -66,7 +69,7 @@ namespace RF.AssetWizzard.Editor
 
 
 
-        public static void DelteTempFiles() {
+        public static void DeleteTempFiles() {
             FolderUtils.DeleteFolder(AssetBundlesSettings.ASSETS_TEMP_LOCATION);
         }
 
