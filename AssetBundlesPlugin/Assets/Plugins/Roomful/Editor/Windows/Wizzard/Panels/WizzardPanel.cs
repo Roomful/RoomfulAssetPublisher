@@ -49,38 +49,76 @@ namespace RF.AssetWizzard.Editor
 
 
         private void NoAssetWizard() {
+
             GUILayout.Label("Create New Roomful Asset", EditorStyles.boldLabel);
+            GUILayout.Space(10);
 
-            GUIContent createPropContent = new GUIContent();
-            createPropContent.image = IconManager.GetIcon(Icon.model_icon);
 
-            GUIContent environmentContent = new GUIContent();
-            environmentContent.image = IconManager.GetIcon(Icon.environment_icon);
+            string propMsg = "Prop can placed inside your room" +
+                "\n" +
+                "Upload any 3D model, and share it with the world." ;
+            DrawCreateAssetItem("Prop", propMsg, IconManager.GetIcon(Icon.prop_icon), () => {
+                WindowManager.ShowCreateNewProp();
+            });
 
-            GUIContent styleContent = new GUIContent();
-            styleContent.image = IconManager.GetIcon(Icon.environment_icon);
 
-            var options = new GUILayoutOption[2] { GUILayout.Width(150), GUILayout.Height(82) };
-
-            GUILayout.BeginHorizontal();
-
-            if (GUILayout.Button(environmentContent, options)) {
-                WindowManager.ShowCreateNewEnvironment();
-            }
-
-            if (GUILayout.Button(styleContent, options)) {
+            string styleMsg = "Roomful style is used to build rooms" +
+                "\n" +
+                "Create your unique and awesome style!";
+            DrawCreateAssetItem("Style", styleMsg, IconManager.GetIcon(Icon.style_icon), () => {
                 WindowManager.ShowCreateNewStyle();
-            }
+            });
 
-            if (GUILayout.Button(createPropContent, options)) {
-                WindowManager.ShowCreateNewAsset();
-            }
 
-            GUILayout.EndHorizontal();
+            string envMsg = "Environmanet is a unique room surounding" +
+               "\n" +
+               "such as skybox, sounds, particles, visual effects etc";
+            DrawCreateAssetItem("Environmanet", envMsg, IconManager.GetIcon(Icon.environment_icon), () => {
+                WindowManager.ShowCreateNewEnvironment();
+            });
 
-            return;
         }
 
+
+        private void DrawCreateAssetItem(string title, string msg, Texture2D image, System.Action callback) {
+
+            var options = new GUILayoutOption[2] { GUILayout.Width(75), GUILayout.Height(75) };
+            var leftPannelOptions = new GUILayoutOption[2] { GUILayout.Width(75), GUILayout.Height(100) };
+            var rightPannelOptions = new GUILayoutOption[2] { GUILayout.Width(350), GUILayout.Height(100) };
+
+            GUIContent createAssetContent = new GUIContent();
+            createAssetContent.image = image;
+
+            bool imageButton;
+            bool createButton;
+
+            GUILayout.BeginHorizontal();
+            {
+
+                GUILayout.BeginVertical(leftPannelOptions);
+                {
+                    imageButton = GUILayout.Button(createAssetContent, options);
+                }
+                GUILayout.EndVertical();
+
+                GUILayout.BeginVertical(rightPannelOptions);
+                {
+                    GUILayout.Label(title, EditorStyles.boldLabel);
+                    GUILayout.Label(msg, GUILayout.Width(320));
+                    GUILayout.Space(5);
+                    GUILayout.BeginHorizontal();
+                    GUILayout.FlexibleSpace();
+                    createButton = GUILayout.Button("Create", GUILayout.Width(90));
+                    GUILayout.EndHorizontal();
+                }
+                GUILayout.EndVertical();
+            }
+            GUILayout.EndHorizontal();
+
+            if(createButton || imageButton) {
+                callback();
+            }
+        }
 
 
 

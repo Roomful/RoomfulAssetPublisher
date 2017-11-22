@@ -19,8 +19,8 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		public static void ShowCreateNewAsset() {
-			EditorWindow window = EditorWindow.GetWindow<CreateAssetWindow>(true, "New Asset");
+		public static void ShowCreateNewProp() {
+			EditorWindow window = EditorWindow.GetWindow<CreateAssetWindow>(true, "New Prop");
             ShowModal(window);
         }
 
