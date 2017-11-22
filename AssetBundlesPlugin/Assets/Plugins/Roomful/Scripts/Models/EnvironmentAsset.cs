@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RF.AssetBundles.Serialization;
+
 namespace RF.AssetWizzard
 {
 
     [ExecuteInEditMode]
     public class EnvironmentAsset : Asset<EnvironmentTemplate>
     {
-
 
         public void SetTemplate(EnvironmentTemplate tpl) {
             _Template = tpl;
@@ -37,11 +38,59 @@ namespace RF.AssetWizzard
         }
 
 
+        public void ApplyEnvironment() {
+            RenderSettings.skybox = SkyRenderer.sharedMaterial;
+            RenderSettings.ambientIntensity = Settings.AmbientIntensity;
+        }
+
+
         //--------------------------------------
         // Get / Set
         //--------------------------------------
 
 
+        public SerializedEnviromnent Settings {
+            get {
+
+                var settings = GetComponent<SerializedEnviromnent>();
+                if (settings == null) {
+                    settings = gameObject.AddComponent<SerializedEnviromnent>();
+                }
+
+                settings.hideFlags = HideFlags.HideInInspector;
+
+                return settings;
+            }
+        }
+
+
+        public MeshRenderer SkyRenderer {
+            get {
+
+                var renderer = GetComponent<MeshRenderer>();
+                if (renderer == null) {
+                    renderer = gameObject.AddComponent<MeshRenderer>();
+                }
+
+                renderer.hideFlags = HideFlags.HideInInspector;
+
+                return renderer;
+            }
+        }
+
+        public GameObject Environment {
+            get {
+
+                var rig = GameObject.Find("Environment");
+                if (rig == null) {
+                    rig = PrefabManager.CreatePrefab("Environment");
+                }
+
+                rig.transform.SetSiblingIndex(0);
+
+                return rig;
+            }
+        }
 
 
 
@@ -54,6 +103,9 @@ namespace RF.AssetWizzard
 
             base.CheckhHierarchy();
 
+            transform.Reset();
+            Environment.transform.parent = null;
+            Environment.transform.Reset(); 
 
             List<Transform> UndefinedObjects = new List<Transform>();
             Transform[] allObjects = FindObjectsOfType<Transform>();
@@ -66,12 +118,18 @@ namespace RF.AssetWizzard
                     continue;
                 }
 
+                if (child == Environment.transform) {
+                    continue;
+                }
+
                 UndefinedObjects.Add(child);
             }
 
-            transform.rotation = Quaternion.identity;
-            transform.localScale = Vector3.one;
-            transform.position = Vector3.zero;
+            foreach (Transform undefined in UndefinedObjects) {
+                undefined.SetParent(transform);
+                undefined.localPosition = Vector3.zero;
+            }
+
         }
 
 

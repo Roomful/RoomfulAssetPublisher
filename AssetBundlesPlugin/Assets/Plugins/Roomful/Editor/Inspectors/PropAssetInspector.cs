@@ -8,7 +8,8 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 
 	[CustomEditor(typeof(PropAsset))]
-	public class PropAssetEditor : UnityEditor.Editor {
+	public class PropAssetInspector : AssetInspector<PropTemplate, PropAsset>
+    {
 
 
 		SerializedProperty scaleProperty;
@@ -33,7 +34,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 			GUILayout.BeginHorizontal ();
-			Vector3 def = Prop.Size * 100f;
+			Vector3 def = Asset.Size * 100f;
 
 			EditorGUILayout.LabelField ("Size(mm): ");
 			EditorGUILayout.LabelField ((int)def.x + "x" + (int)def.y + "x" + (int)def.z);
@@ -41,64 +42,18 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-			EditorGUILayout.Slider (scaleProperty, Prop.MinScale, Prop.MaxScale);
+			EditorGUILayout.Slider (scaleProperty, Asset.MinScale, Asset.MaxScale);
 
 			EditorGUILayout.PropertyField (DisplayMode);
 			EditorGUILayout.PropertyField (DrawGizmos);
 
 
-            Environment env = GameObject.FindObjectOfType<Environment>();
-            if(env != null) {
-                EditorGUI.BeginChangeCheck();
-                env.RenderEnvironment = EditorGUILayout.Toggle("Render Environment", env.RenderEnvironment);
-                if(EditorGUI.EndChangeCheck()) {
-                    env.Update();
-                }
-            }
+          
 
-       
-            
+            DrawEnvironmentSiwtch();
+            DrawActionButtons();
 
-
-
-            EditorGUILayout.Space ();
-			GUILayout.BeginHorizontal (); {
-
-			
-				GUILayout.FlexibleSpace ();
-				bool wizzard = GUILayout.Button ("Wizzard", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
-				if(wizzard) {
-					WindowManager.ShowWizard ();
-					WindowManager.Wizzard.SiwtchTab (WizardTabs.Wizzard);
-				}
-
-
-				if (string.IsNullOrEmpty (Prop.Template.Id)) {
-
-					bool upload = GUILayout.Button ("Upload", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
-					if(upload) {
-                        BundleService.Upload<PropAsset>(Prop);
-					}
-
-				} else {
-					bool re_upload = GUILayout.Button ("Re Upload", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
-					if (re_upload) {
-                        BundleService.Upload<PropAsset>(Prop);
-                    }
-
-					bool refresh =GUILayout.Button ("Refresh", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
-					if (refresh) {
-                        BundleService.Download<PropTemplate>(Prop.Template);
-					}
-				}
-
-
-			} GUILayout.EndHorizontal ();
-
-
-
-			EditorGUILayout.Space ();
-			serializedObject.ApplyModifiedProperties ();
+            serializedObject.ApplyModifiedProperties ();
 
 		}
 
@@ -108,7 +63,7 @@ namespace RF.AssetWizzard.Editor {
 			bool valid = true;
 
 
-			if(Prop.DisplayMode == PropDisplayMode.Silhouette) {
+			if(Asset.DisplayMode == PropDisplayMode.Silhouette) {
 
 				if(IsEmpty) {
 					valid = false;
@@ -123,7 +78,7 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.HelpBox("Asset is empty! Please add some graphics.", MessageType.Error);
 			}
 
-			if(Prop.GetLayer(HierarchyLayers.Silhouette).transform.childCount == 0) {
+			if(Asset.GetLayer(HierarchyLayers.Silhouette).transform.childCount == 0) {
 				valid = false;
 				EditorGUILayout.HelpBox("Silhouette is empty! Please add some graphics.", MessageType.Error);
 			}
@@ -152,30 +107,25 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		public PropAsset Prop {
-			get {
-				return target as PropAsset;
-			}
-		}
 
-		public PropTemplate Template {
-			get {
-				return Prop.Template;
-			}
-		}
+        public override PropAsset Asset {
+            get {
+                return target as PropAsset;
+            }
+        }
 
 
-		public bool IsEmpty {
+        public bool IsEmpty {
 			get {
-				Renderer[] renderers = Prop.GetComponentsInChildren<Renderer> ();
+				Renderer[] renderers = Asset.GetComponentsInChildren<Renderer> ();
 				return renderers.Length == 0;
 			}
 		}
 
 		public bool HasCollisison {
 			get {
-				Collider[] colliders = Prop.GetComponentsInChildren<Collider> ();
-				PropThumbnail[] thumbnails = Prop.GetComponentsInChildren<PropThumbnail> ();
+				Collider[] colliders = Asset.GetComponentsInChildren<Collider> ();
+				PropThumbnail[] thumbnails = Asset.GetComponentsInChildren<PropThumbnail> ();
 
 				if(colliders.Length == 0 && thumbnails.Length == 0) {
 					return false;
@@ -187,7 +137,7 @@ namespace RF.AssetWizzard.Editor {
 
 		public bool HasMeshCollisison {
 			get {
-				MeshCollider[] colliders = Prop.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<MeshCollider> ();
+				MeshCollider[] colliders = Asset.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<MeshCollider> ();
 
 				foreach(MeshCollider c in colliders) {
 					if(c.transform.parent != null) {
@@ -206,7 +156,7 @@ namespace RF.AssetWizzard.Editor {
 
 		public bool HasLights {
 			get {
-				Light[] lights = Prop.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<Light> ();
+				Light[] lights = Asset.GetLayer(HierarchyLayers.Graphics).GetComponentsInChildren<Light> ();
 				return lights.Length != 0;
 			}
 		}

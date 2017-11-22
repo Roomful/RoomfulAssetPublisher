@@ -363,15 +363,9 @@ namespace RF.AssetWizzard {
 
             base.CheckhHierarchy();
 
-			Model.localPosition = Vector3.zero;
-			Model.localScale = Vector3.one * Scale;
-			Model.localRotation = Quaternion.identity;
-
-			Environment.transform.parent = null;
-			Environment.transform.position = Vector3.zero;
-			Environment.transform.rotation = Quaternion.identity;
-			Environment.transform.localScale = Vector3.one;
-
+            Model.Reset();
+            Environment.transform.parent = null;
+            Environment.transform.Reset(); 
 
 
 			List<Transform> UndefinedObjects = new List<Transform> ();

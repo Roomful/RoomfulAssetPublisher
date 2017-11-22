@@ -71,7 +71,7 @@ namespace RF.AssetWizzard
                 }
             }
 
-            List<Renderer> renderers = GetAllRenderers(transform.gameObject);
+            Renderer[] renderers = transform.GetComponentsInChildren<Renderer>();// GetAllRenderers(transform.gameObject);
             foreach (Renderer renderer in renderers) {
                 if (renderer != null) {
 
@@ -86,35 +86,6 @@ namespace RF.AssetWizzard
                 }
             }
         }
-
-
-        private List<Renderer> GetAllRenderers(GameObject go) {
-            List<Renderer> rens = new List<Renderer>();
-
-            List<Transform> allTransforms = new List<Transform>();
-            GetAllChildren(go.transform, ref allTransforms);
-
-            foreach (Transform tr in allTransforms) {
-                if (tr.GetComponent<Renderer>() != null) {
-                    rens.Add(tr.GetComponent<Renderer>());
-                }
-            }
-
-            return rens;
-        }
-
-        private static void GetAllChildren(Transform tr, ref List<Transform> childrenList) {
-            if (tr.childCount == 0) {
-                return;
-            }
-
-            for (int i = 0; i < tr.childCount; i++) {
-                childrenList.Add(tr.GetChild(i));
-
-                GetAllChildren(tr.GetChild(i), ref childrenList);
-            }
-        }
-
 
         //--------------------------------------
         // Get / Set

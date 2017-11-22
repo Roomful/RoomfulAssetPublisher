@@ -5,7 +5,7 @@ using RF.AssetWizzard.Network.Request;
 
 namespace RF.AssetWizzard.Editor
 {
-    public class PropBundleManager_NEW : BundleManager<PropTemplate, PropAsset>
+    public class PropBundleManager : BundleManager<PropTemplate, PropAsset>
     {
 
         public override void CreateAsset(PropTemplate tpl) {

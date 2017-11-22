@@ -4,7 +4,7 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public class CreateEnvironmentWindow : EditorWindow {
 
-		private EnvironmentTemplate Asset = new EnvironmentTemplate();
+		private EnvironmentTemplate m_template = new EnvironmentTemplate();
 
 	
 		void OnGUI() {
@@ -19,7 +19,7 @@ namespace RF.AssetWizzard.Editor {
 
 
 			EditorGUI.LabelField (new Rect (100, 50, 300, 16), "Title:");
-			Asset.Title = EditorGUI.TextField (new Rect (160, 50, 190, 16), Asset.Title);
+			m_template.Title = EditorGUI.TextField (new Rect (160, 50, 190, 16), m_template.Title);
 
 
 
@@ -28,14 +28,12 @@ namespace RF.AssetWizzard.Editor {
 				GUILayout.FlexibleSpace ();
 				bool cancel = GUILayout.Button ("Cancel", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
 				if (cancel) {
-					
 					Dismiss ();
 				}
 
 				bool create = GUILayout.Button ("Create", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
 				if (create) {
-
-					//EnvironmentBundleManager.CreateNewEnvironment (Asset);
+                    BundleService.Create<EnvironmentTemplate>(m_template);
 					Dismiss ();
 				}
 
@@ -46,7 +44,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void Dismiss() {
-			Asset = new EnvironmentTemplate();
+			m_template = new EnvironmentTemplate();
 			this.Close ();
 		}
 	}
