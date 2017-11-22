@@ -12,6 +12,12 @@ namespace RF.AssetWizzard.Editor
         public PropsList(EditorWindow window) : base(window) { }
 
 
+        protected override List<PropTemplate> LocalySavedTemplates {
+            get {
+                return AssetBundlesSettings.Instance.LocalPropTemplates;
+            }
+        }
+
         protected override void DrawAssetInfo() {
 
             AssetInfoLable("Size", SelectedAsset.Size);
@@ -48,14 +54,14 @@ namespace RF.AssetWizzard.Editor
 
             switch(SeartchType) {
                 case SeartchRequestType.ByName:
-                    listRequest = new Network.Request.GetPropsList(ListSize, 5, SeartchPattern);
+                    listRequest = new Network.Request.GetPropsList(LocalySavedTemplates.Count, 5, SeartchPattern);
                     break;
                 case SeartchRequestType.ByTag:
                     List<string> separatedTags = new List<string>(SeartchPattern.Split(','));
-                    listRequest = new RF.AssetWizzard.Network.Request.GetPropsList(ListSize, 5, separatedTags);
+                    listRequest = new RF.AssetWizzard.Network.Request.GetPropsList(LocalySavedTemplates.Count, 5, separatedTags);
                     break;
                 case SeartchRequestType.ById:
-                    listRequest = new RF.AssetWizzard.Network.Request.GetPropsList(ListSize, 5, string.Empty);
+                    listRequest = new RF.AssetWizzard.Network.Request.GetPropsList(LocalySavedTemplates.Count, 5, string.Empty);
                     listRequest.SetId(SeartchPattern);
                     break;
 

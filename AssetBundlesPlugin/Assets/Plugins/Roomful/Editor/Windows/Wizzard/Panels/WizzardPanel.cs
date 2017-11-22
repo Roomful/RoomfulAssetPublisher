@@ -16,7 +16,7 @@ namespace RF.AssetWizzard.Editor
 
         public override void OnGUI() {
 
-            if (AssetBundlesSettings.Instance.IsUploadInProgress) {
+            if (BundleService.IsUploadInProgress) {
                 DrawPreloaderAt(new Rect(570, 12, 20, 20));
                 GUI.enabled = false;
             }

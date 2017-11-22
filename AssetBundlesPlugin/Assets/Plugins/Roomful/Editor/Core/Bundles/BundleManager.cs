@@ -223,6 +223,7 @@ namespace RF.AssetWizzard.Editor
                         var res = new Resource(resInfo);
                         asset.GetTemplate().Icon = res;
                         AssetBundlesSettings.Instance.ReplaceSavedTemplate(asset.GetTemplate());
+                        BundleUtility.SaveTemplateToFile(PersistentTemplatePath, asset.GetTemplate());
 
 
                         BundleUtility.GenerateUploadPrefab(asset);

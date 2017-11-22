@@ -23,21 +23,19 @@ namespace RF.AssetWizzard.Editor
         public AssetsList(EditorWindow window) : base(window) {}
         protected abstract void DrawAssetInfo();
         protected abstract RF.AssetWizzard.Network.Request.GetAssetsList CreateAssetsListRequests();
+        protected abstract List<T> LocalySavedTemplates { get; }
+
 
 
 
         public override void OnGUI() {
 
-            if (!AssetBundlesSettings.Instance.LocalAssetTemplates.Contains(SelectedAsset)) {
+            if (!LocalySavedTemplates.Contains(SelectedAsset)) {
                 SelectedAsset = null;
             }
 
-            if (SelectedAsset == null) {
-                foreach(var tmp in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-                    if(tmp.GetType() == typeof(T)) {
-                        SelectedAsset = (T) AssetBundlesSettings.Instance.LocalAssetTemplates[0];
-                    }
-                }
+            if (SelectedAsset == null && LocalySavedTemplates.Count > 0) {
+                SelectedAsset = LocalySavedTemplates[0];
             }
 
             if (m_assetsSeartchInProgress) {
@@ -67,7 +65,7 @@ namespace RF.AssetWizzard.Editor
                 Texture2D refreshIcon = IconManager.GetIcon(Icon.refresh_black);
                 bool refresh = GUILayout.Button(refreshIcon, WizardWindow.Constants.settingsBoxTitle, new GUILayoutOption[] { GUILayout.Width(20), GUILayout.Height(20) });
                 if (refresh) {
-                    AssetBundlesSettings.Instance.LocalAssetTemplates.Clear();
+                    LocalySavedTemplates.Clear();
                     SeartchAssets();
                 }
 
@@ -104,11 +102,7 @@ namespace RF.AssetWizzard.Editor
                 m_itemsPreloaderAgnle = 0;
             }
 
-            foreach (var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-
-                if(asset.GetType() != typeof(T)) {
-                    continue;
-                }
+            foreach (var asset in LocalySavedTemplates) {
 
                 GUIContent assetDisaplyContent = asset.DisaplyContent;
 
@@ -118,12 +112,12 @@ namespace RF.AssetWizzard.Editor
                 }
 
                 if (GUILayout.Toggle(SelectedAsset == asset, assetDisaplyContent, WizardWindow.Constants.keysElement, new GUILayoutOption[] { GUILayout.Width(ASSETS_LIST_WIDTH) })) {
-                    SelectedAsset = (T) asset;
+                    SelectedAsset = asset;
                 }
 
             }
 
-            if (AssetBundlesSettings.Instance.LocalAssetTemplates.Count > 0) {
+            if (LocalySavedTemplates.Count > 0) {
                 EditorGUILayout.Space();
 
                 if (GUILayout.Button("Load more", EditorStyles.miniButton, GUILayout.Width(65))) {
@@ -253,20 +247,6 @@ namespace RF.AssetWizzard.Editor
             GUILayout.EndHorizontal();
         }
 
-
-        protected int ListSize {
-            get {
-                int size = 0;
-                foreach (var asset in AssetBundlesSettings.Instance.LocalAssetTemplates) {
-                    if (asset.GetType() != typeof(T)) {  continue;  }
-                    size++;
-                }
-
-                return size;
-            }
-        }
-
-
         
         private void SeartchAssets() {
 
@@ -281,7 +261,7 @@ namespace RF.AssetWizzard.Editor
                     string rawData = new JSONData(assetData).RawData;
                     // PropTemplate at = new PropTemplate(new JSONData(assetData).RawData);
                     T tpl = (T)Activator.CreateInstance(typeof(T), rawData);
-                    AssetBundlesSettings.Instance.LocalAssetTemplates.Add(tpl);
+                    LocalySavedTemplates.Add(tpl);
                 }
 
 

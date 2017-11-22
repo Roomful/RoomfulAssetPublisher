@@ -4,7 +4,7 @@ using UnityEditor;
 namespace RF.AssetWizzard.Editor {
 	public class CreateAssetWindow : EditorWindow {
 
-		private PropTemplate Asset = new PropTemplate();
+		private PropTemplate m_template = new PropTemplate();
 
 	
 		void OnGUI() {
@@ -19,11 +19,11 @@ namespace RF.AssetWizzard.Editor {
 
 
 			EditorGUI.LabelField (new Rect (100, 50, 300, 16), "Title:");
-			Asset.Title = EditorGUI.TextField (new Rect (160, 50, 190, 16), Asset.Title);
+			m_template.Title = EditorGUI.TextField (new Rect (160, 50, 190, 16), m_template.Title);
 
 
 			EditorGUI.LabelField (new Rect (100, 70, 300, 16), "Plasing:");
-			Asset.Placing = (Placing) EditorGUI.EnumPopup(new Rect (160, 70, 190, 16), Asset.Placing);
+			m_template.Placing = (Placing) EditorGUI.EnumPopup(new Rect (160, 70, 190, 16), m_template.Placing);
 
 
 
@@ -39,7 +39,7 @@ namespace RF.AssetWizzard.Editor {
 				bool create = GUILayout.Button ("Create", EditorStyles.miniButton, new GUILayoutOption[]{ GUILayout.Width(80)});
 				if (create) {
 
-					PropBundleManager.CreateNewAsset (Asset);
+                    BundleService.Create<PropTemplate>(m_template);
 					Dismiss ();
 				}
 
@@ -50,7 +50,7 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 		private void Dismiss() {
-			Asset = new PropTemplate ();
+			m_template = new PropTemplate ();
 			this.Close ();
 		}
 	}

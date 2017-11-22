@@ -77,18 +77,18 @@ namespace RF.AssetWizzard.Editor {
 
 					bool upload = GUILayout.Button ("Upload", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if(upload) {
-						PropBundleManager.UploadAssets (Prop);
+                        BundleService.Upload<PropAsset>(Prop);
 					}
 
 				} else {
 					bool re_upload = GUILayout.Button ("Re Upload", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if (re_upload) {
-						PropBundleManager.ReuploadAsset (Prop);
-					}
+                        BundleService.Upload<PropAsset>(Prop);
+                    }
 
 					bool refresh =GUILayout.Button ("Refresh", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if (refresh) {
-						PropBundleManager.DownloadAssetBundle (Prop.Template);
+                        BundleService.Download<PropTemplate>(Prop.Template);
 					}
 				}
 

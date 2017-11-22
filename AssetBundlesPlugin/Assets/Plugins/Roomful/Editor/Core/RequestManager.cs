@@ -13,7 +13,7 @@ namespace RF.AssetWizzard.Editor {
 			Network.Request.RemoveAsset removeRequest = new Network.Request.RemoveAsset (tpl.Id);
 
 			removeRequest.PackageCallbackData = (removeCallback) => {
-				AssetBundlesSettings.Instance.RemovereSavedTemplates(tpl);
+				AssetBundlesSettings.Instance.RemoveSavedTemplate(tpl);
 			};
 
 			removeRequest.Send ();

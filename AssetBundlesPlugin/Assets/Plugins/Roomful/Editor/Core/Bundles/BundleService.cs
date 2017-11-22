@@ -40,6 +40,21 @@ namespace RF.AssetWizzard.Editor
             bundle.Upload(asset);
         }
 
+        //--------------------------------------
+        // Get / Set
+        //--------------------------------------
+
+        public static bool IsUploadInProgress {
+            get {
+                foreach (var bundle in s_bundles) {
+                    if (bundle.IsUploadInProgress) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
 
 
         //--------------------------------------

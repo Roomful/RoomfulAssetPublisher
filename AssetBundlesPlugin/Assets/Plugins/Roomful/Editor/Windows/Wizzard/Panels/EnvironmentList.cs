@@ -12,6 +12,13 @@ namespace RF.AssetWizzard.Editor
         public EnvironmentList(EditorWindow window) : base(window) { }
 
 
+        protected override List<EnvironmentTemplate> LocalySavedTemplates {
+            get {
+                return AssetBundlesSettings.Instance.LocalEnvironmentsTemplates;
+            }
+        }
+
+
         protected override void DrawAssetInfo() {
 
         }
@@ -24,14 +31,14 @@ namespace RF.AssetWizzard.Editor
 
             switch(SeartchType) {
                 case SeartchRequestType.ByName:
-                    listRequest = new Network.Request.GetEnvironmentsList(ListSize, 5, SeartchPattern);
+                    listRequest = new Network.Request.GetEnvironmentsList(LocalySavedTemplates.Count, 5, SeartchPattern);
                     break;
                 case SeartchRequestType.ByTag:
                     List<string> separatedTags = new List<string>(SeartchPattern.Split(','));
-                    listRequest = new RF.AssetWizzard.Network.Request.GetEnvironmentsList(ListSize, 5, separatedTags);
+                    listRequest = new RF.AssetWizzard.Network.Request.GetEnvironmentsList(LocalySavedTemplates.Count, 5, separatedTags);
                     break;
                 case SeartchRequestType.ById:
-                    listRequest = new RF.AssetWizzard.Network.Request.GetEnvironmentsList(ListSize, 5, string.Empty);
+                    listRequest = new RF.AssetWizzard.Network.Request.GetEnvironmentsList(LocalySavedTemplates.Count, 5, string.Empty);
                     listRequest.SetId(SeartchPattern);
                     break;
 
