@@ -54,15 +54,15 @@ namespace RF.AssetWizzard.Editor
             GUILayout.Space(10);
 
 
-            string propMsg = "Prop can placed inside your room" +
+            string propMsg = "Props are objects that can be placed in rooms" +
                 "\n" +
-                "Upload any 3D model, and share it with the world." ;
+                "Upload any 3D model, and share it with the world" ;
             DrawCreateAssetItem("Prop", propMsg, IconManager.GetIcon(Icon.prop_icon), () => {
                 WindowManager.ShowCreateNewProp();
             });
 
 
-            string styleMsg = "Roomful style is used to build rooms" +
+            string styleMsg = "Styles are the building blocks for rooms" +
                 "\n" +
                 "Create your unique and awesome style!";
             DrawCreateAssetItem("Style", styleMsg, IconManager.GetIcon(Icon.style_icon), () => {
@@ -70,10 +70,10 @@ namespace RF.AssetWizzard.Editor
             });
 
 
-            string envMsg = "Environmanet is a unique room surounding" +
+            string envMsg = "Environments are effects that make rooms come alive" +
                "\n" +
-               "such as skybox, sounds, particles, visual effects etc";
-            DrawCreateAssetItem("Environmanet", envMsg, IconManager.GetIcon(Icon.environment_icon), () => {
+               "Like a skybox, sounds, particles and visual effects";
+            DrawCreateAssetItem("Environment", envMsg, IconManager.GetIcon(Icon.environment_icon), () => {
                 WindowManager.ShowCreateNewEnvironment();
             });
 
