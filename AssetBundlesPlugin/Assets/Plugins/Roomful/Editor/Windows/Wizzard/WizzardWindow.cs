@@ -43,7 +43,7 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUIUtility.labelWidth = 200f;
 		
             if (AssetBundlesSettings.Instance.IsLoggedIn) {
-                AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = 3;
+                SiwtchTab(WizardTabs.Account);
             }
 
             GUILayout.BeginHorizontal(new GUILayoutOption[0]);

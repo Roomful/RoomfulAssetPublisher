@@ -81,14 +81,14 @@ namespace RF.AssetWizzard.Editor
                 foreach (BuildTarget platfrom in AssetBundlesSettings.Instance.TargetPlatforms) {
                     if (!s_allowedPlatfroms.Contains(platfrom)) {
                         EditorUtility.DisplayDialog("Error", platfrom.ToString() + " platfrom is not supported", "Ok");
-                        AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = 2;
+                        WindowManager.Wizzard.SiwtchTab(WizardTabs.Platforms);
                         return false;
                     }
                 }
 
             } else {
                 EditorUtility.DisplayDialog("Error", "Please select at least one platfrom to upload", "Ok");
-                AssetBundlesSettings.Instance.WizardWindowSelectedTabIndex = 2;
+                WindowManager.Wizzard.SiwtchTab(WizardTabs.Platforms);
                 return false;
             }
 
