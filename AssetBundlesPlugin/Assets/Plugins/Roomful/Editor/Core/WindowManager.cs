@@ -46,7 +46,7 @@ namespace RF.AssetWizzard.Editor {
 
         public static WizardWindow Wizzard {
 			get {
-				return EditorWindow.GetWindow<WizardWindow>(true, "Asset Bundles Wizzard");
+				return EditorWindow.GetWindow<WizardWindow>(true, "Roomful Plugin");
 			}
 		}
 

@@ -24,7 +24,7 @@ namespace RF.AssetWizzard.Editor {
 		private void OnEnable() {
 
             m_sections = new List<WizzardSection>();
-            m_sections.Add(new WizzardSection("Wizzard", new WizzardPanel(this)));
+            m_sections.Add(new WizzardSection("Wizard", new WizzardPanel(this)));
             m_sections.Add(new WizzardSection("Props",   new PropsList(this)));
             m_sections.Add(new WizzardSection("Styles", new StylesList(this)));
             m_sections.Add(new WizzardSection("Environments", new EnvironmentList(this)));

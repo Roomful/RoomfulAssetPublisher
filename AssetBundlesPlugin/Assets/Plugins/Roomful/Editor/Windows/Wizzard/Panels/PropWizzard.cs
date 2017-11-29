@@ -32,7 +32,7 @@ namespace RF.AssetWizzard.Editor
                 DrawTitleFiled(GUIState);
 
                 GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Placing: ", GUILayout.Width(100));
+                EditorGUILayout.LabelField("Placement: ", GUILayout.Width(100));
                 Asset.Template.Placing = (Placing)EditorGUILayout.EnumPopup(Asset.Template.Placing, GUILayout.Width(240));
                 GUILayout.EndHorizontal();
 
@@ -47,7 +47,7 @@ namespace RF.AssetWizzard.Editor
                     GUI.enabled = GUIState;
                 }
 
-                Asset.Template.CanStack = YesNoFiled("CanStack", Asset.Template.CanStack, 100, 240);
+                Asset.Template.CanStack = YesNoFiled("Can Stack", Asset.Template.CanStack, 100, 240);
                 GUI.enabled = GUIState;
 
             }
@@ -153,7 +153,7 @@ namespace RF.AssetWizzard.Editor
         }
 
         private void DrawEmptyContentType() {
-            GUILayout.Label("Asset willn't support any content.", EditorStyles.miniLabel);
+            GUILayout.Label("Asset won't support content.", EditorStyles.miniLabel);
         }
 
 

@@ -50,7 +50,7 @@ namespace RF.AssetWizzard.Editor
                 s.margin = new RectOffset(0, 0, 0, 0);
                 s.padding = new RectOffset(2, 2, 2, 2);
 
-                GUILayout.Label("Your Assets List", s, new GUILayoutOption[] { GUILayout.Width(130) });
+                GUILayout.Label("Your Asset List", s, new GUILayoutOption[] { GUILayout.Width(130) });
                 SeartchType = (SeartchRequestType)EditorGUILayout.EnumPopup(SeartchType, GUILayout.Width(55));
 
 

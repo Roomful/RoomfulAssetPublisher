@@ -14,11 +14,11 @@ namespace RF.AssetWizzard.Editor {
 			EditorGUI.LabelField (new Rect (10, 10, 70, 70), wizardContent);
 
 
-			GUIContent headerContent = new GUIContent ("Please provide general information required \nfor a new Roomful Style");
+			GUIContent headerContent = new GUIContent ("Please provide general information about \nyour new Roomful Style");
 			EditorGUI.LabelField (new Rect (100, 10, 300, 40), headerContent);
 
 
-			EditorGUI.LabelField (new Rect (100, 50, 300, 16), "Title:");
+			EditorGUI.LabelField (new Rect (100, 50, 300, 16), "Name:");
 			Asset.Title = EditorGUI.TextField (new Rect (160, 50, 190, 16), Asset.Title);
 
 

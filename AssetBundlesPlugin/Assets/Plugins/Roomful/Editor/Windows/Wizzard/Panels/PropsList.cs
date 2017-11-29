@@ -21,7 +21,7 @@ namespace RF.AssetWizzard.Editor
         protected override void DrawAssetInfo() {
 
             AssetInfoLable("Size", SelectedAsset.Size);
-            AssetInfoLable("Placing", SelectedAsset.Placing);
+            AssetInfoLable("Placement", SelectedAsset.Placing);
             AssetInfoLable("Invoke", SelectedAsset.InvokeType);
             AssetInfoLable("Can Stack", SelectedAsset.CanStack);
             AssetInfoLable("Max Scale", SelectedAsset.MaxSize);
