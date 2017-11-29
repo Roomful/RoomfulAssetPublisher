@@ -8,7 +8,9 @@ namespace RF.AssetWizzard
     [Serializable]
     public class StyleTemplate : Template
     {
-       
-       
+
+        public StyleTemplate():base() { }
+        public StyleTemplate(string data) : base(data) { }
+
     }
 }

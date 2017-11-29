@@ -11,6 +11,15 @@ namespace RF.AssetWizzard
     public class EnvironmentAsset : Asset<EnvironmentTemplate>
     {
 
+
+        //--------------------------------------
+        // Initialization
+        //--------------------------------------
+
+        public void Start() {
+            ApplyEnvironment();
+        }
+
         public void SetTemplate(EnvironmentTemplate tpl) {
             _Template = tpl;
         }
@@ -39,8 +48,13 @@ namespace RF.AssetWizzard
 
 
         public void ApplyEnvironment() {
+
+            Debug.Log("ApplyEnvironment");
+
             RenderSettings.skybox = SkyRenderer.sharedMaterial;
             RenderSettings.ambientIntensity = Settings.AmbientIntensity;
+
+            Debug.Log(SkyRenderer.sharedMaterial);
         }
 
 

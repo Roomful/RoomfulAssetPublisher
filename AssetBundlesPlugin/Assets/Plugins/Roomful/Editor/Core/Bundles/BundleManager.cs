@@ -118,7 +118,8 @@ namespace RF.AssetWizzard.Editor
             BundleUtility.SaveTemplateToFile(PersistentTemplatePath, asset.GetTemplate());
             asset.PrepareForUpload();
 
-            metaRequest.PackageCallbackText = (updateCalback) => {
+            metaRequest.PackageCallbackText = (callback) => {
+                asset.GetTemplate().Id = new Template(callback).Id;
                 UploadAssetBundle(asset);
             };
             metaRequest.Send();
@@ -169,9 +170,11 @@ namespace RF.AssetWizzard.Editor
                         GameObject gameObject = (GameObject)GameObject.Instantiate(bundleObject) as GameObject;
                         gameObject.name = tpl.Title;
 
+    
                         IAsset asset = CreateDownloadedAsset(tpl, gameObject);
-
                         RunCollectors(asset);
+
+
                         UnityEditor.AssetDatabase.DeleteAsset(bundlePath);
                     };
 

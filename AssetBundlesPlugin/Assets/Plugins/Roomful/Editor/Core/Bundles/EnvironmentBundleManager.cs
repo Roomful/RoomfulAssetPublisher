@@ -9,8 +9,8 @@ namespace RF.AssetWizzard.Editor
     {
 
         public override void CreateAsset(EnvironmentTemplate tpl) {
-            EnvironmentAsset createdProp = new GameObject(tpl.Title).AddComponent<EnvironmentAsset>();
-            createdProp.SetTemplate(tpl);
+            EnvironmentAsset asset = new GameObject(tpl.Title).AddComponent<EnvironmentAsset>();
+            asset.SetTemplate(tpl);
         }
 
         public override IAsset CreateDownloadedAsset(EnvironmentTemplate tpl, GameObject gameObject) {

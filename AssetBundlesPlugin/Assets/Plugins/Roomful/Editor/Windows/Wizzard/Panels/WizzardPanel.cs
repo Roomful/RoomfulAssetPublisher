@@ -40,6 +40,7 @@ namespace RF.AssetWizzard.Editor
                 if(m_wizards == null || m_wizards.Count == 0) {
                     m_wizards = new List<IAssetWizzard>();
                     m_wizards.Add(new PropWizzard());
+                    m_wizards.Add(new EnvironmentWizzard());
                 }
 
                 return m_wizards;
