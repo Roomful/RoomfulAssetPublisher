@@ -102,7 +102,7 @@ namespace RF.AssetWizzard.Editor
         }
 
         private void DrawEmptyPlatform() {
-            GUILayout.Label("Please select atleas one asset platfrom", EditorStyles.miniLabel);
+            GUILayout.Label("Please select at least one platform", EditorStyles.miniLabel);
         }
     }
 }

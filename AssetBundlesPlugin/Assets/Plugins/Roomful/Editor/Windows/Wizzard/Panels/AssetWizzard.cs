@@ -55,7 +55,7 @@ namespace RF.AssetWizzard.Editor
                 }
 
             } else {
-                bool upload = GUI.Button(buttonRect1, "Re Upload");
+                bool upload = GUI.Button(buttonRect1, "Reupload");
                 if (upload) {
                     Upload();
                 }

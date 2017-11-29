@@ -26,7 +26,7 @@ namespace RF.AssetWizzard.Editor
             }
 
 
-            GUILayout.Label("Roomful asset wizzard. Logged as: " + AssetBundlesSettings.Instance.SessionId);
+            GUILayout.Label("Roomful asset wizzard. Logged in as: " + AssetBundlesSettings.Instance.SessionId);
 
             if (GUILayout.Button("Log Out")) {
                 Mail = string.Empty;
@@ -40,7 +40,7 @@ namespace RF.AssetWizzard.Editor
         private void AuthWindow() {
             GUILayout.BeginVertical();
 
-            Mail = EditorGUILayout.TextField("Mail: ", Mail);
+            Mail = EditorGUILayout.TextField("E-mail: ", Mail);
             Password = EditorGUILayout.PasswordField("Password: ", Password);
 
             if (GUILayout.Button("Log In")) {
