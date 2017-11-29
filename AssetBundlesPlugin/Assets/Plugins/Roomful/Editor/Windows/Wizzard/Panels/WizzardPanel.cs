@@ -55,10 +55,26 @@ namespace RF.AssetWizzard.Editor
             GUILayout.Space(10);
 
 
+            Texture2D prop_icon = IconManager.GetIcon(Icon.prop_icon_light);
+            if (EditorGUIUtility.isProSkin) {
+                prop_icon = IconManager.GetIcon(Icon.prop_icon);
+            }
+
+            Texture2D environment_icon = IconManager.GetIcon(Icon.environment_icon_light);
+            if (EditorGUIUtility.isProSkin) {
+                environment_icon = IconManager.GetIcon(Icon.environment_icon);
+            }
+
+            Texture2D style_icon = IconManager.GetIcon(Icon.style_icon_light);
+            if (EditorGUIUtility.isProSkin) {
+                style_icon = IconManager.GetIcon(Icon.style_icon);
+            }
+
+
             string propMsg = "Props are objects that can be placed in rooms" +
                 "\n" +
                 "Upload any 3D model, and share it with the world" ;
-            DrawCreateAssetItem("Prop", propMsg, IconManager.GetIcon(Icon.prop_icon), () => {
+            DrawCreateAssetItem("Prop", propMsg, prop_icon, () => {
                 WindowManager.ShowCreateNewProp();
             });
 
@@ -66,7 +82,7 @@ namespace RF.AssetWizzard.Editor
             string styleMsg = "Styles are the building blocks for rooms" +
                 "\n" +
                 "Create your unique and awesome style!";
-            DrawCreateAssetItem("Style", styleMsg, IconManager.GetIcon(Icon.style_icon), () => {
+            DrawCreateAssetItem("Style", styleMsg, style_icon, () => {
                 WindowManager.ShowCreateNewStyle();
             });
 
@@ -74,7 +90,7 @@ namespace RF.AssetWizzard.Editor
             string envMsg = "Environments are effects that make rooms come alive" +
                "\n" +
                "Like a skybox, sounds, particles and visual effects";
-            DrawCreateAssetItem("Environment", envMsg, IconManager.GetIcon(Icon.environment_icon), () => {
+            DrawCreateAssetItem("Environment", envMsg, environment_icon, () => {
                 WindowManager.ShowCreateNewEnvironment();
             });
 
