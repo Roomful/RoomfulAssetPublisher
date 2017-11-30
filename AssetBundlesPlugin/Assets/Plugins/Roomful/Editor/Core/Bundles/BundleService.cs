@@ -17,8 +17,10 @@ namespace RF.AssetWizzard.Editor
 
         static BundleService() {
             s_bundles = new List<IBundleManager>();
+
             s_bundles.Add(new PropBundleManager());
             s_bundles.Add(new EnvironmentBundleManager());
+            s_bundles.Add(new StyleBundleManager());
         }
 
 

@@ -7,19 +7,19 @@ using Rotorz.ReorderableList;
 
 namespace RF.AssetWizzard.Editor
 {
-    public class EnvironmentWizzard : AssetWizzard<EnvironmentAsset>
+    public class StyleWizzard : AssetWizzard<StyleAsset>
     {
 
         public override void Create() {
-            WindowManager.ShowCreateNewEnvironment();
+            WindowManager.ShowCreateNewStyle();
         }
 
         public override void Download() {
-            BundleService.Download<EnvironmentTemplate>(Asset.Template);
+            BundleService.Download<StyleTemplate>(Asset.Template);
         }
 
         public override void Upload() {
-            BundleService.Upload<EnvironmentAsset>(Asset);
+            BundleService.Upload<StyleAsset>(Asset);
         }
 
 

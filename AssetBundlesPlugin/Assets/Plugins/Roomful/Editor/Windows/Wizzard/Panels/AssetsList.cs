@@ -27,6 +27,8 @@ namespace RF.AssetWizzard.Editor
 
 
 
+        protected abstract void CreateNewAsset();
+
 
         public override void OnGUI() {
 
@@ -71,7 +73,7 @@ namespace RF.AssetWizzard.Editor
 
                 bool addnew = GUILayout.Button("+", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20));
                 if (addnew) {
-                    WindowManager.ShowCreateNewProp();
+                    CreateNewAsset();
                 }
 
 

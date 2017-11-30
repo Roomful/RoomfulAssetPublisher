@@ -18,8 +18,12 @@ namespace RF.AssetWizzard.Editor
 
         public static bool Run(EnvironmentAsset asset) {
             if (!IsValidAsset(asset)) { return false; }
+            return true;
+        }
 
 
+        public static bool Run(StyleAsset asset) {
+            if (!IsValidAsset(asset)) { return false; }
             return true;
         }
 

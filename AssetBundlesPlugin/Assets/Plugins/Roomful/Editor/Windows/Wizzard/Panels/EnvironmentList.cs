@@ -12,6 +12,10 @@ namespace RF.AssetWizzard.Editor
         public EnvironmentList(EditorWindow window) : base(window) { }
 
 
+        protected override void CreateNewAsset() {
+            WindowManager.ShowCreateNewEnvironment();
+        }
+
         protected override List<EnvironmentTemplate> LocalySavedTemplates {
             get {
                 return AssetBundlesSettings.Instance.LocalEnvironmentsTemplates;

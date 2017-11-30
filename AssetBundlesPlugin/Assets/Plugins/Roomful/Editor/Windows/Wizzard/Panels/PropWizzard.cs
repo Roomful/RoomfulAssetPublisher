@@ -11,7 +11,7 @@ namespace RF.AssetWizzard.Editor
     {
 
         public override void Create() {
-            BundleService.Create<PropTemplate>(Asset.Template);
+            WindowManager.ShowCreateNewProp();
         }
 
         public override void Download() {

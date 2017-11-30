@@ -12,6 +12,11 @@ namespace RF.AssetWizzard.Editor
         public PropsList(EditorWindow window) : base(window) { }
 
 
+        protected override void CreateNewAsset() {
+            WindowManager.ShowCreateNewProp();
+        }
+
+
         protected override List<PropTemplate> LocalySavedTemplates {
             get {
                 return AssetBundlesSettings.Instance.LocalPropTemplates;

@@ -12,6 +12,11 @@ namespace RF.AssetWizzard.Editor
         public StylesList(EditorWindow window) : base(window) { }
 
 
+        protected override void CreateNewAsset() {
+            WindowManager.ShowCreateNewStyle();
+        }
+
+
         protected override List<StyleTemplate> LocalySavedTemplates {
             get {
                 return AssetBundlesSettings.Instance.LocalStyleTemplates;

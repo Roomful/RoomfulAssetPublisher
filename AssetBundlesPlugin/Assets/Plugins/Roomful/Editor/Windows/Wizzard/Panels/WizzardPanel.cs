@@ -43,6 +43,7 @@ namespace RF.AssetWizzard.Editor
                     m_wizards = new List<IAssetWizzard>();
                     m_wizards.Add(new PropWizzard());
                     m_wizards.Add(new EnvironmentWizzard());
+                    m_wizards.Add(new StyleWizzard());
                 }
 
                 return m_wizards;
