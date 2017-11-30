@@ -63,7 +63,7 @@ namespace RF.AssetWizzard.Editor {
 
 
             if(Asset.DisplayMode == PropDisplayMode.Silhouette || Asset.DisplayMode == PropDisplayMode.Hybrid) {
-                EditorGUILayout.HelpBox("The Silhouette is a placeholder so the user knows your prop is being downloaded. We recommend you create a simplified version of your object that fully envelops your prop.Use the 'Hybrid' view on the Prop Inspector to check how your silhouette is working", MessageType.Info);
+                EditorGUILayout.HelpBox("The Silhouette is a placeholder so the user knows your prop is being downloaded.\nWe recommend you create a simplified version of your object that fully envelops your prop. Use the 'Hybrid' Display Mode to check how your silhouette is working", MessageType.Info);
             }
 
 			if(Asset.DisplayMode == PropDisplayMode.Silhouette) {
@@ -95,23 +95,23 @@ namespace RF.AssetWizzard.Editor {
 
 			if(!Asset.HasCollisison) {
 				valid = false;
-				EditorGUILayout.HelpBox("Your asset has no colliders, consider to add one.", MessageType.Error);
+				EditorGUILayout.HelpBox("Your asset has no colliders, consider adding one.", MessageType.Error);
 			}
 
 
 		
 			if(HasMeshCollisison) {
 				valid = false;
-				EditorGUILayout.HelpBox("Having MeshColliders inside your asset mey cause a low performance. Consider replacing it with primitive colliders.", MessageType.Warning);
+				EditorGUILayout.HelpBox("Using Mesh Colliders in your asset may cause low performance. Consider replacing them with primitive colliders.", MessageType.Warning);
 			}
 
 
 			if(valid) {
-				EditorGUILayout.HelpBox("Asset is valid. No issues was found so far.", MessageType.Info);
+				EditorGUILayout.HelpBox("Asset is valid. No issues were found", MessageType.Info);
 			}
 
 			if(HasLights) {
-				EditorGUILayout.HelpBox("Please note, that light's range, spot angle, width and height will be scaled with accordinally to a prop scale in runtime. But that behaviour can't be tested inside the editor", MessageType.Info);
+				EditorGUILayout.HelpBox("Please note that in Roomful the light's range, spot angle, width and height will be scaled with the prop's scale. This behaviour can't be tested here", MessageType.Info);
 			}
 
 		}
