@@ -62,6 +62,10 @@ namespace RF.AssetWizzard.Editor {
 			bool valid = true;
 
 
+            if(Asset.DisplayMode == PropDisplayMode.Silhouette || Asset.DisplayMode == PropDisplayMode.Hybrid) {
+                EditorGUILayout.HelpBox("The Silhouette is a placeholder so the user knows your prop is being downloaded. We recommend you create a simplified version of your object that fully envelops your prop.Use the 'Hybrid' view on the Prop Inspector to check how your silhouette is working", MessageType.Info);
+            }
+
 			if(Asset.DisplayMode == PropDisplayMode.Silhouette) {
 
 				if(Asset.IsEmpty) {
