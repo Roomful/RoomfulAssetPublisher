@@ -36,5 +36,11 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
+        public bool CanBeSelected {
+            get {
+                return m_panel.CanBeSelected;
+            }
+        }
+
     }
 }

@@ -24,6 +24,12 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
+        public virtual bool CanBeSelected {
+            get {
+                return true;
+            }
+        }
+
 
        
     }

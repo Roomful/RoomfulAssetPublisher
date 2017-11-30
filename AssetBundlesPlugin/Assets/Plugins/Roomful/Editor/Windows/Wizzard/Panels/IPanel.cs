@@ -5,6 +5,7 @@
     {
 
         void OnGUI();
-      
+        bool CanBeSelected { get;  }
+
     }
 }
