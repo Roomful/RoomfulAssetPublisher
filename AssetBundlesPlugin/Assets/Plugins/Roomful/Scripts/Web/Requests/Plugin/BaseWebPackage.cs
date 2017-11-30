@@ -2,7 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Networking;
+
+
+using SA.Common.Models;
 
 namespace RF.AssetWizzard.Network.Request {
 	public abstract class BaseWebPackage  {
@@ -20,6 +22,8 @@ namespace RF.AssetWizzard.Network.Request {
         public Action<float> UploadProgress = delegate { };
 
         protected Dictionary<string, string> _Headers = new Dictionary<string, string>();
+
+        private Error m_error = null;
 
 		//--------------------------------------
 		//  Initialization
@@ -100,6 +104,12 @@ namespace RF.AssetWizzard.Network.Request {
 			}
 		}
 
+        public Error Error {
+            get {
+                return m_error;
+            }
+        }
+
 		//--------------------------------------
 		// Public Methods
 		//--------------------------------------
@@ -113,12 +123,8 @@ namespace RF.AssetWizzard.Network.Request {
 		}
 
 
-        public virtual void RequestFailed(long code,  string text) {
-
-#if UNITY_EDITOR
-			UnityEditor.EditorUtility.DisplayDialog("Server Comunication Eroor",  "Code: " + code +  "\nMessage: " + text + "\nURL: " + Url, "Ok :(");
-#endif
-
+        public virtual void RequestFailed(long code,  string message) {
+            m_error = new Error((int)code, message);
             PackageCallbackError(code); 
         }
 

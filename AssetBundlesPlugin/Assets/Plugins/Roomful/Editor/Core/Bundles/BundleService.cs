@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEditor;
 
 
 namespace RF.AssetWizzard.Editor
 {
+    [InitializeOnLoad]
     public static class BundleService
     {
 
@@ -21,6 +22,8 @@ namespace RF.AssetWizzard.Editor
             s_bundles.Add(new PropBundleManager());
             s_bundles.Add(new EnvironmentBundleManager());
             s_bundles.Add(new StyleBundleManager());
+
+            Network.WebServer.OnRequestFiled += OnRequestFiled;
         }
 
 
@@ -80,6 +83,17 @@ namespace RF.AssetWizzard.Editor
                 }
             }
             return null;
+        }
+
+
+        //--------------------------------------
+        // Event Handlers
+        //--------------------------------------
+
+        private static void OnRequestFiled(Network.Request.BaseWebPackage package) {
+
+            EditorUtility.DisplayDialog("Server Comunication Eroor", "Code: " + package.Error.Code + "\nMessage: " + package.Error.Message + "\nURL: " + package.Url, "Ok :(");
+            BundleUtility.DeleteTempFiles();
         }
 
         //--------------------------------------

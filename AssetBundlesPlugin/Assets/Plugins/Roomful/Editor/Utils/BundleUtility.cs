@@ -59,7 +59,7 @@ namespace RF.AssetWizzard.Editor
             }
 
             DeleteTempFiles();
-            EditorProgressBar.FinishUploadProgress();
+          
 
         }
 
@@ -75,6 +75,7 @@ namespace RF.AssetWizzard.Editor
 
         public static void DeleteTempFiles() {
             FolderUtils.DeleteFolder(AssetBundlesSettings.ASSETS_TEMP_LOCATION);
+            EditorProgressBar.FinishUploadProgress();
         }
 
 

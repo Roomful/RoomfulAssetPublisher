@@ -11,8 +11,10 @@ using UnityEditor;
 #endif
 
 namespace RF.AssetWizzard.Network {
-	internal class WebServer : SA.Common.Pattern.NonMonoSingleton<WebServer> {
+	public class WebServer : SA.Common.Pattern.NonMonoSingleton<WebServer> {
 		private static List<Request.BaseWebPackage> DelayedPackages =  new List<Request.BaseWebPackage>();
+
+        public static Action<Request.BaseWebPackage> OnRequestFiled = delegate { };
 
 
 		public const string HeaderSessionId = "x-session-id";
@@ -101,6 +103,7 @@ namespace RF.AssetWizzard.Network {
 
 				if (www.isNetworkError || www.isHttpError) {
                     package.RequestFailed(www.responseCode, www.error);
+                    OnRequestFiled(package);
                 } else {
                     if (www.responseCode == 200) {
                         string logStrning = CleanUpInput(www.downloadHandler.text);
@@ -111,11 +114,13 @@ namespace RF.AssetWizzard.Network {
                         package.PackageCallbackText(www.downloadHandler.text);
                         package.PackageCallbackData(www.downloadHandler.data);
                     } else {
-                        package.RequestFailed(www.responseCode, www.downloadHandler.text);
 
+                        package.RequestFailed(www.responseCode, www.downloadHandler.text);
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
                             U.Log(package.Url + "::Response code: " + www.responseCode + ", message: " + www.downloadHandler.text, SA.UltimateLogger.DefaultTags.IN);
                         }
+
+                        OnRequestFiled(package);
 
                     }
                 }
