@@ -338,13 +338,17 @@ namespace RF.AssetWizzard {
 			bool hasBounds = false;
 
 			_Size = new Bounds (Vector3.zero, Vector3.zero);
-			Renderer[] ChildrenRenderer = GetComponentsInChildren<MeshRenderer> ();
+			Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer> ();
 
 			Quaternion oldRotation = transform.rotation;
 			transform.rotation = Quaternion.identity;
 
-			foreach (MeshRenderer child in ChildrenRenderer) {
+			foreach (Renderer child in ChildrenRenderer) {
 	
+                if(child.GetComponent<ParticleSystem>() != null) {
+                    continue;
+                }
+
 				if (IsIgnored(child.transform)) {
 					continue;
 				}
