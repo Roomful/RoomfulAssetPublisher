@@ -41,27 +41,21 @@ public static class SA_UnityExtensions  {
 		var renderers = go.GetComponentsInChildren<Renderer>(false);
 		var combinedBounds = new Bounds(go.transform.position, Vector3.zero);
 
-		foreach (var render in renderers) {
-			if (render.bounds.size != Vector3.zero) {
-				combinedBounds.Encapsulate(render.bounds);
+		foreach (var renderer in renderers) {
+
+            if (renderer.GetComponent<ParticleSystem>() != null) {
+                continue;
+            }
+
+
+            if (renderer.bounds.size != Vector3.zero) {
+				combinedBounds.Encapsulate(renderer.bounds);
 			}
 		}
 
 		return combinedBounds;
 	}
 
-	public static Bounds GetRealBounds (this Component go) {
-		var renderers = go.GetComponentsInChildren<Renderer>(false);
-		var combinedBounds = new Bounds(go.transform.position, Vector3.zero);
-
-		foreach (var render in renderers) {
-			if (render.bounds.size != Vector3.zero) {
-				combinedBounds.Encapsulate(render.bounds);
-			}
-		}
-
-		return combinedBounds;
-	}
 
 
 	public static Bounds GetRendererBounds(this GameObject go) {
@@ -264,7 +258,11 @@ public static class SA_UnityExtensions  {
 
 		foreach(Renderer child in ChildrenRenderer) {
 
-			if(!hasBounds) {
+            if (child.GetComponent<ParticleSystem>() != null) {
+                continue;
+            }
+
+            if (!hasBounds) {
 				Bounds = child.bounds;
 				hasBounds = true;
 			} else {
