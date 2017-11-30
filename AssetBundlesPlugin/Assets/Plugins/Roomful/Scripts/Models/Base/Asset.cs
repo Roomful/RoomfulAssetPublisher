@@ -114,5 +114,12 @@ namespace RF.AssetWizzard
             }
         }
 
+        public bool IsEmpty {
+            get {
+                Renderer[] renderers = GetComponentsInChildren<Renderer>();
+                return renderers.Length == 0;
+            }
+        }
+
     }
 }

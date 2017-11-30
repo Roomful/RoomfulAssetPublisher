@@ -255,13 +255,26 @@ namespace RF.AssetWizzard {
 
 		}
 
+        public bool HasCollisison {
+            get {
+                Collider[] colliders = GetComponentsInChildren<Collider>();
+                PropThumbnail[] thumbnails = GetComponentsInChildren<PropThumbnail>();
 
-		//--------------------------------------
-		// Private Methods
-		//--------------------------------------
+                if (colliders.Length == 0 && thumbnails.Length == 0) {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
 
-		private void PreliminaryVisualisation () {
+        //--------------------------------------
+        // Private Methods
+        //--------------------------------------
+
+
+        private void PreliminaryVisualisation () {
 			
 			foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
 				GetLayer (layer).gameObject.SetActive (true);

@@ -64,7 +64,7 @@ namespace RF.AssetWizzard.Editor {
 
 			if(Asset.DisplayMode == PropDisplayMode.Silhouette) {
 
-				if(IsEmpty) {
+				if(Asset.IsEmpty) {
 					valid = false;
 					EditorGUILayout.HelpBox("Silhouette is empty! Please add some graphics.", MessageType.Error);
 				}
@@ -72,7 +72,7 @@ namespace RF.AssetWizzard.Editor {
 				return;
 			}
 
-			if(IsEmpty) {
+			if(Asset.IsEmpty) {
 				valid = false;
 				EditorGUILayout.HelpBox("Asset is empty! Please add some graphics.", MessageType.Error);
 			}
@@ -82,9 +82,9 @@ namespace RF.AssetWizzard.Editor {
 				EditorGUILayout.HelpBox("Silhouette is empty! Please add some graphics.", MessageType.Error);
 			}
 
-			if(!HasCollisison) {
+			if(!Asset.HasCollisison) {
 				valid = false;
-				EditorGUILayout.HelpBox("Your asset has no colliders, consider to add one.", MessageType.Warning);
+				EditorGUILayout.HelpBox("Your asset has no colliders, consider to add one.", MessageType.Error);
 			}
 
 
@@ -113,26 +113,6 @@ namespace RF.AssetWizzard.Editor {
             }
         }
 
-
-        public bool IsEmpty {
-			get {
-				Renderer[] renderers = Asset.GetComponentsInChildren<Renderer> ();
-				return renderers.Length == 0;
-			}
-		}
-
-		public bool HasCollisison {
-			get {
-				Collider[] colliders = Asset.GetComponentsInChildren<Collider> ();
-				PropThumbnail[] thumbnails = Asset.GetComponentsInChildren<PropThumbnail> ();
-
-				if(colliders.Length == 0 && thumbnails.Length == 0) {
-					return false;
-				}
-
-				return true;
-			}
-		}
 
 		public bool HasMeshCollisison {
 			get {

@@ -40,8 +40,18 @@ namespace RF.AssetWizzard.Editor
                 return false;
             }
 
-            if (asset.Model.childCount < 1) {
+            if (asset.IsEmpty) {
                 EditorUtility.DisplayDialog("Error", "Asset is empty!", "Ok");
+                return false;
+            }
+
+            if (!asset.HasCollisison) {
+                EditorUtility.DisplayDialog("Error", "Your asset has no colliders, consider to add one.", "Ok");
+                return false;
+            }
+
+            if (asset.GetLayer(HierarchyLayers.Silhouette).transform.childCount == 0) {
+                EditorUtility.DisplayDialog("Error", "Silhouette is empty! Please add some graphics!", "Ok");
                 return false;
             }
 
