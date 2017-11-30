@@ -32,15 +32,9 @@ namespace RF.AssetWizzard.Editor
 
             if(!IsValidAsset(asset)) { return false; }
 
-            float max = Mathf.Max(asset.Size.x, asset.Size.y, asset.Size.z);
 
-            if (max < PropTemplate.MIN_ALLOWED_AXIS_SIZE) {
-                EditorUtility.DisplayDialog("Error", "Your Asset is too small", "Ok");
-                return false;
-            }
-
-            if (max > PropTemplate.MAX_ALLOWED_AXIS_SIZE) {
-                EditorUtility.DisplayDialog ("Error", "Your Asset is too big", "Ok");
+            if(!asset.ValidSize) {
+                EditorUtility.DisplayDialog("Error", "Your prop's default size doesn't follow our guidelines. We recommend you keep your prop between 50cm and 3m", "Ok");
                 return false;
             }
 

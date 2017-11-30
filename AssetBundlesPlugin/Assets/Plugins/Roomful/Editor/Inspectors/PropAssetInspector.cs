@@ -76,7 +76,14 @@ namespace RF.AssetWizzard.Editor {
 				return;
 			}
 
-			if(Asset.IsEmpty) {
+
+            if (!Asset.ValidSize) {
+                valid = false;
+                EditorGUILayout.HelpBox("Your prop's default size doesn't follow our guidelines. We recommend you keep your prop between 50cm and 3m", MessageType.Error);
+            }
+
+
+            if (Asset.IsEmpty) {
 				valid = false;
 				EditorGUILayout.HelpBox("Asset is empty! Please add some graphics.", MessageType.Error);
 			}

@@ -268,6 +268,16 @@ namespace RF.AssetWizzard {
             }
         }
 
+        public bool ValidSize {
+            get {
+                if (MaxAxisValue > PropTemplate.MAX_ALLOWED_AXIS_SIZE || MaxAxisValue < PropTemplate.MIN_ALLOWED_AXIS_SIZE) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
 
         //--------------------------------------
         // Private Methods
