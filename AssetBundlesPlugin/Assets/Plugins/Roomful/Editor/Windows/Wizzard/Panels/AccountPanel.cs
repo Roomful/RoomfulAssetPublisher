@@ -33,6 +33,7 @@ namespace RF.AssetWizzard.Editor
                 Password = string.Empty;
 
                 AssetBundlesSettings.Instance.SetSessionId(string.Empty);
+                BundleUtility.ClearLocalCache();
             }
         }
 

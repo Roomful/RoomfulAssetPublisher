@@ -57,6 +57,10 @@ namespace RF.AssetWizzard.Editor
             if (FolderUtils.IsFolderExists(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION)) {
                 FolderUtils.DeleteFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
             }
+
+            DeleteTempFiles();
+            EditorProgressBar.FinishUploadProgress();
+
         }
 
         public static void ClearLocalCacheForAsset(Template tpl) {
