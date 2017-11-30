@@ -115,8 +115,8 @@ namespace RF.AssetWizzard.Editor
             FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
 
 
-            BundleUtility.SaveTemplateToFile(PersistentTemplatePath, asset.GetTemplate());
             asset.PrepareForUpload();
+            BundleUtility.SaveTemplateToFile(PersistentTemplatePath, asset.GetTemplate());
 
             metaRequest.PackageCallbackText = (callback) => {
                 asset.GetTemplate().Id = new Template(callback).Id;

@@ -77,14 +77,23 @@ namespace RF.AssetWizzard.Editor
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Allowed Scale: ", GUILayout.Width(100));
 
-            float minLimit = AssetBundlesSettings.MIN_ALLOWED_SIZE;
-            float maxLimit = AssetBundlesSettings.MAX_AlLOWED_SIZE;
+            float minSize = Asset.Template.MinSize;
+            float maxSize = Asset.Template.MaxSize;
+            EditorGUILayout.MinMaxSlider(ref minSize, ref maxSize, PropTemplate.MIN_ALLOWED_AXIS_SIZE, PropTemplate.MAX_ALLOWED_AXIS_SIZE, GUILayout.Width(240));  //    EditorGUILayout.MinMaxSlider (CurrentProp.Template.MinScale, GUILayout.Width (240));
 
-            EditorGUILayout.MinMaxSlider(ref Asset.Template.MinSize, ref Asset.Template.MaxSize, minLimit, maxLimit, GUILayout.Width(240));  //    EditorGUILayout.MinMaxSlider (CurrentProp.Template.MinScale, GUILayout.Width (240));
+
+            Asset.Template.MinSize = minSize;
+            Asset.Template.MaxSize = maxSize;
+
+            if (Asset.MinScale >= 1f) {
+                Asset.Template.MinSize = Asset.MaxAxisValue;
+            }
 
             if (Asset.Template.MaxSize < Asset.MaxAxisValue) {
                 Asset.Template.MaxSize = Asset.MaxAxisValue;
             }
+
+
 
             EditorGUILayout.LabelField(Mathf.CeilToInt(Asset.Template.MinSize * 100f) + "mm / " + Mathf.CeilToInt(Asset.Template.MaxSize * 100f) + "mm", alignment_right, GUILayout.Width(99));
             GUILayout.EndHorizontal();

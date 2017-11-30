@@ -30,14 +30,14 @@ namespace RF.AssetWizzard.Editor
 
             float max = Mathf.Max(asset.Size.x, asset.Size.y, asset.Size.z);
 
-            if (max < AssetBundlesSettings.MIN_ALLOWED_SIZE) {
+            if (max < PropTemplate.MIN_ALLOWED_AXIS_SIZE) {
                 EditorUtility.DisplayDialog("Error", "Your Asset is too small", "Ok");
                 return false;
             }
 
-            if (max > AssetBundlesSettings.MAX_AlLOWED_SIZE) {
-                //EditorUtility.DisplayDialog ("Error", "Your Asset is too big", "Ok");
-               // return false;
+            if (max > PropTemplate.MAX_ALLOWED_AXIS_SIZE) {
+                EditorUtility.DisplayDialog ("Error", "Your Asset is too big", "Ok");
+                return false;
             }
 
             if (asset.Model.childCount < 1) {

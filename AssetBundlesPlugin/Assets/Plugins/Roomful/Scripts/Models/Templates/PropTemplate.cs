@@ -8,19 +8,24 @@ namespace RF.AssetWizzard {
 	[Serializable]
 	public class PropTemplate : Template
     {
+        public const float MIN_ALLOWED_AXIS_SIZE = 0.5f;
+        public const float MAX_ALLOWED_AXIS_SIZE = 4f;
+
+
 		public Placing Placing = Placing.Floor;
 		public InvokeTypes InvokeType = InvokeTypes.Default;
-		
-		public float MinSize = 0.5f;
-		public float MaxSize = 3f;
+
 		public bool CanStack = false;
 		public List<ContentType> ContentTypes =  new List<ContentType>();
 		public AssetSilhouette Silhouette = null;
 
-
 		public Vector3 Size =  Vector3.one;
+        protected float m_minSize = MIN_ALLOWED_AXIS_SIZE;
+        protected float m_maxSize = MAX_ALLOWED_AXIS_SIZE;
 
-		public PropTemplate():base() {}
+
+
+        public PropTemplate():base() {}
         public PropTemplate(string data) : base(data) { }
 
 
@@ -33,8 +38,8 @@ namespace RF.AssetWizzard {
 
 			OriginalJSON.Add("assetmesh", Silhouette.ToDictionary());
 
-			OriginalJSON.Add("minScale", MinSize);
-			OriginalJSON.Add("maxScale", MaxSize);
+			OriginalJSON.Add("minScale", m_minSize);
+			OriginalJSON.Add("maxScale", m_maxSize);
 
 			var sizeData = new Dictionary<string, object> ();
 			sizeData.Add ("x", Size.x);
@@ -62,8 +67,8 @@ namespace RF.AssetWizzard {
 				Silhouette = new AssetSilhouette (SilhouetteInfo);
 			}
 
-			MinSize = assetData.GetValue<float> ("minScale");
-			MaxSize = assetData.GetValue<float> ("maxScale");
+            MinSize = assetData.GetValue<float> ("minScale");
+            MaxSize = assetData.GetValue<float> ("maxScale");
 			CanStack  = assetData.GetValue<bool> ("canStack");
 
 
@@ -85,5 +90,28 @@ namespace RF.AssetWizzard {
 			Size.z = sizeData.GetValue<float> ("z");
 		}
 
-	}
+
+        public float MinSize {
+            get {
+                return m_minSize;
+            }
+
+            set {
+                value = Math.Max(MIN_ALLOWED_AXIS_SIZE, value);
+                m_minSize = value;
+            }
+        }
+
+        public float MaxSize {
+            get {
+                return m_maxSize;
+            }
+
+            set {
+                value = Math.Min(MAX_ALLOWED_AXIS_SIZE, value);
+                m_maxSize = value;
+            }
+        }
+
+    }
 }

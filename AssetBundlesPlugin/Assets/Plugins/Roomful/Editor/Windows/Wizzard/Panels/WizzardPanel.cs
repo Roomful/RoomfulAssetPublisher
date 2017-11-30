@@ -31,6 +31,8 @@ namespace RF.AssetWizzard.Editor
             }
 
             NoAssetWizard();
+
+            Window.Repaint();
         }
 
      

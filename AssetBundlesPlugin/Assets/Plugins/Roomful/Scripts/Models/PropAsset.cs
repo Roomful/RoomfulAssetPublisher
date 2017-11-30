@@ -219,6 +219,8 @@ namespace RF.AssetWizzard {
 				if (MaxAxisValue == 0) {
 					return 1;
 				}
+
+
 				return Template.MinSize / MaxAxisValue;
 			}
 		}
@@ -423,7 +425,7 @@ namespace RF.AssetWizzard {
 
 
 			transform.rotation = Quaternion.identity;
-			transform.localScale = Vector3.one;
+			transform.localScale = Vector3.one * Scale;
 
 			if(Template.Placing == Placing.Floor) {
 				transform.position = Vector3.zero;

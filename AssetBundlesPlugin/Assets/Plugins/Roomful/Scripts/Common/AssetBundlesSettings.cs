@@ -22,7 +22,7 @@ namespace RF.AssetWizzard {
         private const string SettingsAssetName = "AssetBundlesSettings";
         private const string SettingsAssetExtension = ".asset";
 
-        public static string WEB_SERVER_URL = "https://demo.roomful.co:5443";
+        public static string WEB_SERVER_URL = "https://demo.roomful.co:3443";
 	
 		public const string ASSETS_TEMP_LOCATION = "Roomful/Temp/";
 		public const string FULL_ASSETS_TEMP_LOCATION = "Assets/" + ASSETS_TEMP_LOCATION;
@@ -34,9 +34,6 @@ namespace RF.AssetWizzard {
 		public const string PLUGIN_PREFABS_LOCATION = PLUGIN_LOCATION + "Prefabs/";
 
 		public const string SETTINGS_LOCATION = "Plugins/Roomful/Editor/Resources/Settings/";
-
-        public const float MAX_AlLOWED_SIZE = 4f;
-        public const float MIN_ALLOWED_SIZE = 0.3f;
 
         public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
         public const string THUMBNAIL_RESOURCE_INDEX_BOUND = "ResourceIndexBound";

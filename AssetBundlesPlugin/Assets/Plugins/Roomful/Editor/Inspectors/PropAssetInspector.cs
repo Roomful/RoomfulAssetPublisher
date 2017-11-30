@@ -34,14 +34,13 @@ namespace RF.AssetWizzard.Editor {
 
 
 			GUILayout.BeginHorizontal ();
-			Vector3 def = Asset.Size * 100f;
+			Vector3 def = Asset.Size * 100f * Asset.Scale;
 
 			EditorGUILayout.LabelField ("Size(mm): ");
 			EditorGUILayout.LabelField ((int)def.x + "x" + (int)def.y + "x" + (int)def.z);
 			GUILayout.EndHorizontal ();
 
-
-
+            
 			EditorGUILayout.Slider (scaleProperty, Asset.MinScale, Asset.MaxScale);
 
 			EditorGUILayout.PropertyField (DisplayMode);
