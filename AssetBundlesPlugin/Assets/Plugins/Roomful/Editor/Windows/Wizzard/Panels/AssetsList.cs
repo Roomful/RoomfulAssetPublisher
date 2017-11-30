@@ -11,7 +11,7 @@ namespace RF.AssetWizzard.Editor
     public abstract class AssetsList<T> : Panel where T : Template
     {
         protected T SelectedAsset = null;
-        protected SeartchRequestType SeartchType = SeartchRequestType.ByTag;
+        protected SeartchRequestType SeartchType = SeartchRequestType.ByName;
         protected string SeartchPattern = string.Empty;
 
         private Vector2 m_KeyScrollPos;
@@ -53,7 +53,7 @@ namespace RF.AssetWizzard.Editor
                 s.padding = new RectOffset(2, 2, 2, 2);
 
                 GUILayout.Label("Your Asset List", s, new GUILayoutOption[] { GUILayout.Width(130) });
-                SeartchType = (SeartchRequestType)EditorGUILayout.EnumPopup(SeartchType, GUILayout.Width(55));
+                SeartchType = (SeartchRequestType)EditorGUILayout.EnumPopup(SeartchType, GUILayout.Width(67));
 
 
                 GUI.SetNextControlName(SEARTCH_BAR_CONTROL_NAME);
