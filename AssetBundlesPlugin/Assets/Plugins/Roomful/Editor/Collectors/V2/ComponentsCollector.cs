@@ -35,6 +35,10 @@ namespace RF.AssetWizzard.Editor
                 frame.gameObject.AddComponent<PropAnchor>();
             }
 
+            foreach (SerializedStylePanel panel in asset.gameObject.GetComponentsInChildren<SerializedStylePanel>()) {
+                panel.gameObject.AddComponent<StylePanel>();
+            }
+
         }
 
         private void CopySerializedComponent(IRecreatableOnLoad original, GameObject destination) {

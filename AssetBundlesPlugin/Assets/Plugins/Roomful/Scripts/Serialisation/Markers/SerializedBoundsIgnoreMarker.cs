@@ -12,11 +12,11 @@ namespace RF.AssetBundles.Serialization
     {
 
         protected  void OnDrawGizmos() {
-        	if(Prop == null) {
+        	if(Scene.ActiveAsset == null) {
                 return;
             }
 
-            if (!Prop.DrawGizmos) {
+            if (!Scene.ActiveAsset.DrawGizmos) {
                 return;
             }
             Bounds m_size = Scene.GetBounds(gameObject, true);
@@ -27,21 +27,5 @@ namespace RF.AssetBundles.Serialization
 				GizmosDrawer.DrawCube(m_size.center, transform.rotation, m_size.size, Color.red);
 			}
 		}
-
-
-        public PropAsset Prop {
-            get {
-                Transform go = gameObject.transform;
-                while(go != null) {
-                    if(go.GetComponent<PropAsset>() != null) {
-                        return go.GetComponent<PropAsset>();
-                    }
-
-                    go = go.parent;
-                }
-
-                return null;
-            }
-        }
     }
 }

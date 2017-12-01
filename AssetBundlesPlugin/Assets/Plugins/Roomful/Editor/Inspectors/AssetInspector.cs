@@ -19,6 +19,10 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
+        public void DrawGizmosSiwtch() {
+            Asset.DrawGizmos = EditorGUILayout.Toggle("Draw Gizmos", Asset.DrawGizmos);
+        }
+
         public void DrawActionButtons() {
             EditorGUILayout.Space();
             GUILayout.BeginHorizontal();

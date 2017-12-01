@@ -12,20 +12,21 @@ namespace RF.AssetWizzard {
 	public static class PrefabManager  {
 
 
-
-
-
 		public static GameObject CreatePrefab(string prefabName) {
 			#if UNITY_EDITOR
 
-				string path = AssetBundlesSettings.PLUGIN_PREFABS_LOCATION + prefabName +  ".prefab";
+			string path = AssetBundlesSettings.PLUGIN_PREFABS_LOCATION + prefabName +  ".prefab";
+			Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
+            var PrefabInstance = (GameObject)PrefabUtility.InstantiatePrefab(prafabObject);
+            PrefabUtility.DisconnectPrefabInstance(PrefabInstance);
 
-				Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-				return (GameObject) PrefabUtility.InstantiatePrefab (prafabObject);
-			#else
+            return PrefabInstance;
+
+
+            #else
 				return new GameObject(prefabName);
-			#endif
-		}
+            #endif
+        }
 
 	}
 

@@ -32,7 +32,26 @@ namespace RF.AssetWizzard
         }
 
 
- 
+        public static IAsset ActiveAsset {
+            get {
+                return FindObjectWithType<IAsset>();
+            }
+        }
+
+
+        public static T FindObjectWithType<T>() {
+            var allFindedObjects = Resources.FindObjectsOfTypeAll(typeof(GameObject));
+            foreach (GameObject gameObject in allFindedObjects) {
+                T target = gameObject.GetComponent<T>();
+
+                if (target != null) {
+                    return target;
+                }
+            }
+            return default(T);
+        }
+
+
 
         public static bool IsAnchored(Component comp) {
 

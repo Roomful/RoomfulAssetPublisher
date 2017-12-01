@@ -13,14 +13,14 @@ namespace RF.AssetWizzard {
         public static event System.Action PropInstantieted = delegate { };
 		
 		public float Scale = 1f;
-		public bool DrawGizmos = true;
+		
         public bool IsInited = false;
 
         public PropDisplayMode DisplayMode = PropDisplayMode.Normal;
 		public Mesh Silhouette;
 
 
-		private Bounds _Size = new Bounds (Vector3.zero, Vector3.zero); 
+		private Bounds m_bounds = new Bounds (Vector3.zero, Vector3.zero); 
 
 		//--------------------------------------
 		// Initialization
@@ -59,7 +59,7 @@ namespace RF.AssetWizzard {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position, 0.04f);
 
-            GizmosDrawer.DrawCube (_Size.center, transform.rotation, _Size.size, Color.cyan);
+            GizmosDrawer.DrawCube (m_bounds.center, transform.rotation, m_bounds.size, Color.cyan);
 
 		}
 
@@ -175,19 +175,7 @@ namespace RF.AssetWizzard {
 		}
 
 
-		public GameObject Environment {
-			get {
-
-				var rig =  GameObject.Find ("Environment");
-				if(rig == null) {
-					rig = PrefabManager.CreatePrefab ("Environment");
-				}
-
-				rig.transform.SetSiblingIndex (0);
-					
-				return rig;
-			}
-		}
+		
 
 		public float MaxAxisValue {
 			get {
@@ -199,7 +187,7 @@ namespace RF.AssetWizzard {
 
 		public Vector3 Size {
 			get {
-				return _Size.size / Scale;
+				return m_bounds.size / Scale;
 			}
 		}
 
@@ -278,6 +266,17 @@ namespace RF.AssetWizzard {
             }
         }
 
+        private PropBounds m_boundsManager = null;
+        private PropBounds BoundsManager {
+            get {
+                if(m_boundsManager ==  null) {
+                    m_boundsManager = new PropBounds();
+                }
+
+                return m_boundsManager;
+            }
+        }
+
 
         //--------------------------------------
         // Private Methods
@@ -333,58 +332,13 @@ namespace RF.AssetWizzard {
 
 		}
 
-		public void UpdateBounds () {
-
-			bool hasBounds = false;
-
-			_Size = new Bounds (Vector3.zero, Vector3.zero);
-			Renderer[] ChildrenRenderer = GetComponentsInChildren<Renderer> ();
-
-			Quaternion oldRotation = transform.rotation;
-			transform.rotation = Quaternion.identity;
-
-			foreach (Renderer child in ChildrenRenderer) {
-	
-                if(child.GetComponent<ParticleSystem>() != null) {
-                    continue;
-                }
-
-				if (IsIgnored(child.transform)) {
-					continue;
-				}
-
-				if (child.transform.IsChildOf (GetLayer (HierarchyLayers.Silhouette))) {
-					continue;
-				}
-
-
-				if (!hasBounds) {
-					_Size = child.bounds;
-					hasBounds = true;
-				} else {
-					_Size.Encapsulate (child.bounds);
-				}
-			}
-
-			transform.rotation = oldRotation;
-
-			Template.Size = _Size.size;
+		private void UpdateBounds () {
+            m_bounds = BoundsManager.Calculate(gameObject);
+			Template.Size = m_bounds.size;
 		}
 
 
-        public bool IsIgnored(Transform go) {
-
-            Transform testedObject = go;
-            while(testedObject != null) {
-                if (testedObject.GetComponent<SerializedBoundsIgnoreMarker>() != null) {
-                    return true;
-                }
-                testedObject = testedObject.parent;
-            }
-
-     
-            return false;
-        }
+       
 
 
 

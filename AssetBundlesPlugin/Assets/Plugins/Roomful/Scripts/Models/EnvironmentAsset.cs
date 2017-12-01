@@ -88,20 +88,6 @@ namespace RF.AssetWizzard
             }
         }
 
-        public GameObject Environment {
-            get {
-
-                var rig = GameObject.Find("Environment");
-                if (rig == null) {
-                    rig = PrefabManager.CreatePrefab("Environment");
-                }
-
-                rig.transform.SetSiblingIndex(0);
-
-                return rig;
-            }
-        }
-
 
 
         //--------------------------------------
