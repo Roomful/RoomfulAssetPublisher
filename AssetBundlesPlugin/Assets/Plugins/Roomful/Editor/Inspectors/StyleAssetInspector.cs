@@ -15,15 +15,29 @@ namespace RF.AssetWizzard.Editor {
         SerializedProperty ShowEditUI;
 
 
-
-
         void OnEnable() {
             ShowWalls = serializedObject.FindProperty("ShowWalls");
             ShowEditUI = serializedObject.FindProperty("ShowEditUI");
+
+            EditorApplication.update += OnEditorUpdate;
+        }
+
+        void OnDisable() {
+            EditorApplication.update -= OnEditorUpdate;
+        }
+
+        void OnEditorUpdate() {
+            Asset.transform.Reset();
+            if (Asset.transform.childCount == 0) {
+                GenerateDefaultPanels();
+            }
+
+            Environment env = Asset.Environment.GetComponentInChildren<Environment>();
+            env.RenderEnvironment = false;
         }
 
 
-		public override void OnInspectorGUI() {
+        public override void OnInspectorGUI() {
 
 			serializedObject.Update();
 
@@ -47,7 +61,7 @@ namespace RF.AssetWizzard.Editor {
                 }
 
                 if (GUILayout.Button("Align Panels", EditorStyles.miniButton, GUILayout.Width(100))) {
-                    AlignPanels();
+                   AlignPanels();
                 }
 
             } GUILayout.EndHorizontal();
@@ -67,24 +81,49 @@ namespace RF.AssetWizzard.Editor {
 
 
         private void NewPanel() {
-            var panel = new GameObject("NewPanel").AddComponent<StylePanel>();
+            var panel = PrefabManager.CreatePrefab("Style/DefaultPanel");
             panel.transform.parent = Asset.transform;
             panel.transform.SetSiblingIndex(1);
+            panel.name = "NewPanel";
+
+            AlignPanelsWithDelay();
+
         }
 
+
+        private void GenerateDefaultPanels() {
+            var start = PrefabManager.CreatePrefab("Style/DefaultPanel");
+            start.name = "Start";
+            start.transform.parent = Asset.transform;
+
+            var end = PrefabManager.CreatePrefab("Style/DefaultPanel");
+            end.name = "End";
+            end.transform.parent = Asset.transform;
+
+
+            AlignPanelsWithDelay();
+        }
+
+        private void AlignPanelsWithDelay() {
+            EditorApplication.delayCall += () => {
+                EditorApplication.delayCall += () => {
+                    AlignPanels();
+                };
+
+            };
+        }
 
 
         private void AlignPanels() {
-           
+
             Vector3 movePoint = Vector3.zero;
 
-            foreach (StylePanel panel in Asset.Panels) {
+            foreach (StylePanel panel in  Asset.Panels) {
                 panel.SetPosition(movePoint, false);
-                movePoint = panel.Bounds.GetVertex(VertexX.Right, VertexY.Bottom, VertexZ.Front); 
+                movePoint = panel.Bounds.GetVertex(VertexX.Right, VertexY.Bottom, VertexZ.Front);
+                movePoint.x += 0.01f;
             }
         }
-
-
 
     }
 }

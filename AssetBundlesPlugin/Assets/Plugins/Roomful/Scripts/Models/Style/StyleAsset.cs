@@ -57,7 +57,6 @@ namespace RF.AssetWizzard
         }
 
 
-
         //--------------------------------------
         // Get / Set
         //--------------------------------------
@@ -144,32 +143,6 @@ namespace RF.AssetWizzard
             endtWall.transform.position = Panels[index].Bounds.GetVertex(VertexX.Right, VertexY.Bottom, VertexZ.Front);
         }
 
-
-        protected override void CheckhHierarchy() {
-
-            base.CheckhHierarchy();
-
-            transform.Reset();
-            if(transform.childCount == 0) {
-                GenerateDefaultPanels();
-            }
-
-            Environment env = Environment.GetComponentInChildren<Environment>();
-            env.RenderEnvironment = false;
-
-        }
-
-
-        private void GenerateDefaultPanels() {
-            var start = PrefabManager.CreatePrefab("Style/DefaultPanel");
-            start.name = "Start";
-            start.transform.parent = transform;
-
-            var end = PrefabManager.CreatePrefab("Style/DefaultPanel");
-            end.name = "End";
-            end.transform.parent = transform;
-
-        }
 
     }
 }

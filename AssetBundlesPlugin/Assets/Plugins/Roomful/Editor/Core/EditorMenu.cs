@@ -51,6 +51,11 @@ namespace RF.AssetWizzard.Editor {
 			IgnoreObjectBounds ();
 		}
 
+        [MenuItem("Roomful/Add Component/Placing Disabled &#d", false, 5)]
+        public static void ShowWizzrd77() {
+            PlacingDisabled();
+        }
+
 
 
         [MenuItem("Roomful/Add Component/Add Anchor &#a", false, 5)]
@@ -170,9 +175,34 @@ namespace RF.AssetWizzard.Editor {
 
 		}
 
-       
+        [MenuItem("GameObject/Roomful/Add Component/Placing Disabled", false, 104)]
+        static void PlacingDisabled() {
+            bool valid = IsStylePropGameobject();
+            if (valid) {
+
+                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedDisabledAreaMarker>();
+            }
+
+        }
 
 
+
+        private static bool IsStylePropGameobject() {
+            var style = GameObject.FindObjectOfType<StyleAsset>();
+            bool valid = true;
+
+            if (style == null) {
+                EditorUtility.DisplayDialog("Error", "No valid style found", "Ok");
+                valid = false;
+            }
+
+            if (style.gameObject == Selection.activeGameObject) {
+                EditorUtility.DisplayDialog("Error", "Select a child object", "Ok");
+                valid = false;
+            }
+
+            return valid;
+        }
 
         private static bool IsValidPropGameobject() {
 			var prop = GameObject.FindObjectOfType<PropAsset> ();

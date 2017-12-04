@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using RF.AssetWizzard.Network.Request;
 
 namespace RF.AssetWizzard.Editor
@@ -11,6 +12,8 @@ namespace RF.AssetWizzard.Editor
         public override void CreateAsset(StyleTemplate tpl) {
             StyleAsset asset = new GameObject(tpl.Title).AddComponent<StyleAsset>();
             asset.SetTemplate(tpl);
+
+            Selection.activeGameObject = asset.gameObject;
         }
 
         public override IAsset CreateDownloadedAsset(StyleTemplate tpl, GameObject gameObject) {
