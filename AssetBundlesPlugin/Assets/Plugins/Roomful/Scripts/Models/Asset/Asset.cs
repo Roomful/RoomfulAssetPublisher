@@ -85,6 +85,18 @@ namespace RF.AssetWizzard
                     renderer.sharedMaterials = new Material[0];
                 }
             }
+
+            Projector[] projectors = transform.GetComponentsInChildren<Projector>();
+
+            foreach (Projector p in projectors) {
+
+                if(p.material != null) {
+                    var md = p.gameObject.AddComponent<SerializedMaterial>();
+                    md.Serialize(p.material);
+                }
+
+                p.material = null;
+            }
         }
 
         //--------------------------------------

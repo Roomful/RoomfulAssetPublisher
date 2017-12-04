@@ -19,6 +19,9 @@ namespace RF.AssetWizzard.Editor
         public override IAsset CreateDownloadedAsset(StyleTemplate tpl, GameObject gameObject) {
             StyleAsset asset = gameObject.AddComponent<StyleAsset>();
             asset.SetTemplate(tpl);
+
+            Selection.activeGameObject = asset.gameObject;
+
             return asset;
         }
 
