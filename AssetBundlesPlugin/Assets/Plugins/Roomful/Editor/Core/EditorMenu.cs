@@ -162,23 +162,25 @@ namespace RF.AssetWizzard.Editor {
 
 		[MenuItem("GameObject/Roomful/Add Component/Ignore Bounds", false, 103)]
 		static void IgnoreObjectBounds () {
-			bool valid = IsValidPropGameobject();
-			if(valid) {
-
-				Collider c = Selection.activeGameObject.GetComponent<Collider> ();
-				if(c != null) {
-					GameObject.DestroyImmediate (c);
-				}
-
-                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedBoundsIgnoreMarker>();
-            }
-
+			
+			Collider c = Selection.activeGameObject.GetComponent<Collider> ();
+			if(c != null) {
+				GameObject.DestroyImmediate (c);
+			}
+            Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedBoundsIgnoreMarker>();
 		}
+
+
 
         [MenuItem("GameObject/Roomful/Add Component/Placing Disabled", false, 104)]
         static void PlacingDisabled() {
             bool valid = IsStylePropGameobject();
             if (valid) {
+
+                if (Selection.activeGameObject.GetComponent<BoxCollider>() == null) {
+                    EditorUtility.DisplayDialog("Error", "Object should have a BoxCollider component", "Ok");
+                    return;
+                }
 
                 Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedDisabledAreaMarker>();
             }

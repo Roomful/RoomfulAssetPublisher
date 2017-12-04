@@ -49,6 +49,17 @@ namespace RF.AssetWizzard
 
             Gizmos.color = Color.green;
             GizmosDrawer.DrawCube(m_bounds.center, transform.rotation, m_bounds.size, Color.cyan);
+
+#if UNITY_EDITOR
+            GUIStyle style = new GUIStyle();
+            style.normal.textColor = Color.red;
+
+            style = UnityEditor.EditorStyles.boldLabel;
+
+            Vector3 pos = Bounds.GetVertex(VertexX.Left, VertexY.Bottom, VertexZ.Front);
+            UnityEditor.Handles.Label(pos, transform.gameObject.name, style);
+#endif
+
         }
 
 
@@ -142,6 +153,19 @@ namespace RF.AssetWizzard
                 IconRenderer.sharedMaterial.mainTexture = value;
             }
         }
+
+        public bool IsFirstPanel {
+            get {
+               return transform.GetSiblingIndex() == 0;
+            }
+        }
+
+        public bool IsLastPanel {
+            get {
+                return transform.GetSiblingIndex() == (transform.parent.childCount - 1);
+            }
+        }
+
 
         public SerializedStylePanel Settings {
             get {
