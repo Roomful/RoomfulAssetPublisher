@@ -24,6 +24,10 @@ namespace RF.AssetWizzard
         // Unity Editor
         //--------------------------------------
 
+        void Awake() {
+            IconRenderer.hideFlags = HideFlags.HideInInspector;
+        }
+
 
         void Update() {
             var style = GameObject.FindObjectOfType<StyleAsset>();
@@ -132,12 +136,14 @@ namespace RF.AssetWizzard
                 var renderer = GetComponent<MeshRenderer>();
                 if (renderer == null) {
                     renderer = gameObject.AddComponent<MeshRenderer>();
-                    renderer.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
-                    renderer.sharedMaterial.name = name + "_icon";
                 }
 
-                renderer.hideFlags = HideFlags.HideInInspector;
+                if(renderer.sharedMaterial == null) {
+                    renderer.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
+                    renderer.sharedMaterial.name = name + "_icon";
+                }  
 
+                renderer.hideFlags = HideFlags.HideInInspector;
                 return renderer;
             }
         }
@@ -149,7 +155,7 @@ namespace RF.AssetWizzard
                 }
                 return (Texture2D)IconRenderer.sharedMaterial.mainTexture;
             } set {
-               
+
                 IconRenderer.sharedMaterial.mainTexture = value;
             }
         }

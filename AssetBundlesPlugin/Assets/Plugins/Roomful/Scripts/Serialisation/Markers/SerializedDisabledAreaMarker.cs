@@ -24,7 +24,7 @@ namespace RF.AssetBundles.Serialization
             RoomfulText rt = GetComponent<RoomfulText> ();
 
 			if (rt == null) {
-				GizmosDrawer.DrawCube(m_size.center, transform.rotation, m_size.size, Color.red);
+                GizmosDrawer.DrawCube(m_size.center, Quaternion.identity, m_size.size, Color.red);
 			}
 		}
     }

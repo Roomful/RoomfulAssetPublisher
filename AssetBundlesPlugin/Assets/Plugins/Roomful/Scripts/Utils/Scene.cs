@@ -83,8 +83,8 @@ namespace RF.AssetWizzard
 			var bounds = new Bounds(Vector3.zero, Vector3.zero);
 
 			Renderer[] ChildrenRenderer = go.GetComponentsInChildren<Renderer>();
-			Quaternion oldRotation = go.transform.rotation;
-			go.transform.rotation = Quaternion.identity;
+		//	Quaternion oldRotation = go.transform.rotation;
+		//	go.transform.rotation = Quaternion.identity;
 
 			foreach (Renderer child in ChildrenRenderer) {
 
@@ -119,7 +119,7 @@ namespace RF.AssetWizzard
 			}
 
 
-			go.transform.rotation = oldRotation;
+		//	go.transform.rotation = oldRotation;
 
 
 			return bounds;
