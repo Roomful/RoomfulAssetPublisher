@@ -18,8 +18,6 @@ namespace RF.AssetWizzard.Editor
             if (s_colorIcons.ContainsKey(colorId) && s_colorIcons[colorId] != null) {
                 return s_colorIcons[colorId];
             } else {
-
-
                 Texture2D tex = new Texture2D(1, 1);
                 tex.SetPixel(0, 0, color);
                 tex.Apply();
