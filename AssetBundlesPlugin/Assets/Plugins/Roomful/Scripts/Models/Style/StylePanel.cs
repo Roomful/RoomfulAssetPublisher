@@ -56,8 +56,6 @@ namespace RF.AssetWizzard
 
 #if UNITY_EDITOR
             GUIStyle style = new GUIStyle();
-            style.normal.textColor = Color.red;
-
             style = UnityEditor.EditorStyles.boldLabel;
 
             Vector3 pos = Bounds.GetVertex(VertexX.Left, VertexY.Bottom, VertexZ.Front);
