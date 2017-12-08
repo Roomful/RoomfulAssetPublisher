@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RF.AssetBundles.Serialization
 {
-    public class SerializedStylePanel : MonoBehaviour
+    public class SerializedStylePanel : MonoBehaviour, IRecreatableOnLoad
     {
 
         public string PanelName = string.Empty;

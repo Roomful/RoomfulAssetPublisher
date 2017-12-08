@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RF.AssetBundles.Serialization
 {
-    public class SerializedStyle : MonoBehaviour
+    public class SerializedStyle : MonoBehaviour, IRecreatableOnLoad
     {
 
 
