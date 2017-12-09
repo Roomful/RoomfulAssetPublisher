@@ -6,6 +6,9 @@ namespace RF.AssetWizzard {
 
     [System.Serializable]
     public class ColliderMetaData {
+
+        public string Name = string.Empty;
+
         public Vector3 Position = Vector3.zero;
         public Vector3 Rotation = Vector3.zero;
         public Vector3 Scale = Vector3.one;
@@ -46,17 +49,19 @@ namespace RF.AssetWizzard {
             cen.Add("y", Center.y);
             cen.Add("z", Center.z);
 
-            Dictionary<string, object> siz = new Dictionary<string, object>();
-            siz.Add("x", Size.x);
-            siz.Add("y", Size.y);
-            siz.Add("z", Size.z);
+            Dictionary<string, object> size = new Dictionary<string, object>();
+            size.Add("x", Size.x);
+            size.Add("y", Size.y);
+            size.Add("z", Size.z);
 
             data.Add("position", pos);
             data.Add("rotation", rot);
             data.Add("scale", sca);
             data.Add("center", cen);
-            data.Add("size", siz);
+            data.Add("size", size);
+
             data.Add("disabled", MarkedAsDisable);
+            data.Add("name", Name);
 
             return data;
         }
@@ -88,6 +93,7 @@ namespace RF.AssetWizzard {
             Size.z = sizData.GetValue<float>("z");
 
             MarkedAsDisable = data.GetValue<bool>("disabled");
+            Name = data.GetValue<string>("name");
         }
     }
 }

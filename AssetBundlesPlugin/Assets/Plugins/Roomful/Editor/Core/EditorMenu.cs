@@ -162,11 +162,6 @@ namespace RF.AssetWizzard.Editor {
 
 		[MenuItem("GameObject/Roomful/Add Component/Ignore Bounds", false, 103)]
 		static void IgnoreObjectBounds () {
-			
-			Collider c = Selection.activeGameObject.GetComponent<Collider> ();
-			if(c != null) {
-				GameObject.DestroyImmediate (c);
-			}
             Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedBoundsIgnoreMarker>();
 		}
 
