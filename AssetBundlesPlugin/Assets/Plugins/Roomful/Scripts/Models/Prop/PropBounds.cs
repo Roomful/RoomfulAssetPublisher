@@ -23,9 +23,13 @@ namespace RF.AssetWizzard
                 return false;
             }
 
-            if (renderer.transform.IsChildOf(m_silhouetteLayer)) {
-                return false; ;
+
+            if(m_silhouetteLayer != null) {
+                if (renderer.transform.IsChildOf(m_silhouetteLayer)) {
+                    return false; ;
+                }
             }
+           
 
             return true;
         }

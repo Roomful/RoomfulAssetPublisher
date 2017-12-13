@@ -23,6 +23,10 @@ namespace RF.AssetWizzard
 
             foreach (Renderer child in ChildrenRenderer) {
 
+                if(child == null) {
+                    continue;
+                }
+
                 if(!IsValidForBounds(child)) {
                     continue;
                 }

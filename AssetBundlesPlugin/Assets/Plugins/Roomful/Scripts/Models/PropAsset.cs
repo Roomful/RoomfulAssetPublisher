@@ -271,6 +271,7 @@ namespace RF.AssetWizzard {
             get {
                 if(m_boundsManager ==  null) {
                     m_boundsManager = new PropBounds();
+                    m_boundsManager.SetSilhouetteLayer(GetLayer(HierarchyLayers.Silhouette));
                 }
 
                 return m_boundsManager;

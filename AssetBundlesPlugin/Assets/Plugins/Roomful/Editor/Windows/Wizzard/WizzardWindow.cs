@@ -29,7 +29,7 @@ namespace RF.AssetWizzard.Editor {
             m_sections.Add(new WizzardSection("Styles", new StylesList(this)));
             m_sections.Add(new WizzardSection("Environments", new EnvironmentList(this)));
 
-            m_sections.Add(new WizzardSection("-------------------", new SeparatorPanel(this)));
+            m_sections.Add(new WizzardSection("--------------", new SeparatorPanel(this)));
 
 
             m_sections.Add(new WizzardSection("Settings", new SettingsPanel(this)));
