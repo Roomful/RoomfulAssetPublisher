@@ -56,6 +56,11 @@ namespace RF.AssetWizzard.Editor {
             PlacingDisabled();
         }
 
+        [MenuItem("Roomful/Add Component/No Mirror &#m", false, 5)]
+        public static void ShowWizzrd78() {
+            NoMirror();
+        }
+
 
 
         [MenuItem("Roomful/Add Component/Add Anchor &#a", false, 5)]
@@ -169,7 +174,7 @@ namespace RF.AssetWizzard.Editor {
 
         [MenuItem("GameObject/Roomful/Add Component/Placing Disabled", false, 104)]
         static void PlacingDisabled() {
-            bool valid = IsStylePropGameobject();
+            bool valid = IsStyleGameobject();
             if (valid) {
 
                 if (Selection.activeGameObject.GetComponent<BoxCollider>() == null) {
@@ -182,15 +187,24 @@ namespace RF.AssetWizzard.Editor {
 
         }
 
+        [MenuItem("GameObject/Roomful/Add Component/No Mirror", false, 104)]
+        static void NoMirror() {
+            bool valid = IsStyleGameobject();
+            if (valid) {
+                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedNoMirrorMarker>();
+            }
+
+        }
 
 
-        private static bool IsStylePropGameobject() {
+
+        private static bool IsStyleGameobject() {
             var style = GameObject.FindObjectOfType<StyleAsset>();
             bool valid = true;
 
             if (style == null) {
                 EditorUtility.DisplayDialog("Error", "No valid style found", "Ok");
-                valid = false;
+                return false;
             }
 
             if (style.gameObject == Selection.activeGameObject) {
