@@ -31,10 +31,14 @@ namespace RF.AssetWizzard
 
         }
 
-
+        private static IAsset m_activeAsset = null;
         public static IAsset ActiveAsset {
             get {
-                return FindObjectWithType<IAsset>();
+                if(m_activeAsset ==  null) {
+                    m_activeAsset = FindObjectWithType<IAsset>();
+                }
+
+                return m_activeAsset;
             }
         }
 

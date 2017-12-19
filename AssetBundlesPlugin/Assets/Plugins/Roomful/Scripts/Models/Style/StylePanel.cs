@@ -30,9 +30,9 @@ namespace RF.AssetWizzard
 
 
         void Update() {
-            var style = GameObject.FindObjectOfType<StyleAsset>();
-            if(style != null) {
-                transform.parent = style.transform;
+    
+            if(Style != null) {
+                transform.parent = Style.transform;
             }
 
             Wall.Reset();
@@ -46,7 +46,6 @@ namespace RF.AssetWizzard
         }
 
         void OnDrawGizmos() {
-
             if (Scene.ActiveAsset == null || !Scene.ActiveAsset.DrawGizmos) {
                 return;
             }
@@ -91,6 +90,17 @@ namespace RF.AssetWizzard
         // Get / Set
         //--------------------------------------
 
+
+        private StyleAsset m_style = null;  
+        private StyleAsset Style {
+            get {
+                if(m_style == null) {
+                    m_style = Object.FindObjectOfType<StyleAsset>();
+                }
+
+                return m_style;
+            }
+        }
 
         public Transform Wall {
             get {
