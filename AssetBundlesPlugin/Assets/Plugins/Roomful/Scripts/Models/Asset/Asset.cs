@@ -71,31 +71,41 @@ namespace RF.AssetWizzard
                 }
             }
 
-            Renderer[] renderers = transform.GetComponentsInChildren<Renderer>();// GetAllRenderers(transform.gameObject);
+          
+            Renderer[] renderers = transform.GetComponentsInChildren<Renderer>();
             foreach (Renderer renderer in renderers) {
-                if (renderer != null) {
-
-                    foreach (Material mat in renderer.sharedMaterials) {
-                        if (mat != null) {
-                            var md = renderer.gameObject.AddComponent<SerializedMaterial>();
-                            md.Serialize(mat);
+                try {
+                    if (renderer != null) {
+                        foreach (Material mat in renderer.sharedMaterials) {
+                            if (mat != null) {
+                                var md = renderer.gameObject.AddComponent<SerializedMaterial>();
+                                md.Serialize(mat);
+                            }
                         }
+                        renderer.sharedMaterials = new Material[0];
                     }
-
-                    renderer.sharedMaterials = new Material[0];
+                } catch (System.Exception ex) {
+                    Debug.LogError("Failed to Serialize Material", renderer.gameObject);
+                    Debug.LogError(ex.StackTrace);
+                    throw (new System.Exception("Serialisation Failed"));
                 }
             }
+           
 
             Projector[] projectors = transform.GetComponentsInChildren<Projector>();
-
             foreach (Projector p in projectors) {
+                try {
+                    if (p.material != null) {
+                        var md = p.gameObject.AddComponent<SerializedMaterial>();
+                        md.Serialize(p.material);
+                    }
+                    p.material = null;
 
-                if(p.material != null) {
-                    var md = p.gameObject.AddComponent<SerializedMaterial>();
-                    md.Serialize(p.material);
+                } catch (System.Exception ex) {
+                    Debug.LogError("Failed to Serialize Projector", p.gameObject);
+                    Debug.LogError(ex.StackTrace);
+                    throw (new System.Exception("Serialisation Failed"));
                 }
-
-                p.material = null;
             }
         }
 
