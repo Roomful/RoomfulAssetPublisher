@@ -50,11 +50,32 @@ namespace RF.AssetWizzard.Editor
         private Material DeserealizeMaterial(SerializedMaterial sm, IAsset asset) {
             Material newMaterial = new Material(Shader.Find(sm.ShaderName));
             newMaterial.name = sm.MatName;
-
+ 
+    
             if (AssetDatabase.IsAssetExist<Material>(asset, newMaterial)) {
                 return AssetDatabase.LoadAsset<Material>(asset, newMaterial.name);
             } else {
-                AssetDatabase.SaveAsset<Material>(asset, newMaterial);
+
+                
+                newMaterial.DisableKeyword("_NORMALMAP");
+                newMaterial.DisableKeyword("_ALPHATEST_ON");
+                newMaterial.DisableKeyword("_ALPHABLEND_ON");
+                newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                newMaterial.DisableKeyword("_EMISSION");
+                newMaterial.DisableKeyword("_PARALLAXMAP");
+                newMaterial.DisableKeyword("_DETAIL_MULX2");
+                newMaterial.DisableKeyword("_METALLICGLOSSMAP");
+                newMaterial.DisableKeyword("_SPECGLOSSMAP");
+
+                newMaterial.shaderKeywords = sm.ShaderKeywords.ToArray();
+                foreach (string keyword in newMaterial.shaderKeywords) {
+                    newMaterial.EnableKeyword(keyword);
+                }
+
+                newMaterial.renderQueue = sm.RenderQueue;
+
+
+
 
                 foreach (SerializedShaderProperty property in sm.ShadersProperties) {
                     ShaderPropertyType propertyType = (ShaderPropertyType)System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
@@ -71,7 +92,9 @@ namespace RF.AssetWizzard.Editor
                                     AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");
                                 }
 
-                                AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
+                                newMaterial.SetTextureScale(property.PropertyName, property.SerializedTextureValue.TextureScale);
+                                newMaterial.SetTextureOffset(property.PropertyName, property.SerializedTextureValue.TextureOffset);
+                                newMaterial.SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
                             }
                             break;
 
@@ -95,46 +118,22 @@ namespace RF.AssetWizzard.Editor
                         switch (renderMode) {
                             case 0: //Opaque
                                 newMaterial.SetOverrideTag("RenderType", "");
-                                newMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-                                newMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-                                newMaterial.SetInt("_ZWrite", 1);
-                                newMaterial.DisableKeyword("_ALPHATEST_ON");
-                                newMaterial.DisableKeyword("_ALPHABLEND_ON");
-                                newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                                newMaterial.renderQueue = -1;
+
                                 break;
                             case 1: // Cut out
                                 newMaterial.SetOverrideTag("RenderType", "TransparentCutout");
-                                newMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-                                newMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-                                newMaterial.SetInt("_ZWrite", 1);
-                                newMaterial.EnableKeyword("_ALPHATEST_ON");
-                                newMaterial.DisableKeyword("_ALPHABLEND_ON");
-                                newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                                newMaterial.renderQueue = 2450;
                                 break;
                             case 2: // Fade
                                 newMaterial.SetOverrideTag("RenderType", "Transparent");
-                                newMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                                newMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-                                newMaterial.SetInt("_ZWrite", 0);
-                                newMaterial.DisableKeyword("_ALPHATEST_ON");
-                                newMaterial.EnableKeyword("_ALPHABLEND_ON");
-                                newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                                newMaterial.renderQueue = 3000;
                                 break;
                             case 3: // Transparent
                                 newMaterial.SetOverrideTag("RenderType", "Transparent");
-                                newMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-                                newMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-                                newMaterial.SetInt("_ZWrite", 0);
-                                newMaterial.DisableKeyword("_ALPHATEST_ON");
-                                newMaterial.DisableKeyword("_ALPHABLEND_ON");
-                                newMaterial.EnableKeyword("_ALPHAPREMULTIPLY_ON");
-                                newMaterial.renderQueue = 3000;
                                 break;
                         }
                     }
+
+
+                    AssetDatabase.SaveAsset<Material>(asset, newMaterial);
                 }
 
                 return AssetDatabase.LoadAsset<Material>(asset, newMaterial.name);

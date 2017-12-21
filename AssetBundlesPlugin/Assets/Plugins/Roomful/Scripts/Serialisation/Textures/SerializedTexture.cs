@@ -50,7 +50,14 @@ namespace RF.AssetBundles.Serialization
 		public string 	WrapModeV;
 		public string 	WrapModeW;
 
-		public string[] Platforms = new string[]{"iPhone", "Android", "WebGL"};
+
+        public Vector2 TextureOffset = Vector2.zero;
+        public Vector2 TextureScale = Vector2.one;
+        
+
+
+
+        public string[] Platforms = new string[]{"iPhone", "Android", "WebGL"};
 		public SerializedPlatformTextureSettings[] PlatformsSettings;
 
 		public SerializedDefaultTextureSettings DefaultSettings;
@@ -146,5 +153,6 @@ namespace RF.AssetBundles.Serialization
 
 			#endif
 		}
+
 	}
 }
