@@ -195,6 +195,7 @@ namespace RF.AssetWizzard.Editor
             new ComponentsCollector().Run(asset);
             new AnimationCollector().Run(asset);
             new AnimatorCollector().Run(asset);
+            new EnvironmentCollector().Run(asset);
 
             new V1_ThumbnailsCollector().Run(asset);
             new V1_MarkersCollector().Run(asset);

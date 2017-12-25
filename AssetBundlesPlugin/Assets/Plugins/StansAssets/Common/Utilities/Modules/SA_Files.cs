@@ -107,7 +107,6 @@ namespace SA.Common.Util {
 		public static byte[] ReadBytes(string filePath) {
 			#if !UNITY_WEBPLAYER
 			if(IsFileExists(filePath)) {
-				Debug.Log(GetFullPath (filePath));
 				return File.ReadAllBytes(GetFullPath (filePath));
 			} else {
 				return new byte[0];

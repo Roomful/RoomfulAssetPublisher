@@ -20,6 +20,21 @@ namespace RF.AssetWizzard.Editor
 			SaveFont (title, st.Font, st.FullFontName, st.FontFileContent);
 		}
 
+        public static string SaveCubemapAsset(IAsset asset, SerializedEnviromnent e) {
+            
+            string title = asset.GetTemplate().Title;
+            ValidateBundleFolder(title);
+
+            string fullPath = GetFullFilePath(typeof(Cubemap), title, e.ReflectionCubemapFileName);
+            string path = GetShortFilePath(typeof(Cubemap), title, e.ReflectionCubemapFileName);
+
+            if (!FolderUtils.IsFileExists(path)) {
+                FolderUtils.WriteBytes(fullPath, e.ReflectionCubemapFileData);
+            }
+
+            return fullPath;
+        }
+
         public static void SaveAnimationClipByData(IAsset asset, SerializedAnimationClip serializedClip) {
             string title = asset.GetTemplate().Title;
 
@@ -64,6 +79,16 @@ namespace RF.AssetWizzard.Editor
 
 			return (Font)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
 		}
+
+        public static Cubemap LoadCubemapAsset(IAsset asset, SerializedEnviromnent e) {
+            string fullPath = GetFullFilePath(typeof(Cubemap), asset.GetTemplate().Title, e.ReflectionCubemapFileName);
+
+            return (Cubemap)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(Cubemap));
+        }
+
+
+        
+
 
         public static bool IsAssetExist<T>(IAsset asset, T unityAsset) where T : Object {
             string propTitle = asset.GetTemplate().Title;
@@ -202,17 +227,21 @@ namespace RF.AssetWizzard.Editor
         }
         
         private const string m_TexturesExtension = ".png";
-		private const string m_MeshesExtension = ".asset";
+        private const string m_CubemapExtension = ".exr";
+        private const string m_MeshesExtension = ".asset";
 		private const string m_MaterialsExtension = ".mat";
 		private const string m_AnimatorExtension = ".controller";
 		private const string m_AnimationExtension = ".anim";
 
+
         private const string m_FontsFolder = "/Fonts/";
 		private const string m_TexturesFolder = "/Textures/";
-		private const string m_MeshesFolder = "/Meshes/";
+        private const string m_CubemapFolder = "/Cubemaps/";
+        private const string m_MeshesFolder = "/Meshes/";
 		private const string m_MaterialsFolder = "/Materials/";
 		private const string m_AnimatorFolder = "/Animations/Controller/";
 		private const string m_AnimationsFolder = "/Animations/Clips/";
+
 
         private static string GetExtensionByType(System.Type t) {
 			if (t == typeof(Texture)) return m_TexturesExtension;
@@ -220,6 +249,7 @@ namespace RF.AssetWizzard.Editor
 			if (t == typeof(Material)) return m_MaterialsExtension;
 			if (t == typeof(UnityEditor.Animations.AnimatorController)) return m_AnimatorExtension;
 			if (t == typeof(AnimationClip)) return m_AnimationExtension;
+            if (t == typeof(Cubemap)) return m_CubemapExtension;
 
             return string.Empty;
 		}
@@ -231,7 +261,8 @@ namespace RF.AssetWizzard.Editor
 			if (t == typeof(Material)) return m_MaterialsFolder;
             if (t == typeof(UnityEditor.Animations.AnimatorController)) return m_AnimatorFolder;
             if (t == typeof(AnimationClip)) return m_AnimationsFolder;
-            
+            if (t == typeof(Cubemap)) return m_CubemapFolder;
+
             return string.Empty;
 		}
 	}

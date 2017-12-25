@@ -22,9 +22,10 @@ namespace RF.AssetWizzard {
 		public static void CreateAssetComponentsFolder(string folderPath) {
 
 			CreateFolder (folderPath);
-			CreateFolder (folderPath+"/Materials");
-			CreateFolder (folderPath+"/Meshes");
-			CreateFolder (folderPath+"/Textures");
+			CreateFolder (folderPath + "/Materials");
+            CreateFolder(folderPath +  "/Cubemaps");
+            CreateFolder (folderPath + "/Meshes");
+			CreateFolder (folderPath + "/Textures");
             CreateFolder (folderPath + "/Fonts");
             CreateFolder (folderPath + "/Animations");
             CreateFolder (folderPath + "/Animations/Controller");

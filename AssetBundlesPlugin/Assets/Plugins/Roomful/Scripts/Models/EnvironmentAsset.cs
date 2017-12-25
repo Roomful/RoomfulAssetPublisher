@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard
@@ -17,7 +21,7 @@ namespace RF.AssetWizzard
         //--------------------------------------
 
         public void Start() {
-            ApplyEnvironment();
+            ApplyEnvironment(); 
         }
 
         public void SetTemplate(EnvironmentTemplate tpl) {
@@ -32,6 +36,9 @@ namespace RF.AssetWizzard
 
         public void Update() {
             CheckhHierarchy();
+
+            
+
         }
 
 
@@ -46,11 +53,42 @@ namespace RF.AssetWizzard
             PrepareCoponentsForUpload();
         }
 
+        protected override void PrepareCoponentsForUpload() {
+
+            base.PrepareCoponentsForUpload();
+
+#if UNITY_EDITOR
+            string cubemapPath = AssetDatabase.GetAssetPath(Settings.ReflectionCubemap);
+
+            if (System.IO.File.Exists(cubemapPath)) {
+
+                //remove Assets/ string from a path. Yes I know that is not stable hack.
+                //If you know a better way, make it happend
+                cubemapPath = cubemapPath.Substring(7, cubemapPath.Length - 7);
+                byte[] data = SA.Common.Util.Files.ReadBytes(cubemapPath);
+                Settings.ReflectionCubemapFileData = data;
+                Settings.ReflectionCubemapFileName = System.IO.Path.GetFileName(cubemapPath);
+
+                Settings.ReflectionCubemapSettings = new SerializedTexture();
+                Settings.ReflectionCubemapSettings.Serialize(Settings.ReflectionCubemap);
+            }
+#endif
+
+
+        }
+
 
         public void ApplyEnvironment() {
 
             RenderSettings.skybox = SkyRenderer.sharedMaterial;
             RenderSettings.ambientIntensity = Settings.AmbientIntensity;
+
+
+            RenderSettings.defaultReflectionMode = UnityEngine.Rendering.DefaultReflectionMode.Custom;
+            RenderSettings.customReflection = Settings.ReflectionCubemap;
+            RenderSettings.reflectionIntensity = Settings.ReflectionIntensity;
+
+            DynamicGI.UpdateEnvironment();
         }
 
 
