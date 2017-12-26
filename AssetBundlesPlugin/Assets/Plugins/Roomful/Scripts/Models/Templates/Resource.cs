@@ -42,13 +42,6 @@ namespace RF.AssetWizzard {
 		private AudioClip _audioClip = null;
 
 
-
-
-		private static readonly List<string> AudioTypes = new List<string>{"audio/wav", "audio/mpeg", "audio/ogg", "audio/x-wav", "audio/webm", "audio/mp3", "audio/unity" };
-		private static readonly List<string> VideoTypes = new List<string> { "video/mp4", "video/avi", "video/mpeg", "video/ogg", "video/quicktime", "video/webm"};
-		private static readonly List<string> ImageTypes = new List<string> { "image/png", "image/jpg", "image/jpeg", "image/gif", "image/bmp"};
-		private static readonly List<string> BookTypes = new List<string> { "amazon#book", "application/epub+zip", "application/x-fictionbook", "application/pdf" };
-
 		private Dictionary<string, object> _Params = new Dictionary<string, object> ();
 		private Dictionary<string, object> _ServerParams = new Dictionary<string, object> ();
 		public enum ParamsKeys {
@@ -350,35 +343,6 @@ namespace RF.AssetWizzard {
 			}
 		}
 	
-		public ContentType Type {
-			get
-			{
-				if (ImageTypes.Contains(_Meta.Type)) {
-					return ContentType.Image;
-				}
-
-				if (VideoTypes.Contains(_Meta.Type))
-				{
-					return ContentType.Video;
-				}
-
-				if (AudioTypes.Contains(_Meta.Type))
-				{
-					return ContentType.Audio;
-				}
-
-				if (BookTypes.Contains(_Meta.Type))
-				{
-					return ContentType.Book;
-				}
-				
-				if (_Meta.Type.Equals(ResourceMetadata.MimeTypeYoutube)) {
-					return ContentType.YoutubeVideo;
-				}
-
-				return ContentType.Undefined;
-			}
-		}
 
 
 		public ResourceMetadata Meta {

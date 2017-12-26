@@ -6,12 +6,12 @@ using UnityEngine;
 namespace RF.AssetWizzard {
 	
 	public enum ContentType {
-		Undefined,
+		
 		Image,
-		Video,
-		YoutubeVideo,
-		Audio,
-		Book
+        Audio,
+        Video,
+		Book,
+        File
 	}
 
 }

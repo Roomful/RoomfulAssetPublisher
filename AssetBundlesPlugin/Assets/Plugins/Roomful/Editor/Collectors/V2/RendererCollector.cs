@@ -91,11 +91,11 @@ namespace RF.AssetWizzard.Editor
                                 if (property.PropertyName.Equals("_BumpMap")) {
                                     AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");
                                 }
-
-                                newMaterial.SetTextureScale(property.PropertyName, property.SerializedTextureValue.TextureScale);
-                                newMaterial.SetTextureOffset(property.PropertyName, property.SerializedTextureValue.TextureOffset);
                                 newMaterial.SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
                             }
+
+                            newMaterial.SetTextureScale(property.PropertyName, property.SerializedTextureValue.TextureScale);
+                            newMaterial.SetTextureOffset(property.PropertyName, property.SerializedTextureValue.TextureOffset);
                             break;
 
                         case ShaderPropertyType.Float:

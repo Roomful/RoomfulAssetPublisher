@@ -33,9 +33,10 @@ namespace RF.AssetWizzard {
             if(Canvas.sharedMaterial == null) {
                 Canvas.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
             }
-
-            if(Canvas.sharedMaterial.mainTexture != Thumbnail) {
-                Canvas.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
+          
+            if (Canvas.sharedMaterial.mainTexture != Thumbnail) {
+                Canvas.sharedMaterial = new Material(Canvas.sharedMaterial);
+                Canvas.sharedMaterial.name = gameObject.name;
                 Canvas.sharedMaterial.mainTexture = Thumbnail;
             }
 
@@ -50,8 +51,7 @@ namespace RF.AssetWizzard {
 		public void PrepareForUpalod() {
 			
 			RemoveSilhouette ();
-
-			DestroyImmediate (Canvas);
+            Canvas.sharedMaterial.mainTexture = null;
 			DestroyImmediate (this);
 		}
 

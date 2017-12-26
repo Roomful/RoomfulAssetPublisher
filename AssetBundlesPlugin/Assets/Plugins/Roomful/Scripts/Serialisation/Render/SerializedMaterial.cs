@@ -31,16 +31,14 @@ namespace RF.AssetBundles.Serialization {
 
 				switch(propertyType) {
 				case UnityEditor.ShaderUtil.ShaderPropertyType.TexEnv:
-					if (mat.GetTexture(propertyName) != null) {
-						property.SerializedTextureValue = new SerializedTexture();
-						property.SerializedTextureValue.Serialize(mat.GetTexture(propertyName));
+                   property.SerializedTextureValue = new SerializedTexture();
+                   if (mat.GetTexture(propertyName) != null) {
+					    property.SerializedTextureValue.Serialize(mat.GetTexture(propertyName));
+                   }
+                   property.SerializedTextureValue.TextureScale = mat.GetTextureScale(propertyName);
+                   property.SerializedTextureValue.TextureOffset = mat.GetTextureOffset(propertyName);
 
-                        property.SerializedTextureValue.TextureScale = mat.GetTextureScale(propertyName);
-                        property.SerializedTextureValue.TextureOffset = mat.GetTextureOffset(propertyName);
-
-                    }
-
-					break;
+                    break;
 				case UnityEditor.ShaderUtil.ShaderPropertyType.Float:
 				case UnityEditor.ShaderUtil.ShaderPropertyType.Range:
 					property.FloatValue = mat.GetFloat(propertyName);

@@ -79,7 +79,11 @@ namespace RF.AssetWizzard {
 					foreach(object type in types) {
 						string typeName = System.Convert.ToString (type);
 						ContentType ct = SA.Common.Util.General.ParseEnum<ContentType> (typeName);
-						ContentTypes.Add (ct);
+
+                        if(!ContentTypes.Contains(ct)) {
+                            ContentTypes.Add(ct);
+                        }
+						
 					}
 				}
 			}

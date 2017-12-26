@@ -181,8 +181,8 @@ namespace SA.UltimateLogger {
 			}
 
 
-          
-            if (e.type == EventType.keyDown) {
+           
+            if (e.type == EventType.KeyDown) {
 
                 int selectedIndex = 0;
                 if (SelectedLogLine != null) {
@@ -701,7 +701,7 @@ namespace SA.UltimateLogger {
 
 			EditorGUIUtility.AddCursorRect(cursorChangeRect, MouseCursor.ResizeVertical);
 
-			if( Event.current.type == EventType.mouseDown && cursorChangeRect.Contains(Event.current.mousePosition)){
+			if( Event.current.type == EventType.MouseDown && cursorChangeRect.Contains(Event.current.mousePosition)){
 				resize = true;
 				oldHight = currentScrollViewHeight;
 				mouseStartY = Event.current.mousePosition.y;
