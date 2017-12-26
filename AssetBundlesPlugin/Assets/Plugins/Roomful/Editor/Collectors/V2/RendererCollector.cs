@@ -82,20 +82,24 @@ namespace RF.AssetWizzard.Editor
 
                     switch (propertyType) {
                         case ShaderPropertyType.TexEnv:
-                            if (property.SerializedTextureValue != null && property.SerializedTextureValue.MainTexture != null) {
-                                string texName = property.SerializedTextureValue.MainTexture.name;
+                            if (property.SerializedTextureValue != null) {
 
-                                AssetDatabase.SaveAsset<Texture>(asset, property.SerializedTextureValue.MainTexture);
-                                new TextureCollector().Run(asset, property.SerializedTextureValue);
+                                if(property.SerializedTextureValue.MainTexture != null) {
+                                    string texName = property.SerializedTextureValue.MainTexture.name;
+                                    AssetDatabase.SaveAsset<Texture>(asset, property.SerializedTextureValue.MainTexture);
+                                    new TextureCollector().Run(asset, property.SerializedTextureValue);
 
-                                if (property.PropertyName.Equals("_BumpMap")) {
-                                    AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");
+                                    if (property.PropertyName.Equals("_BumpMap")) {
+                                        AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");
+                                    }
+                                    newMaterial.SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
                                 }
-                                newMaterial.SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
+
+                                newMaterial.SetTextureScale(property.PropertyName, property.SerializedTextureValue.TextureScale);
+                                newMaterial.SetTextureOffset(property.PropertyName, property.SerializedTextureValue.TextureOffset);
                             }
 
-                            newMaterial.SetTextureScale(property.PropertyName, property.SerializedTextureValue.TextureScale);
-                            newMaterial.SetTextureOffset(property.PropertyName, property.SerializedTextureValue.TextureOffset);
+                           
                             break;
 
                         case ShaderPropertyType.Float:
