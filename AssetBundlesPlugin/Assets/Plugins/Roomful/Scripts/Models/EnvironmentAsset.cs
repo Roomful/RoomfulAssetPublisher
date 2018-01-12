@@ -105,7 +105,7 @@ namespace RF.AssetWizzard
                     settings = gameObject.AddComponent<SerializedEnviromnent>();
                 }
 
-                settings.hideFlags = HideFlags.HideInInspector;
+            //    settings.hideFlags = HideFlags.HideInInspector;
 
                 return settings;
             }

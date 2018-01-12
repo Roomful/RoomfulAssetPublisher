@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 
 namespace RF.AssetBundles.Serialization
 {
-    public class SerializedEnviromnent : MonoBehaviour
+    public class SerializedEnviromnent : MonoBehaviour, IRecreatableOnLoad
     {
 
 
