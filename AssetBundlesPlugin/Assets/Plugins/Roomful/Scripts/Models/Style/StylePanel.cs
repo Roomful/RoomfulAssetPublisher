@@ -86,6 +86,10 @@ namespace RF.AssetWizzard
         }
 
 
+        public void PrepareForUpload() {
+            IconRenderer.sharedMaterial.name = name + "_icon";
+        }
+
         //--------------------------------------
         // Get / Set
         //--------------------------------------
@@ -148,7 +152,6 @@ namespace RF.AssetWizzard
 
                 if(renderer.sharedMaterial == null) {
                     renderer.sharedMaterial = new Material(Shader.Find("Unlit/Transparent"));
-                    renderer.sharedMaterial.name = name + "_icon";
                 }  
 
                 renderer.hideFlags = HideFlags.HideInInspector;
@@ -163,7 +166,7 @@ namespace RF.AssetWizzard
                 }
                 return (Texture2D)IconRenderer.sharedMaterial.mainTexture;
             } set {
-
+                DestroyImmediate(IconRenderer);
                 IconRenderer.sharedMaterial.mainTexture = value;
             }
         }

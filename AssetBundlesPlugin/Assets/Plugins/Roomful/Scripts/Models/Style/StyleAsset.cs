@@ -45,9 +45,13 @@ namespace RF.AssetWizzard
         [ContextMenu("Prepare For Upload")]
         public override void PrepareForUpload() {
 
+            foreach (StylePanel panel in Panels) {
+                panel.PrepareForUpload();
+            }
+
 
             Template.Metadata = new StyleMetadata(this);
-
+  
             CleanUpSilhouette();
             PrepareCoponentsForUpload();
 
