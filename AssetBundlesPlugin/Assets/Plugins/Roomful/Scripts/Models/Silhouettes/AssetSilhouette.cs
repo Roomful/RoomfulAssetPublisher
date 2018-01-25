@@ -50,7 +50,6 @@ namespace RF.AssetWizzard {
 			foreach (ThumbnailSilhouette thumbnail in Thumbnails) {
 				thumbnails.Add(thumbnail.ToDictionary());
 			}
-
 			data.Add("thumbnails", thumbnails);
 
 
@@ -60,6 +59,7 @@ namespace RF.AssetWizzard {
             }
 
             data.Add("mesh_thumbnails", meshThumbnails);
+
 
             return data;
 		}

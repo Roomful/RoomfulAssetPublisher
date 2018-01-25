@@ -92,7 +92,9 @@ namespace RF.AssetWizzard.Network {
 
 			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
                 string h = SA.Common.Data.Json.Serialize(package.Headers);
+#if UNITY_EDITOR
                 U.Log(package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText + " | headers: " + h, SA.UltimateLogger.DefaultTags.OUT);
+#endif
             }
 
             string cleanedUrl = www.url.Replace(" ", "%20");
@@ -109,7 +111,9 @@ namespace RF.AssetWizzard.Network {
                         string logStrning = CleanUpInput(www.downloadHandler.text);
 
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+#if UNITY_EDITOR
                             U.Log(package.Url + "::" + logStrning, SA.UltimateLogger.DefaultTags.IN);
+#endif
                         }
                         package.PackageCallbackText(www.downloadHandler.text);
                         package.PackageCallbackData(www.downloadHandler.data);
@@ -117,7 +121,9 @@ namespace RF.AssetWizzard.Network {
 
                         package.RequestFailed(www.responseCode, www.downloadHandler.text);
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+#if UNITY_EDITOR
                             U.Log(package.Url + "::Response code: " + www.responseCode + ", message: " + www.downloadHandler.text, SA.UltimateLogger.DefaultTags.IN);
+#endif
                         }
 
                         OnRequestFiled(package);

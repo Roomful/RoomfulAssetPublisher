@@ -244,15 +244,17 @@ namespace RF.AssetWizzard {
 
 
             if (FontData.horizontalOverflow == SerializedTextWrapMode.Truncate) {
-				while(m_textBounds.size.x > Width) {
-                    DonwSizeTextScale(0.001f);
+				if(m_textBounds.size.x > Width) {
+                    float dif = Width / m_textBounds.size.x;
+                    TextRenderer.transform.localScale = TextRenderer.transform.localScale * dif;
                     UpdateTextRendererBounds ();
 				}
 			}
 
 			if(FontData.verticalOverflow == SerializedTextWrapMode.Truncate) {
-				while(m_textBounds.size.y > Height) {
-                    DonwSizeTextScale(0.001f);
+                if (m_textBounds.size.y > Height) {
+                    float dif = Height / m_textBounds.size.y;
+                    TextRenderer.transform.localScale = TextRenderer.transform.localScale * dif;
                     UpdateTextRendererBounds ();
 				}
 			}
@@ -260,33 +262,33 @@ namespace RF.AssetWizzard {
 
 			switch(FontData.alignment) {
 			case TextAnchor.LowerCenter:
-				ApplayAlligment (AlignmentVertical.Lower, AlignmentHorizontal.Center);
+				ApplyAligment (AlignmentVertical.Lower, AlignmentHorizontal.Center);
 				break;
 			case TextAnchor.LowerLeft:
-				ApplayAlligment (AlignmentVertical.Lower, AlignmentHorizontal.Left);
+				ApplyAligment (AlignmentVertical.Lower, AlignmentHorizontal.Left);
 				break;
 			case TextAnchor.LowerRight:
-				ApplayAlligment (AlignmentVertical.Lower, AlignmentHorizontal.Right);
+				ApplyAligment (AlignmentVertical.Lower, AlignmentHorizontal.Right);
 				break;
 
 			case TextAnchor.MiddleCenter:
-				ApplayAlligment (AlignmentVertical.Middle, AlignmentHorizontal.Center);
+				ApplyAligment (AlignmentVertical.Middle, AlignmentHorizontal.Center);
 				break;
 			case TextAnchor.MiddleLeft:
-				ApplayAlligment (AlignmentVertical.Middle, AlignmentHorizontal.Left);
+				ApplyAligment (AlignmentVertical.Middle, AlignmentHorizontal.Left);
 				break;
 			case TextAnchor.MiddleRight:
-				ApplayAlligment (AlignmentVertical.Middle, AlignmentHorizontal.Right);
+				ApplyAligment (AlignmentVertical.Middle, AlignmentHorizontal.Right);
 				break;
 
 			case TextAnchor.UpperCenter:
-				ApplayAlligment (AlignmentVertical.Upper, AlignmentHorizontal.Center);
+				ApplyAligment (AlignmentVertical.Upper, AlignmentHorizontal.Center);
 				break;
 			case TextAnchor.UpperLeft:
-				ApplayAlligment (AlignmentVertical.Upper, AlignmentHorizontal.Left);
+				ApplyAligment (AlignmentVertical.Upper, AlignmentHorizontal.Left);
 				break;
 			case TextAnchor.UpperRight:
-				ApplayAlligment (AlignmentVertical.Upper, AlignmentHorizontal.Right);
+				ApplyAligment (AlignmentVertical.Upper, AlignmentHorizontal.Right);
 				break;
 			}
 
@@ -296,17 +298,7 @@ namespace RF.AssetWizzard {
 		}
 
 
-        private void DonwSizeTextScale(float step) {
-            var newScale = new Vector3(
-                TextRenderer.transform.localScale.x - step,
-                TextRenderer.transform.localScale.y - step,
-                TextRenderer.transform.localScale.z - step
-                );
-
-            TextRenderer.transform.localScale = newScale;
-        }
-
-		private void ApplayAlligment(AlignmentVertical vertical, AlignmentHorizontal horizontal) {
+		private void ApplyAligment(AlignmentVertical vertical, AlignmentHorizontal horizontal) {
 
             Quaternion oldRotation = transform.rotation;
             transform.rotation = Quaternion.identity;

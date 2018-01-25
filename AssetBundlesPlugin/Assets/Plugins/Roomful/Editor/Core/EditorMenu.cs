@@ -196,6 +196,14 @@ namespace RF.AssetWizzard.Editor {
 
         }
 
+        [MenuItem("GameObject/Roomful/Add Component/Focus Pointer", false, 104)]
+        static void FocusPointer() {
+            bool valid = IsValidPropGameobject();
+            if (valid) {
+                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedFocusPointer>();
+            }
+
+        }
 
 
         private static bool IsStyleGameobject() {

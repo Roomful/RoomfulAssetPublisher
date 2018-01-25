@@ -16,7 +16,8 @@ namespace RF.AssetWizzard {
 		public InvokeTypes InvokeType = InvokeTypes.Default;
 
 		public bool CanStack = false;
-		public List<ContentType> ContentTypes =  new List<ContentType>();
+        public bool PedestalInZoomView = true;
+        public List<ContentType> ContentTypes =  new List<ContentType>();
 		public AssetSilhouette Silhouette = null;
 
 		public Vector3 Size =  Vector3.one;
@@ -49,6 +50,8 @@ namespace RF.AssetWizzard {
 
 			OriginalJSON.Add ("canStack", CanStack);
 			OriginalJSON.Add ("contentType", ContentTypes);
+            OriginalJSON.Add ("pedestalInZoomView", PedestalInZoomView);
+        
 
 			return OriginalJSON;
 		}
@@ -71,8 +74,12 @@ namespace RF.AssetWizzard {
             MaxSize = assetData.GetValue<float> ("maxScale");
 			CanStack  = assetData.GetValue<bool> ("canStack");
 
+            if (assetData.HasValue("pedestalInZoomView")) {
+                PedestalInZoomView = assetData.GetValue<bool>("pedestalInZoomView");
+            }
 
-			if (assetData.HasValue ("contentType")) {
+
+            if (assetData.HasValue ("contentType")) {
 				List<object> types = assetData.GetValue<List<object>> ("contentType");
 
 				if(types != null) {

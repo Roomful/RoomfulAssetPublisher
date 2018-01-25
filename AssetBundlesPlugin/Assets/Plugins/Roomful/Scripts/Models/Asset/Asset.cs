@@ -47,7 +47,7 @@ namespace RF.AssetWizzard
         protected void CleanUpSilhouette() {
 
             foreach (var c in Components) {
-                c.PrepareForUpalod();
+                c.RemoveSilhouette();
             }
         }
 
