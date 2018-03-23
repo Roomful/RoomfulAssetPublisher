@@ -1,16 +1,16 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 
 
-namespace RF.AssetWizzard.Editor
-{
+namespace RF.AssetWizzard.Editor {
     [InitializeOnLoad]
-    public static class BundleService
-    {
+    public static class BundleService {
 
         private static List<IBundleManager> s_bundles;
 
+        public static event Action OnBundleUploadedEvent = delegate { };
 
         //--------------------------------------
         // Initialization
@@ -23,7 +23,9 @@ namespace RF.AssetWizzard.Editor
             s_bundles.Add(new EnvironmentBundleManager());
             s_bundles.Add(new StyleBundleManager());
 
-            Network.WebServer.OnRequestFiled += OnRequestFiled;
+            
+
+            Network.WebServer.OnRequestFailed += OnRequestFiled;
         }
 
 
@@ -69,7 +71,7 @@ namespace RF.AssetWizzard.Editor
 
         private static IBundleManager GetBundleByTemplateType(System.Type type) {
             foreach (var bundle in s_bundles) {
-                if(bundle.TemplateType == type) {
+                if (bundle.TemplateType == type) {
                     return bundle;
                 }
             }
@@ -85,6 +87,11 @@ namespace RF.AssetWizzard.Editor
             return null;
         }
 
+        private static void SubscribeAllBundlesFouUploadFinishedEvent() {
+            foreach (IBundleManager manager in s_bundles) {
+                manager.OnUploaded += OnBundleUploadedEvent;
+            }
+        }
 
         //--------------------------------------
         // Event Handlers
@@ -102,9 +109,11 @@ namespace RF.AssetWizzard.Editor
 
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded() {
-            
-            foreach(var bundle in s_bundles) {
-                if(bundle.IsUploadInProgress) {
+
+            SubscribeAllBundlesFouUploadFinishedEvent();
+
+            foreach (var bundle in s_bundles) {
+                if (bundle.IsUploadInProgress) {
                     bundle.ResumeUpload();
                 }
             }

@@ -38,7 +38,10 @@ namespace RF.AssetWizzard.Editor
             AssetBundlesSettings.Instance.ShowWebInLogs = SA.Common.Editor.Tools.YesNoFiled("WEB IN Logs", AssetBundlesSettings.Instance.ShowWebInLogs);
             AssetBundlesSettings.Instance.ShowWebOutLogs = SA.Common.Editor.Tools.YesNoFiled("WEB OUT Logs", AssetBundlesSettings.Instance.ShowWebOutLogs);
             AssetBundlesSettings.Instance.AutomaticCacheClean = SA.Common.Editor.Tools.YesNoFiled("Automatic Cache Clean", AssetBundlesSettings.Instance.AutomaticCacheClean);
+            AssetBundlesSettings.Instance.DownloadAssetAfterUploading = SA.Common.Editor.Tools.YesNoFiled("Download And Show Asset After Uploading", AssetBundlesSettings.Instance.DownloadAssetAfterUploading);
 
+
+            
             if (EditorGUI.EndChangeCheck()) {
                 AssetBundlesSettings.Save();
             }

@@ -104,6 +104,14 @@ namespace RF.AssetWizzard.Editor
                 m_itemsPreloaderAgnle = 0;
             }
 
+           // if (LocalySavedTemplates.Count > 0) {
+                EditorGUILayout.Space();
+
+                if (GUILayout.Button("ReUploadAll", EditorStyles.miniButton, GUILayout.Width(65))) {
+                    AutomaticReloader.ReloadAllAssets();
+                }
+        //    }
+
             foreach (var asset in LocalySavedTemplates) {
 
                 GUIContent assetDisaplyContent = asset.DisaplyContent;

@@ -14,7 +14,7 @@ namespace RF.AssetWizzard.Network {
 	public class WebServer : SA.Common.Pattern.NonMonoSingleton<WebServer> {
 		private static List<Request.BaseWebPackage> DelayedPackages =  new List<Request.BaseWebPackage>();
 
-        public static Action<Request.BaseWebPackage> OnRequestFiled = delegate { };
+        public static Action<Request.BaseWebPackage> OnRequestFailed = delegate { };
 
 
 		public const string HeaderSessionId = "x-session-id";
@@ -91,8 +91,8 @@ namespace RF.AssetWizzard.Network {
 			}
 
 			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
-                string h = SA.Common.Data.Json.Serialize(package.Headers);
 #if UNITY_EDITOR
+                string h = SA.Common.Data.Json.Serialize(package.Headers);
                 U.Log(package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText + " | headers: " + h, SA.UltimateLogger.DefaultTags.OUT);
 #endif
             }
@@ -105,13 +105,14 @@ namespace RF.AssetWizzard.Network {
 
 				if (www.isNetworkError || www.isHttpError) {
                     package.RequestFailed(www.responseCode, www.error);
-                    OnRequestFiled(package);
+                    OnRequestFailed(package);
                 } else {
                     if (www.responseCode == 200) {
-                        string logStrning = CleanUpInput(www.downloadHandler.text);
+
 
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
 #if UNITY_EDITOR
+                            string logStrning = CleanUpInput(www.downloadHandler.text);
                             U.Log(package.Url + "::" + logStrning, SA.UltimateLogger.DefaultTags.IN);
 #endif
                         }
@@ -126,7 +127,7 @@ namespace RF.AssetWizzard.Network {
 #endif
                         }
 
-                        OnRequestFiled(package);
+                        OnRequestFailed(package);
 
                     }
                 }

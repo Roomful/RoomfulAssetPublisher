@@ -1,136 +1,157 @@
-﻿/*
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Editor {
 
-  public class AutomaticReloader {
+    public class AutomaticReloader {
 
-      public static void ReloadAllAssets() {
-          AssetBundlesSettings.Instance.TemporaryAssetTemplates.Clear();
+        private static string FileLocation = AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + "AutomaticLoaderInProgress";
 
-          var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetAllAssets (0, 3, new List<string>() {""});
+        public static void ReloadAllAssets() {
+            AssetBundlesSettings.Instance.LocalPropTemplates.Clear();
+            IsInReUploadGrogress = true;
 
-          allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
-              List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
+            var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetPropsList(0, 999, "ccc");
+            allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
+                List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
 
-              foreach (object assetData in allAssetsList) {
-                  AssetTemplate at = new AssetTemplate(new JSONData(assetData).RawData);
-                  AssetBundlesSettings.Instance.TemporaryAssetTemplates.Add(at);
-              }
+                foreach (object assetData in allAssetsList) {
+                    PropTemplate at = new PropTemplate(new JSONData(assetData).RawData);
+                    AssetBundlesSettings.Instance.LocalPropTemplates.Add(at);
+                }
 
-              AssetBundlesSettings.Save();
+                AssetBundlesSettings.Save();
 
-              StartLoop();
-          };
+                StartLoop();
+            };
 
-          allAssetsRequest.Send();
-      }
+            allAssetsRequest.Send();
+        }
 
-      private static void StartLoop() {
-          Debug.Log("TemporaryAssetTemplates.Count "+ AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count);
-          if (AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count > 0) {
+        private static void StartLoop() {
 
-              bool isUrlValid = false;
+            if (AssetBundlesSettings.Instance.LocalPropTemplates.Count > 0) {
+
+                bool isUrlValid = false;
 #if UNITY_EDITOR
 
-              string pl = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+                string pl = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+                var asset = Peek();
 
-              foreach (var u in Peek().Urls) {
-                  if (u.Platform.Equals(pl)) {
-                      isUrlValid = !string.IsNullOrEmpty(u.Url);
+                Debug.Log("AutomaticReloader ReUploading: " + asset.Title + ". At index: " + Index + ". Assets left: " + (AssetBundlesSettings.Instance.LocalPropTemplates.Count - 1));
+                Index = Index + 1;
+                foreach (var u in asset.Urls) {
+                    if (u.Platform.Equals(pl)) {
+                        isUrlValid = !string.IsNullOrEmpty(u.Url);
 
-                      break;
-                  }
-              }
+                        break;
+                    }
+                }
 
-#endif          
-              if (isUrlValid) {
-                  AssetBundlesSettings.Instance.IsInAutoloading = true;
-
-                  BundleUtility.ClearLocalCache();
-
-                  PropAsset.PropInstantieted += PropInstantiedtedHandler;
-
-                  //AssetBundlesSettings.Instance.PublisherCurrentVersion = "1.0";
-                  PropBundleManager.DownloadAssetBundle(Dequeue());
-
-              } else {
-                  Debug.Log("Url is invalid, load next");
-                  Dequeue();
-                  StartLoop();
-              }
-
-          } else {
-              AssetBundlesSettings.Instance.IsInAutoloading = false;
-          }
-      }
-
-      private static void PropInstantiedtedHandler() {
-          Debug.Log("PropInstantiedtedHandler");
-          PropAsset.PropInstantieted -= PropInstantiedtedHandler;
-
-          UnityEditor.EditorApplication.update += OnUpdate;
-      }
-
-      private static int counter = 0;
-      private static void OnUpdate() {
-          counter += 1;
-
-          if (counter > 2000) {
-#if UNITY_EDITOR
-              Debug.Log("Delay call done for reuplaod");
-              counter = 0;
-              UnityEditor.EditorApplication.update -= OnUpdate;
-              if (AssetBundlesSettings.Instance.IsInAutoloading) {
-
-                  //AssetBundlesSettings.Instance.PublisherCurrentVersion = "2.0";
-                  PropBundleManager.ReuploadAsset (CurrentProp);
-              }
 #endif
-          }
-      }
+                if (isUrlValid) {
+                    BundleUtility.ClearLocalCache();
 
-      [UnityEditor.Callbacks.DidReloadScripts]
-      private static void OnScriptsReloaded() {
-          #if UNITY_EDITOR
-          if (AssetBundlesSettings.Instance.IsInAutoloading) {
-              PropBundleManager.AssetBundleUploadedEvent += AssetBundleUploadedHandler;
-          }
-          #endif
-      }
+                    PropAsset.PropInstantieted += PropInstantiedtedHandler;
+                    BundleService.Download(Dequeue());
 
-      private static void AssetBundleUploadedHandler() {
-          Debug.Log("Reupload complete");
-          PropBundleManager.AssetBundleUploadedEvent -= AssetBundleUploadedHandler;
+                } else {
+                    Debug.Log("Url is invalid, load next");
+                    Dequeue();
+                    StartLoop();
+                }
 
-          StartLoop ();
-      }
+            } else {
+                IsInReUploadGrogress = false;
+                UnityEditor.EditorUtility.DisplayDialog("Success", " All selected Assets has been successfully reUploaded!", "Ok");
+            }
+        }
 
-      private static PropAsset CurrentProp {
-          get {
-              return GameObject.FindObjectOfType<PropAsset> ();
-          }
-      }
+        private static void PropInstantiedtedHandler() {
+            PropAsset.PropInstantieted -= PropInstantiedtedHandler;
 
-      private static AssetTemplate Dequeue() {
-          int indexOfLast = AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count - 1;
-          AssetTemplate curr = AssetBundlesSettings.Instance.TemporaryAssetTemplates [indexOfLast];
+            UnityEditor.EditorApplication.update += OnUpdate;
+        }
 
-          AssetBundlesSettings.Instance.TemporaryAssetTemplates.Remove (curr);
-          AssetBundlesSettings.Save();
+        private static void OnUpdate() {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.update -= OnUpdate;
 
-          return curr;
-      }
+            BundleService.Upload(CurrentProp);
+#endif
+        }
+
+        [UnityEditor.Callbacks.DidReloadScripts]
+        private static void OnScriptsReloaded() {
+#if UNITY_EDITOR
+            if (IsInReUploadGrogress) {
+                BundleService.OnBundleUploadedEvent += AssetBundleUploadedHandler;
+            }
+#endif
+        }
+
+        public static void AssetBundleUploadedHandler() {
+            BundleService.OnBundleUploadedEvent -= AssetBundleUploadedHandler;
+            StartLoop();
+        }
+
+        public static bool IsInReUploadGrogress {
+            get {
+                bool result = FolderUtils.IsFolderExists(FileLocation);
+                return result;
+            }
+            private set {
+                if (value) {
+                    FolderUtils.CreateFolder(FileLocation);
+                    FolderUtils.Write(FileLocation + "settings.txt", "download=" + AssetBundlesSettings.Instance.DownloadAssetAfterUploading);
+
+                    AssetBundlesSettings.Instance.DownloadAssetAfterUploading = false;
+                    Index = 0;
+                } else {
+                    string settings = FolderUtils.Read(FileLocation + "settings.txt");
+                    settings = settings.Substring(9);
+                    AssetBundlesSettings.Instance.DownloadAssetAfterUploading = SA.Common.Util.General.ParseEnum<bool>(settings);
+                    FolderUtils.DeleteFolder(FileLocation);
+                }
+            }
+        }
+
+        private static int Index {
+            get {
+                string index = FolderUtils.Read(FileLocation + "index.txt");
+                index = index.Substring(6);
+                return int.Parse(index);
+            }
+            set {
+                FolderUtils.Write(FileLocation + "index.txt", "index=" + value);
+            }
+        }
+
+        private static PropAsset CurrentProp {
+            get {
+                return GameObject.FindObjectOfType<PropAsset>();
+            }
+        }
+
+        private static PropTemplate Dequeue() {
+            int indexOfLast = AssetBundlesSettings.Instance.LocalPropTemplates.Count - 1;
+            PropTemplate curr = AssetBundlesSettings.Instance.LocalPropTemplates[indexOfLast];
+
+            AssetBundlesSettings.Instance.LocalPropTemplates.Remove(curr);
+            AssetBundlesSettings.Save();
+
+            return curr;
+        }
 
 
-      private static AssetTemplate Peek() {
-          int indexOfLast = AssetBundlesSettings.Instance.TemporaryAssetTemplates.Count - 1;
+        private static PropTemplate Peek() {
+            int indexOfLast = AssetBundlesSettings.Instance.LocalPropTemplates.Count - 1;
 
-          return AssetBundlesSettings.Instance.TemporaryAssetTemplates [indexOfLast];
-      }
-  }
+            return AssetBundlesSettings.Instance.LocalPropTemplates[indexOfLast];
+        }
+    }
 
 }
-*/
+

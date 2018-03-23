@@ -66,7 +66,7 @@ namespace RF.AssetWizzard {
         public bool ShowWebInLogs = true;
 		public bool ShowWebOutLogs = false;
         public bool AutomaticCacheClean = true;
-
+        public bool DownloadAssetAfterUploading = true;
    
 
         #if UNITY_EDITOR

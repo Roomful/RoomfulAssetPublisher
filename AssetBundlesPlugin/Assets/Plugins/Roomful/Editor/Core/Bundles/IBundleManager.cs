@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace RF.AssetWizzard.Editor
 {
     public interface IBundleManager
     {
+        event Action OnUploaded;
 
         void Create(Template tpl);
         void Upload(IAsset asset);
