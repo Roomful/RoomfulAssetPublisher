@@ -7,13 +7,11 @@ namespace RF.AssetWizzard.Editor {
 
     public class AutomaticReloader {
 
-        private static string FileLocation = AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + "AutomaticLoaderInProgress";
-
         public static void ReloadAllAssets() {
             AssetBundlesSettings.Instance.LocalPropTemplates.Clear();
             IsInReUploadGrogress = true;
 
-            var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetPropsList(0, 999, "ccc");
+            var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetPropsList(0, 2, "ccc");
             allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
                 List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
 
@@ -24,13 +22,13 @@ namespace RF.AssetWizzard.Editor {
 
                 AssetBundlesSettings.Save();
 
-                StartLoop();
+                ContinueReUploadLoop();
             };
 
             allAssetsRequest.Send();
         }
 
-        private static void StartLoop() {
+        public static void ContinueReUploadLoop() {
 
             if (AssetBundlesSettings.Instance.LocalPropTemplates.Count > 0) {
 
@@ -60,7 +58,7 @@ namespace RF.AssetWizzard.Editor {
                 } else {
                     Debug.Log("Url is invalid, load next");
                     Dequeue();
-                    StartLoop();
+                    ContinueReUploadLoop();
                 }
 
             } else {
@@ -94,38 +92,47 @@ namespace RF.AssetWizzard.Editor {
 
         public static void AssetBundleUploadedHandler() {
             BundleService.OnBundleUploadedEvent -= AssetBundleUploadedHandler;
-            StartLoop();
+            if (IsInReUploadGrogress) {
+                ContinueReUploadLoop();
+            }
         }
 
         public static bool IsInReUploadGrogress {
             get {
-                bool result = FolderUtils.IsFolderExists(FileLocation);
+                bool result = FolderUtils.IsFolderExists(AssetBundlesSettings.FULL_AUTOMATIC_REUPLOADER_TEMP_LOCATION);
                 return result;
             }
             private set {
                 if (value) {
-                    FolderUtils.CreateFolder(FileLocation);
-                    FolderUtils.Write(FileLocation + "settings.txt", "download=" + AssetBundlesSettings.Instance.DownloadAssetAfterUploading);
+                    FolderUtils.CreateFolder(AssetBundlesSettings.FULL_AUTOMATIC_REUPLOADER_TEMP_LOCATION);
+                    FolderUtils.Write(AssetBundlesSettings.FULL_AUTOMATIC_REUPLOADER_TEMP_LOCATION + "settings.txt", "download=" + AssetBundlesSettings.Instance.DownloadAssetAfterUploading);
 
                     AssetBundlesSettings.Instance.DownloadAssetAfterUploading = false;
                     Index = 0;
                 } else {
-                    string settings = FolderUtils.Read(FileLocation + "settings.txt");
-                    settings = settings.Substring(9);
-                    AssetBundlesSettings.Instance.DownloadAssetAfterUploading = SA.Common.Util.General.ParseEnum<bool>(settings);
-                    FolderUtils.DeleteFolder(FileLocation);
+                    string settings = FolderUtils.Read(AssetBundlesSettings.FULL_AUTOMATIC_REUPLOADER_TEMP_LOCATION + "settings.txt");
+                    if (settings.Length > 9) {
+                        settings = settings.Substring(9);
+                    }
+                    if (!settings.Equals(string.Empty)) {
+                        AssetBundlesSettings.Instance.DownloadAssetAfterUploading = System.Convert.ToBoolean(settings);
+                    } else {
+                        AssetBundlesSettings.Instance.DownloadAssetAfterUploading = true;
+                    }
+                    FolderUtils.DeleteFolder(AssetBundlesSettings.FULL_AUTOMATIC_REUPLOADER_TEMP_LOCATION);
                 }
             }
         }
 
         private static int Index {
             get {
-                string index = FolderUtils.Read(FileLocation + "index.txt");
+                
+                string index = FolderUtils.Read(AssetBundlesSettings.FULL_AUTOMATIC_REUPLOADER_TEMP_LOCATION + "index.txt");
                 index = index.Substring(6);
                 return int.Parse(index);
             }
             set {
-                FolderUtils.Write(FileLocation + "index.txt", "index=" + value);
+                FolderUtils.Write(AssetBundlesSettings.FULL_AUTOMATIC_REUPLOADER_TEMP_LOCATION + "index.txt", "index=" + value);
             }
         }
 

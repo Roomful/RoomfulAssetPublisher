@@ -106,11 +106,15 @@ namespace RF.AssetWizzard.Editor
 
            // if (LocalySavedTemplates.Count > 0) {
                 EditorGUILayout.Space();
-
-                if (GUILayout.Button("ReUploadAll", EditorStyles.miniButton, GUILayout.Width(65))) {
+            EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("ReUploadAll", EditorStyles.miniButton, GUILayout.Width(75))) {
                     AutomaticReloader.ReloadAllAssets();
                 }
-        //    }
+            if (GUILayout.Button("Continue", EditorStyles.miniButton, GUILayout.Width(65))) {
+                AutomaticReloader.ContinueReUploadLoop();
+            }
+            EditorGUILayout.EndHorizontal();
+            //    }
 
             foreach (var asset in LocalySavedTemplates) {
 
