@@ -11,7 +11,7 @@ namespace RF.AssetWizzard.Editor {
             AssetBundlesSettings.Instance.LocalPropTemplates.Clear();
             IsInReUploadGrogress = true;
 
-            var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetPropsList(0, 2, "ccc");
+            var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetPropsList(0, 999, "");
             allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
                 List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
 
