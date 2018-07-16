@@ -30,6 +30,7 @@ namespace RF.AssetWizzard {
             CreateFolder (folderPath + "/Animations");
             CreateFolder (folderPath + "/Animations/Controller");
             CreateFolder (folderPath + "/Animations/Clips");
+            CreateFolder (folderPath + "/Animations/Avatars");
         }
 
 		public static bool IsFolderExists(string folderPath) {

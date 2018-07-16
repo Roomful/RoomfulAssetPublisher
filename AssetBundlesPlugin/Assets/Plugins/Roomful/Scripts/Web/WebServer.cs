@@ -89,14 +89,14 @@ namespace RF.AssetWizzard.Network {
 					www.SetRequestHeader (pack.Key, pack.Value);
 				}
 			}
-
-			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
 #if UNITY_EDITOR
-                string h = SA.Common.Data.Json.Serialize(package.Headers);
-                U.Log(package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText + " | headers: " + h, SA.UltimateLogger.DefaultTags.OUT);
-#endif
-            }
+			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
 
+                string h = SA.Common.Data.Json.Serialize(package.Headers);
+                U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText + " | headers: " + h, SA.UltimateLogger.DefaultTags.OUT);
+
+            }
+#endif
             string cleanedUrl = www.url.Replace(" ", "%20");
             www.url = cleanedUrl;
 
@@ -109,21 +109,22 @@ namespace RF.AssetWizzard.Network {
                 } else {
                     if (www.responseCode == 200) {
 
-
-                        if (AssetBundlesSettings.Instance.ShowWebInLogs) {
 #if UNITY_EDITOR
+                        if (AssetBundlesSettings.Instance.ShowWebInLogs) {
+
                             string logStrning = CleanUpInput(www.downloadHandler.text);
-                            U.Log(package.Url + "::" + logStrning, SA.UltimateLogger.DefaultTags.IN);
-#endif
+                            U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + "::" + logStrning, SA.UltimateLogger.DefaultTags.IN);
+
                         }
-                        package.PackageCallbackText(www.downloadHandler.text);
+#endif
+	                    package.PackageCallbackText(www.downloadHandler.text);
                         package.PackageCallbackData(www.downloadHandler.data);
                     } else {
 
                         package.RequestFailed(www.responseCode, www.downloadHandler.text);
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
 #if UNITY_EDITOR
-                            U.Log(package.Url + "::Response code: " + www.responseCode + ", message: " + www.downloadHandler.text, SA.UltimateLogger.DefaultTags.IN);
+                            U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + "::Response code: " + www.responseCode + ", message: " + www.downloadHandler.text, SA.UltimateLogger.DefaultTags.IN);
 #endif
                         }
 

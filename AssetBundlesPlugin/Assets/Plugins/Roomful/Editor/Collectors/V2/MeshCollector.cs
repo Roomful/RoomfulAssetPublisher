@@ -10,19 +10,31 @@ namespace RF.AssetWizzard.Editor
 		public void Run(IAsset asset) {
 			MeshFilter[] meshes = asset.gameObject.GetComponentsInChildren<MeshFilter> (true);
 
-			for (int i = 0; i < meshes.Length; i++) {
-				Mesh newmesh = new Mesh();
-				newmesh.vertices = meshes[i].sharedMesh.vertices;
-				newmesh.triangles = meshes[i].sharedMesh.triangles;
-				newmesh.uv = meshes[i].sharedMesh.uv;
-				newmesh.normals = meshes[i].sharedMesh.normals;
-				newmesh.colors = meshes[i].sharedMesh.colors;
-				newmesh.tangents = meshes[i].sharedMesh.tangents;
-				newmesh.name = meshes[i].sharedMesh.name;
-
-				AssetDatabase.SaveAsset<Mesh> (asset, newmesh);
-				meshes[i].sharedMesh = AssetDatabase.LoadAsset<Mesh> (asset, newmesh.name);
+			for (int i = 0; i < meshes.Length; i++)
+			{
+				meshes[i].sharedMesh = SaveMesh(asset, meshes[i].sharedMesh);
 			}
+			
+			SkinnedMeshRenderer[] skinnedMeshRenderers = asset.gameObject.GetComponentsInChildren<SkinnedMeshRenderer> (true);
+
+			for (int i = 0; i < skinnedMeshRenderers.Length; i++)
+			{
+				skinnedMeshRenderers[i].sharedMesh = SaveMesh(asset, skinnedMeshRenderers[i].sharedMesh);
+			}
+		}
+
+		private Mesh SaveMesh(IAsset asset, Mesh oldSharedMesh)
+		{
+			Mesh newmesh = new Mesh();
+			newmesh.vertices = oldSharedMesh.vertices;
+			newmesh.triangles = oldSharedMesh.triangles;
+			newmesh.uv = oldSharedMesh.uv;
+			newmesh.normals = oldSharedMesh.normals;
+			newmesh.colors = oldSharedMesh.colors;
+			newmesh.tangents = oldSharedMesh.tangents;
+			newmesh.name = oldSharedMesh.name;
+			AssetDatabase.SaveAsset<Mesh>(asset, newmesh);
+			return AssetDatabase.LoadAsset<Mesh>(asset, newmesh.name);
 		}
 	}
 }

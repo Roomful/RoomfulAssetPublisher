@@ -9,7 +9,7 @@ namespace RF.AssetWizzard {
 	public class PropTemplate : Template
     {
         public const float MIN_ALLOWED_AXIS_SIZE = 0.5f;
-        public const float MAX_ALLOWED_AXIS_SIZE = 4f;
+        public const float MAX_ALLOWED_AXIS_SIZE = 5f;
 
 
 		public Placing Placing = Placing.Floor;

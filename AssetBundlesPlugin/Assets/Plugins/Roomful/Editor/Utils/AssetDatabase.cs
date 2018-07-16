@@ -39,17 +39,18 @@ namespace RF.AssetWizzard.Editor
             string title = asset.GetTemplate().Title;
 
             ValidateBundleFolder(title);
-
+			
             SaveAnimationClip(title, serializedClip.AnimationClipName, serializedClip.ClipData);
         }
 
         public static void SaveAnimatorController(IAsset asset,  SerializedAnimatorController serializedAnimator) {
             string title = asset.GetTemplate().Title;
-
             ValidateBundleFolder(title);
-
             SaveAnimator(title, serializedAnimator.ControllerName, serializedAnimator.SerializedData);
-        }
+	        if (serializedAnimator.SerializedAvatar != null) {
+		        SaveAvatar(title, serializedAnimator.SerializedAvatar);
+	        }
+	    }
         
         public static void SaveAsset<T>(IAsset asset, T unityAsset) where T: Object {
             string title = asset.GetTemplate().Title;
@@ -66,11 +67,11 @@ namespace RF.AssetWizzard.Editor
                 SaveSimpleAsset(unityAsset, title);
             }
         }
-        
+		
 		public static T LoadAsset<T>(IAsset asset, string assetName) where T: Object {
 			string fullName = assetName + GetExtensionByType (typeof(T));
 			string fullPath = GetFullFilePath(typeof(T), asset.GetTemplate().Title, fullName);
-
+			var t = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(fullPath);
 			return (T)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(T));
 		}
 
@@ -133,6 +134,15 @@ namespace RF.AssetWizzard.Editor
             }
         }
         
+		private static void SaveAvatar(string assetTitle, SerializedAvatar avatar) {
+			string fullPath = GetFullFilePath(typeof(UnityEngine.Avatar), assetTitle, assetTitle, true);
+			string path = GetShortFilePath(typeof(UnityEngine.Avatar), assetTitle, assetTitle, true);
+            
+			if (!FolderUtils.IsFileExists(path)) {
+				FolderUtils.WriteBytes(fullPath, avatar.AvatarData);
+			}
+		}
+		
         private static void SaveAnimator(string assetTitle, string animatorName, byte[] assetData) {
             string fullPath = GetFullFilePath(typeof(UnityEditor.Animations.AnimatorController), assetTitle, animatorName, true);
             string path = GetShortFilePath(typeof(UnityEditor.Animations.AnimatorController), assetTitle, animatorName, true);
@@ -232,6 +242,7 @@ namespace RF.AssetWizzard.Editor
 		private const string m_MaterialsExtension = ".mat";
 		private const string m_AnimatorExtension = ".controller";
 		private const string m_AnimationExtension = ".anim";
+		private const string m_AvatarExtension = ".fbx";
 
 
         private const string m_FontsFolder = "/Fonts/";
@@ -241,6 +252,7 @@ namespace RF.AssetWizzard.Editor
 		private const string m_MaterialsFolder = "/Materials/";
 		private const string m_AnimatorFolder = "/Animations/Controller/";
 		private const string m_AnimationsFolder = "/Animations/Clips/";
+		private const string m_AvatarsFolder = "/Animations/Avatars/";
 
 
         private static string GetExtensionByType(System.Type t) {
@@ -250,6 +262,7 @@ namespace RF.AssetWizzard.Editor
 			if (t == typeof(UnityEditor.Animations.AnimatorController)) return m_AnimatorExtension;
 			if (t == typeof(AnimationClip)) return m_AnimationExtension;
             if (t == typeof(Cubemap)) return m_CubemapExtension;
+            if (t == typeof(Avatar)) return m_AvatarExtension;
 
             return string.Empty;
 		}
@@ -262,6 +275,7 @@ namespace RF.AssetWizzard.Editor
             if (t == typeof(UnityEditor.Animations.AnimatorController)) return m_AnimatorFolder;
             if (t == typeof(AnimationClip)) return m_AnimationsFolder;
             if (t == typeof(Cubemap)) return m_CubemapFolder;
+            if (t == typeof(Avatar)) return m_AvatarsFolder;
 
             return string.Empty;
 		}

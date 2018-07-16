@@ -64,9 +64,11 @@ namespace RF.AssetWizzard
                     DestroyImmediate(animators[i]);
                 } else {
                     #if UNITY_EDITOR
+                    var avatar = animators[i].avatar;
+                    var runtimeController = animators[i].runtimeAnimatorController;
                     SerializedAnimatorController sac = animators[i].gameObject.AddComponent<SerializedAnimatorController>();
-                    sac.Serialize(animators[i].runtimeAnimatorController as UnityEditor.Animations.AnimatorController);
-
+                    sac.Serialize(runtimeController as UnityEditor.Animations.AnimatorController, avatar);
+                    
                     #endif
                 }
             }
