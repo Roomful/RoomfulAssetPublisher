@@ -29,6 +29,10 @@ namespace RF.AssetBundles.Serialization {
             
         }
 
+        public bool HasAvatar() {
+            return SerializedAvatar != null && SerializedAvatar.AvatarData.Length > 0;
+        }
+
         private static SerializedAnimationClip SerializeAnimationClip(AnimationClip ac) {
             SerializedAnimationClip sac = new SerializedAnimationClip();
             sac.AnimationClipName = ac.name;
@@ -39,11 +43,15 @@ namespace RF.AssetBundles.Serialization {
         }
 
         private SerializedAvatar SerializeAvatar(Avatar avatar) {
-            var avatarData = new SerializedAvatar();
-            avatarData.AvatarName = avatar.name;
             string avatarPath = UnityEditor.AssetDatabase.GetAssetPath(avatar);
-            avatarData.AvatarData = System.IO.File.ReadAllBytes(avatarPath);
-            return avatarData;
+            if (System.IO.File.Exists(avatarPath)) {
+                var avatarData = new SerializedAvatar();
+                avatarData.AvatarName = avatar.name;
+                avatarData.AvatarData = System.IO.File.ReadAllBytes(avatarPath);
+                return avatarData;
+            }
+
+            return null;
         }
 
 #endif

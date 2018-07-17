@@ -20,7 +20,7 @@ namespace RF.AssetWizzard.Editor {
 
                 AnimatorController controller = AssetDatabase.LoadAsset<AnimatorController>(asset, sac.ControllerName);
                 a.runtimeAnimatorController = controller;
-                if (sac.SerializedAvatar != null) {
+                if (sac.HasAvatar()) {
                     Avatar avatar = AssetDatabase.LoadAsset<Avatar>(asset, asset.GetTemplate().Title);
                     if (avatar != null) {
                         a.avatar = avatar;

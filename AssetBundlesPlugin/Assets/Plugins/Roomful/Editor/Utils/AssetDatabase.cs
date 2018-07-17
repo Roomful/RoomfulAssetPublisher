@@ -47,7 +47,7 @@ namespace RF.AssetWizzard.Editor
             string title = asset.GetTemplate().Title;
             ValidateBundleFolder(title);
             SaveAnimator(title, serializedAnimator.ControllerName, serializedAnimator.SerializedData);
-	        if (serializedAnimator.SerializedAvatar != null) {
+	        if (serializedAnimator.HasAvatar()) {
 		        SaveAvatar(title, serializedAnimator.SerializedAvatar);
 	        }
 	    }
