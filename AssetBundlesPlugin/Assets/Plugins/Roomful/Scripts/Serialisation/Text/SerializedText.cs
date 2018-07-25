@@ -10,7 +10,7 @@ namespace RF.AssetBundles.Serialization
         public Font Font;
         public int FontSize;
         public float LineSpacing;
-        public int LineCharacterLimit;
+        public int LineCharacterLimit = 100;
         public FontStyle FontStyle;
         public TextAnchor Alignment;
         public SerializedTextWrapMode HorizontalOverflow;
