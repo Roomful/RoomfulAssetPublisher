@@ -28,6 +28,7 @@ namespace RF.AssetWizzard.Editor {
             m_sections.Add(new WizzardSection("Props",   new PropsList(this)));
             m_sections.Add(new WizzardSection("Styles", new StylesList(this)));
             m_sections.Add(new WizzardSection("Environments", new EnvironmentList(this)));
+            m_sections.Add(new WizzardSection("Batch reupload", new BatchReuploadPanel(this)));
 
             m_sections.Add(new WizzardSection("--------------", new SeparatorPanel(this)));
 
