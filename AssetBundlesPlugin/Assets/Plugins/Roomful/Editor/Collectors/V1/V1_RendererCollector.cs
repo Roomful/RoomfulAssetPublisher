@@ -41,14 +41,7 @@ namespace RF.AssetWizzard.Editor
 									AssetDatabase.SaveAsset<Texture> (asset, tex);
 
 									if (propertyName.Equals("_BumpMap")) {
-										string path = UnityEditor.AssetDatabase.GetAssetPath(AssetDatabase.LoadAsset<Texture>(asset, texName));
-
-										UnityEditor.TextureImporter ti = (UnityEditor.TextureImporter)UnityEditor.TextureImporter.GetAtPath(path);
-										UnityEditor.TextureImporterSettings settings = new UnityEditor.TextureImporterSettings();
-										ti.ReadTextureSettings(settings);
-										settings.textureType = UnityEditor.TextureImporterType.NormalMap;
-										ti.SetTextureSettings(settings);
-										ti.SaveAndReimport();
+										ReimportTextureAsNormalMap(asset, texName);
 									}
 
                                     AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).SetTexture(propertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
@@ -81,6 +74,17 @@ namespace RF.AssetWizzard.Editor
 					ren.materials = recreatedMterials.ToArray ();
 				}
 			}
+		}
+
+		private static void ReimportTextureAsNormalMap(IAsset asset, string texName) {
+			string path = UnityEditor.AssetDatabase.GetAssetPath(AssetDatabase.LoadAsset<Texture>(asset, texName));
+
+			UnityEditor.TextureImporter ti = (UnityEditor.TextureImporter) UnityEditor.TextureImporter.GetAtPath(path);
+			UnityEditor.TextureImporterSettings settings = new UnityEditor.TextureImporterSettings();
+			ti.ReadTextureSettings(settings);
+			settings.textureType = UnityEditor.TextureImporterType.NormalMap;
+			ti.SetTextureSettings(settings);
+			ti.SaveAndReimport();
 		}
 	}
 }
