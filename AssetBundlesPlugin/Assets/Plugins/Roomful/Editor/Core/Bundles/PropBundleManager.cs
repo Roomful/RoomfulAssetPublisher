@@ -14,7 +14,10 @@ namespace RF.AssetWizzard.Editor
         }
 
         public override IAsset CreateDownloadedAsset(PropTemplate tpl, GameObject gameObject) {
-            PropAsset asset = gameObject.AddComponent<PropAsset>();
+            PropAsset asset = gameObject.GetComponent<PropAsset>();
+            if (asset == null) {
+                asset = gameObject.AddComponent<PropAsset>();
+            }
             asset.SetTemplate(tpl);
 
             return asset;

@@ -5,9 +5,9 @@ using UnityEngine;
 namespace RF.AssetWizzard.Editor
 {
 
-	public class V1_RendererCollector : ICollector {
+	public class V1_RendererCollector : BaseCollector {
 
-		public void Run(IAsset asset) {
+		public override void Run(IAsset asset) {
 			
 			Renderer[] rens = asset.gameObject.GetComponentsInChildren<Renderer> (true);
 			foreach (Renderer ren in rens) {
@@ -76,7 +76,7 @@ namespace RF.AssetWizzard.Editor
 			}
 		}
 
-		private static void ReimportTextureAsNormalMap(IAsset asset, string texName) {
+		private void ReimportTextureAsNormalMap(IAsset asset, string texName) {
 			string path = UnityEditor.AssetDatabase.GetAssetPath(AssetDatabase.LoadAsset<Texture>(asset, texName));
 
 			UnityEditor.TextureImporter ti = (UnityEditor.TextureImporter) UnityEditor.TextureImporter.GetAtPath(path);

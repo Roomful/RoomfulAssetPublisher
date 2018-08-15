@@ -6,13 +6,19 @@ using RF.AssetBundles.Serialization;
 namespace RF.AssetWizzard.Editor
 {
 	public class AssetDatabase {
-
-
+		private string m_pathRelativeAssetsFolder = "";
+		private string m_pathRelativeProjectFolder = "Assets/";
         //--------------------------------------
         // Public Methods
         //--------------------------------------
+		public AssetDatabase(string basePath) {
+			if (!string.IsNullOrEmpty(basePath)) {
+				m_pathRelativeAssetsFolder += basePath;
+				m_pathRelativeProjectFolder += basePath; 
+			}
+		}
 
-        public static void SaveFontAsset(IAsset asset, SerializedText st) {
+		public void SaveFontAsset(IAsset asset, SerializedText st) {
 			string title = asset.GetTemplate().Title;
 
 			ValidateBundleFolder (title);
@@ -20,7 +26,7 @@ namespace RF.AssetWizzard.Editor
 			SaveFont (title, st.Font, st.FullFontName, st.FontFileContent);
 		}
 
-        public static string SaveCubemapAsset(IAsset asset, SerializedEnviromnent e) {
+        public string SaveCubemapAsset(IAsset asset, SerializedEnviromnent e) {
             
             string title = asset.GetTemplate().Title;
             ValidateBundleFolder(title);
@@ -35,7 +41,7 @@ namespace RF.AssetWizzard.Editor
             return fullPath;
         }
 
-        public static void SaveAnimationClipByData(IAsset asset, SerializedAnimationClip serializedClip) {
+        public void SaveAnimationClipByData(IAsset asset, SerializedAnimationClip serializedClip) {
             string title = asset.GetTemplate().Title;
 
             ValidateBundleFolder(title);
@@ -43,7 +49,7 @@ namespace RF.AssetWizzard.Editor
             SaveAnimationClip(title, serializedClip.AnimationClipName, serializedClip.ClipData);
         }
 
-        public static void SaveAnimatorController(IAsset asset,  SerializedAnimatorController serializedAnimator) {
+        public void SaveAnimatorController(IAsset asset,  SerializedAnimatorController serializedAnimator) {
             string title = asset.GetTemplate().Title;
             ValidateBundleFolder(title);
             SaveAnimator(title, serializedAnimator.ControllerName, serializedAnimator.SerializedData);
@@ -52,7 +58,7 @@ namespace RF.AssetWizzard.Editor
 	        }
 	    }
         
-        public static void SaveAsset<T>(IAsset asset, T unityAsset) where T: Object {
+        public void SaveAsset<T>(IAsset asset, T unityAsset) where T: Object {
             string title = asset.GetTemplate().Title;
 
             ValidateBundleFolder (title);
@@ -68,30 +74,26 @@ namespace RF.AssetWizzard.Editor
             }
         }
 		
-		public static T LoadAsset<T>(IAsset asset, string assetName) where T: Object {
+		public T LoadAsset<T>(IAsset asset, string assetName) where T: Object {
 			string fullName = assetName + GetExtensionByType (typeof(T));
 			string fullPath = GetFullFilePath(typeof(T), asset.GetTemplate().Title, fullName);
 			var t = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(fullPath);
 			return (T)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(T));
 		}
 
-		public static Font LoadFontAsset(IAsset asset, SerializedText st) {
+		public Font LoadFontAsset(IAsset asset, SerializedText st) {
 			string fullPath = GetFullFilePath(typeof(Font), asset.GetTemplate().Title, st.FullFontName);
 
 			return (Font)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
 		}
 
-        public static Cubemap LoadCubemapAsset(IAsset asset, SerializedEnviromnent e) {
+        public Cubemap LoadCubemapAsset(IAsset asset, SerializedEnviromnent e) {
             string fullPath = GetFullFilePath(typeof(Cubemap), asset.GetTemplate().Title, e.ReflectionCubemapFileName);
 
             return (Cubemap)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(Cubemap));
         }
 
-
-        
-
-
-        public static bool IsAssetExist<T>(IAsset asset, T unityAsset) where T : Object {
+        public bool IsAssetExist<T>(IAsset asset, T unityAsset) where T : Object {
             string propTitle = asset.GetTemplate().Title;
 
             string path = GetShortFilePath(unityAsset, propTitle);
@@ -103,7 +105,8 @@ namespace RF.AssetWizzard.Editor
         // Save
         //--------------------------------------
 
-        private static void SaveTexture(Texture tex, string assetTitle) {
+        private void SaveTexture(Texture tex, string assetTitle) {
+	        ValidateBundleFolder (assetTitle);
 			string fullPath = GetFullFilePath(tex, assetTitle);
 			string path = GetShortFilePath(tex, assetTitle);
 
@@ -125,7 +128,8 @@ namespace RF.AssetWizzard.Editor
 			}
 		}
 
-        private static void SaveFont(string assetTitle, Font font, string assetFullName, byte[] assetData) {
+        private void SaveFont(string assetTitle, Font font, string assetFullName, byte[] assetData) {
+	        ValidateBundleFolder (assetTitle);
             string fullPath = GetFullFilePath(typeof(Font), assetTitle, assetFullName);
             string path = GetShortFilePath(typeof(Font), assetTitle, assetFullName);
 
@@ -134,7 +138,8 @@ namespace RF.AssetWizzard.Editor
             }
         }
         
-		private static void SaveAvatar(string assetTitle, SerializedAvatar avatar) {
+		private void SaveAvatar(string assetTitle, SerializedAvatar avatar) {
+			ValidateBundleFolder (assetTitle);
 			string fullPath = GetFullFilePath(typeof(UnityEngine.Avatar), assetTitle, assetTitle, true);
 			string path = GetShortFilePath(typeof(UnityEngine.Avatar), assetTitle, assetTitle, true);
             
@@ -143,7 +148,8 @@ namespace RF.AssetWizzard.Editor
 			}
 		}
 		
-        private static void SaveAnimator(string assetTitle, string animatorName, byte[] assetData) {
+        private void SaveAnimator(string assetTitle, string animatorName, byte[] assetData) {
+	        ValidateBundleFolder (assetTitle);
             string fullPath = GetFullFilePath(typeof(UnityEditor.Animations.AnimatorController), assetTitle, animatorName, true);
             string path = GetShortFilePath(typeof(UnityEditor.Animations.AnimatorController), assetTitle, animatorName, true);
             
@@ -152,7 +158,8 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
-        private static void SaveAnimationClip(string assetTitle, string clipName, byte[] assetData) {
+        private void SaveAnimationClip(string assetTitle, string clipName, byte[] assetData) {
+	        ValidateBundleFolder (assetTitle);
             string fullPath = GetFullFilePath(typeof(AnimationClip), assetTitle, clipName, true);
             string path = GetShortFilePath(typeof(AnimationClip), assetTitle, clipName, true);
 
@@ -161,7 +168,8 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
-        private static void SaveAnimationClip(AnimationClip clip, string assetTitle) {
+        private void SaveAnimationClip(AnimationClip clip, string assetTitle) {
+	        ValidateBundleFolder (assetTitle);
             string fullPath = GetFullFilePath(clip, assetTitle);
             string path = GetShortFilePath(clip, assetTitle);
 
@@ -173,10 +181,11 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
-        private static void SaveSimpleAsset<T>(T unityAsset, string assetTitle) where T : Object {
+        private void SaveSimpleAsset<T>(T unityAsset, string assetTitle) where T : Object {
+	        ValidateBundleFolder (assetTitle);
             string fullPath = GetFullFilePath(unityAsset, assetTitle);
             string path = GetShortFilePath(unityAsset, assetTitle);
-            
+	        
             if (!FolderUtils.IsFileExists(path)) {
                 UnityEditor.AssetDatabase.CreateAsset(unityAsset, fullPath);
             }
@@ -187,35 +196,32 @@ namespace RF.AssetWizzard.Editor
         // Folders And Files
         //--------------------------------------
 
-        private static void ValidateBundleFolder(string assetTitle) {
-			string path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + assetTitle;
-
-			if (!FolderUtils.IsFolderExists(path)) {
-				FolderUtils.CreateAssetComponentsFolder (path);
-			}
+        private void ValidateBundleFolder(string assetTitle) {
+			string path = m_pathRelativeAssetsFolder + "/" + assetTitle;
+			FolderUtils.CreateAssetComponentsFolder (path);
 		}
 
 
-        private static string GetShortFilePath<T>(T unityAsset, string assetTitle) where T: Object {
+        private string GetShortFilePath<T>(T unityAsset, string assetTitle) where T: Object {
 			string folder = GetFolderByType (typeof(T));
 			string assetName = unityAsset.name;
 			string assetExtension = GetExtensionByType (typeof(T));
 
-			return AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + assetTitle + folder + assetName + assetExtension;
+			return m_pathRelativeAssetsFolder + "/" + assetTitle + folder + assetName + assetExtension;
 		}
 
-		private static string GetFullFilePath<T>(T unityAsset, string assetTitle) where T: Object {
+		private string GetFullFilePath<T>(T unityAsset, string assetTitle) where T: Object {
 			string folder = GetFolderByType (typeof(T));
 			string assetName = unityAsset.name;
 			string assetExtension = GetExtensionByType (typeof(T));
 
-			return AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetTitle + folder + assetName + assetExtension;
+			return m_pathRelativeProjectFolder + "/" + assetTitle + folder + assetName + assetExtension;
 		}
         
-        private static string GetShortFilePath(System.Type assetType, string assetTitle, string assetFullName, bool useExtension = false) {
+        private string GetShortFilePath(System.Type assetType, string assetTitle, string assetFullName, bool useExtension = false) {
 			string folder = GetFolderByType (assetType);
 
-            string path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + assetTitle + folder + assetFullName;
+            string path = m_pathRelativeAssetsFolder + "/" + assetTitle + folder + assetFullName;
 
             if (useExtension) {
                 path += GetExtensionByType(assetType);
@@ -224,10 +230,10 @@ namespace RF.AssetWizzard.Editor
             return path;
 		}
 
-		private static string GetFullFilePath(System.Type assetType, string assetTitle, string assetFullName, bool useExtension = false) {
+		private string GetFullFilePath(System.Type assetType, string assetTitle, string assetFullName, bool useExtension = false) {
 			string folder = GetFolderByType (assetType);
 
-            string path = AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetTitle + folder + assetFullName;
+            string path = m_pathRelativeProjectFolder + "/" + assetTitle + folder + assetFullName;
 
             if (useExtension) {
                 path += GetExtensionByType(assetType);

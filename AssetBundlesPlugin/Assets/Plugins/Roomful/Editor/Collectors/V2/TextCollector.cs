@@ -5,20 +5,15 @@ using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard.Editor
 {
-	public class TextCollector : ICollector {
+	public class TextCollector : BaseCollector {
 
-		public void Run(IAsset asset) {
+		public override void Run(IAsset asset) {
 			
 			foreach (SerializedText textInfo in asset.gameObject.GetComponentsInChildren<SerializedText>(true)) {
 				if(textInfo.FontFileContent  != null && textInfo.FontFileContent.Length > 0) {
 					AssetDatabase.SaveFontAsset(asset, textInfo); 
-
 					textInfo.Font = AssetDatabase.LoadFontAsset (asset, textInfo);
-				
-				} else {
-					//Debug.Log("no font content");
-				}
-
+				} 
 				var text =  textInfo.gameObject.AddComponent<RoomfulText>();
 				text.Restore(textInfo);
 				GameObject.DestroyImmediate(textInfo);

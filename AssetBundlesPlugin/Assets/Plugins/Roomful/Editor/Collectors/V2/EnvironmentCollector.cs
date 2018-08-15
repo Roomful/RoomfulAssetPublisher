@@ -5,9 +5,9 @@ using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard.Editor
 {
-	public class EnvironmentCollector : ICollector {
+	public class EnvironmentCollector : BaseCollector {
 
-		public void Run(IAsset asset) {
+		public override void Run(IAsset asset) {
 			
 			foreach (SerializedEnviromnent e in asset.gameObject.GetComponentsInChildren<SerializedEnviromnent>(true)) {
 				if(e.ReflectionCubemapFileData  != null && e.ReflectionCubemapFileData.Length > 0) {

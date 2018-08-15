@@ -6,14 +6,12 @@ using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard.Editor
 {
-	public class TextureCollector {
-
-       
+	public class TextureCollector: BaseCollector {
 
 		public void Run(IAsset asset, SerializedTexture st) {
 			string texName = st.MainTexture.name;
 
-			AssetDatabase.SaveAsset<Texture> (asset, st.MainTexture);
+			this.AssetDatabase.SaveAsset<Texture> (asset, st.MainTexture);
 			string path = UnityEditor.AssetDatabase.GetAssetPath(AssetDatabase.LoadAsset<Texture>(asset, texName));
 
             ApplyImportSettings(path, st);
@@ -87,5 +85,9 @@ namespace RF.AssetWizzard.Editor
 
             ti.SaveAndReimport();
         }
-    }
+
+	    public override void Run(IAsset asset) {
+	        
+	    }
+	}
 }

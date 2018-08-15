@@ -8,8 +8,9 @@ namespace RF.AssetWizzard.Editor {
 		Props = 1,
         Styles = 2,
         Environments = 3,
-        Separator = 4,
-        Platforms = 5,
-		Account = 6
+		BatchDownloader = 4,
+        Separator = 5,
+        Platforms = 6,
+		Account = 7
 	}
 }

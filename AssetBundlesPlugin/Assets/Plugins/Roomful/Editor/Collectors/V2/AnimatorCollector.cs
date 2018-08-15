@@ -8,8 +8,8 @@ using UnityEditor.Animations;
 using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard.Editor {
-    public class AnimatorCollector : ICollector {
-        public void Run(IAsset asset) {
+    public class AnimatorCollector : BaseCollector {
+        public override void Run(IAsset asset) {
             SerializedAnimatorController[] animators = asset.gameObject.GetComponentsInChildren<SerializedAnimatorController>(true);
 
             foreach (SerializedAnimatorController sac in animators) {

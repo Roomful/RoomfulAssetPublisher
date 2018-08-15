@@ -13,7 +13,7 @@ namespace RF.AssetWizzard.Editor
 
 
         public override void OnGUI() {
-            if (!BatchUploadService.IsDownloadingProps) {
+            if (!BatchDownloadService.IsDownloadingProps) {
                 var downloadAllClicked = GUILayout.Button("Download all assets");
                 if (downloadAllClicked) {
                     DownloadAllProps();
@@ -40,7 +40,7 @@ namespace RF.AssetWizzard.Editor
         }
         
         private void DownloadAllProps() {
-            BatchUploadService.DownloadAllAssets();
+            BatchDownloadService.DownloadAllAssets();
         }
     }
 }

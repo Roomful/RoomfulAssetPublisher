@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 #if UNITY_EDITOR
@@ -33,6 +35,15 @@ namespace RF.AssetWizzard {
             CreateFolder (folderPath + "/Animations/Avatars");
         }
 
+		public static List<string> GetSubfolders(string folderPath) {
+			var result = new List<string>();
+			if (IsFolderExists(folderPath)) {
+				result.AddRange(Directory.GetDirectories(GetFullPath(folderPath)).ToList());
+			}
+
+			return result;
+		}
+		
 		public static bool IsFolderExists(string folderPath) {
 			if (folderPath.Equals (string.Empty)) {
 				return false;
@@ -113,14 +124,16 @@ namespace RF.AssetWizzard {
 		}
 
 		public static void WriteBytes(string fileName, byte[] data) {
-			
-			System.IO.FileStream _FileStream = new System.IO.FileStream(fileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
-			
-			_FileStream.Write(data, 0, data.Length);
+			try {
+				var fileStream = new  FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write);
+				fileStream.Write(data, 0, data.Length);
+				fileStream.Close();
+				AssetDatabase.Refresh();
+			}
+			catch (ArgumentException e) {
+				Debug.LogError(e); 
+			}
 
-			_FileStream.Close();
-
-			AssetDatabase.Refresh();
 		}
 		#endif
 	}

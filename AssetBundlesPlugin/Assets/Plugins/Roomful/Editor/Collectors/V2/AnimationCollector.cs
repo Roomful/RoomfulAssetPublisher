@@ -9,9 +9,9 @@ using UnityEditor;
 using RF.AssetBundles.Serialization;
 namespace RF.AssetWizzard.Editor
 { 
-    public class AnimationCollector : ICollector {
+    public class AnimationCollector : BaseCollector {
         
-        public void Run(IAsset asset) {
+        public override void Run(IAsset asset) {
             Animation[] anims = asset.gameObject.GetComponentsInChildren<Animation>(true);
 
             foreach (Animation a in anims) {

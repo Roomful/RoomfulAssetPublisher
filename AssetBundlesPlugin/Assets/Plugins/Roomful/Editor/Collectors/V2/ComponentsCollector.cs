@@ -6,9 +6,9 @@ using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard.Editor
 {
-	public class ComponentsCollector : ICollector {
+	public class ComponentsCollector : BaseCollector {
 
-		public void Run(IAsset asset) {
+		public override void Run(IAsset asset) {
 
             IRecreatableOnLoad[] scripts = asset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>(true);
             foreach (var script in scripts) {

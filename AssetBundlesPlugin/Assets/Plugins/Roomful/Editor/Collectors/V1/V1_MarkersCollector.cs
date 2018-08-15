@@ -5,9 +5,9 @@ using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard.Editor
 {
-	public class V1_MarkersCollector : ICollector {
+	public class V1_MarkersCollector : BaseCollector {
 
-		public void Run(IAsset asset) {
+		public override void Run(IAsset asset) {
 
             PropAsset propAsset = null;
             if (asset is PropAsset) {

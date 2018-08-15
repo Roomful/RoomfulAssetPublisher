@@ -22,7 +22,7 @@ namespace RF.AssetWizzard {
         private const string SettingsAssetName = "AssetBundlesSettings";
         private const string SettingsAssetExtension = ".asset";
 
-        public static string PORT = "3443";
+        public static string PORT = "4443";
         public static string WEB_SERVER_URL = "https://demo.roomful.co:" + PORT;
 	
 		public const string ASSETS_TEMP_LOCATION = "Roomful/Temp/";

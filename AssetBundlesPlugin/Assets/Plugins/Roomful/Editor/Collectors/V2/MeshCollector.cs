@@ -5,21 +5,26 @@ using UnityEngine;
 
 namespace RF.AssetWizzard.Editor
 {
-	public class MeshCollector : ICollector {
+	public class MeshCollector : BaseCollector {
 
-		public void Run(IAsset asset) {
+		public override void Run(IAsset asset) {
 			MeshFilter[] meshes = asset.gameObject.GetComponentsInChildren<MeshFilter> (true);
 
 			for (int i = 0; i < meshes.Length; i++)
 			{
-				meshes[i].sharedMesh = SaveMesh(asset, meshes[i].sharedMesh);
+				if (meshes[i].sharedMesh != null) {
+					meshes[i].sharedMesh = SaveMesh(asset, meshes[i].sharedMesh);
+				}
 			}
 			
 			SkinnedMeshRenderer[] skinnedMeshRenderers = asset.gameObject.GetComponentsInChildren<SkinnedMeshRenderer> (true);
 
 			for (int i = 0; i < skinnedMeshRenderers.Length; i++)
 			{
-				skinnedMeshRenderers[i].sharedMesh = SaveMesh(asset, skinnedMeshRenderers[i].sharedMesh);
+				
+				if (skinnedMeshRenderers[i].sharedMesh != null) {
+					skinnedMeshRenderers[i].sharedMesh = SaveMesh(asset, skinnedMeshRenderers[i].sharedMesh);
+				}
 			}
 		}
 

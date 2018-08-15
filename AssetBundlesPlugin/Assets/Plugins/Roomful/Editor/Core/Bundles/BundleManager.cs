@@ -103,7 +103,7 @@ namespace RF.AssetWizzard.Editor
             UploadAsset(GenerateMeta_Create_Request(asset), asset);
         }
 
-        private void UploadExistingAsset(A asset) {
+        public void UploadExistingAsset(A asset) {
             UploadAsset(GenerateMeta_Update_Request(asset), asset);
         }
 
@@ -174,7 +174,7 @@ namespace RF.AssetWizzard.Editor
 
     
                         IAsset asset = CreateDownloadedAsset(tpl, gameObject);
-                        RunCollectors(asset);
+                        RunCollectors(asset, new AssetDatabase(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION));
 
 
                         UnityEditor.AssetDatabase.DeleteAsset(bundlePath);
@@ -188,19 +188,19 @@ namespace RF.AssetWizzard.Editor
         }
 
 
-        private void RunCollectors(IAsset asset) {
+        public static void RunCollectors(IAsset asset, AssetDatabase assetDatabase) {
             // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
-            new V1_RendererCollector().Run(asset); 
-            new RendererCollector().Run(asset);
-            new TextCollector().Run(asset);
-            new MeshCollector().Run(asset);
-            new ComponentsCollector().Run(asset);
-            new AnimationCollector().Run(asset);
-            new AnimatorCollector().Run(asset);
-            new EnvironmentCollector().Run(asset);
+            new V1_RendererCollector().SetAssetDatabase(assetDatabase).Run(asset); 
+            new RendererCollector().SetAssetDatabase(assetDatabase).Run(asset);
+            new TextCollector().SetAssetDatabase(assetDatabase).Run(asset);
+            new MeshCollector().SetAssetDatabase(assetDatabase).Run(asset);
+            new ComponentsCollector().SetAssetDatabase(assetDatabase).Run(asset);
+            new AnimationCollector().SetAssetDatabase(assetDatabase).Run(asset);
+            new AnimatorCollector().SetAssetDatabase(assetDatabase).Run(asset);
+            new EnvironmentCollector().SetAssetDatabase(assetDatabase).Run(asset);
 
-            new V1_ThumbnailsCollector().Run(asset);
-            new V1_MarkersCollector().Run(asset);
+            new V1_ThumbnailsCollector().SetAssetDatabase(assetDatabase).Run(asset);
+            new V1_MarkersCollector().SetAssetDatabase(assetDatabase).Run(asset);
         }
 
 
@@ -225,10 +225,7 @@ namespace RF.AssetWizzard.Editor
                     EditorProgressBar.AddProgress(template.Title, "Waiting Thumbnail Upload Confirmation", 0.3f);
                     var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(template.Id);
                     confirmRequest.PackageCallbackText = (string resData) => {
-
-                        var resInfo = new JSONData(resData);
-                        var res = new Resource(resInfo);
-                        template.Icon = res;
+                        template.Icon = new Resource(resData);
                         AssetBundlesSettings.Instance.ReplaceSavedTemplate(template);
                         BundleUtility.SaveTemplateToFile(PersistentTemplatePath, template);
 
@@ -277,11 +274,11 @@ namespace RF.AssetWizzard.Editor
 
             EditorProgressBar.AddProgress(tpl.Title,"Getting Asset Upload URL (" + platform + ")", 0.2f);
             var uploadLinkRequest = new GetUploadLink(tpl.Id, platform.ToString(), tpl.Title);
-            uploadLinkRequest.PackageCallbackText = (linkCallback) => {
+            uploadLinkRequest.PackageCallbackText = linkToUploadTo => {
 
                 EditorProgressBar.AddProgress(tpl.Title, "Uploading Asset (" + platform + ")", 0.2f);
                 byte[] assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetBundleName);
-                Network.Request.UploadAsset uploadRequest = new UploadAsset(linkCallback, assetBytes);
+                Network.Request.UploadAsset uploadRequest = new UploadAsset(linkToUploadTo, assetBytes);
 
                 float currentUploadProgress = EditorProgressBar.UploadProgress;
                 uploadRequest.UploadProgress = (float progress) => {

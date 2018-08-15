@@ -109,7 +109,6 @@ namespace RF.AssetWizzard.Editor
             EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("ReUploadAll", EditorStyles.miniButton, GUILayout.Width(75))) {
                 //    AutomaticReloader.ReloadAllAssets();
-                    AssetsDownloader.DownloadAllProp();
                 }
             if (GUILayout.Button("Continue", EditorStyles.miniButton, GUILayout.Width(65))) {
                 AutomaticReloader.ContinueReUploadLoop();

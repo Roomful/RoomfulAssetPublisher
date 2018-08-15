@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEditor;
 using Rotorz.ReorderableList;
 
@@ -35,7 +36,12 @@ namespace RF.AssetWizzard.Editor
             GUILayout.BeginVertical(GUILayout.Width(225));
             {
                 ReorderableListGUI.Title("Asset Tags");
-                ReorderableListGUI.ListField(Template.Tags, TagListItem, DrawEmptyTag);
+                try {
+                    ReorderableListGUI.ListField(Template.Tags, TagListItem, DrawEmptyTag);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                }
             }
             GUILayout.EndVertical();
         }

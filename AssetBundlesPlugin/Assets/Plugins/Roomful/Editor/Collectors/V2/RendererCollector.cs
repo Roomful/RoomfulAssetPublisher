@@ -7,9 +7,9 @@ using RF.AssetBundles.Serialization;
 namespace RF.AssetWizzard.Editor
 {
 	
-	public class RendererCollector : ICollector {
+	public class RendererCollector : BaseCollector {
 
-		public void Run(IAsset asset) {
+		public override void Run(IAsset asset) {
 
 			Renderer[] rens = asset.gameObject.GetComponentsInChildren<Renderer> (true);
             foreach (Renderer ren in rens) {
@@ -87,7 +87,9 @@ namespace RF.AssetWizzard.Editor
                                 if(property.SerializedTextureValue.MainTexture != null) {
                                     string texName = property.SerializedTextureValue.MainTexture.name;
                                     AssetDatabase.SaveAsset<Texture>(asset, property.SerializedTextureValue.MainTexture);
-                                    new TextureCollector().Run(asset, property.SerializedTextureValue);
+                                    var textureCollector = new TextureCollector();
+                                    textureCollector.SetAssetDatabase(AssetDatabase);
+                                    textureCollector.Run(asset, property.SerializedTextureValue);
 
                                     if (property.PropertyName.Equals("_BumpMap")) {
                                         AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");

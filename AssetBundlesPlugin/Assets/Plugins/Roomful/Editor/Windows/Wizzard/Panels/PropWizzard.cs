@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -118,7 +119,12 @@ namespace RF.AssetWizzard.Editor
             GUILayout.Space(10f);
 
             GUILayout.BeginHorizontal();
-            DrawTags();
+            try {
+                DrawTags();
+            }
+            catch (Exception e) {
+                Console.WriteLine(e); 
+            }
 
             GUILayout.BeginVertical(GUILayout.Width(225));
             {
@@ -129,8 +135,13 @@ namespace RF.AssetWizzard.Editor
                     ContentTypes.Add(t.ToString());
                 }
 
-                ReorderableListGUI.ListField(ContentTypes, ContentTypeListItem, DrawEmptyContentType);
-
+                try {
+                    ReorderableListGUI.ListField(ContentTypes, ContentTypeListItem, DrawEmptyContentType);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                }
+                
                 Asset.Template.ContentTypes = new List<ContentType>();
 
                 foreach (string val in ContentTypes) {

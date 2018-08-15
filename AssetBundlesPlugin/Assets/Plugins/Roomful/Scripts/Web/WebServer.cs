@@ -2,6 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine.Networking;
@@ -54,6 +57,8 @@ namespace RF.AssetWizzard.Network {
 
 		private void SendRequest(Request.BaseWebPackage package) {
 			UnityWebRequest www = null;
+			ServicePointManager.ServerCertificateValidationCallback += Validator;
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
 
 			switch (package.MethodName) {
 			case RequestMethods.POST:
@@ -134,6 +139,11 @@ namespace RF.AssetWizzard.Network {
                 }
             });
         }
+
+		private bool Validator(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors) {
+			return true;
+		}
+		
 
 		private static string CleanUpInput(string json) {
 
