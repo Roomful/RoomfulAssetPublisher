@@ -11,18 +11,12 @@ namespace RF.AssetWizzard.Editor {
         private static Queue<PropTemplate> s_downloadQueue = new Queue<PropTemplate>();
 
         public static void DownloadAllAssets() {
-            var allAssetsRequest = new GetPropsList(0, 999, "");
-            allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
-                List<object> allAssetsList = SA.Common.Data.Json.Deserialize(allAssetsCallback) as List<object>;
-                foreach (object assetData in allAssetsList) {
-                    PropTemplate at = new PropTemplate(new JSONData(assetData).RawData);
-                    s_downloadQueue.Enqueue(at);
-                }
+            var allAssetsRequest = new GetAllProps();
+            allAssetsRequest.DownloadAll((list) => {
+                list.ForEach(s_downloadQueue.Enqueue);
                 FolderUtils.CreateFolder(RELATIVE_ASSETS_RESOURCES_LOCATION);
                 DownloadNextProp();
-            };
-
-            allAssetsRequest.Send();
+            });
         }
         
         private static void DownloadNextProp() {

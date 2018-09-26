@@ -66,8 +66,8 @@ namespace RF.AssetWizzard {
         //--------------------------------------
 
 
-        public bool ShowWebInLogs = true;
-		public bool ShowWebOutLogs = false;
+        public bool ShowWebInLogs = false;
+		public bool ShowWebOutLogs = true;
         public bool AutomaticCacheClean = true;
         public bool DownloadAssetAfterUploading = true;
    

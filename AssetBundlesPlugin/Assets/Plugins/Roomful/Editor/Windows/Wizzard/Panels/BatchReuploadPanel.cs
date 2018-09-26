@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RF.AssetWizzard.Network.Request;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,6 +29,13 @@ namespace RF.AssetWizzard.Editor
             var uploadAllClicked = GUILayout.Button("Upload all assets");
             if (uploadAllClicked) {
                 UploadAllProps();
+            }
+            var checkAuthClicked = GUILayout.Button("Check Auth");
+            if (checkAuthClicked) {
+                var checkAuth = new CheckAuth();
+                checkAuth.PackageCallbackText += s => { Debug.Log(s); }; 
+                checkAuth.PackageCallbackError += s => { Debug.Log(s); }; 
+                checkAuth.Send();
             }
         }
 

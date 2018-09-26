@@ -41,11 +41,13 @@ namespace RF.AssetWizzard.Editor {
             PrepareAssetsForUpload(folders);
             CreateAssetBundles();
             RestoreUploadQueue(BatchUploadServiceConfigManager.GetConfig().uploadQueue);
-            SendNextAsset();    
+            SendNextAsset();
         }
 
         private static void PrepareAssetsForUpload(List<string> sourceFolders) {
-            sourceFolders.ForEach(folder => { PrepareAssetToUpload(folder); });
+            sourceFolders.ForEach(folder => {
+                PrepareAssetToUpload(folder);
+            });
         }
 
         private static void PrepareAssetToUpload(string folderPath) {
@@ -53,29 +55,36 @@ namespace RF.AssetWizzard.Editor {
             var prefabPath = string.Format("{0}/{1}.prefab", folderPath, folderName);
             var relativePrefabPath = "Assets" + prefabPath.Replace(Application.dataPath, "");
             var templatePath = string.Format("{0}/{1}.json", folderPath, folderName);
-            
+
             var template = new PropTemplate(File.ReadAllText(templatePath));
             var gameObject = GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(relativePrefabPath));
             gameObject.name = template.Title;
             var bundleManager = new PropBundleManager();
-            var asset = bundleManager.CreateDownloadedAsset(template, gameObject);
-            asset.PrepareForUpload();
-            File.WriteAllText(templatePath, Json.Serialize(asset.GetTemplate().ToDictionary()));
-            GameObject.DestroyImmediate(asset.Component);
-            AssetBundlesSettings.Instance.TargetPlatforms.ForEach(platform => {
-                var prefabFileName = prefabPath.Split('/').Last();
-                var bundleFolderName = relativePrefabPath.Replace(prefabFileName, platform.ToString());
-                FolderUtils.CreateFolder(bundleFolderName.Replace("Assets/", string.Empty));
-                string platformPrefabPath = bundleFolderName + "/" + prefabFileName;
-                PrefabUtility.CreatePrefab(platformPrefabPath, gameObject);
-                string assetBundleName = template.Title + "_" + platform;
-                assetBundleName = assetBundleName.ToLower();
-                AssetImporter assetImporter = AssetImporter.GetAtPath(platformPrefabPath);
-                assetImporter.assetBundleName = assetBundleName;
-                BatchUploadServiceConfigManager.GetConfig().uploadQueue.Add(new BatchUploadServiceConfig.UploadItem(template.Title, templatePath, platform.ToString()));
-            });
-            BatchUploadServiceConfigManager.Save();
-            GameObject.DestroyImmediate(gameObject);
+            try {
+                var asset = bundleManager.CreateDownloadedAsset(template, gameObject);
+                asset.PrepareForUpload();
+                File.WriteAllText(templatePath, Json.Serialize(asset.GetTemplate().ToDictionary()));
+                GameObject.DestroyImmediate(asset.Component);
+                AssetBundlesSettings.Instance.TargetPlatforms.ForEach(platform => {
+                    var prefabFileName = prefabPath.Split('/').Last();
+                    var bundleFolderName = relativePrefabPath.Replace(prefabFileName, platform.ToString());
+                    FolderUtils.CreateFolder(bundleFolderName.Replace("Assets/", string.Empty));
+                    string platformPrefabPath = bundleFolderName + "/" + prefabFileName;
+                    PrefabUtility.CreatePrefab(platformPrefabPath, gameObject);
+                    string assetBundleName = template.Title + "_" + platform;
+                    assetBundleName = assetBundleName.ToLower();
+                    AssetImporter assetImporter = AssetImporter.GetAtPath(platformPrefabPath);
+                    assetImporter.assetBundleName = assetBundleName;
+                    BatchUploadServiceConfigManager.GetConfig().uploadQueue.Add(new BatchUploadServiceConfig.UploadItem(template.Title, templatePath, platform.ToString()));
+                });
+                BatchUploadServiceConfigManager.Save();
+            }
+            catch (Exception e) {
+                
+            } 
+            finally {
+                GameObject.DestroyImmediate(gameObject);
+            }
         }
 
         private static void CreateAssetBundles() {
@@ -84,6 +93,7 @@ namespace RF.AssetWizzard.Editor {
                 platforms.Remove(EditorUserBuildSettings.activeBuildTarget);
                 platforms.Insert(0, EditorUserBuildSettings.activeBuildTarget);
             }
+
             FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
             AssetBundlesSettings.Instance.TargetPlatforms.ForEach(platform => { BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, BuildAssetBundleOptions.UncompressedAssetBundle, platform); });
             BatchUploadServiceConfigManager.GetConfig().state = BatchUploadServiceConfig.State.PREPARED_BUNDLES;
@@ -116,7 +126,6 @@ namespace RF.AssetWizzard.Editor {
                 byte[] assetBytes = File.ReadAllBytes(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetBundleName);
                 var platform = (BuildTarget) Enum.Parse(typeof(BuildTarget), queueItem.Platform);
                 s_uploadAssetQueue.Add(new UploadSingleAsset(platform, template, assetBytes));
-                
             });
         }
 
@@ -128,6 +137,7 @@ namespace RF.AssetWizzard.Editor {
                         BatchUploadServiceConfigManager.GetConfig().uploadQueue.Remove(item);
                         BatchUploadServiceConfigManager.Save();
                     }
+
                     s_uploadAssetQueue.RemoveAt(0);
                     SendNextAsset();
                 });
@@ -149,16 +159,14 @@ namespace RF.AssetWizzard.Editor {
             var target = EditorUserBuildSettings.activeBuildTarget;
             if (FolderUtils.IsFolderExists(RELATIVE_ASSETS_RESOURCES_LOCATION)) {
                 var subfolders = FolderUtils.GetSubfolders(RELATIVE_ASSETS_RESOURCES_LOCATION);
-//                subfolders.ForEach(f => {
-                var f = subfolders[0];
-                var folderName = f.Split(Path.DirectorySeparatorChar).Last();
-                var prefabPath = string.Format("{0}/{1}.prefab", f, folderName);
-                var templatePath = string.Format("{0}/{1}.json", f, folderName);
-                if (File.Exists(prefabPath) && File.Exists(templatePath)) {
-                    result.Add(f);
-                }
-
-//                });
+                subfolders.ForEach(f => {
+                    var folderName = f.Split(Path.DirectorySeparatorChar).Last();
+                    var prefabPath = string.Format("{0}/{1}.prefab", f, folderName);
+                    var templatePath = string.Format("{0}/{1}.json", f, folderName);
+                    if (File.Exists(prefabPath) && File.Exists(templatePath)) {
+                        result.Add(f);
+                    }
+                });
             }
 
             return result;
@@ -187,11 +195,11 @@ namespace RF.AssetWizzard.Editor {
             }
 
             public void Upload(Action<Template, BuildTarget> callback) {
-                Debug.Log("Upload 1");
+                Debug.Log(string.Format("Upload Started {0} ({1})", m_template.Title, m_platform));
                 EditorProgressBar.AddProgress(m_template.Title, "Getting Asset Upload URL (" + m_platform + ")", 0.25f);
                 var uploadLinkRequest = new GetUploadLink(m_template.Id, m_platform.ToString(), m_template.Title);
                 uploadLinkRequest.PackageCallbackText = linkToUploadTo => {
-                    Debug.Log("Upload 2");
+                    Debug.Log(string.Format("Receiver upload link for {0} ({1})", m_template.Title, m_platform));
 
                     EditorProgressBar.AddProgress(m_template.Title, "Uploading Asset (" + m_platform + ")", 0.25f);
 
@@ -205,11 +213,12 @@ namespace RF.AssetWizzard.Editor {
                     };
 
                     uploadRequest.PackageCallbackText = (uploadCallback) => {
-                        Debug.Log("Upload 3");
+                        Debug.Log(string.Format("Asset uploaded {0} ({1})", m_template.Title, m_platform));
+
                         EditorProgressBar.AddProgress(m_template.Title, "Waiting Asset Upload Confirmation (" + m_platform + ")", 0.25f);
                         Network.Request.UploadConfirmation confirm = new UploadConfirmation(m_template.Id, m_platform.ToString());
                         confirm.PackageCallbackText = (confirmCallback) => {
-                            Debug.Log("Upload 4");
+                            Debug.Log(string.Format("Asset uploading confirmed {0} ({1})", m_template.Title, m_platform));
                             callback.Invoke(m_template, m_platform);
                             EditorProgressBar.FinishUploadProgress();
                         };

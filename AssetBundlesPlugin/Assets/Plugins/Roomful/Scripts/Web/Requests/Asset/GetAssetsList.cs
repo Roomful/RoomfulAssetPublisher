@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SA.Common.Data;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Network.Request {
@@ -47,9 +48,10 @@ namespace RF.AssetWizzard.Network.Request {
 			}
 
 
-			OriginalJSON.Add ("Offset", Offset);
+			OriginalJSON.Add ("offset", Offset);
 			OriginalJSON.Add ("size", Size);
 
+			Debug.Log(Json.Serialize(OriginalJSON));
 			return OriginalJSON;
 		}
 	}

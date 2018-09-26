@@ -2,8 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
-
+using System.Text;
 using SA.Common.Models;
 
 namespace RF.AssetWizzard.Network.Request {
@@ -119,6 +118,10 @@ namespace RF.AssetWizzard.Network.Request {
 		}
 
 		public virtual void Send() {
+			StringBuilder s = new StringBuilder();
+			foreach (var header in _Headers) {
+				s.Append(header.Key + " " + header.Value + ";");
+			}
 			WebServer.Instance.Send(this);
 		}
 

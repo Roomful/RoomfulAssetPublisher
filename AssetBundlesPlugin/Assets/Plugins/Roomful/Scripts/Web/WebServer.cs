@@ -107,7 +107,7 @@ namespace RF.AssetWizzard.Network {
 
             EditorWebRequest request = new EditorWebRequest(www, package);
             request.Send(() => {
-
+	            
 				if (www.isNetworkError || www.isHttpError) {
                     package.RequestFailed(www.responseCode, www.error);
                     OnRequestFailed(package);

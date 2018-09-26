@@ -203,7 +203,6 @@ namespace RF.AssetWizzard.Editor
             new V1_MarkersCollector().SetAssetDatabase(assetDatabase).Run(asset);
         }
 
-
         private void UploadAssetBundle(A asset) {
             var template = asset.GetTemplate();
             EditorProgressBar.AddProgress(template.Title, "Requesting Thumbnail Upload Link", 0.1f);
