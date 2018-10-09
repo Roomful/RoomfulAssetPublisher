@@ -13,6 +13,7 @@ namespace RF.AssetWizzard.Editor
         static Validation() {
             s_allowedPlatfroms.Add(BuildTarget.iOS);
             s_allowedPlatfroms.Add(BuildTarget.WebGL);
+            s_allowedPlatfroms.Add(BuildTarget.Android);
             s_allowedPlatfroms.Add(BuildTarget.StandaloneWindows64);
         }
 
