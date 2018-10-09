@@ -121,17 +121,19 @@ namespace RF.AssetWizzard.Editor {
         private static void RestoreUploadQueue(List<BatchUploadServiceConfig.UploadItem> configUploadQueue) {
             s_uploadAssetQueue.Clear();
             configUploadQueue.ForEach(queueItem => {
-                var template = new PropTemplate(File.ReadAllText(queueItem.TemplatePath));
-                string assetBundleName = template.Title + "_" + queueItem.Platform;
-                byte[] assetBytes = File.ReadAllBytes(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetBundleName);
-                var platform = (BuildTarget) Enum.Parse(typeof(BuildTarget), queueItem.Platform);
-                s_uploadAssetQueue.Add(new UploadSingleAsset(platform, template, assetBytes));
+                if (File.Exists(queueItem.TemplatePath)) {
+                    var template = new PropTemplate(File.ReadAllText(queueItem.TemplatePath));
+                    string assetBundleName = template.Title + "_" + queueItem.Platform;
+                    byte[] assetBytes = File.ReadAllBytes(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetBundleName);
+                    var platform = (BuildTarget)Enum.Parse(typeof(BuildTarget), queueItem.Platform);
+                    s_uploadAssetQueue.Add(new UploadSingleAsset(platform, template, assetBytes));
+                }
             });
         }
 
         private static void SendNextAsset() {
             if (s_uploadAssetQueue.Count > 0) {
-                s_uploadAssetQueue[0].Upload((template, platform) => {
+                s_uploadAssetQueue[0].Upload((template, platform, isSuccess) => {
                     var item = BatchUploadServiceConfigManager.GetConfig().uploadQueue.Find(listItem => listItem.TemplateTitle.Equals(template.Title) && listItem.Platform.Equals(platform.ToString()));
                     if (item != null) {
                         BatchUploadServiceConfigManager.GetConfig().uploadQueue.Remove(item);
@@ -173,7 +175,9 @@ namespace RF.AssetWizzard.Editor {
         }
 
 
-        public static void ContinueUpload() { }
+        public static void ContinueUpload() {
+            SendNextAsset();
+        }
 
         private class AssetData {
             public string TemplateTitle;
@@ -194,7 +198,7 @@ namespace RF.AssetWizzard.Editor {
                 m_assetBytes = assetBytes;
             }
 
-            public void Upload(Action<Template, BuildTarget> callback) {
+            public void Upload(Action<Template, BuildTarget, bool> callback) {
                 Debug.Log(string.Format("Upload Started {0} ({1})", m_template.Title, m_platform));
                 EditorProgressBar.AddProgress(m_template.Title, "Getting Asset Upload URL (" + m_platform + ")", 0.25f);
                 var uploadLinkRequest = new GetUploadLink(m_template.Id, m_platform.ToString(), m_template.Title);
@@ -219,12 +223,18 @@ namespace RF.AssetWizzard.Editor {
                         Network.Request.UploadConfirmation confirm = new UploadConfirmation(m_template.Id, m_platform.ToString());
                         confirm.PackageCallbackText = (confirmCallback) => {
                             Debug.Log(string.Format("Asset uploading confirmed {0} ({1})", m_template.Title, m_platform));
-                            callback.Invoke(m_template, m_platform);
+                            callback.Invoke(m_template, m_platform, true);
                             EditorProgressBar.FinishUploadProgress();
                         };
                         confirm.Send();
                     };
+                    uploadRequest.PackageCallbackError = (code) => {
+                        callback.Invoke(m_template, m_platform, false);
+                    };
                     uploadRequest.Send();
+                };
+                uploadLinkRequest.PackageCallbackError = (code) => {
+                    callback.Invoke(m_template, m_platform, false);
                 };
                 uploadLinkRequest.Send();
             }

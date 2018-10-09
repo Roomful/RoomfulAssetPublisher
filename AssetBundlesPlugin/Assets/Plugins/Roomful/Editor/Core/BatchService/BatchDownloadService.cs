@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RF.AssetWizzard.Network.Request;
 using UnityEditor;
 using UnityEngine;
@@ -43,10 +44,11 @@ namespace RF.AssetWizzard.Editor {
             FolderUtils.CreateFolder(RELATIVE_ASSETS_RESOURCES_LOCATION + "/" + template.Title);
             
             BundleUtility.SaveTemplateToFile(FULL_RESOURCES_LOCATION + "/" + template.Title+"/"+ template.Title+".json", template);
-            
+            Debug.Log("Downloading " + template.Title);
             DownloadAsset loadAsset = new DownloadAsset(url);
             loadAsset.PackageCallbackData = (byte[] assetData) => {
-  
+                Debug.Log("Downloaded asset " + template.Title);
+
                 string bundlePath = FULL_RESOURCES_LOCATION + "/" + template.Title+"/"+ template.Title+".unity3d" ;
                 FolderUtils.WriteBytes(bundlePath, assetData);
 
@@ -62,11 +64,17 @@ namespace RF.AssetWizzard.Editor {
                 GameObject gameObject = (GameObject)GameObject.Instantiate(bundleObject) as GameObject;
                 gameObject.name = template.Title;
                 var bundleManager = new PropBundleManager();
-                var asset = bundleManager.CreateDownloadedAsset(template, gameObject);
-                BundleManager<PropTemplate, PropAsset>.RunCollectors(asset, new AssetDatabase(RELATIVE_ASSETS_RESOURCES_LOCATION));
-
-                PrefabUtility.CreatePrefab(FULL_RESOURCES_LOCATION + "/" + template.Title +"/"+ template.Title+".prefab", gameObject);
-                GameObject.DestroyImmediate(gameObject);
+                try {
+                    var asset = bundleManager.CreateDownloadedAsset(template, gameObject);
+                    BundleManager<PropTemplate, PropAsset>.RunCollectors(asset, new AssetDatabase(RELATIVE_ASSETS_RESOURCES_LOCATION));
+                    PrefabUtility.CreatePrefab(FULL_RESOURCES_LOCATION + "/" + template.Title + "/" + template.Title + ".prefab", gameObject);
+                } catch (Exception e) {
+                    Debug.LogError("Failed to create " + template.Title + " error was " + e.Message);
+                    FolderUtils.DeleteFolder(RELATIVE_ASSETS_RESOURCES_LOCATION + "/" + template.Title);
+                }
+                if (gameObject) {
+                    GameObject.DestroyImmediate(gameObject);
+                }
                 DownloadNextProp();
             };
 
