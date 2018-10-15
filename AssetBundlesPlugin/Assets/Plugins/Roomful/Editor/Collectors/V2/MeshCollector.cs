@@ -30,7 +30,7 @@ namespace RF.AssetWizzard.Editor
 
 		private Mesh SaveMesh(IAsset asset, Mesh oldSharedMesh)
 		{
-			Mesh newmesh = new Mesh();
+            Mesh newmesh = new Mesh();
 			newmesh.vertices = oldSharedMesh.vertices;
 			newmesh.triangles = oldSharedMesh.triangles;
 			newmesh.uv = oldSharedMesh.uv;
@@ -38,6 +38,8 @@ namespace RF.AssetWizzard.Editor
 			newmesh.colors = oldSharedMesh.colors;
 			newmesh.tangents = oldSharedMesh.tangents;
 			newmesh.name = oldSharedMesh.name;
+            newmesh.subMeshCount = oldSharedMesh.subMeshCount;
+
 			AssetDatabase.SaveAsset<Mesh>(asset, newmesh);
 			return AssetDatabase.LoadAsset<Mesh>(asset, newmesh.name);
 		}
