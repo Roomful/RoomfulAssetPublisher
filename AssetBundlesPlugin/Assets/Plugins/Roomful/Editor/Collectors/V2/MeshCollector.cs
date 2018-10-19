@@ -39,7 +39,9 @@ namespace RF.AssetWizzard.Editor
 			newmesh.tangents = oldSharedMesh.tangents;
 			newmesh.name = oldSharedMesh.name;
             newmesh.subMeshCount = oldSharedMesh.subMeshCount;
-
+            for (var i = 0 ; i < oldSharedMesh.subMeshCount; i++) {
+                newmesh.SetTriangles(oldSharedMesh.GetTriangles(i), i);
+            }
 			AssetDatabase.SaveAsset<Mesh>(asset, newmesh);
 			return AssetDatabase.LoadAsset<Mesh>(asset, newmesh.name);
 		}
