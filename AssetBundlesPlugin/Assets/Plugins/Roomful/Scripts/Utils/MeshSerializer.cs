@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -277,7 +278,7 @@ namespace RF.AssetWizzard {
 				buf.Write(idx16);
 			}
 			buf.Close();
-
+            
 			return stream.ToArray();
 		}
 
@@ -290,16 +291,32 @@ namespace RF.AssetWizzard {
 
 
 			MeshFilter[] meshFilters = origin.GetComponentsInChildren<MeshFilter> ();
-			CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+			List<CombineInstance> combine = new List<CombineInstance>();
 			int i = 0;
 			while (i < meshFilters.Length) {
-				combine [i].mesh = meshFilters [i].sharedMesh;
-				combine [i].transform = meshFilters [i].transform.localToWorldMatrix;
+                var meshFilter = meshFilters[i];
+                var mesh = meshFilter.sharedMesh;
+                if(mesh.subMeshCount == 0) {
+                    Debug.Log("mesh.subMeshCount == 0");
+                    CombineInstance ci = new CombineInstance();
+                    ci.mesh = mesh;
+                    ci.transform = meshFilter.transform.localToWorldMatrix;
+                    combine.Add(ci);
+                } else {
+                    for (var j = 0; j < mesh.subMeshCount; j++) {
+                        CombineInstance ci = new CombineInstance();
+                        ci.mesh = mesh;
+                        ci.subMeshIndex = j;
+                        ci.transform = meshFilter.transform.localToWorldMatrix;
+                        combine.Add(ci);
+                    }
+                }
+                
 				i++;
 			}
 
 			Mesh m = new Mesh ();
-			m.CombineMeshes (combine);
+			m.CombineMeshes (combine.ToArray(), true);
 			byte[] array = MeshSerializer.WriteMesh (m);
 
 

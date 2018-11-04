@@ -62,6 +62,12 @@ namespace RF.AssetWizzard.Editor
 
         public static bool IsValidAsset(IAsset asset) {
             var icon = asset.GetIcon();
+            if (icon == null) {
+                EditorUtility.DisplayDialog("Error", "Asset does not have Icon", "Ok");
+                WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+
+                return false;
+            }
             string path = UnityEditor.AssetDatabase.GetAssetPath(icon);
             TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
             if (ti != null) {
