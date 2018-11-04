@@ -73,12 +73,12 @@ namespace RF.AssetWizzard.Editor
                     Download();
                 }
             } 
-            if (Asset is PropAsset && Asset.GetIcon() == null) {
+           // if (Asset is PropAsset && Asset.GetIcon() == null) {
                 bool createIcon = GUI.Button(buttonRect4, "Create icon");
                 if (createIcon) {
                     CreateIcon();
                 }
-            }
+           // }
 
             bool create = GUI.Button(buttonRect3, "Create New");
             if (create) {
