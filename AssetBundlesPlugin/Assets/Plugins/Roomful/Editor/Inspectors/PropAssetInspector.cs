@@ -17,10 +17,10 @@ namespace RF.AssetWizzard.Editor {
 		SerializedProperty DisplayMode;
 
 		void OnEnable() {
+
 			scaleProperty = serializedObject.FindProperty("Scale");
 			DisplayMode = serializedObject.FindProperty("DisplayMode");
 		}
-
 
 		public override void OnInspectorGUI() {
 

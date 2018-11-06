@@ -12,15 +12,27 @@ namespace RF.AssetWizzard.Editor
     {
 
         public override void Create() {
-            WindowManager.ShowCreateNewProp();
+            CreateProp();
         }
 
         public override void Download() {
-            BundleService.Download<PropTemplate>(Asset.Template);
+            DownloadProp(Asset.Template);
         }
 
         public override void Upload() {
-            BundleService.Upload<PropAsset>(Asset);
+            UploadProp(Asset);
+        }
+
+
+        public static void CreateProp() {
+            WindowManager.ShowCreateNewProp();
+        }
+        public static void DownloadProp(PropTemplate tpl) {
+            BundleService.Download<PropTemplate>(tpl);
+        }
+
+        public static void UploadProp(PropAsset asset) {
+            BundleService.Upload<PropAsset>(asset);
         }
 
 

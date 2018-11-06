@@ -14,11 +14,13 @@ namespace RF.AssetWizzard.Editor {
     [InitializeOnLoad]
     public static class SceneViewOptionsWindow  {
 
-        private static int WINDOW_ID = 516789;
+        private static int WINDOW_ID = 5162389;
         private static SceneView m_sceneView;
 
         private static Rect m_position = Rect.zero;
         private static Rect m_windowRect = Rect.zero;
+
+        private static UnityEditor.Editor m_propEditor = null;
 
         static SceneViewOptionsWindow() {
             SceneView.onSceneGUIDelegate += OnSceneGUI;
@@ -45,34 +47,76 @@ namespace RF.AssetWizzard.Editor {
 
             m_position.x = WindowX;
             m_position.y = 20;
-
-
-            m_windowRect = GUILayout.Window(WINDOW_ID, m_position, OnWindowGui,"Assset Wizard", GUILayout.ExpandHeight(true));
+            m_windowRect = GUILayout.Window(WINDOW_ID, m_position, OnWindowGui, Asset.name, GUILayout.ExpandHeight(true), GUILayout.Width(m_position.width), GUILayout.MaxWidth(m_position.width));
             WindowX = m_windowRect.x;
 
-           
-
-            
+          
 
         }
 
         private static bool s_useEditorCameraPosition = false;
         private static void OnWindowGui(int id) {
+           
             EditorGUILayout.LabelField("Asset Icon: ", EditorStyles.boldLabel);
-
+          
             using (new SA_GuiBeginHorizontal()) {
                 Asset.Icon = (Texture2D) EditorGUILayout.ObjectField(Asset.Icon, typeof(Texture2D), false, new GUILayoutOption[] { GUILayout.Width(70), GUILayout.Height(70) });
                 EditorGUILayout.Space();
                 using (new SA_GuiBeginVertical()) {
                     EditorGUILayout.Space();
-                    s_useEditorCameraPosition = EditorGUILayout.Toggle("Used Editor Camera", s_useEditorCameraPosition);
-                    bool createIcon = GUILayout.Button("Make icon");
+                    s_useEditorCameraPosition = EditorGUILayout.Toggle("Use Editor Camera", s_useEditorCameraPosition);
+                    bool createIcon = GUILayout.Button("Make Icon");
                     if (createIcon) {
-                        //CreateIcon();
+                        PropAssetScreenshotTool.CreateIcon(s_useEditorCameraPosition, Asset);
                     }
                 }  
             }
-                
+
+           
+           EditorGUILayout.Space();
+           EditorGUILayout.LabelField("Actions: ", EditorStyles.boldLabel);
+         //  PropEditor.OnInspectorGUI();
+          
+
+           float btnWidth = 80;
+           using (new SA_GuiBeginHorizontal()) {
+               if (Asset.GetTemplate().IsNew) {
+                   bool upload = GUILayout.Button("Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                   if (upload) {
+                       PropWizzard.UploadProp(Asset);
+                   }
+
+               } else {
+                   bool upload = GUILayout.Button("Re-Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                   if (upload) {
+                       PropWizzard.UploadProp(Asset);
+                   }
+
+                   bool refresh = GUILayout.Button("Refresh", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                   if (refresh) {
+                       PropWizzard.DownloadProp(Asset.Template);
+                   }
+               }
+
+
+               bool create = GUILayout.Button("New", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+               if (create) {
+                   PropWizzard.CreateProp();
+               }
+           }
+            using (new SA_GuiBeginHorizontal()) {
+                bool wizzard = GUILayout.Button("Wizzard", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                if (wizzard) {
+                    WindowManager.ShowWizard();
+                    WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+                }
+            }
+
+
+            
+
+
+
 
             GUI.DragWindow(new Rect(0, 0, m_sceneView.position.width, m_sceneView.position.height));
         }
@@ -111,6 +155,22 @@ namespace RF.AssetWizzard.Editor {
                 string key = "SceneViewOptionsWindow_WindowX";
                 EditorPrefs.SetFloat(key, value);
             }
+        }
+
+        public static UnityEditor.Editor PropEditor {
+            get {
+
+                if(m_propEditor != null && m_propEditor.target != Asset) {
+                    m_propEditor = null;
+                }
+
+                if(m_propEditor == null) {
+                    m_propEditor = UnityEditor.Editor.CreateEditor(Asset);
+                } 
+                return m_propEditor;
+            }
+
+            
         }
     }
 }
