@@ -23,6 +23,7 @@ namespace RF.AssetWizzard.Editor
             if (useEditorCamera) {
                 var sceneView = SceneView.currentDrawingSceneView;
                 camera.transform.position = sceneView.camera.transform.position;
+                camera.transform.rotation = sceneView.camera.transform.rotation;
             } else {
                 if (prop.Template.Placing == Placing.Floor) {
                     SetupCameraForFloorProp(prop.Template.Size, prop.gameObject.transform.position, camera);
