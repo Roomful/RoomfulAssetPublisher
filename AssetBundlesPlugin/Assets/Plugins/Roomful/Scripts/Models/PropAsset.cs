@@ -258,11 +258,16 @@ namespace RF.AssetWizzard {
 
         public bool ValidSize {
             get {
+
+                //that's disabled so far
+                return true;
+                /*
                 if (MaxAxisValue > PropTemplate.MAX_ALLOWED_AXIS_SIZE || MaxAxisValue < PropTemplate.MIN_ALLOWED_AXIS_SIZE) {
                     return false;
                 } else {
                     return true;
                 }
+                */
             }
         }
 
@@ -412,7 +417,7 @@ namespace RF.AssetWizzard {
 			if(Template.Placing == Placing.Floor) {
 				transform.position = Vector3.zero;
 
-				Vector3 rendererPoint = transform.GetVertex (VertexX.Center, VertexY.Bottom, VertexZ.Center);
+				Vector3 rendererPoint = transform.GetVertex (SA_VertexX.Center, SA_VertexY.Bottom, SA_VertexZ.Center);
 				Vector3 diff = transform.position - rendererPoint;
 				transform.position += diff;
 
@@ -421,7 +426,7 @@ namespace RF.AssetWizzard {
 			if(Template.Placing == Placing.Wall) {
 				transform.position = new Vector3 (0, 1.5f, -1.5f);
 
-				Vector3 rendererPoint = transform.GetVertex (VertexX.Center, VertexY.Center, VertexZ.Back);
+				Vector3 rendererPoint = transform.GetVertex (SA_VertexX.Center, SA_VertexY.Center, SA_VertexZ.Back);
 				Vector3 diff = transform.position - rendererPoint;
 				transform.position += diff;
 			}

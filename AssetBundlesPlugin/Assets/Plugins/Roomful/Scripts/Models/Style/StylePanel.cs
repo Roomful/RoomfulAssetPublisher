@@ -57,7 +57,7 @@ namespace RF.AssetWizzard
             GUIStyle style = new GUIStyle();
             style = UnityEditor.EditorStyles.boldLabel;
 
-            Vector3 pos = Bounds.GetVertex(VertexX.Left, VertexY.Bottom, VertexZ.Front);
+            Vector3 pos = Bounds.GetVertex(SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexZ.Front);
             UnityEditor.Handles.Label(pos, transform.gameObject.name, style);
 #endif
 
@@ -70,7 +70,7 @@ namespace RF.AssetWizzard
 
         public void SetPosition(Vector3 pos, bool animated = true) {
 
-            Vector3 diff = transform.position - Bounds.GetVertex(VertexX.Left, VertexY.Bottom, VertexZ.Front);// LeftBorderVertex;
+            Vector3 diff = transform.position - Bounds.GetVertex(SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexZ.Front);// LeftBorderVertex;
             Vector3 newPos = pos + diff;
             newPos += new Vector3(0.01f, 0f, 0f);
 

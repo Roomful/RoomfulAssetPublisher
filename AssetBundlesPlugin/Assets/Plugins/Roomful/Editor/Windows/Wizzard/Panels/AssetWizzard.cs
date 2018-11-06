@@ -48,6 +48,9 @@ namespace RF.AssetWizzard.Editor
         }
 
         public void DrawControlButtons() {
+
+            EditorGUILayout.LabelField("Actions: ", EditorStyles.boldLabel);
+
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
@@ -102,12 +105,22 @@ namespace RF.AssetWizzard.Editor
             cameraHolder.transform.SetParent(enviroment.gameObject.transform);
             var camera = cameraHolder.AddComponent<Camera>();
             PropAsset prop = Asset as PropAsset;
+
+            //auto camera  positiong
             if (prop.Template.Placing == Placing.Floor) {
                 SetupCameraForFloorProp(prop.Template.Size, prop.gameObject.transform.position, camera);
             }
             else {
                 SetupCameraForWallProp(prop.Template.Size, prop.gameObject.transform.position, camera);
             }
+
+            //but let's actualy use current camera psitoon
+            var sceneView = SceneView.currentDrawingSceneView;
+            camera.transform.position = sceneView.camera.transform.position;
+
+            //SceneView.currentDrawingSceneView.camera
+            // sceneWinew.camera
+
             Texture2D whiteScreenshot = MakeScreenshotWithBackground(camera, Color.white, screenShotLayer);
             Texture2D blackScreenshot = MakeScreenshotWithBackground(camera, Color.black, screenShotLayer);
 
@@ -177,13 +190,7 @@ namespace RF.AssetWizzard.Editor
             camera.transform.position -= camera.transform.forward.normalized * distance;
         }
 
-        private static float GetHorizontalFieldOfView(Camera camera) {
-            var aLength = 1f;
-            var bLenght = aLength / Mathf.Tan(Mathf.Deg2Rad * camera.fieldOfView / 2);
-            bLenght = bLenght * camera.aspect;
-            var angle = Mathf.Atan(bLenght / aLength) * Mathf.Rad2Deg;
-            return angle;
-        }
+     
 
         private static void SetupCameraForWallProp(Vector3 size, Vector3 propPosition, Camera camera) {
             Vector3 center = new Vector3(propPosition.x, propPosition.y, propPosition.z);

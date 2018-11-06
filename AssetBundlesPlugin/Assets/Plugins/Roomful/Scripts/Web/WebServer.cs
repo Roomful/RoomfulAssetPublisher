@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine.Networking;
+using SA.Productivity.Console;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -98,7 +99,7 @@ namespace RF.AssetWizzard.Network {
 			if(AssetBundlesSettings.Instance.ShowWebOutLogs) {
 
                 string h = SA.Common.Data.Json.Serialize(package.Headers);
-                U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText + " | headers: " + h, SA.UltimateLogger.DefaultTags.OUT);
+                U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + ":" + package.MethodName + "::" + www.url + " | " + package.GeneratedDataText + " | headers: " + h, UCL_DefaultTags.OUT);
 
             }
 #endif
@@ -118,7 +119,7 @@ namespace RF.AssetWizzard.Network {
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
 
                             string logStrning = CleanUpInput(www.downloadHandler.text);
-                            U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + "::" + logStrning, SA.UltimateLogger.DefaultTags.IN);
+                            U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + "::" + logStrning, UCL_DefaultTags.IN);
 
                         }
 #endif
@@ -129,7 +130,7 @@ namespace RF.AssetWizzard.Network {
                         package.RequestFailed(www.responseCode, www.downloadHandler.text);
                         if (AssetBundlesSettings.Instance.ShowWebInLogs) {
 #if UNITY_EDITOR
-                            U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + "::Response code: " + www.responseCode + ", message: " + www.downloadHandler.text, SA.UltimateLogger.DefaultTags.IN);
+                            U.Log(AssetBundlesSettings.WEB_SERVER_URL + package.Url + "::Response code: " + www.responseCode + ", message: " + www.downloadHandler.text, UCL_DefaultTags.IN);
 #endif
                         }
 

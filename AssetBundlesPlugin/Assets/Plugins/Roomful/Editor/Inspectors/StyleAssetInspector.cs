@@ -120,7 +120,7 @@ namespace RF.AssetWizzard.Editor {
 
             foreach (StylePanel panel in  Asset.Panels) {
                 panel.SetPosition(movePoint, false);
-                movePoint = panel.Bounds.GetVertex(VertexX.Right, VertexY.Bottom, VertexZ.Front);
+                movePoint = panel.Bounds.GetVertex(SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexZ.Front);
                 movePoint.x += 0.01f;
             }
         }
