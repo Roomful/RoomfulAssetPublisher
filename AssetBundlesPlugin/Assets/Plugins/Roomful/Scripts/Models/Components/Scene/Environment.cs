@@ -25,10 +25,18 @@ namespace RF.AssetWizzard
 	    public bool RenderEnvironment = true;
 
 
-	    public void Update() {
+        void Awake() {
+            ApplyEnvironment();
+        }
 
-	        Walls.SetActive(RenderEnvironment);
-	        SizeRef.SetActive(RenderEnvironment);
+        public void Update() {
+            ApplyEnvironment();
+        }
+
+        private void ApplyEnvironment() {
+
+            Walls.SetActive(RenderEnvironment);
+            SizeRef.SetActive(RenderEnvironment);
 
 
 
@@ -39,10 +47,7 @@ namespace RF.AssetWizzard
             RenderSettings.defaultReflectionMode = UnityEngine.Rendering.DefaultReflectionMode.Custom;
             RenderSettings.customReflection = ReflectionCubemap;
             RenderSettings.reflectionIntensity = ReflectionIntensity;
-
-	    }
-
-
+        }
 
 
 	}

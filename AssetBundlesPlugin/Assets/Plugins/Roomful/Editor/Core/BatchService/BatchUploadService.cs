@@ -12,7 +12,6 @@ using Application = UnityEngine.Application;
 namespace RF.AssetWizzard.Editor {
     public static class BatchUploadService {
         private static string RELATIVE_ASSETS_RESOURCES_LOCATION = "Batch Downloader Cache";
-        private static string FULL_RESOURCES_LOCATION = "Assets/" + RELATIVE_ASSETS_RESOURCES_LOCATION;
 
         public static void UploadAllAssets() {
             MarkAssetsToUpload();
@@ -80,7 +79,7 @@ namespace RF.AssetWizzard.Editor {
                 BatchUploadServiceConfigManager.Save();
             }
             catch (Exception e) {
-                
+                Debug.Log("Failed to prepare assete to upload. Error message: " + e.Message);
             } 
             finally {
                 GameObject.DestroyImmediate(gameObject);
@@ -154,8 +153,6 @@ namespace RF.AssetWizzard.Editor {
             UnityEditor.AssetDatabase.RemoveUnusedAssetBundleNames();
         }
 
-        private static Queue<AssetData> s_uploadQueue = new Queue<AssetData>();
-
         private static List<string> GetFoldersToUploadFrom() {
             var result = new List<string>();
             var target = EditorUserBuildSettings.activeBuildTarget;
@@ -178,14 +175,6 @@ namespace RF.AssetWizzard.Editor {
         public static void ContinueUpload() {
             SendNextAsset();
         }
-
-        private class AssetData {
-            public string TemplateTitle;
-            public string PrefabPath;
-            public string TemplateJSON;
-            public Texture2D Icon;
-        }
-
 
         private class UploadSingleAsset {
             private Template m_template;
@@ -240,34 +229,5 @@ namespace RF.AssetWizzard.Editor {
             }
         }
 
-        private class UploadSingleProp {
-            public void UploadAssetThumbnail(Template template, Texture2D icon, Action<Template> callback) {
-                EditorProgressBar.AddProgress(template.Title, "Requesting Thumbnail Upload Link", 0.1f);
-                var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail(template.Id);
-                getIconUploadLink.PackageCallbackText = (linkCallback) => {
-                    EditorProgressBar.AddProgress(template.Title, "Uploading Asset Thumbnail", 0.1f);
-                    var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, icon);
-
-                    float currentUploadProgress = EditorProgressBar.UploadProgress;
-                    uploadRequest.UploadProgress = (float progress) => {
-                        float p = progress / 2f;
-                        EditorProgressBar.UploadProgress = currentUploadProgress + p;
-                        EditorProgressBar.AddProgress(template.Title, "Uploading Asset Thumbnail", 0f);
-                    };
-
-                    uploadRequest.PackageCallbackText = (string uploadCallback) => {
-                        EditorProgressBar.AddProgress(template.Title, "Waiting Thumbnail Upload Confirmation", 0.3f);
-                        var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(template.Id);
-                        confirmRequest.PackageCallbackText = (string resData) => {
-                            template.Icon = new Resource(resData);
-                            callback.Invoke(template);
-                        };
-                        confirmRequest.Send();
-                    };
-                    uploadRequest.Send();
-                };
-                getIconUploadLink.Send();
-            }
-        }
     }
 }

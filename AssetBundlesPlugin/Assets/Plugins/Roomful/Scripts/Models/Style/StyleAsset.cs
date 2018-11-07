@@ -129,7 +129,7 @@ namespace RF.AssetWizzard
                 var removeUI = PrefabManager.CreatePrefab("Style/RemoveUI");
                 removeUI.transform.parent = DefaultElements.transform;
 
-                removeUI.transform.position = panel.Bounds.GetVertex(VertexX.Center, VertexY.Center, VertexZ.Back);
+                removeUI.transform.position = panel.Bounds.GetVertex(SA_VertexX.Center, SA_VertexY.Center, SA_VertexZ.Back);
 
             }
         }
@@ -137,14 +137,14 @@ namespace RF.AssetWizzard
         private void PlaceWalls(GameObject DefaultElements) {
             var startWall = PrefabManager.CreatePrefab("Style/RoomGlassWall");
             startWall.transform.parent = DefaultElements.transform;
-            startWall.transform.position = Panels[0].Bounds.GetVertex(VertexX.Left, VertexY.Bottom, VertexZ.Front);
+            startWall.transform.position = Panels[0].Bounds.GetVertex(SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexZ.Front);
 
 
             var endtWall = PrefabManager.CreatePrefab("Style/RoomGlassWall");
             endtWall.transform.parent = DefaultElements.transform;
 
             int index = Panels.Length - 1;
-            endtWall.transform.position = Panels[index].Bounds.GetVertex(VertexX.Right, VertexY.Bottom, VertexZ.Front);
+            endtWall.transform.position = Panels[index].Bounds.GetVertex(SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexZ.Front);
         }
 
 

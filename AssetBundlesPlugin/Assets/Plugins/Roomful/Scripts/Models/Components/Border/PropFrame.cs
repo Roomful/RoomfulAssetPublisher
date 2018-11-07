@@ -219,9 +219,9 @@ namespace RF.AssetWizzard
                 back.transform.localScale = newScale;
 
 
-                back.transform.position = Bounds.GetVertex(VertexX.Right, VertexY.Top, VertexZ.Back);
+                back.transform.position = Bounds.GetVertex(SA_VertexX.Right, SA_VertexY.Top, SA_VertexZ.Back);
 
-                Vector3 rendererPoint = back.GetVertex(VertexX.Right, VertexY.Top, VertexZ.Front);
+                Vector3 rendererPoint = back.GetVertex(SA_VertexX.Right, SA_VertexY.Top, SA_VertexZ.Front);
                 Vector3 diff = back.transform.position - rendererPoint;
                 back.transform.position += diff;
 
@@ -235,22 +235,22 @@ namespace RF.AssetWizzard
             if (Border != null && Corner != null) {
 
                 GameObject corner_left_top = InstantiateBorderPart(Corner.gameObject);
-                PutObjectAt(corner_left_top, VertexX.Left, VertexY.Top, VertexX.Right, VertexY.Bottom);
+                PutObjectAt(corner_left_top, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Right, SA_VertexY.Bottom);
 
 
                 GameObject corner_right_top = InstantiateBorderPart(Corner.gameObject);
                 corner_right_top.transform.Rotate(Vector3.forward, 90f);
-                PutObjectAt(corner_right_top, VertexX.Right, VertexY.Top, VertexX.Left, VertexY.Bottom);
+                PutObjectAt(corner_right_top, SA_VertexX.Right, SA_VertexY.Top, SA_VertexX.Left, SA_VertexY.Bottom);
 
 
 
                 GameObject corner_right_bottom = InstantiateBorderPart(Corner.gameObject);
                 corner_right_bottom.transform.Rotate(Vector3.forward, 180);
-                PutObjectAt(corner_right_bottom, VertexX.Right, VertexY.Bottom, VertexX.Left, VertexY.Top);
+                PutObjectAt(corner_right_bottom, SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexX.Left, SA_VertexY.Top);
 
                 GameObject corner_left_bottom = InstantiateBorderPart(Corner.gameObject);
                 corner_left_bottom.transform.Rotate(Vector3.forward, 270);
-                PutObjectAt(corner_left_bottom, VertexX.Left, VertexY.Bottom, VertexX.Right, VertexY.Top);
+                PutObjectAt(corner_left_bottom, SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexX.Right, SA_VertexY.Top);
 
 
                 GameObject border_top = InstantiateBorderPart(Border.gameObject);
@@ -272,27 +272,27 @@ namespace RF.AssetWizzard
 
 
                 border_top.transform.localScale = xScale;
-                PutObjectAt(border_top, VertexX.Left, VertexY.Top, VertexX.Left, VertexY.Bottom);
+                PutObjectAt(border_top, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Left, SA_VertexY.Bottom);
 
 
                 GameObject border_bottom = InstantiateBorderPart(Border.gameObject);
                 border_bottom.transform.localScale = xScale;
                 border_bottom.transform.Rotate(Vector3.forward, 180);
-                PutObjectAt(border_bottom, VertexX.Left, VertexY.Bottom, VertexX.Left, VertexY.Top);
+                PutObjectAt(border_bottom, SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexX.Left, SA_VertexY.Top);
 
 
 
                 GameObject border_right = InstantiateBorderPart(Border.gameObject);
                 border_right.transform.localScale = yScale;
                 border_right.transform.Rotate(Vector3.forward, 90);
-                PutObjectAt(border_right, VertexX.Right, VertexY.Top, VertexX.Left, VertexY.Top);
+                PutObjectAt(border_right, SA_VertexX.Right, SA_VertexY.Top, SA_VertexX.Left, SA_VertexY.Top);
 
 
 
                 GameObject border_left = InstantiateBorderPart(Border.gameObject);
                 border_left.transform.localScale = yScale;
                 border_left.transform.Rotate(Vector3.forward, 270);
-                PutObjectAt(border_left, VertexX.Left, VertexY.Top, VertexX.Right, VertexY.Top);
+                PutObjectAt(border_left, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Right, SA_VertexY.Top);
             }
 
 
@@ -306,7 +306,7 @@ namespace RF.AssetWizzard
         }
 
         private GameObject InstantiateBorderPart(GameObject reference) {
-            GameObject p = Instantiate(reference) as GameObject;
+            GameObject p = Instantiate<GameObject>(reference);
             p.SetActive(true);
             p.transform.parent = GetLayer(BorderLayers.GeneratedBorder);
             p.transform.localScale = reference.transform.localScale / CurrentProp.Scale;
@@ -314,10 +314,10 @@ namespace RF.AssetWizzard
             return p;
         }
 
-        private void PutObjectAt(GameObject obj, VertexX CanvasVertexX, VertexY CanvasVertexY, VertexX ObjectVertexX, VertexY ObjectVertexY) {
-            obj.transform.position = Bounds.GetVertex(CanvasVertexX, CanvasVertexY, VertexZ.Front);
+        private void PutObjectAt(GameObject obj, SA_VertexX CanvasSA_VertexX, SA_VertexY CanvasSA_VertexY, SA_VertexX ObjectSA_VertexX, SA_VertexY ObjectSA_VertexY) {
+            obj.transform.position = Bounds.GetVertex(CanvasSA_VertexX, CanvasSA_VertexY, SA_VertexZ.Front);
 
-            Vector3 rendererPoint = obj.GetVertex(ObjectVertexX, ObjectVertexY, VertexZ.Back);
+            Vector3 rendererPoint = obj.GetVertex(ObjectSA_VertexX, ObjectSA_VertexY, SA_VertexZ.Back);
             Vector3 diff = obj.transform.position - rendererPoint;
             obj.transform.position += diff;
 
