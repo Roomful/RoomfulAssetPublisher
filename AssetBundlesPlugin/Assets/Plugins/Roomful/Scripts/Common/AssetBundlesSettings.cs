@@ -22,7 +22,7 @@ namespace RF.AssetWizzard {
         private const string SettingsAssetName = "AssetBundlesSettings";
         private const string SettingsAssetExtension = ".asset";
 
-        public static string PORT = "3443";
+        public static string PORT = "4443";
         public static string WEB_SERVER_URL = "https://demo.roomful.co:" + PORT;
 	
 		public const string ASSETS_TEMP_LOCATION = "Roomful/Temp/";
@@ -108,8 +108,14 @@ namespace RF.AssetWizzard {
 
         public string PublisherCurrentVersion {
 			get {
+#if UNITY_2018_3_OR_NEWER
+                return "4.0";
+#elif UNITY_2017_3_OR_NEWER
+                return "3.0";
+#else
                 return "2.0";
-			}
+#endif
+            }
         }
 
 		public string SessionId {
@@ -137,10 +143,10 @@ namespace RF.AssetWizzard {
 		}
 
 		public static void Save() {
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			EditorUtility.SetDirty(Instance);
 			AssetDatabase.SaveAssets();
-			#endif
+#endif
 		}
 
 		public void RemoveSavedTemplate(Template tpl) {

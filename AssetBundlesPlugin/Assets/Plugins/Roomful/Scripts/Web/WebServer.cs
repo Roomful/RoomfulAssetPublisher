@@ -60,7 +60,7 @@ namespace RF.AssetWizzard.Network {
 			ServicePointManager.ServerCertificateValidationCallback += Validator;
 			ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
 
-			switch (package.MethodName) {
+            switch (package.MethodName) {
 			case RequestMethods.POST:
 			case RequestMethods.PUT:
 				if (package.IsDataPack) {
@@ -88,8 +88,10 @@ namespace RF.AssetWizzard.Network {
 			}
 
 			www.method = package.MethodName.ToString();
-
-			if (package.Headers.Count > 0) {
+#if UNITY_2018_1_OR_NEWER
+            www.certificateHandler = new AlwaysTrueCertificateHandler();
+#endif
+            if (package.Headers.Count > 0) {
 				foreach (var pack in package.Headers) {
 					www.SetRequestHeader (pack.Key, pack.Value);
 				}
@@ -159,5 +161,12 @@ namespace RF.AssetWizzard.Network {
 				sbinary += buff[i].ToString("X2"); /* hex format */
 			return sbinary.ToLower();
 		}
-	}
+#if UNITY_2018_1_OR_NEWER
+        private class AlwaysTrueCertificateHandler : CertificateHandler {
+            protected override bool ValidateCertificate(byte[] certificateData) {
+                return true;
+            }
+        }
+#endif
+    }
 }
