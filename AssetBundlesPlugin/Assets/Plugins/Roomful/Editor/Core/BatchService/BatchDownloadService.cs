@@ -67,7 +67,7 @@ namespace RF.AssetWizzard.Editor {
                 try {
                     var asset = bundleManager.CreateDownloadedAsset(template, gameObject);
                     BundleManager<PropTemplate, PropAsset>.RunCollectors(asset, new AssetDatabase(RELATIVE_ASSETS_RESOURCES_LOCATION));
-                    PrefabUtility.CreatePrefab(FULL_RESOURCES_LOCATION + "/" + template.Title + "/" + template.Title + ".prefab", gameObject);
+                    PrefabUtility.SaveAsPrefabAsset(gameObject, FULL_RESOURCES_LOCATION + "/" + template.Title + "/" + template.Title + ".prefab");
                 } catch (Exception e) {
                     Debug.LogError("Failed to create " + template.Title + " error was " + e.Message);
                     FolderUtils.DeleteFolder(RELATIVE_ASSETS_RESOURCES_LOCATION + "/" + template.Title);

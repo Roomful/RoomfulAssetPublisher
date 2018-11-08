@@ -102,7 +102,7 @@ namespace SA.Foundation.Network.Web
 
 
         private static IEnumerator SendRequestCorutine(UnityWebRequest request, Action<UnityWebRequest> callback) {
-#if UNITY_2017_2_OR_NEWER || UNITY_2018_1_OR_NEWER
+#if UNITY_2017_2_OR_NEWER 
             yield return request.SendWebRequest();
 #else
             yield return request.Send();

@@ -10,6 +10,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using UnityEngine.Networking;
 
 namespace SA.Common.Editor {
 
@@ -22,7 +23,7 @@ namespace SA.Common.Editor {
 		}
 
 		static	string  EscapeURL (string url){
-			return WWW.EscapeURL(url).Replace("+","%20");
+            return UnityWebRequest.EscapeURL(url).Replace("+","%20");
 		}
 
 		private static Texture2D _SALogo = null;

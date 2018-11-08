@@ -69,7 +69,7 @@ namespace RF.AssetWizzard.Editor {
                     var bundleFolderName = relativePrefabPath.Replace(prefabFileName, platform.ToString());
                     FolderUtils.CreateFolder(bundleFolderName.Replace("Assets/", string.Empty));
                     string platformPrefabPath = bundleFolderName + "/" + prefabFileName;
-                    PrefabUtility.CreatePrefab(platformPrefabPath, gameObject);
+                    PrefabUtility.SaveAsPrefabAsset(gameObject, platformPrefabPath);
                     string assetBundleName = template.Title + "_" + platform;
                     assetBundleName = assetBundleName.ToLower();
                     AssetImporter assetImporter = AssetImporter.GetAtPath(platformPrefabPath);

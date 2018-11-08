@@ -18,7 +18,8 @@ namespace RF.AssetWizzard {
 			string path = AssetBundlesSettings.PLUGIN_PREFABS_LOCATION + prefabName +  ".prefab";
 			Object prafabObject = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
             var PrefabInstance = (GameObject)PrefabUtility.InstantiatePrefab(prafabObject);
-            PrefabUtility.DisconnectPrefabInstance(PrefabInstance);
+            //TODO check behaviour and either rethink flow either remove next line
+            // PrefabUtility.DisconnectPrefabInstance(PrefabInstance);
 
             return PrefabInstance;
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 using RF.AssetBundles.Serialization;
-
+using System;
 
 namespace RF.AssetWizzard.Editor
 {
@@ -48,7 +48,11 @@ namespace RF.AssetWizzard.Editor
 
 
         private Material DeserealizeMaterial(SerializedMaterial sm, IAsset asset) {
-            Material newMaterial = new Material(Shader.Find(sm.ShaderName));
+            var shader = Shader.Find(sm.ShaderName);
+            if (shader == null) {
+                shader = Shader.Find("Standard");
+            }
+            Material newMaterial = new Material(shader);
             newMaterial.name = sm.MatName;
  
     

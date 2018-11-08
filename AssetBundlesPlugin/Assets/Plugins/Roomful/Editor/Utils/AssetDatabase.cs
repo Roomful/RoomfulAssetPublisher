@@ -77,7 +77,6 @@ namespace RF.AssetWizzard.Editor
 		public T LoadAsset<T>(IAsset asset, string assetName) where T: Object {
 			string fullName = assetName + GetExtensionByType (typeof(T));
 			string fullPath = GetFullFilePath(typeof(T), asset.GetTemplate().Title, fullName);
-			var t = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(fullPath);
 			return (T)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(T));
 		}
 

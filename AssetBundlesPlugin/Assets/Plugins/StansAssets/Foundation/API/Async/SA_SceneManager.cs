@@ -26,10 +26,8 @@ namespace SA.Foundation.Async
 
 
         static SA_SceneManager() {
-#if !UNITY_5
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += AdditiveSceneLoaded;
-            UnityEngine.SceneManagement.SceneManager.sceneUnloaded += SceneUnloadComplete;
-#endif
+            SceneManager.sceneLoaded += AdditiveSceneLoaded;
+            SceneManager.sceneUnloaded += SceneUnloadComplete;
         }
 
 

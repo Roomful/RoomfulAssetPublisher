@@ -96,12 +96,12 @@ namespace SA.Foundation.Editor
                     continue;
 
                 string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-                if (defines.Contains(defineCompileConstant)) {
-                    return true;
+                if (!defines.Contains(defineCompileConstant)) {
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
 
         private static bool IsBuildTargetSupported(BuildTargetGroup targetGroup, BuildTarget target) {
