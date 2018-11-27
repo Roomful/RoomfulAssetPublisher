@@ -86,7 +86,12 @@ namespace RF.AssetWizzard.Editor
 
         private static void CreatePrefab(string name, GameObject source) {
             FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_TEMP_LOCATION);
-            PrefabUtility.SaveAsPrefabAsset(source, AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + name + ".prefab");
+            #if UNITY_2018_1_OR_NEWER
+                PrefabUtility.SaveAsPrefabAsset(source, AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + name + ".prefab");
+            #else
+                PrefabUtility.CreatePrefab(AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION + name + ".prefab", source);
+            #endif
+            
         }
 
 
