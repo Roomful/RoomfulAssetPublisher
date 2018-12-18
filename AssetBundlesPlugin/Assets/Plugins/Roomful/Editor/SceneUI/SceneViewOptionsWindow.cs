@@ -141,39 +141,47 @@ namespace RF.AssetWizzard.Editor {
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Actions: ", EditorStyles.boldLabel);
-         
 
-           float btnWidth = 80;
-           using (new SA_GuiBeginHorizontal()) {
-               if (Asset.GetTemplate().IsNew) {
-                   bool upload = GUILayout.Button("Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
-                   if (upload) {
-                       PropWizzard.UploadProp(Asset);
-                   }
+            float btnWidth = 80;
+            if (Asset.GetTemplate().IsNew) {
+                bool upload = GUILayout.Button("Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                if (upload) {
+                    PropWizzard.UploadProp(Asset);
+                }
+            } else {
+                using (new SA_GuiBeginHorizontal()) {
+                    bool upload = GUILayout.Button("Re-Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                    if (upload) {
+                        PropWizzard.UploadProp(Asset);
+                    }
 
-               } else {
-                   bool upload = GUILayout.Button("Re-Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
-                   if (upload) {
-                       PropWizzard.UploadProp(Asset);
-                   }
+                    bool meta = GUILayout.Button("Update Meta", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                    if (meta) {
+                        PropWizzard.UpdateMeta(Asset);
+                    }
 
-                   bool refresh = GUILayout.Button("Refresh", EditorStyles.miniButton, GUILayout.Width(btnWidth));
-                   if (refresh) {
-                       PropWizzard.DownloadProp(Asset.Template);
-                   }
-               }
+                    bool refresh = GUILayout.Button("Refresh", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                    if (refresh) {
+                        PropWizzard.DownloadProp(Asset.Template);
+                    }
+
+                }
+            }
+                
 
 
-               bool create = GUILayout.Button("New", EditorStyles.miniButton, GUILayout.Width(btnWidth));
-               if (create) {
-                   PropWizzard.CreateProp();
-               }
-           }
+               
+        
             using (new SA_GuiBeginHorizontal()) {
                 bool wizzard = GUILayout.Button("Wizzard", EditorStyles.miniButton, GUILayout.Width(btnWidth));
                 if (wizzard) {
                     WindowManager.ShowWizard();
                     WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+                }
+
+                bool create = GUILayout.Button("New", EditorStyles.miniButton, GUILayout.Width(btnWidth));
+                if (create) {
+                    PropWizzard.CreateProp();
                 }
             }
 
