@@ -97,9 +97,9 @@ namespace RF.AssetWizzard
 		}
 
 
-        public PropFrame Frame {
+        public AbstractPropFrame Frame {
             get {
-                return gameObject.GetComponent<PropFrame>();
+                return gameObject.GetComponent<AbstractPropFrame>();
             }
         }
 

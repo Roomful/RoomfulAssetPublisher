@@ -37,7 +37,7 @@ namespace RF.AssetWizzard.Editor
 
 
 				tb.gameObject.AddComponent<PropThumbnail> ();
-                tb.gameObject.AddComponent<PropFrame>();
+                tb.gameObject.AddComponent<PropStretchedFrame>();
 
             }
 

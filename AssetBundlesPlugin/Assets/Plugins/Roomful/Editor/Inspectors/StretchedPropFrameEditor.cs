@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using RF.AssetBundles.Serialization;
 
 namespace RF.AssetWizzard.Editor
 {
-    [CustomEditor(typeof(PropFrame))]
-    public class PropFrameEditor : UnityEditor.Editor {
+    [CustomEditor(typeof(PropStretchedFrame))]
+    public class StretchedPropFrameEditor : UnityEditor.Editor {
 
 
         public override void OnInspectorGUI() {
 
             EditorGUILayout.LabelField("Frame", EditorStyles.boldLabel);
-
-
             EditorGUI.BeginChangeCheck();
             Frame.Corner =  EditorGUILayout.ObjectField(new GUIContent("Corner"), Frame.Corner, typeof(GameObject), true) as GameObject;
             if (EditorGUI.EndChangeCheck()) {
@@ -29,9 +28,7 @@ namespace RF.AssetWizzard.Editor
                     Frame.Border.AddComponent<BoxCollider>();
                 }
             }
-
-
-
+            
             EditorGUI.BeginChangeCheck();
             float frameOffset = EditorGUILayout.FloatField("Frame Offset", Frame.Settings.FrameOffset);
             if (EditorGUI.EndChangeCheck()) {
@@ -50,7 +47,7 @@ namespace RF.AssetWizzard.Editor
                 }
             }
 
-
+            
             EditorGUI.BeginChangeCheck();
             float backOffset  = EditorGUILayout.FloatField("Back Offset", Frame.Settings.BackOffset);
             if (EditorGUI.EndChangeCheck()) {
@@ -66,10 +63,9 @@ namespace RF.AssetWizzard.Editor
            
         }
 
-
-        public PropFrame Frame {
+        private PropStretchedFrame Frame {
             get {
-                return target as PropFrame;
+                return target as PropStretchedFrame;
             }
         }
 
