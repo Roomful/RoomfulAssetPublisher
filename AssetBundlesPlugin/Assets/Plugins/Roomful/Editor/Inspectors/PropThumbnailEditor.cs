@@ -22,15 +22,6 @@ namespace RF.AssetWizzard.Editor {
 				Model.ImageIndex = GUILayout.Toolbar (Model.ImageIndex, ImagesCintent, toolbarSize);
 
 
-				//EditorGUILayout.Space ();
-				//EditorGUILayout.Space ();
-				//EditorGUILayout.HelpBox ("Add part of the frame 3D parts (Not Required)", MessageType.Info);
-
-				//Model.Border = (GameObject) EditorGUILayout.ObjectField("Border (top)", Model.Border, typeof (GameObject), true);
-			//	Model.Corner = (GameObject) EditorGUILayout.ObjectField("Corner (top / left)", Model.Corner, typeof (GameObject), true);
-
-
-
 				EditorGUILayout.Space ();
 				EditorGUILayout.Space ();
 				EditorGUILayout.HelpBox ("Scaling Options", MessageType.Info);
@@ -52,19 +43,25 @@ namespace RF.AssetWizzard.Editor {
 					Model.Settings.ResourceIndex = EditorGUILayout.IntField("Resource Index", Model.Settings.ResourceIndex);
                 }
 
+            
 
-				EditorGUILayout.Space ();
+                EditorGUILayout.Space ();
 				EditorGUILayout.Space ();
 				EditorGUILayout.BeginHorizontal ();
 				EditorGUILayout.Space ();
 
 
 				if(Model.Frame == null) {
-					bool pressed = GUILayout.Button ("Add Frame", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
+					bool pressed = GUILayout.Button ("Add Stretched Frame", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(130)});
 					if(pressed) {
-						EditorMenu.AddFrame ();
+						EditorMenu.AddStretchedFrame ();
 					}
-				} else {
+
+                    pressed = GUILayout.Button("Add Tiled Frame", EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(130) });
+                    if (pressed) {
+                        EditorMenu.AddTiledFrame();
+                    }
+                } else {
 					bool pressed = GUILayout.Button ("Remove Frame", EditorStyles.miniButton, new GUILayoutOption[] {GUILayout.Width(120)});
 					if(pressed) {
 						DestroyImmediate (Model.Frame);
@@ -80,8 +77,13 @@ namespace RF.AssetWizzard.Editor {
 				Model.SetThumbnail (thumbnail);
 				Model.Update ();
 
+                var frame = Model.GetComponent<AbstractPropFrame>();
+                if(frame != null) {
+                    frame.UpdateFrame();
+                }
+
 				Scene.Update ();
-			}
+            }
 
 
 			EditorGUILayout.Space ();
@@ -105,7 +107,12 @@ namespace RF.AssetWizzard.Editor {
 
 					c = new GUIContent ("", portrait);
 					conetnt.Add (c);
-					_ImagesCintent = conetnt.ToArray ();
+
+
+                    c = new GUIContent("", landscape_2);
+                    conetnt.Add(c);
+
+                    _ImagesCintent = conetnt.ToArray ();
 				}
 
 				return _ImagesCintent;
@@ -130,8 +137,17 @@ namespace RF.AssetWizzard.Editor {
 			}
 		}
 
+        private Texture2D landscape_2 {
+            get {
+                Texture2D tex = Resources.Load("logo_landscape_2") as Texture2D;
+                return tex;
+            }
+        }
 
-		private Texture2D portrait {
+
+        
+
+        private Texture2D portrait {
 			get {
 				Texture2D tex = Resources.Load ("logo_portrait") as Texture2D;
 				return tex;

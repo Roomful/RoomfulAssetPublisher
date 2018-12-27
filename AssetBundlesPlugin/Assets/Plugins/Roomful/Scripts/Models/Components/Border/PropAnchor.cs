@@ -26,10 +26,10 @@ namespace RF.AssetWizzard
 
 
 		
-            if (Settings.Parent != null) {
+            if (Settings.SmartParent != null) {
 
    
-                Bounds parentBounds = Scene.GetBounds (Settings.Parent);
+                Bounds parentBounds = Scene.GetBounds (Settings.SmartParent);
 				transform.position = parentBounds.center;
 
 				float xPos = parentBounds.center.x - parentBounds.extents.x + parentBounds.size.x * Settings.Anchor.x;

@@ -29,5 +29,23 @@ namespace RF.AssetBundles.Serialization
         public bool EnableYScale = false;
         public float YSize = 1f;
 
+
+        /// <summary>
+        /// In case we are targeting PropThumbnail
+        /// We will target it's Canvas instead
+        /// In future we might want to have a setting for that
+        /// </summary>
+        public GameObject SmartParent {
+            get {
+                PropThumbnail thumbnail = Parent.GetComponent<PropThumbnail>();
+                if(thumbnail != null) {
+                    return thumbnail.Canvas.gameObject;
+                }
+
+                return Parent;
+               
+            }
+        }
+
     }
 }

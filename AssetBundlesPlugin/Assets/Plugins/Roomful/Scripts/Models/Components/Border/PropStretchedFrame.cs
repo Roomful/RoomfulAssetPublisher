@@ -11,25 +11,6 @@ namespace RF.AssetWizzard
     [ExecuteInEditMode]
     public class PropStretchedFrame : AbstractPropFrame {
         
-        public void PrepareForUpalod() {
-
-            if (Border != null) {
-                Border.SetActive(true);
-            }
-
-            if (Corner != null) {
-                Corner.SetActive(true);
-            }
-
-            if (Back != null) {
-                Back.SetActive(true);
-            }
-
-
-            DestroyImmediate(GetLayer(BorderLayers.GeneratedBorder).gameObject);
-            DestroyImmediate(this);
-
-        }
 
         public SerializedFrame Settings {
             get {
@@ -39,7 +20,7 @@ namespace RF.AssetWizzard
                     settings = gameObject.AddComponent<SerializedFrame>();
                 }
 
-                settings.hideFlags = HideFlags.HideInInspector;
+                settings.hideFlags = HideFlags.None;
 
                 return settings;
             }

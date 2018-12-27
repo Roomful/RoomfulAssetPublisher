@@ -14,7 +14,6 @@ namespace RF.AssetWizzard
         public GameObject Border;
         public GameObject Back;
 
-
         protected const string CORNER_NAME = "Corner";
         protected const string BORDER_NAME = "Border";
         protected const string BACK_NAME = "Back";

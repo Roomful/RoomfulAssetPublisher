@@ -25,8 +25,8 @@ namespace RF.AssetWizzard
             Filler.transform.parent = GetLayer(BorderLayers.BorderParts);
             var fillerRenderer = Filler.GetComponent<Renderer>();
             if (fillerRenderer != null) {
-                fillerRenderer.material = new Material(Shader.Find("Standard"));
-                fillerRenderer.material.SetColor("_Color", Settings.FillerColor);
+                fillerRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
+                fillerRenderer.sharedMaterial.SetColor("_Color", Settings.FillerColor);
             }
         }
 
@@ -77,7 +77,7 @@ namespace RF.AssetWizzard
                     settings = gameObject.AddComponent<SerializedTiledFrame>();
                 }
 
-                settings.hideFlags = HideFlags.HideInInspector;
+                settings.hideFlags = HideFlags.None;
 
                 return settings;
             }
@@ -108,7 +108,7 @@ namespace RF.AssetWizzard
                 Filler.gameObject.name = FILLER_NAME;
                 var renderer = Filler.GetComponent<Renderer>();
                 if (renderer != null) {
-                    renderer.material.SetColor("_Color", Settings.FillerColor);
+                    renderer.sharedMaterial.SetColor("_Color", Settings.FillerColor);
                 }
             }
 
