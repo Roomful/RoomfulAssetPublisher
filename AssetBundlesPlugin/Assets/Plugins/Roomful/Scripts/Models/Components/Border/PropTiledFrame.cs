@@ -63,7 +63,7 @@ namespace RF.AssetWizzard
                 m_borderPartCount = new Vector2(tilesCountHorizontal, tilesCountVertical);
                 m_borderCornerHeightDiff =  m_cornerPartSize.x - m_borderPartSize.y;
                 m_fillerSize = new Vector2(tiledSquare.x + 2 * m_borderCornerHeightDiff, tiledSquare.y + 2 * m_borderCornerHeightDiff);
-                m_fillerOffset = new Vector3((m_fillerSize.x - m_canvasSize.x) / 2, (m_fillerSize.y - m_canvasSize.y) / 2);
+                m_fillerOffset = new Vector3((m_fillerSize.x - m_canvasSize.x) / 2, (m_fillerSize.y - m_canvasSize.y) / 2, -0.0001f);
                 m_tilesOffset = new Vector2((tiledSquare.x - m_canvasSize.x) / 2, (tiledSquare.y - m_canvasSize.y) / 2);
             }
         }
@@ -260,9 +260,6 @@ namespace RF.AssetWizzard
                 Vector3 diff = m_generatedFiller.transform.position - rendererPoint;
                 m_generatedFiller.transform.position += diff;
 
-                Vector3 localPos = m_generatedFiller.transform.localPosition;
-                localPos.z += (Settings.BackOffset / Prop.Scale);
-                m_generatedFiller.transform.localPosition = localPos;
             }
             else {
                 m_generatedFiller = null;
