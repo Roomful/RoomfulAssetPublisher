@@ -198,8 +198,9 @@ namespace RF.AssetWizzard {
 				if (MaxAxisValue == 0) {
 					return 1;
 				}
-				return Template.MaxSize / MaxAxisValue;
-			}
+
+                return Mathf.Clamp(Template.MaxSize / MaxAxisValue, 1f, 2f);
+            }
 		}
 
 		public float MinScale {
@@ -209,7 +210,7 @@ namespace RF.AssetWizzard {
 				}
 
 
-				return Template.MinSize / MaxAxisValue;
+				return  Mathf.Clamp(Template.MinSize / MaxAxisValue, 0.1f, 1);
 			}
 		}
 

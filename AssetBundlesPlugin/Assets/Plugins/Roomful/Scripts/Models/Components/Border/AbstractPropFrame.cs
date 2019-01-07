@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
-using RF.AssetBundles.Serialization;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace RF.AssetWizzard
 {
@@ -146,6 +147,16 @@ namespace RF.AssetWizzard
             p.transform.localScale = reference.transform.localScale / CurrentProp.Scale;
             p.transform.localRotation = Quaternion.identity;
             return p;
+        }
+
+
+       
+        public bool IsPersistent(GameObject go) {
+#if UNITY_EDITOR
+            return EditorUtility.IsPersistent(gameObject);
+#else
+            return false;
+#endif
         }
 
 

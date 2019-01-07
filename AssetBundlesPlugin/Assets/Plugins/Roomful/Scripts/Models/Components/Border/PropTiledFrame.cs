@@ -5,6 +5,8 @@ using UnityEngine;
 using RF.AssetBundles.Serialization;
 
 
+
+
 namespace RF.AssetWizzard
 {
 
@@ -85,27 +87,37 @@ namespace RF.AssetWizzard
 
         protected override void CheckhHierarchy() {
             m_frameIsInvalid = Corner == null || Border == null;
+
+            var borderParts = GetLayer(BorderLayers.BorderParts);
+
             if (Corner != null) {
-                Corner.transform.parent = GetLayer(BorderLayers.BorderParts); 
-                Corner.gameObject.SetActive(false);
+                if (IsPersistent(Corner) || Corner.scene != gameObject.scene) {
+                    Corner = Instantiate(Corner);
+                }
+                    
+                
+
+                Corner.transform.parent = borderParts;
+                Corner.SetActive(false);
                 Corner.gameObject.name = CORNER_NAME;
 
                 if (Corner == Border) { Border = null; }
             }
 
-
             if (Border != null) {
+                if (IsPersistent(Border) || Border.scene != gameObject.scene) {
+                    Border = Instantiate(Border);
+                }
 
-                Border.transform.parent = GetLayer(BorderLayers.BorderParts); 
-                Border.gameObject.SetActive(false);
+                Border.transform.parent = borderParts;
+                Border.SetActive(false);
                 Border.gameObject.name = BORDER_NAME;
             }
 
             if (Filler != null) {
-
-                Filler.transform.parent = GetLayer(BorderLayers.BorderParts);
-                Filler.gameObject.SetActive(false);
-                Filler.gameObject.name = FILLER_NAME;
+                Filler.transform.parent = borderParts;
+                Filler.SetActive(false);
+                Filler.name = FILLER_NAME;
                 var renderer = Filler.GetComponent<Renderer>();
                 if (renderer != null) {
                     renderer.sharedMaterial.SetColor("_Color", Settings.FillerColor);
@@ -114,16 +126,15 @@ namespace RF.AssetWizzard
 
             if (Back != null) {
 
-                Back.transform.parent = GetLayer(BorderLayers.BorderParts); 
+                Back.transform.parent = borderParts; 
                 Back.gameObject.SetActive(false);
                 Back.gameObject.name = BACK_NAME;
             }
 
-            GameObject borderParts = GetLayer(BorderLayers.BorderParts).gameObject;
-            Transform[] parts = GetLayer(BorderLayers.BorderParts).GetComponentsInChildren<Transform>(true);
+            Transform[] parts = borderParts.GetComponentsInChildren<Transform>(true);
             foreach(Transform part in parts) {
                 GameObject go = part.gameObject;
-                if(go != Border && go != Corner && go != Back && go != Filler && go != borderParts) {
+                if(go != Border && go != Corner && go != Back && go != Filler && go != borderParts.gameObject) {
                     DestroyImmediate(go);
                 }
             }
@@ -138,6 +149,7 @@ namespace RF.AssetWizzard
         private GameObject InstantiateBorderPart(GameObject reference, bool resetScale = false) {
             GameObject p = Instantiate<GameObject>(reference, GetLayer(BorderLayers.GeneratedBorder));
             p.SetActive(true);
+            resetScale = false;
             if (resetScale) {
                 p.transform.localScale = Vector3.one;
             } else {
@@ -283,6 +295,8 @@ namespace RF.AssetWizzard
             GameObject corner = InstantiateCorner(180, true);
             SnapObjectToCanvas(corner, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Right, SA_VertexY.Bottom, new Vector3(m_tilesOffset.x , m_fillerOffset.y));
             // Left top vertical corner
+
+
             corner = InstantiateCorner(90, false);
             SnapObjectToCanvas(corner, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Right, SA_VertexY.Bottom, new Vector3(m_fillerOffset.x, m_tilesOffset.y));
             // Right top horizontal corner
