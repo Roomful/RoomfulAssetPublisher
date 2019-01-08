@@ -97,9 +97,9 @@ namespace RF.AssetWizzard
 		}
 
 
-        public PropFrame Frame {
+        public AbstractPropFrame Frame {
             get {
-                return gameObject.GetComponent<PropFrame>();
+                return gameObject.GetComponent<AbstractPropFrame>();
             }
         }
 
@@ -162,7 +162,7 @@ namespace RF.AssetWizzard
 			Canvas.localScale = new Vector3 (1f, yScale, 0.01f);
 
 			Canvas.GetComponent<Renderer> ().sharedMaterial.mainTexture = Crop(Thumbnail);
-		}
+        }
 
 
 		public Texture2D Crop(Texture2D orTexture) {

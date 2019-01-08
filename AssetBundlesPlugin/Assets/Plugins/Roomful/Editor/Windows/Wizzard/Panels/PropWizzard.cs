@@ -35,6 +35,12 @@ namespace RF.AssetWizzard.Editor
             BundleService.Upload<PropAsset>(asset);
         }
 
+        public static void UpdateMeta(PropAsset asset) {
+            BundleService.UpdateMeta<PropAsset>(asset);
+        }
+
+
+
 
         public override void OnGUI(bool GUIState) {
 

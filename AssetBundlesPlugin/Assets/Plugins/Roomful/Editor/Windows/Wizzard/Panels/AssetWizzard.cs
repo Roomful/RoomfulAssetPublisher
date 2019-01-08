@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using Rotorz.ReorderableList;
+using UnityEditor.SceneManagement;
 
 
 namespace RF.AssetWizzard.Editor
@@ -9,6 +10,9 @@ namespace RF.AssetWizzard.Editor
 
     public abstract class AssetWizzard<A> : WizzardUIComponent, IAssetWizzard where A : IAsset {
 
+
+        private A m_currentAsset;
+        private GameObject m_currentAssetGameObject;
 
         //--------------------------------------
         // Abstract Methods
@@ -108,7 +112,12 @@ namespace RF.AssetWizzard.Editor
 
         protected A Asset {
             get {
-                return FindObjectWithType<A>();
+                if(m_currentAssetGameObject != null) {
+                    return m_currentAsset;
+                } else {
+                    return FindAsset();
+                }
+              
             }
         }
 
@@ -131,16 +140,18 @@ namespace RF.AssetWizzard.Editor
 
 
 
-        private T FindObjectWithType<T>() {
-            var allFindedObjects = Resources.FindObjectsOfTypeAll(typeof(GameObject));
-            foreach (GameObject gameObject in allFindedObjects) {
-                T target = gameObject.GetComponent<T>();
-
+        private A FindAsset() {
+            var scene = EditorSceneManager.GetActiveScene();
+            foreach(GameObject gameObject in scene.GetRootGameObjects()) {
+                A target = gameObject.GetComponent<A>();
                 if (target != null) {
+                    m_currentAsset = target;
+                    m_currentAssetGameObject = m_currentAsset.gameObject;
                     return target;
                 }
             }
-            return default(T);
+
+            return default(A);
         }
 
     }

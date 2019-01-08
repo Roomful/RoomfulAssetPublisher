@@ -11,7 +11,9 @@ namespace RF.AssetWizzard.Editor
 
         void Create(Template tpl);
         void Upload(IAsset asset);
+        void UpdateMeta(IAsset asset);
         void Download(Template tpl);
+        
         void ResumeUpload();
 
 

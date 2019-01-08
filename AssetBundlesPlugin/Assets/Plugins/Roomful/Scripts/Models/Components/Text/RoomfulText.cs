@@ -214,6 +214,7 @@ namespace RF.AssetWizzard {
 
         private void Refersh() {
 
+            
  
 			TextRenderer.text = WrapText(PlaceHolderText);
 			TextRenderer.fontSize = FontData.fontSize;
@@ -386,7 +387,7 @@ namespace RF.AssetWizzard {
 					text = transform.GetChild (0).GetComponent<TextMesh> ();
 				}
 
-				text.gameObject.hideFlags = HideFlags.HideInHierarchy;
+				text.gameObject.hideFlags = HideFlags.None;
 
 				return text;
 			}

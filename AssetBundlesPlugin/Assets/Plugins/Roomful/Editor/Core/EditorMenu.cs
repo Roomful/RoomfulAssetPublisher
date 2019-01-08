@@ -36,12 +36,15 @@ namespace RF.AssetWizzard.Editor {
 
 		[MenuItem("Roomful/Add Component/Frame &#b", false, 3)]
 		public static void ShowWizzrd4() {
-			AddFrame ();
+			AddStretchedFrame ();
 		}
 
+        [MenuItem("Roomful/Add Component/Tiled Frame", false, 3)]
+        public static void ShowWizzrd9() {
+            AddTiledFrame();
+        }
 
-
-		[MenuItem("Roomful/Add Component/Floor &#f", false, 4)]
+        [MenuItem("Roomful/Add Component/Floor &#f", false, 4)]
 		public static void ShowWizzrd6() {
 			MarkAsStand ();
 		}
@@ -99,7 +102,12 @@ namespace RF.AssetWizzard.Editor {
 			Thumbnail.transform.localScale = Vector3.one * 1.5f;
 
             Selection.activeGameObject = Thumbnail;
+        }
 
+        [MenuItem("GameObject/Roomful/CanvasMirror", false, 1)]
+        static void CanvasMirror() {
+            GameObject canvas = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            canvas.name = "Canvas Mirror";
         }
 
 
@@ -110,9 +118,19 @@ namespace RF.AssetWizzard.Editor {
 
 
         [MenuItem("GameObject/Roomful/Add Component/Frame", false, 100)]
-		public static void AddFrame () {
-			var frame = Selection.activeGameObject.AddComponent<PropFrame>();
+		public static void AddStretchedFrame () {
+			var frame = Selection.activeGameObject.AddComponent<PropStretchedFrame>();
+            AddDefaultBorderParts(frame);
+        }
 
+        [MenuItem("GameObject/Roomful/Add Component/Tiled Frame", false, 101)]
+        public static void AddTiledFrame() {
+            var frame = Selection.activeGameObject.AddComponent<PropTiledFrame>();
+            AddDefaultBorderParts(frame);
+
+        }
+
+        private static void AddDefaultBorderParts(AbstractPropFrame frame) {
             var border = PrefabManager.CreatePrefab("Frame/DefaultBorder");
             var corner = PrefabManager.CreatePrefab("Frame/DefaultCorner");
             var back = PrefabManager.CreatePrefab("Frame/DefaultBacking");
@@ -121,13 +139,10 @@ namespace RF.AssetWizzard.Editor {
             frame.Corner = corner;
             frame.Back = back;
 
-            frame.Settings.BackOffset = -0.001f;
-
+            frame.SetBackOffset(-0.001f);
         }
 
-
-
-		[MenuItem("GameObject/Roomful/Add Component/Floor", false, 101)]
+        [MenuItem("GameObject/Roomful/Add Component/Floor", false, 101)]
 		static void MarkAsStand () {
 
 

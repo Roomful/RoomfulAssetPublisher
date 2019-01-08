@@ -48,6 +48,11 @@ namespace RF.AssetWizzard.Editor {
             bundle.Upload(asset);
         }
 
+        public static void UpdateMeta<A>(A asset) where A : IAsset {
+            IBundleManager bundle = GetBundleByAssetType(typeof(A));
+            bundle.UpdateMeta(asset);
+        }
+
         //--------------------------------------
         // Get / Set
         //--------------------------------------

@@ -23,13 +23,12 @@ namespace SA.Common.Editor {
 		}
 
 		static	string  EscapeURL (string url){
-#if UNITY_2018_3_OR_NEWER
-            return UnityWebRequest.EscapeURL(url).Replace("+","%20");
-#else
-            return WWW.EscapeURL(url).Replace("+", "%20");
-#endif
-
-        }
+			#if UNITY_2018_1_OR_NEWER
+                return UnityWebRequest.EscapeURL(url).Replace("+","%20");
+            #else
+				return WWW.EscapeURL(url).Replace("+","%20");
+			#endif
+		}
 
 		private static Texture2D _SALogo = null;
 		

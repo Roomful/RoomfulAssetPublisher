@@ -27,7 +27,56 @@ namespace RF.AssetWizzard.Editor
         // Public Methods
         //--------------------------------------
 
-            
+
+     
+        public void UpdateMeta(IAsset asset) {
+            A bundleAsset = (A)asset;
+            if (!IsAssetValid(bundleAsset)) { return; }
+            AssetMetadataRequest metaRequest = GenerateMeta_Update_Request(bundleAsset);
+
+            metaRequest.PackageCallbackText = (callback) => {
+                asset.GetTemplate().Id = new Template(callback).Id;
+                UploadThumbnail(bundleAsset, (template) => {
+                    EditorProgressBar.FinishUploadProgress();
+                });
+            };
+            metaRequest.Send();
+
+        }
+
+        private void UploadThumbnail(A asset, Action<Template> callback) {
+            var template = asset.GetTemplate();
+            EditorProgressBar.AddProgress(template.Title, "Requesting Thumbnail Upload Link", 0.1f);
+            var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail(template.Id);
+            getIconUploadLink.PackageCallbackText = (linkCallback) => {
+
+                EditorProgressBar.AddProgress(template.Title, "Uploading Asset Thumbnail", 0.1f);
+                var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, asset.GetIcon());
+
+                float currentUploadProgress = EditorProgressBar.UploadProgress;
+                uploadRequest.UploadProgress = (float progress) => {
+                    float p = progress / 2f;
+                    EditorProgressBar.UploadProgress = currentUploadProgress + p;
+                    EditorProgressBar.AddProgress(template.Title, "Uploading Asset Thumbnail", 0f);
+                };
+
+                uploadRequest.PackageCallbackText = (string uploadCallback) => {
+
+                    EditorProgressBar.AddProgress(template.Title, "Waiting Thumbnail Upload Confirmation", 0.3f);
+                    var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(template.Id);
+                    confirmRequest.PackageCallbackText = (string resData) => {
+                        template.Icon = new Resource(resData);
+
+                        callback.Invoke(template);
+                    };
+                    confirmRequest.Send();
+                };
+                uploadRequest.Send();
+            };
+            getIconUploadLink.Send();
+        }
+
+
         public void Download(Template tpl) {
             DownloadAsset((T)tpl);
         }
@@ -204,41 +253,15 @@ namespace RF.AssetWizzard.Editor
         }
 
         private void UploadAssetBundle(A asset) {
-            var template = asset.GetTemplate();
-            EditorProgressBar.AddProgress(template.Title, "Requesting Thumbnail Upload Link", 0.1f);
-            var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail(template.Id);
-            getIconUploadLink.PackageCallbackText = (linkCallback) => {
 
-                EditorProgressBar.AddProgress(template.Title, "Uploading Asset Thumbnail", 0.1f);
-                var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, asset.GetIcon());
+            UploadThumbnail(asset, (Template template) => {
+                AssetBundlesSettings.Instance.ReplaceSavedTemplate(template);
+                BundleUtility.SaveTemplateToFile(PersistentTemplatePath, template);
+                BundleUtility.GenerateUploadPrefab(asset);
+                AssetsUploadLoop(0, template);
+            });
 
-                float currentUploadProgress = EditorProgressBar.UploadProgress;
-                uploadRequest.UploadProgress = (float progress) => {
-                    float p = progress / 2f;
-                    EditorProgressBar.UploadProgress = currentUploadProgress + p;
-                    EditorProgressBar.AddProgress(template.Title, "Uploading Asset Thumbnail", 0f);
-                };
-
-                uploadRequest.PackageCallbackText = (string uploadCallback) => {
-
-                    EditorProgressBar.AddProgress(template.Title, "Waiting Thumbnail Upload Confirmation", 0.3f);
-                    var confirmRequest = new Network.Request.UploadConfirmation_Thumbnail(template.Id);
-                    confirmRequest.PackageCallbackText = (string resData) => {
-                        template.Icon = new Resource(resData);
-                        AssetBundlesSettings.Instance.ReplaceSavedTemplate(template);
-                        BundleUtility.SaveTemplateToFile(PersistentTemplatePath, template);
-
-
-                        BundleUtility.GenerateUploadPrefab(asset);
-
-
-                        AssetsUploadLoop(0, template);
-                    };
-                    confirmRequest.Send();
-                };
-                uploadRequest.Send();
-            };
-            getIconUploadLink.Send();
+          
         }
 
 

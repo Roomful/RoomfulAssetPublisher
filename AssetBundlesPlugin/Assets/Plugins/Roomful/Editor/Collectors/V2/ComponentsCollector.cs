@@ -27,9 +27,12 @@ namespace RF.AssetWizzard.Editor
 
 
 			foreach (SerializedFrame frame in asset.gameObject.GetComponentsInChildren<SerializedFrame>()) {
-				frame.gameObject.AddComponent<PropFrame> ();
+				frame.gameObject.AddComponent<PropStretchedFrame> ();
 			}
 
+            foreach (SerializedTiledFrame frame in asset.gameObject.GetComponentsInChildren<SerializedTiledFrame>()) {
+                frame.gameObject.AddComponent<PropTiledFrame>();
+            }
 
             foreach (SerializedAnchor frame in asset.gameObject.GetComponentsInChildren<SerializedAnchor>()) {
                 frame.gameObject.AddComponent<PropAnchor>();
