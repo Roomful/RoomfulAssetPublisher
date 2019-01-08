@@ -20,9 +20,8 @@ namespace RF.AssetWizzard.Network {
 
         public static Action<Request.BaseWebPackage> OnRequestFailed = delegate { };
 
-
 		public const string HeaderSessionId = "x-session-id";
-		public const string HeaderPublisherVersion = "X-Publisher-Version";
+		public const string HeaderPublisherVersion = "X-Asset-Version";
 		//--------------------------------------
 		// Public Methods
 		//--------------------------------------
