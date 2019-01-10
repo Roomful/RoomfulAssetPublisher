@@ -24,7 +24,10 @@ namespace RF.AssetWizzard.Editor
         }
 
         public void DrawActionButtons() {
+
+
             EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Actions: ", EditorStyles.boldLabel);
             GUILayout.BeginHorizontal();
             {
                 GUILayout.FlexibleSpace();

@@ -283,8 +283,7 @@ namespace RF.AssetWizzard.Editor
         }
 
         public void ResumeUpload() {
-
-            
+ 
             Template tpl = BundleUtility.LoadTemplateFromFile<Template>(PersistentTemplatePath);
             if (tpl == null) { return; }
 
