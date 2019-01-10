@@ -11,16 +11,37 @@ namespace RF.AssetWizzard.Editor {
 	public class PropAssetInspector : AssetInspector<PropTemplate, PropAsset>
     {
 
+        private static bool playAnimation = false;
+
 
 		SerializedProperty scaleProperty;
 		SerializedProperty ShowCenterProperty;
 		SerializedProperty DisplayMode;
 
-		void OnEnable() {
+        private void Awake() {
+            EditorApplication.update += OnEditorUpdate;
+        }
+
+        private void OnDestroy() {
+            EditorApplication.update -= OnEditorUpdate;
+        }
+
+        void OnEnable() {
 
 			scaleProperty = serializedObject.FindProperty("Scale");
 			DisplayMode = serializedObject.FindProperty("DisplayMode");
-		}
+
+          
+
+        }
+
+        private void OnEditorUpdate() {
+            if (playAnimation) {
+                foreach (var animator in Asset.AnimatorControllers) {
+                    animator.Update(Time.deltaTime);
+                }
+            }
+        }
 
 		public override void OnInspectorGUI() {
 
@@ -49,11 +70,81 @@ namespace RF.AssetWizzard.Editor {
 
 
             DrawEnvironmentSiwtch();
+            DrawAnimationInfo();
             DrawActionButtons();
+
+            
 
             serializedObject.ApplyModifiedProperties ();
 
 		}
+
+
+        private void DrawAnimationInfo() {
+
+            foreach (var animator in Asset.AnimatorControllers) {
+                EditorGUILayout.Space();
+
+                GUILayout.BeginHorizontal();
+                {
+                    EditorGUILayout.LabelField(animator.name + " Animator: ", EditorStyles.boldLabel);
+                    GUILayout.FlexibleSpace();
+
+                    string name = "Play";
+                    if(playAnimation) {
+                        name = "Stop";
+                    }
+                    bool play = GUILayout.Button(name, EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(60) });
+                    if (play) {
+
+                        if(playAnimation) {
+                            animator.Rebind();
+                        }
+                        playAnimation = !playAnimation;
+                    }
+
+
+
+                }
+                GUILayout.EndHorizontal();     
+                EditorGUI.indentLevel++;
+
+                for (int i = 0; i < animator.parameterCount; i++) {
+                    string name = animator.GetParameter(i).name;
+                    switch (animator.GetParameter(i).type) {
+                        case AnimatorControllerParameterType.Bool:
+
+                            var boolVal = animator.GetBool(name);
+                            boolVal = EditorGUILayout.Toggle(name, boolVal);
+
+                            animator.SetBool(name, boolVal);
+                            break;
+                        case AnimatorControllerParameterType.Trigger:
+                            GUILayout.BeginHorizontal(); {
+                            //    GUILayout.FlexibleSpace();
+                                bool click = GUILayout.Button(name, EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(120) });
+                                if(click) {
+                                    animator.SetTrigger(name);
+                                }
+                                
+                            }
+                            GUILayout.EndHorizontal();
+                                
+                            break;
+
+                        case AnimatorControllerParameterType.Float:
+
+                            var val = animator.GetFloat(name);
+                            val =  EditorGUILayout.Slider(name, val, -1, 1);
+
+                            animator.SetFloat(name, val);
+                            break;
+                    }
+                }
+
+                EditorGUI.indentLevel--;
+            }
+        }
 
 
 		private void PrintPropState() {

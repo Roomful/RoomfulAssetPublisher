@@ -175,9 +175,14 @@ namespace RF.AssetWizzard {
 		}
 
 
-		
 
-		public float MaxAxisValue {
+        public Animator[] AnimatorControllers {
+            get {
+                return GetComponentsInChildren<Animator>();
+            }
+        }
+
+        public float MaxAxisValue {
 			get {
 				float val = Mathf.Max (Size.x, Size.y);
 				return  Mathf.Max (val, Size.z);
