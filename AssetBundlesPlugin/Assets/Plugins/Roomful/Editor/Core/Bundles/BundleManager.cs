@@ -277,8 +277,8 @@ namespace RF.AssetWizzard.Editor
 
                 AssetImporter assetImporter = AssetImporter.GetAtPath(prefabPath);
                 assetImporter.assetBundleName = assetBundleName;
- 
                 BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, BuildAssetBundleOptions.UncompressedAssetBundle, pl);
+                ResumeUpload();
             }
         }
 

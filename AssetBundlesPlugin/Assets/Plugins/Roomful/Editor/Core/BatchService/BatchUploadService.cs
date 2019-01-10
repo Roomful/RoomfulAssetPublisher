@@ -30,8 +30,12 @@ namespace RF.AssetWizzard.Editor {
                             tw.Write(string.Empty);
                             tw.Close();
                         });
+                    } else {
+                        Debug.Log("Prefab or template not found");
                     }
                 });
+            } else {
+                Debug.Log("Cache folder not found");
             }
         }
 
@@ -98,7 +102,7 @@ namespace RF.AssetWizzard.Editor {
             }
 
             FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
-            AssetBundlesSettings.Instance.TargetPlatforms.ForEach(platform => { BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, BuildAssetBundleOptions.UncompressedAssetBundle, platform); });
+            platforms.ForEach(platform => { BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, BuildAssetBundleOptions.UncompressedAssetBundle, platform); });
             BatchUploadServiceConfigManager.GetConfig().state = BatchUploadServiceConfig.State.PREPARED_BUNDLES;
             BatchUploadServiceConfigManager.Save();
         }

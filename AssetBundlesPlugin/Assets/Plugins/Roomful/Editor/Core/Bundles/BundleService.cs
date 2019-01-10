@@ -114,7 +114,7 @@ namespace RF.AssetWizzard.Editor {
 
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded() {
-
+            UnityEngine.Debug.Log("Scripts reloaded");
             SubscribeAllBundlesFouUploadFinishedEvent();
 
             foreach (var bundle in s_bundles) {
