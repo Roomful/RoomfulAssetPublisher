@@ -17,7 +17,14 @@ namespace RF.AssetWizzard.Editor {
 		}
 
 
-		[MenuItem("Roomful/Create/Text &t", false, 0)]
+        [MenuItem("Roomful/Asset Wizzard NEW &w", false, 100)]
+        public static void ShowWizzrdNEW() {
+            WindowManager.ShowWizardUI();
+        }
+
+
+
+        [MenuItem("Roomful/Create/Text &t", false, 0)]
 		public static void ShowWizzrd2() {
 			AddTextComponent ();
 		}

@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -10,7 +12,18 @@ namespace RF.AssetWizzard.Editor {
 	public static class WindowManager  {
 
 
-		public static void ShowWizard() {
+        public static void ShowWizardUI() {
+#if UNITY_2018_3_OR_NEWER
+            var window = EditorWindow.GetWindow<WizzardWindowUI>();
+
+            window.minSize = new Vector2(400, 200);
+            window.titleContent = new GUIContent("Roomful");
+            window.Show();
+            
+#endif
+        }
+
+        public static void ShowWizard() {
 
 			Wizzard.minSize = new Vector2(600f, 450);
 			Wizzard.maxSize = new Vector2(Wizzard.minSize.x, Wizzard.maxSize.y);
@@ -52,3 +65,4 @@ namespace RF.AssetWizzard.Editor {
 
 	}
 }
+
