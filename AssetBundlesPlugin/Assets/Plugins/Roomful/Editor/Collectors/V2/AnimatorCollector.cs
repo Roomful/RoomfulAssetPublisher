@@ -14,12 +14,9 @@ namespace RF.AssetWizzard.Editor {
 
             foreach (SerializedAnimatorController sac in animators) {
                 AssetDatabase.SaveAnimatorController(asset, sac);
-
-
                 Animator a = sac.GetComponent<Animator>();
-
                 AnimatorController controller = AssetDatabase.LoadAsset<AnimatorController>(asset, sac.ControllerName);
-                a.runtimeAnimatorController = controller;
+                
                 if (sac.HasAvatar()) {
                     Avatar avatar = AssetDatabase.LoadAsset<Avatar>(asset, asset.GetTemplate().Title);
                     if (avatar != null) {
@@ -30,20 +27,25 @@ namespace RF.AssetWizzard.Editor {
                     foreach (SerializedAnimationClip ac in sac.SerializedClips) {
                         AssetDatabase.SaveAnimationClipByData(asset, ac);
                     }
-                    foreach (var lay in controller.layers) {
-                        foreach (var sm in lay.stateMachine.states) {
-                            if (sm.state.motion != null) {
-                                AnimationClip ac = sm.state.motion as AnimationClip;
-                                if (AssetDatabase.IsAssetExist(asset, ac)) {
-                                    sm.state.motion = AssetDatabase.LoadAsset<AnimationClip>(asset, ac.name);
+                    if (sac.SerializedMotions != null) {
+                        foreach (var layer in controller.layers) {
+                            foreach (var sm in layer.stateMachine.states) {
+                                foreach (var motionData in sac.SerializedMotions) {
+                                    if (motionData.Layer.Equals(layer.name) && motionData.State.Equals(sm.state.name)) {
+                                        var animation = AssetDatabase.LoadAsset<AnimationClip>(asset, motionData.AnimationName);
+                                        if (animation == null) {
+                                            Debug.LogError("Cannot find animation for motion " + motionData.AnimationName);
+                                        }
+                                        else {
+                                            sm.state.motion = animation;
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
-                
-
+                a.runtimeAnimatorController = controller;
                 GameObject.DestroyImmediate(sac);
             }
         }
