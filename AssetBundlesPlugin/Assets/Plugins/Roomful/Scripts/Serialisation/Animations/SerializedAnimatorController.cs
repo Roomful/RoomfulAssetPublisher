@@ -10,12 +10,12 @@ namespace RF.AssetBundles.Serialization {
         [HideInInspector] public SerializedAvatar SerializedAvatar;
 
         [HideInInspector] public SerializedAnimationClip[] SerializedClips;
+        [HideInInspector] public SerializedMotionData[] SerializedMotions;
 #if UNITY_EDITOR
         public void Serialize(UnityEditor.Animations.AnimatorController controller, Avatar avatar) {
             ControllerName = controller.name;
             string path = UnityEditor.AssetDatabase.GetAssetPath(controller);
             SerializedData = System.IO.File.ReadAllBytes(path);
-            
             List<SerializedAnimationClip> clipList = new List<SerializedAnimationClip>();
             if (avatar != null) {
                 SerializedAvatar = SerializeAvatar(avatar);
@@ -27,6 +27,22 @@ namespace RF.AssetBundles.Serialization {
             }
             SerializedClips = clipList.ToArray();
             
+
+            var motions = new List<SerializedMotionData>();
+            foreach (var lay in controller.layers) {
+                foreach (var sm in lay.stateMachine.states) {
+                    if (sm.state.motion != null) {
+                        AnimationClip ac = sm.state.motion as AnimationClip;
+                        motions.Add(new SerializedMotionData() {
+                            Layer = lay.name,
+                            State = sm.state.name,
+                            AnimationName = ac.name
+                        });
+                    }
+                }
+            }
+            SerializedMotions = motions.ToArray();
+
         }
 
         public bool HasAvatar() {

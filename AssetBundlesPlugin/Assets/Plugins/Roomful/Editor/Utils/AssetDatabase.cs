@@ -88,15 +88,12 @@ namespace RF.AssetWizzard.Editor
 
         public Cubemap LoadCubemapAsset(IAsset asset, SerializedEnviromnent e) {
             string fullPath = GetFullFilePath(typeof(Cubemap), asset.GetTemplate().Title, e.ReflectionCubemapFileName);
-
             return (Cubemap)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(Cubemap));
         }
 
         public bool IsAssetExist<T>(IAsset asset, T unityAsset) where T : Object {
             string propTitle = asset.GetTemplate().Title;
-
             string path = GetShortFilePath(unityAsset, propTitle);
-
             return FolderUtils.IsFileExists(path);
         }
 
@@ -161,7 +158,6 @@ namespace RF.AssetWizzard.Editor
 	        ValidateBundleFolder (assetTitle);
             string fullPath = GetFullFilePath(typeof(AnimationClip), assetTitle, clipName, true);
             string path = GetShortFilePath(typeof(AnimationClip), assetTitle, clipName, true);
-
             if (!FolderUtils.IsFileExists(path)) {
                 FolderUtils.WriteBytes(fullPath, assetData);
             }
