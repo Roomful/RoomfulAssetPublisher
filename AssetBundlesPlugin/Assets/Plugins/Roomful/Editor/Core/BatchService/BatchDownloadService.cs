@@ -21,25 +21,7 @@ namespace RF.AssetWizzard.Editor {
 
             var allAssetsRequest = new GetAllPropsWithIds();
             var ids = new List<string>();
-            ids.Add("b6psg4qrkskr1k");
-            ids.Add("kc7863ghrhrdm2");
-            ids.Add("bgtzwdg3wbrxkb");
-            ids.Add("fk1nfx7qswp44q");
             ids.Add("8zcr7qg74xz7k1");
-            ids.Add("57sr0fwd2cwf1w");
-            ids.Add("w7rq9zgv28w7c3");
-            ids.Add("xgb0n93v7zdzdw");
-            ids.Add("vzx4smw6srgxz6");
-            ids.Add("kdhcx8mfh2nd3t");
-            ids.Add("gn9207kmpx4r2d");
-            ids.Add("fw3k410799ps2w");
-            ids.Add("484mq4r2rbbwc8");
-            ids.Add("rw487sd17mzhfw");
-            ids.Add("wp584s9gn16302");
-            ids.Add("72n7m3vq4mdbvq");
-            ids.Add("dd4nnxsv0g8169");
-            ids.Add("h2xbbcmfstt0t2");
-            ids.Add("pqqhw7wh97xg87");
             allAssetsRequest.DownloadAll(ids, (list) => {
                 list.ForEach(s_downloadQueue.Enqueue);
                 FolderUtils.CreateFolder(RELATIVE_ASSETS_RESOURCES_LOCATION);

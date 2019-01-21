@@ -22,17 +22,18 @@ namespace SA.Productivity.SceneValidator
         void OnDisable() {
             //When OnDisable is called, the default editor we created should be destroyed to avoid memory leakage.
             //Also, make sure to call any required methods like OnDisable
+
+
+#if UNITY_2018_3_OR_NEWER
+            //Hope this is only for beta, since if we do not destory it here
+            // this is a potential memeory leak.
+#else
             MethodInfo disableMethod = defaultEditor.GetType().GetMethod("OnDisable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             if (disableMethod != null) {
                 disableMethod.Invoke(defaultEditor, null);
-            }
-
-        #if UNITY_2018_3_OR_NEWER
-                    //Hope this is only for beta, since if we do not destory it here
-                    // this is a potential memeory leak.
-        #else
-                     DestroyImmediate(defaultEditor);
-        #endif
+            }      
+#endif
+            DestroyImmediate(defaultEditor);
         }
 
         protected override void OnHeaderGUI() {
