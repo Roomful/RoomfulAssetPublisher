@@ -60,3 +60,7 @@ AssetBundlesPlugin/.vs/
 AssetBundlesPlugin/.idea/
 AssetBundlesPlugin/Assets/Plugins/Editor/JetBrains.meta
 AssetBundlesPlugin/Assets/Plugins/Editor/JetBrains/
+AssetBundlesPlugin/Assets/TextMesh Pro/
+AssetBundlesPlugin/Assets/TextMesh Pro.meta
+AssetBundlesPlugin/Logs/Packages-Update.log
+AssetBundlesPlugin/Packages/manifest.json
