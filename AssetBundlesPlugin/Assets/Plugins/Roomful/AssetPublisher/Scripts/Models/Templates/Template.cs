@@ -13,6 +13,9 @@ namespace RF.AssetWizzard
 
         public string Id = string.Empty;
         public string Title = string.Empty;
+        public string ReleaseAssetId = string.Empty;
+        public ReleaseStatus ReleaseStatus;
+        public string DraftAssetId = string.Empty;
         public DateTime Created = DateTime.MinValue;
         public DateTime Updated = DateTime.MinValue;
 
@@ -58,7 +61,10 @@ namespace RF.AssetWizzard
             OriginalJSON.Add("title", Title);
             OriginalJSON.Add("created", SA.Common.Util.General.DateTimeToRfc3339(Created));
             OriginalJSON.Add("updated", SA.Common.Util.General.DateTimeToRfc3339(Updated));
-          
+            OriginalJSON.Add("releaseStatus", ReleaseStatus.ToString());
+            OriginalJSON.Add("releasedAssetId", ReleaseAssetId);
+            OriginalJSON.Add("draftAssetId", DraftAssetId);
+
             if (Icon != null) {
                 OriginalJSON.Add("thumbnail", Icon.ToDictionary());
             }
@@ -82,6 +88,9 @@ namespace RF.AssetWizzard
                 Icon = new Resource();
             }
 
+            ReleaseStatus = (ReleaseStatus) Enum.Parse(typeof(ReleaseStatus), assetData.GetValue<string>("releaseStatus"));
+            ReleaseAssetId = assetData.GetValue<string>("releasedAssetId");
+            DraftAssetId = assetData.GetValue<string>("draftAssetId");
             if (assetData.HasValue("tags")) {
                 List<object> tags = assetData.GetValue<List<object>>("tags");
 

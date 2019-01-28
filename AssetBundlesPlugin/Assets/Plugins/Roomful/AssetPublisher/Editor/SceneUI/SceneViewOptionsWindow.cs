@@ -175,8 +175,8 @@ namespace RF.AssetWizzard.Editor {
             using (new SA_GuiBeginHorizontal()) {
                 bool wizzard = GUILayout.Button("Wizzard", EditorStyles.miniButton, GUILayout.Width(btnWidth));
                 if (wizzard) {
-                    WindowManager.ShowWizard();
-                    WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+                    //todo     WindowManager.ShowWizard();
+                    //todo WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
                 }
 
                 bool create = GUILayout.Button("New", EditorStyles.miniButton, GUILayout.Width(btnWidth));

@@ -51,10 +51,10 @@ namespace RF.AssetWizzard
             }
         }
 
-        protected virtual void PrepareCoponentsForUpload() {
+        protected virtual void PrepareComponentsForUpload() {
 
             foreach (var c in Components) {
-                c.PrepareForUpalod();
+                c.PrepareForUpload();
             }
 
 

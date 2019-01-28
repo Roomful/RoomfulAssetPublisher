@@ -53,7 +53,7 @@ namespace RF.AssetWizzard
             Template.Metadata = new StyleMetadata(this);
   
             CleanUpSilhouette();
-            PrepareCoponentsForUpload();
+            PrepareComponentsForUpload();
 
             ShowEditUI = false;
             ShowWalls = false;
@@ -92,8 +92,8 @@ namespace RF.AssetWizzard
         // Private Methods
         //--------------------------------------
 
-        protected override void PrepareCoponentsForUpload() {
-            base.PrepareCoponentsForUpload();
+        protected override void PrepareComponentsForUpload() {
+            base.PrepareComponentsForUpload();
 
             foreach(var panel in Panels) {
                 DestroyImmediate(panel);

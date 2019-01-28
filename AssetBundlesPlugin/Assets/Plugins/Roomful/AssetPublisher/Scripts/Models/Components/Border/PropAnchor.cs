@@ -99,7 +99,7 @@ namespace RF.AssetWizzard
         }
 
 
-		public void PrepareForUpalod() {
+		public void PrepareForUpload() {
             DestroyImmediate(this);
 		}
 

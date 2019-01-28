@@ -31,11 +31,11 @@ namespace RF.AssetWizzard.Editor
             GUILayout.BeginHorizontal();
             {
                 GUILayout.FlexibleSpace();
-                bool wizzard = GUILayout.Button("Wizzard", EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(120) });
-                if (wizzard) {
-                    WindowManager.ShowWizard();
-                    WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
-                }
+                //todo bool wizzard = GUILayout.Button("Wizzard", EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(120) });
+                //todo if (wizzard) {
+                //todo     WindowManager.ShowWizard();
+                //todo    WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+                //todo }
 
 
                 if (string.IsNullOrEmpty(Template.Id)) {

@@ -1,22 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RF.AssetWizzard.Network.Request;
+using System;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using RF.AssetWizzard.Network.Request;
-using System;
+using UnityEngine;
 
-namespace RF.AssetWizzard.Editor
-{
-    public abstract class BundleManager<T, A> : IBundleManager  where T : Template where A : IAsset
-    {
+namespace RF.AssetWizzard.Editor {
+    public abstract class BundleManager<T, A> : IBundleManager where T : Template where A : IAsset {
         public event Action OnUploaded = delegate { };
 
         //--------------------------------------
         // Abstract Methods
         //--------------------------------------
 
-        public abstract void  CreateAsset(T tpl);
+        public abstract void CreateAsset(T tpl);
         public abstract IAsset CreateDownloadedAsset(T tpl, GameObject gameObject);
 
         protected abstract BaseWebPackage GenerateMeta_Create_Request(A asset);
@@ -26,9 +23,7 @@ namespace RF.AssetWizzard.Editor
         //--------------------------------------
         // Public Methods
         //--------------------------------------
-
-
-     
+               
         public void UpdateMeta(IAsset asset) {
             A bundleAsset = (A)asset;
             if (!IsAssetValid(bundleAsset)) { return; }
@@ -89,16 +84,17 @@ namespace RF.AssetWizzard.Editor
 
             EditorApplication.delayCall = () => {
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
-                WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+                //todo WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
-                CreateAsset((T) tpl);
+                CreateAsset((T)tpl);
             };
         }
 
         public void Upload(IAsset asset) {
-            if(asset.GetTemplate().IsNew) {
+            if (asset.GetTemplate().IsNew) {
                 UploadNewAsset((A)asset);
-            } else {
+            }
+            else {
                 UploadExistingAsset((A)asset);
             }
         }
@@ -189,57 +185,61 @@ namespace RF.AssetWizzard.Editor
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
 
                 string pl = EditorUserBuildSettings.activeBuildTarget.ToString();
-
-                GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl(tpl.Id, pl);
-                getAssetUrl.PackageCallbackText = (assetUrl) => {
-
-                    DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset(assetUrl);
-                    loadAsset.PackageCallbackData = (byte[] assetData) => {
-
-                        WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
-                        if (!FolderUtils.IsFolderExists(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION)) {
-                            FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
-                        }
-
-                        string bundlePath = AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + tpl.Title + "_" + pl;
-                        FolderUtils.WriteBytes(bundlePath, assetData);
+                var url = tpl.Urls.Find(u => u.Platform.Equals(pl));
+                if (url == null) {
+                    Debug.LogErrorFormat("Asset {0} (id = {1}) does not have version for {2} platform", tpl.Title, tpl.Id, pl);
+                    return;
+                }
+                Debug.Log(string.Join("\n", tpl.Urls.Select(u => u.Platform + " " + u.Url)));
 
 
-                        BundleUtility.ClearLocalCacheForAsset(tpl);
-                        AssetBundle.UnloadAllAssetBundles(true);
-                        Resources.UnloadUnusedAssets();
-                        Caching.ClearCache();
 
-                        var bundle = AssetBundle.LoadFromFile(bundlePath);
-                        var bundleObject = bundle.LoadAsset<UnityEngine.Object>(tpl.Title);
+                DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset(url.Url);
+                loadAsset.PackageCallbackData = (byte[] assetData) => {
 
-                        if (bundleObject == null) {
-                            EditorUtility.DisplayDialog("Error", tpl.Title + "AssetBundle is corrupted", "Ok");
-                            return;
-                        }
+                    //todo WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+                    if (!FolderUtils.IsFolderExists(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION)) {
+                        FolderUtils.CreateFolder(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION);
+                    }
 
-                        GameObject gameObject = (GameObject)GameObject.Instantiate(bundleObject) as GameObject;
-                        gameObject.name = tpl.Title;
-
-    
-                        IAsset asset = CreateDownloadedAsset(tpl, gameObject);
-                        RunCollectors(asset, new AssetDatabase(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION));
+                    string bundlePath = AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + tpl.Title + "_" + pl;
+                    FolderUtils.WriteBytes(bundlePath, assetData);
 
 
-                        UnityEditor.AssetDatabase.DeleteAsset(bundlePath);
-                    };
+                    BundleUtility.ClearLocalCacheForAsset(tpl);
+                    AssetBundle.UnloadAllAssetBundles(true);
+                    Resources.UnloadUnusedAssets();
+                    Caching.ClearCache();
 
-                    loadAsset.Send();
+                    var bundle = AssetBundle.LoadFromFile(bundlePath);
+                    var bundleObject = bundle.LoadAsset<UnityEngine.Object>(tpl.Title);
+
+                    if (bundleObject == null) {
+                        EditorUtility.DisplayDialog("Error", tpl.Title + "AssetBundle is corrupted", "Ok");
+                        return;
+                    }
+
+                    GameObject gameObject = (GameObject)GameObject.Instantiate(bundleObject) as GameObject;
+                    gameObject.name = tpl.Title;
+
+
+                    IAsset asset = CreateDownloadedAsset(tpl, gameObject);
+                    RunCollectors(asset, new AssetDatabase(AssetBundlesSettings.ASSETS_RESOURCES_LOCATION));
+
+
+                    UnityEditor.AssetDatabase.DeleteAsset(bundlePath);
                 };
 
-                getAssetUrl.Send();
+                loadAsset.Send();
+
+
             };
         }
 
 
         public static void RunCollectors(IAsset asset, AssetDatabase assetDatabase) {
             // Old renderer collector must be called ALWAYS earlier than Renderer collector!!!
-            new V1_RendererCollector().SetAssetDatabase(assetDatabase).Run(asset); 
+            new V1_RendererCollector().SetAssetDatabase(assetDatabase).Run(asset);
             new RendererCollector().SetAssetDatabase(assetDatabase).Run(asset);
             new TextCollector().SetAssetDatabase(assetDatabase).Run(asset);
             new MeshCollector().SetAssetDatabase(assetDatabase).Run(asset);
@@ -261,7 +261,7 @@ namespace RF.AssetWizzard.Editor
                 AssetsUploadLoop(0, template);
             });
 
-          
+
         }
 
 
@@ -283,7 +283,7 @@ namespace RF.AssetWizzard.Editor
         }
 
         public void ResumeUpload() {
- 
+
             Template tpl = BundleUtility.LoadTemplateFromFile<Template>(PersistentTemplatePath);
             if (tpl == null) { return; }
 
@@ -293,7 +293,7 @@ namespace RF.AssetWizzard.Editor
 
             string assetBundleName = tpl.Title + "_" + platform;
 
-            EditorProgressBar.AddProgress(tpl.Title,"Getting Asset Upload URL (" + platform + ")", 0.2f);
+            EditorProgressBar.AddProgress(tpl.Title, "Getting Asset Upload URL (" + platform + ")", 0.2f);
             var uploadLinkRequest = new GetUploadLink(tpl.Id, platform.ToString(), tpl.Title);
             uploadLinkRequest.PackageCallbackText = linkToUploadTo => {
 
@@ -317,7 +317,8 @@ namespace RF.AssetWizzard.Editor
 
                         if (platformIndex == AssetBundlesSettings.Instance.TargetPlatforms.Count) {
                             FinishAssetUpload();
-                        } else {
+                        }
+                        else {
                             AssetsUploadLoop(platformIndex, tpl);
                         }
                     };
@@ -333,7 +334,7 @@ namespace RF.AssetWizzard.Editor
         private void FinishAssetUpload() {
             T tpl = BundleUtility.LoadTemplateFromFile<T>(PersistentTemplatePath);
 
-            
+
             BundleUtility.DeleteTempFiles();
 
             UnityEditor.AssetDatabase.Refresh();
@@ -348,7 +349,7 @@ namespace RF.AssetWizzard.Editor
 
             OnUploaded();
 
-            if (AssetBundlesSettings.Instance.DownloadAssetAfterUploading)  {
+            if (AssetBundlesSettings.Instance.DownloadAssetAfterUploading) {
                 Download(tpl);
                 EditorUtility.DisplayDialog("Success", tpl.Title + " Asset has been successfully uploaded!", "Ok");
             }

@@ -159,7 +159,8 @@ namespace RF.AssetWizzard {
 
         private bool m_thumbnailLoadStarted = false;
         public void LoadThumbnail(Action<Texture2D> callback = null) {
-
+            //todo
+            /*
             if(m_thumbnailLoadStarted) {
                 return;
             }
@@ -209,7 +210,7 @@ namespace RF.AssetWizzard {
             };
 
 			getAssetUrl.Send ();
-					
+					*/
 				
 		}
 

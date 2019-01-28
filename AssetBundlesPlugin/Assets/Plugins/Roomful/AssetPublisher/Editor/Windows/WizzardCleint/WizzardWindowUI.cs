@@ -14,7 +14,7 @@ namespace RF.AssetWizzard.Editor
     public class WizzardWindowUI : EditorWindow
     {
 
-        private BaseWizzardTab m_currentSelectedTab = null;
+        private BaseWizardTab m_currentSelectedTab = null;
         private SidebarMenu m_sideBar = null;
 
         private VisualElement m_tabContainer;
@@ -58,7 +58,7 @@ namespace RF.AssetWizzard.Editor
 
         }
 
-        private void OnTabSelect(BaseWizzardTab tab) {
+        private void OnTabSelect(BaseWizardTab tab) {
             Debug.Log("Selected: " + tab.Name);
             UpdateMainView();
         }

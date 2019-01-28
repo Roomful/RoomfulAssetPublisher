@@ -50,12 +50,12 @@ namespace RF.AssetWizzard
         public override void PrepareForUpload() {
 
             CleanUpSilhouette();
-            PrepareCoponentsForUpload();
+            PrepareComponentsForUpload();
         }
 
-        protected override void PrepareCoponentsForUpload() {
+        protected override void PrepareComponentsForUpload() {
 
-            base.PrepareCoponentsForUpload();
+            base.PrepareComponentsForUpload();
 
 #if UNITY_EDITOR
             string cubemapPath = AssetDatabase.GetAssetPath(Settings.ReflectionCubemap);

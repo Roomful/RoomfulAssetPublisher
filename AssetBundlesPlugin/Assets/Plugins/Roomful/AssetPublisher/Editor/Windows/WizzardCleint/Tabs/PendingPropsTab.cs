@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RF.AssetWizzard.Editor
 {
-    public class PendingPropsTab : BaseWizzardTab, IWizzardTab
+    public class PendingPropsTab : BaseWizardTab, IWizzardTab
     {
         public override string Name {
             get {

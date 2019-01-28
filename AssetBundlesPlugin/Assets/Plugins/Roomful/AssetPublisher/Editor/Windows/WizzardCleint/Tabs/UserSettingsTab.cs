@@ -5,7 +5,7 @@ using UnityEngine.Experimental.UIElements;
 
 namespace RF.AssetWizzard.Editor
 {
-    public class UserSettingsTab : BaseWizzardTab, IWizzardTab
+    public class UserSettingsTab : BaseWizardTab, IWizzardTab
     {
 
         SettingsPanel m_oldSettings;

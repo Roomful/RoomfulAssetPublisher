@@ -64,7 +64,7 @@ namespace RF.AssetWizzard.Editor
             var icon = asset.GetIcon();
             if (icon == null) {
                 EditorUtility.DisplayDialog("Error", "Asset does not have Icon", "Ok");
-                WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
+                //todo WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
 
                 return false;
             }
@@ -97,14 +97,14 @@ namespace RF.AssetWizzard.Editor
                 foreach (BuildTarget platfrom in AssetBundlesSettings.Instance.TargetPlatforms) {
                     if (!s_allowedPlatfroms.Contains(platfrom)) {
                         EditorUtility.DisplayDialog("Error", platfrom.ToString() + " platfrom is not supported", "Ok");
-                        WindowManager.Wizzard.SiwtchTab(WizardTabs.Platforms);
+                        //todo WindowManager.Wizzard.SiwtchTab(WizardTabs.Platforms);
                         return false;
                     }
                 }
 
             } else {
                 EditorUtility.DisplayDialog("Error", "Please select at least one platfrom to upload", "Ok");
-                WindowManager.Wizzard.SiwtchTab(WizardTabs.Platforms);
+                //todo WindowManager.Wizzard.SiwtchTab(WizardTabs.Platforms);
                 return false;
             }
 

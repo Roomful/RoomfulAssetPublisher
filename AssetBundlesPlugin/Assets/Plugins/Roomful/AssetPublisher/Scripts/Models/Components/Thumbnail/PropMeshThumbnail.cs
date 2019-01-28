@@ -48,7 +48,7 @@ namespace RF.AssetWizzard {
 		// Public Methods
 		//--------------------------------------
 
-		public void PrepareForUpalod() {
+		public void PrepareForUpload() {
 			
 			RemoveSilhouette ();
             Canvas.sharedMaterial.mainTexture = null;

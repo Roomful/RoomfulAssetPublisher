@@ -6,7 +6,7 @@ namespace RF.AssetWizzard {
 
 	public interface IPropComponent  {
 
-		void PrepareForUpalod();
+		void PrepareForUpload();
 		void RemoveSilhouette();
 
 		void Update();

@@ -22,8 +22,7 @@ namespace RF.AssetWizzard {
         private const string SettingsAssetName = "AssetBundlesSettings";
         private const string SettingsAssetExtension = ".asset";
 
-        public static string PORT = "3443";
-        public static string WEB_SERVER_URL = "https://demo.roomful.co:" + PORT;
+        public const string WEB_SERVER_URL = "https://dev.roomful.net";
 	
 		public const string ASSETS_TEMP_LOCATION = "Roomful/Temp/";
 		public const string FULL_ASSETS_TEMP_LOCATION = "Assets/" + ASSETS_TEMP_LOCATION;
@@ -33,10 +32,10 @@ namespace RF.AssetWizzard {
         public const string FULL_ASSETS_RESOURCES_LOCATION = "Assets/" + ASSETS_RESOURCES_LOCATION;
         
 
-        public const string PLUGIN_LOCATION = "Assets/Plugins/Roomful/";
+        public const string PLUGIN_LOCATION = "Assets/Plugins/Roomful/AssetPublisher/";
 		public const string PLUGIN_PREFABS_LOCATION = PLUGIN_LOCATION + "Prefabs/";
 
-		public const string SETTINGS_LOCATION = "Plugins/Roomful/Editor/Resources/Settings/";
+		public const string SETTINGS_LOCATION = "Plugins/Roomful/AssetPublisher/Editor/Resources/Settings/";
 
         public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
         public const string THUMBNAIL_RESOURCE_INDEX_BOUND = "ResourceIndexBound";
@@ -126,7 +125,7 @@ namespace RF.AssetWizzard {
 
         public bool IsLoggedIn {
             get {
-                return string.IsNullOrEmpty(SessionId);
+                return !string.IsNullOrEmpty(SessionId);
             }
         }
 
@@ -138,6 +137,7 @@ namespace RF.AssetWizzard {
 
 
         public void SetSessionId(string id) {
+            Debug.Log("SetSessionId " + id);
 			m_sessionId = id;
 			Save ();
 		}

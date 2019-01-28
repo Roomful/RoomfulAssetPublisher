@@ -57,7 +57,7 @@ namespace RF.AssetWizzard
 
         protected abstract void GenerateFrame();
 
-        public void PrepareForUpalod() {
+        public void PrepareForUpload() {
 
             if (Border != null) {
                 Border.SetActive(true);

@@ -14,8 +14,8 @@ namespace RF.AssetWizzard.Editor
     {
 
         private ListView m_listView;
-        private List<BaseWizzardTab> m_items = new List<BaseWizzardTab>();
-        private Action<BaseWizzardTab> m_onItemSelect = delegate { };
+        private List<BaseWizardTab> m_items = new List<BaseWizardTab>();
+        private Action<BaseWizardTab> m_onItemSelect = delegate { };
 
 
         public SidebarMenu():base() {
@@ -27,17 +27,17 @@ namespace RF.AssetWizzard.Editor
             Add(m_listView);
         }
 
-        public void AddTabItem(BaseWizzardTab item) {
+        public void AddTabItem(BaseWizardTab item) {
             m_items.Add(item);
             m_listView.selectedIndex = 0;
         }
 
-        public void AddOnTabSelectCallback(Action<BaseWizzardTab> callback) {
+        public void AddOnTabSelectCallback(Action<BaseWizardTab> callback) {
             m_onItemSelect += callback;
         }
 
 
-        public BaseWizzardTab Selected {
+        public BaseWizardTab Selected {
             get {
                 return m_items[m_listView.selectedIndex];
             }
@@ -83,7 +83,7 @@ namespace RF.AssetWizzard.Editor
 
 
             listView.onSelectionChanged += (objects) => {
-                m_onItemSelect.Invoke((BaseWizzardTab)objects[0]);
+                m_onItemSelect.Invoke((BaseWizardTab)objects[0]);
             };
 
             listView.style.flexGrow = 1f;

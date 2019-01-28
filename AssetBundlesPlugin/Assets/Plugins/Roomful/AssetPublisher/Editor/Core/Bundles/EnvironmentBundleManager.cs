@@ -26,11 +26,11 @@ namespace RF.AssetWizzard.Editor
         }
 
         protected override BaseWebPackage GenerateMeta_Create_Request(EnvironmentAsset asset) {
-            return new CreateEnviromentDraft(asset.Template);
+            return new CreateDraftEnviroment(asset.Template);
         }
 
         protected override BaseWebPackage GenerateMeta_Update_Request(EnvironmentAsset asset) {
-            return new UpdateEnviromentDraft(asset.Template);
+            return new UpdateEnvironmentDraft(asset.Template);
         }
         
     }

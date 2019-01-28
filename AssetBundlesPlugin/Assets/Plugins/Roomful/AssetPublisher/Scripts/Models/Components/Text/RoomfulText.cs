@@ -86,7 +86,7 @@ namespace RF.AssetWizzard {
         }
 
 
-        public void PrepareForUpalod() {
+        public void PrepareForUpload() {
 
             var textInfo = gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedText>();
             textInfo.PlaceHolderText = PlaceHolderText;

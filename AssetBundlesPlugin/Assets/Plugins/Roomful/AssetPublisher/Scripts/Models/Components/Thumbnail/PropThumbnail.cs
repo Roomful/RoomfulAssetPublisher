@@ -44,7 +44,7 @@ namespace RF.AssetWizzard
             GenerateSilhouette();
         }
 
-		public void PrepareForUpalod() {
+		public void PrepareForUpload() {
 
             DestroyImmediate (Canvas.gameObject);
 			DestroyImmediate (this);

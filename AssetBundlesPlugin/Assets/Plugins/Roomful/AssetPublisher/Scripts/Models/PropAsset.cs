@@ -98,7 +98,7 @@ namespace RF.AssetWizzard {
             DisplayMode = PropDisplayMode.Normal;
             DestroyImmediate(GetLayer(HierarchyLayers.Silhouette).gameObject);
 
-            PrepareCoponentsForUpload();
+            PrepareComponentsForUpload();
 		}
 
 

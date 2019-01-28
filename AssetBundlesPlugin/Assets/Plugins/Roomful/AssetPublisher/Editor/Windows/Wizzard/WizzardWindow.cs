@@ -44,7 +44,7 @@ namespace RF.AssetWizzard.Editor {
 
 		void OnGUI() {
 
-            titleContent = new GUIContent("Roomful Plugin - port " + AssetBundlesSettings.PORT);
+            titleContent = new GUIContent("Roomful Plugin -  " + AssetBundlesSettings.WEB_SERVER_URL);
 
 			GUI.changed = false;
 			EditorGUIUtility.labelWidth = 200f;
