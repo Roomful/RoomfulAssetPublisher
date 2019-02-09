@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using RF.AssetWizzard.Network.Request;
+﻿using RF.AssetWizzard.Network.Request;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
+    
     public class CreateEnvironmentDraftCommand : BaseNetworkCommand<AssetRelatedCommandResult<EnvironmentTemplate>> {
+        
         private EnvironmentTemplate m_template;
 
         public CreateEnvironmentDraftCommand(EnvironmentTemplate template) {

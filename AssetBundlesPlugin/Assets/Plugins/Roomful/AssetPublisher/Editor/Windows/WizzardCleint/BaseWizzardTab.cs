@@ -1,27 +1,27 @@
 ﻿#if UNITY_2018_3_OR_NEWER
 
-using UnityEngine;
-using System.Collections;
+using System;
 using UnityEngine.Experimental.UIElements;
 
 namespace RF.AssetWizzard.Editor
 {
+    [Serializable]
     public abstract class BaseWizardTab : VisualElement
     {
-
         public abstract string Name { get; }
 
-
-        public BaseWizardTab() {
+        protected BaseWizardTab() {
             style.flexGrow = 0.7f;
 
-            var label = new Label();
-            label.style.fontSize = 20;
-            label.style.height = 25;
-            label.text = Name;
+            var label = new Label {
+                text = Name,
+                style = {
+                    fontSize = 20,
+                    height = 25
+                }
+            };
             Add(label);
         }
-
     }
 }
 #endif

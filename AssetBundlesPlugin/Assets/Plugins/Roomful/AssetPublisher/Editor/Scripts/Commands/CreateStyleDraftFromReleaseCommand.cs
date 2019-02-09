@@ -1,9 +1,10 @@
 ﻿using RF.AssetWizzard.Network.Request;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
 
-
     public class CreateStyleDraftFromReleaseCommand : BaseNetworkCommand<AssetRelatedCommandResult<StyleTemplate>> {
+        
         private string m_assetId;
 
         public CreateStyleDraftFromReleaseCommand(string assetId) {
@@ -13,6 +14,7 @@ namespace RF.AssetWizzard.Commands {
         protected override void ErrorHandler(long obj) {
             FireComplete(new AssetRelatedCommandResult<StyleTemplate>());
         }
+        
         protected override BaseWebPackage GetRequest() {
             return new CreateDraftStyleFromRelease(m_assetId);
         }

@@ -1,7 +1,7 @@
 ﻿using RF.AssetWizzard.Network.Request;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
-
 
     public class CreateEnvironmentDraftFromReleaseCommand : BaseNetworkCommand<AssetRelatedCommandResult<EnvironmentTemplate>> {
         private string m_assetId;
@@ -20,6 +20,5 @@ namespace RF.AssetWizzard.Commands {
         protected override void SuccessHandler(string responce) {
             FireComplete(new AssetRelatedCommandResult<EnvironmentTemplate>(responce));
         }
-
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using RF.AssetWizzard.Network.Request;
+﻿using RF.AssetWizzard.Network.Request;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
+    
     public class CreatePropDraftCommand : BaseNetworkCommand<AssetRelatedCommandResult<PropTemplate>> {
         private PropTemplate m_template;
 

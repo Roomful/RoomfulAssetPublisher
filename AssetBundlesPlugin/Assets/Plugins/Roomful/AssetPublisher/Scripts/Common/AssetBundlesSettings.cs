@@ -117,21 +117,12 @@ namespace RF.AssetWizzard {
             }
         }
 
-		public string SessionId {
-			get {
-				return m_sessionId;
-			}
-		}
+		public string SessionId => m_sessionId;
 
-        public bool IsLoggedIn {
-            get {
-                return !string.IsNullOrEmpty(SessionId);
-            }
-        }
+		public bool IsLoggedIn => !string.IsNullOrEmpty(SessionId);
 
 
-
-        //--------------------------------------
+		//--------------------------------------
         // Public Methods
         //--------------------------------------
 

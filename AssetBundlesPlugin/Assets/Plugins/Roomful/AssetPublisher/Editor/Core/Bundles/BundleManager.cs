@@ -194,8 +194,8 @@ namespace RF.AssetWizzard.Editor {
 
 
 
-                DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset(url.Url);
-                loadAsset.PackageCallbackData = (byte[] assetData) => {
+                var loadResource = new DownloadResource(url.Url);
+                loadResource.PackageCallbackData = (byte[] assetData) => {
 
                     //todo WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);
                     if (!FolderUtils.IsFolderExists(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION)) {
@@ -230,7 +230,7 @@ namespace RF.AssetWizzard.Editor {
                     UnityEditor.AssetDatabase.DeleteAsset(bundlePath);
                 };
 
-                loadAsset.Send();
+                loadResource.Send();
 
 
             };

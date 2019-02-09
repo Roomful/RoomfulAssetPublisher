@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using RF.AssetWizzard.Network.Request;
-using RF.AssetWizzard.Editor;
+﻿using RF.AssetWizzard.Editor;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
 
@@ -12,6 +10,5 @@ namespace RF.AssetWizzard.Commands {
             BundleUtility.ClearLocalCache();
             FireComplete(new BaseCommandResult(true));
         }
-
     }
 }

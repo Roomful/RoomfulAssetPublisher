@@ -45,8 +45,8 @@ namespace RF.AssetWizzard.Editor {
             
             BundleUtility.SaveTemplateToFile(FULL_RESOURCES_LOCATION + "/" + template.Title+"/"+ template.Title+".json", template);
             Debug.Log("Downloading " + template.Title);
-            DownloadAsset loadAsset = new DownloadAsset(url);
-            loadAsset.PackageCallbackData = (byte[] assetData) => {
+            var loadResource = new DownloadResource(url);
+            loadResource.PackageCallbackData = (byte[] assetData) => {
                 Debug.Log("Downloaded asset " + template.Title);
 
                 string bundlePath = FULL_RESOURCES_LOCATION + "/" + template.Title+"/"+ template.Title+".unity3d" ;
@@ -84,7 +84,7 @@ namespace RF.AssetWizzard.Editor {
                 DownloadNextProp();
             };
 
-            loadAsset.Send();
+            loadResource.Send();
         }
 
         private static string GetDownloadUrlForCurrentPlatform(PropTemplate template) {

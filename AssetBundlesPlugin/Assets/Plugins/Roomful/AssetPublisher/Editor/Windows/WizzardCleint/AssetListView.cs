@@ -1,5 +1,4 @@
-﻿
-#if UNITY_2018_3_OR_NEWER
+﻿#if UNITY_2018_3_OR_NEWER
 
 using UnityEngine;
 using UnityEditor;
@@ -12,14 +11,12 @@ namespace RF.AssetWizzard.Editor
 {
     public class AssetListView : VisualElement
     {
-
         private ListView m_listView;
         private List<PropTemplate> m_items = new List<PropTemplate>();
-        private Action<PropTemplate> m_onItemSelect = delegate { };
+        private Action<PropTemplate> m_onItemSelect = delegate {};
 
-
-        public AssetListView():base() {
-            style.flexGrow = 0.3f;
+        public AssetListView() {
+            style.flexGrow = 0.4f;
             style.minWidth = 200;
 
             m_listView = MakeListView();
@@ -36,35 +33,31 @@ namespace RF.AssetWizzard.Editor
             m_onItemSelect = callback;
         }
 
+        public PropTemplate Selected => m_items[m_listView.selectedIndex];
 
-        public PropTemplate Selected {
-            get {
-                return m_items[m_listView.selectedIndex];
-            }
-        }
-
-        public int ItemsCount { get { return m_items.Count;} }
+        public int ItemsCount => m_items.Count;
 
         private ListView MakeListView() {
             Func<VisualElement> makeItem = () => {
-                var box = new VisualElement();
+                var box = new VisualElement {
+                    new Label {
+                        style = {
+                            minHeight = 50,
+                            minWidth = 100,
+                            marginTop = 1,
+                            marginBottom = 0,
+                            paddingTop = 0,
+                            paddingBottom = 0
+                        }
+                    }
+                };
                 box.style.flexDirection = FlexDirection.Row;
                 box.style.flexGrow = 1f;
-                var label = new Label();
-
-                label.style.minHeight = 50;
-                label.style.minWidth = 100;
-                label.style.marginTop = 1;
-                label.style.marginBottom = 0;
-
-                label.style.paddingTop = 0;
-                label.style.paddingBottom = 0;
-
-                box.Add(label);
+                
                 return box;
             };
 
-            Action<VisualElement, int> bindItem = (VisualElement e, int index) => {
+            Action<VisualElement, int> bindItem = (e, index) => {
                 (e.ElementAt(0) as Label).text = m_items[index].Title;
             };
             
@@ -75,43 +68,35 @@ namespace RF.AssetWizzard.Editor
 
         internal void UpdateItem(string assetId, ReleaseStatus newReleaseStatus) {
             var template = m_items.Find(item => item.Id.Equals(assetId));
-            if (template != null) {
-                template.ReleaseStatus = newReleaseStatus;
-                if (m_items.IndexOf(template) == m_listView.selectedIndex) {
-                    m_onItemSelect.Invoke(template);
-                }
-                m_listView.Refresh();
+            if (template == null) 
+                return;
+            
+            template.ReleaseStatus = newReleaseStatus;
+            if (m_items.IndexOf(template) == m_listView.selectedIndex) {
+                m_onItemSelect.Invoke(template);
             }
+            m_listView.Refresh();
         }
 
         internal void RemoveItem(string assetId) {
             var template = m_items.Find(item => item.Id.Equals(assetId));
-            if (template != null) {
-                m_items.Remove(template);
-                m_listView.Refresh();
-            }
+            if (template == null)
+                return;
+            
+            m_items.Remove(template);
+            m_listView.Refresh();
         }
 
         private void InitListView(ListView listView, string name) {
             listView.persistenceKey = name;
             listView.selectionType = SelectionType.Single;
-
-            listView.onItemChosen += (obj) => {
-               Debug.Log("onItemChosen: " + obj);
-            };
-
-
-            listView.onSelectionChanged += (objects) => {
+            listView.onSelectionChanged += objects => {
                 m_onItemSelect.Invoke((PropTemplate)objects[0]);
             };
-
             listView.style.flexGrow = 1f;
             listView.style.flexShrink = 0f;
             listView.style.flexBasis = 0f;
         }
-
-
-
     }
 }
 

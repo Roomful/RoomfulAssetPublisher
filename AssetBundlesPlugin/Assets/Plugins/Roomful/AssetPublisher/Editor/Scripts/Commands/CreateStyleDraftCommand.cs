@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using RF.AssetWizzard.Network.Request;
+﻿using RF.AssetWizzard.Network.Request;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
+    
     public class CreateStyleDraftCommand : BaseNetworkCommand<AssetRelatedCommandResult<StyleTemplate>> {
+        
         private StyleTemplate m_template;
 
         public CreateStyleDraftCommand(StyleTemplate template) {

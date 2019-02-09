@@ -1,9 +1,10 @@
 ﻿using RF.AssetWizzard.Network.Request;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
 
-
     public class CreatePropDraftFromReleaseCommand : BaseNetworkCommand<AssetRelatedCommandResult<PropTemplate>> {
+        
         private string m_assetId;
 
         public CreatePropDraftFromReleaseCommand(string assetId) {
@@ -20,6 +21,5 @@ namespace RF.AssetWizzard.Commands {
         protected override void SuccessHandler(string responce) {
             FireComplete(new AssetRelatedCommandResult<PropTemplate>(responce));
         }
-
     }
 }

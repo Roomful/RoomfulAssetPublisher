@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RF.AssetWizzard.Network.Request;
+using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
 
     public class SignInCommand : BaseNetworkCommand<BaseCommandResult> {
+        
         private string m_mail;
         private string m_password;
 
@@ -22,7 +23,7 @@ namespace RF.AssetWizzard.Commands {
         }
 
         protected override void SuccessHandler(string response) {
-            Dictionary<string, object> originalJson = SA.Common.Data.Json.Deserialize(response) as Dictionary<string, object>;
+            var originalJson = SA.Common.Data.Json.Deserialize(response) as Dictionary<string, object>;
             AssetBundlesSettings.Instance.SetSessionId(originalJson["session_token"].ToString());
             FireComplete(new BaseCommandResult(true));
         }

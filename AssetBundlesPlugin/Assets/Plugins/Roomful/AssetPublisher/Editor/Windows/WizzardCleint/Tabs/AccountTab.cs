@@ -1,86 +1,191 @@
 ﻿#if UNITY_2018_3_OR_NEWER
 
 using RF.AssetWizzard.Commands;
-using RF.AssetWizzard.Network.Request;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using RF.AssetWizzard.Managers;
+using RF.AssetWizzard.Models;
+using RF.AssetWizzard.Results;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
+using UnityEngine.Experimental.UIElements.StyleEnums;
+using Button = UnityEngine.Experimental.UIElements.Button;
 
 namespace RF.AssetWizzard.Editor
 {
     public class AccountTab : BaseWizardTab, IWizzardTab
     {
-        public override string Name {
-            get {
-                return "Account";
-            }
-        }
+        public override string Name => "Account";
 
+        private const string USERNAME_LABEL_TEXT = "Username:";
+        
+        private const string USER_LABEL_AVATAR = "UserAvatar";
+        private const string USER_LABEL_NAME = "UserFullName";
+        private const string USER_LABEL_EMAIL = "Email";
+        
+        private const string LOGOUT_BUTTON_TEXT = "Logout";
+        private const int LOGOUT_BUTTON_MAX_WIDTH = 200;
+        private const int LOGOUT_BUTTON_MIN_WIDTH = 200;
+        
+        private const string LOGIN_DESCRIPTION_LABEL_TEXT = "Use your Roomful account email and password to sign in.";
+        private const string EMAIL_LABEL_TEXT = "E-mail:";
+        private const string LOGIN_PASSWORD_LABEL_TEXT = "Password:";
+        private const string LOGIN_BUTTON_TEXT = "Sign-in";
+        
         private TextField m_mailInput;
         private TextField m_passwordInput;
+        
         private VisualContainer m_loginFormContainer;
         private VisualContainer m_logoutFormContainer;
+        private VisualContainer m_userInfoContainer;
+        private VisualContainer m_sessionIdContainer;
+
+        private UserTemplate m_user;
+        private Texture2D m_avatar = new Texture2D(1,1);
+        
+        private const float AVATAR_MAX_WIDTH = 64f;
+        private const float AVATAR_MAX_HEIGHT = 64f;
         
         public AccountTab () {
             m_loginFormContainer = CreateLoginForm();
             m_logoutFormContainer = CreateLogoutForm();
             SetupForms();
+            
+            UserManager.OnUserTemplateUpdate += user => {
+                m_user = user;
+                var userFullNameLabel = m_userInfoContainer.Q<Label>(USER_LABEL_NAME);
+                userFullNameLabel.text = m_user.FullName();
+                
+                var userEmailLabel = m_userInfoContainer.Q<Label>(USER_LABEL_EMAIL);
+                userEmailLabel.text = m_user.Email;
+                
+                //todo Add getter for Avatar
+                var userAvatarLabel = m_userInfoContainer.Q<Label>(USER_LABEL_AVATAR);
+                m_user.OnAvatarLoaded.AddListener(tex => {
+                    var width = (float)tex.width;
+                    var height = (float)tex.height;
+                    ResizeTexture(ref width, ref height);
+                    
+                    userAvatarLabel.style.width = width;
+                    userAvatarLabel.style.height = height;
+                    userAvatarLabel.style.backgroundImage = tex;
+                });
+            };
         }
 
-        private VisualContainer CreateLogoutForm() {
-            var result = new VisualContainer();
-            var promptLabel = new Label();
-            promptLabel.text = "Username";
-            result.Add(promptLabel);
-            var mailLabel = new Label(AssetBundlesSettings.Instance.SessionId);
-            result.Add(mailLabel);
-            var logoutButton = new Button(LogoutButtonClickHandler);
-            logoutButton.text = "Logout";
-            result.Add(logoutButton);
-            return result;
+        private void ResizeTexture(ref float width, ref float height) {
+            var ratio = 0f;
+            if(width > height) {
+                ratio = height / width;
+                width = AVATAR_MAX_WIDTH;
+                height = width * ratio;
+            }
+            else {
+                ratio = width / height;
+                height = AVATAR_MAX_HEIGHT;
+                width = height * ratio;
+            }
         }
 
         private VisualContainer CreateLoginForm() {
-            var result = new VisualContainer();
-            var promptLabel = new Label();
-            promptLabel.text = "Use your Roomful account email and password to sign in.";
-            promptLabel.style.fontSize = 18;
-            result.Add(promptLabel);
-            var mailLabel = new Label("Login");
-            result.Add(mailLabel);
             m_mailInput = new TextField();
-            result.Add(m_mailInput);
-            var passwordLabel = new Label("Password");
-            result.Add(passwordLabel);
-            m_passwordInput = new TextField();
-            m_passwordInput.isPasswordField = true;
-            m_passwordInput.maskChar = '*';
-            result.Add(m_passwordInput);
-            var loginButton = new Button(LoginButtonClickHandler);
-            loginButton.text = "Sign-in";
-            result.Add(loginButton);
-            return result;
+            m_mailInput.style.minWidth = 300;
+            m_mailInput.style.marginLeft = 150;
+            
+            m_passwordInput = new TextField {
+                isPasswordField = true,
+                maskChar = '*'
+            };
+            m_passwordInput.style.minWidth = 300;
+            m_passwordInput.style.marginLeft = 132;
+
+            var emailContainer = new VisualContainer {
+                new Label {
+                    text = EMAIL_LABEL_TEXT
+                },
+                m_mailInput
+            };
+            emailContainer.style.flexDirection = FlexDirection.Row;
+
+            var passwordContainer = new VisualContainer {
+                new Label {
+                    text = LOGIN_PASSWORD_LABEL_TEXT
+                },
+                m_passwordInput
+            };
+            passwordContainer.style.flexDirection = FlexDirection.Row;
+            
+            var loginContainer = new VisualContainer {
+                new Label {
+                    text = LOGIN_DESCRIPTION_LABEL_TEXT
+                },
+                emailContainer,
+                passwordContainer,
+                new Button(LoginButtonClickHandler) {
+                    text = LOGIN_BUTTON_TEXT,
+                    style = {
+                        // flexGrow = 0.5f
+                        maxWidth = LOGOUT_BUTTON_MAX_WIDTH,
+                        minWidth = LOGOUT_BUTTON_MIN_WIDTH
+                    }
+                }
+            };
+
+            return loginContainer;
+        }
+        
+        
+
+        private VisualContainer CreateLogoutForm() {
+            var userInfo = new VisualContainer {
+                new Label {
+                    name = USER_LABEL_NAME
+                },
+                new Label {
+                    name = USER_LABEL_EMAIL
+                }
+            };
+            userInfo.style.flexDirection = FlexDirection.Column;
+            
+            m_userInfoContainer = new VisualContainer {
+                new Label {
+                    name = USER_LABEL_AVATAR,
+                    style = {
+                        backgroundImage = m_avatar
+                    }
+                },
+                userInfo
+            };
+            m_userInfoContainer.style.flexDirection = FlexDirection.Row;
+           
+            var logoutContainer = new VisualContainer {
+                m_userInfoContainer,
+                new Button(LogoutButtonClickHandler) {
+                    text = LOGOUT_BUTTON_TEXT,
+                    style = {
+                       // flexGrow = 0.5f
+                        maxWidth = LOGOUT_BUTTON_MAX_WIDTH,
+                        minWidth = LOGOUT_BUTTON_MIN_WIDTH
+                    }
+                }
+            };
+            
+            return logoutContainer;
         }
 
         private void SetupForms() {
             if (AssetBundlesSettings.Instance.IsLoggedIn) {
-                Debug.Log("Is Logged In");
-                Add(m_logoutFormContainer);
+                new GetUserTemplateCommand().Execute(result => {});
                 m_loginFormContainer.RemoveFromHierarchy();
+                Add(m_logoutFormContainer);
             }
             else {
-                Debug.Log("Is not Logged In");
                 m_passwordInput.SetValueWithoutNotify(string.Empty);
                 m_mailInput.SetValueWithoutNotify(string.Empty);
-                Add(m_loginFormContainer);
                 m_logoutFormContainer.RemoveFromHierarchy();
+                Add(m_loginFormContainer);
             }
         }
-
+        
         private void LoginButtonClickHandler() {
-            Debug.Log("Clicked " + m_passwordInput.value + " " + m_mailInput.value);
             var mail = m_mailInput.value;
             var password = m_passwordInput.value;
             if (string.IsNullOrEmpty(mail) || string.IsNullOrEmpty(password)) {
