@@ -1,8 +1,8 @@
 ﻿#if UNITY_2018_3_OR_NEWER
 
+using RF.AssetWizzard.Managers;
 using UnityEditor;
 using UnityEditor.Experimental.UIElements;
-using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 
@@ -58,6 +58,10 @@ namespace RF.AssetWizzard.Editor
             m_currentSelectedTab?.RemoveFromHierarchy();
             m_currentSelectedTab = m_sideBar.Selected;
             m_tabContainer.Add(m_currentSelectedTab);
+        }
+        
+        void OnDestroy() {
+            UserManager.OnUserTemplateUpdate.RemoveAllListeners();
         }
     }
 }

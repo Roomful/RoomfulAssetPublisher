@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using RF.AssetWizzard.Managers;
 using RF.AssetWizzard.Models;
 using RF.AssetWizzard.Network.Request;
 using RF.AssetWizzard.Results;
 
 namespace RF.AssetWizzard.Commands {
     
-    public class GetUserTemplateCommand : BaseNetworkCommand<BaseCommandResult> {
+    public class GetUserTemplateCommand : BaseNetworkCommand<GetUserTemplateResult> {
         
         protected override BaseWebPackage GetRequest() {
             return new GetUserTemplate();
@@ -19,16 +18,12 @@ namespace RF.AssetWizzard.Commands {
             
             var userDataInfo = new JSONData(dataInfo);
             var userInfo = userDataInfo.GetValue<Dictionary<string, object>>("user");
-            var user = new UserTemplate(userInfo);
-            
-            UserManager.SetCurrentUser(user);
-            //TODO Cache
-            FireComplete(new BaseCommandResult(true));
+           
+            FireComplete(new GetUserTemplateResult(new UserTemplate(userInfo)));
         }
 
         protected override void ErrorHandler(long obj) {
-            UserManager.SetCurrentUser(null);
-            FireComplete(new BaseCommandResult(false));
+            FireComplete(new GetUserTemplateResult());
         }
     }
 }

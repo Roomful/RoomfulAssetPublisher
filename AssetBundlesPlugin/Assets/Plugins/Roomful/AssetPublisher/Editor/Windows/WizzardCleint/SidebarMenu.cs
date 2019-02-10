@@ -15,8 +15,9 @@ namespace RF.AssetWizzard.Editor
         private Action<BaseWizardTab> m_onItemSelect = delegate {};
 
         public SidebarMenu() {
-            style.flexGrow = 0.3f;
-            style.minWidth = 200;
+           // style.flexGrow = 0.3f;
+            style.minWidth = 150;
+            style.maxWidth = 150;
             m_listView = MakeListView();
             Add(m_listView);
         }

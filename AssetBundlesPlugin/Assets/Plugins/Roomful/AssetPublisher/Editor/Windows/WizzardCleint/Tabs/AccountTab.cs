@@ -14,8 +14,6 @@ namespace RF.AssetWizzard.Editor
     public class AccountTab : BaseWizardTab, IWizzardTab
     {
         public override string Name => "Account";
-
-        private const string USERNAME_LABEL_TEXT = "Username:";
         
         private const string USER_LABEL_AVATAR = "UserAvatar";
         private const string USER_LABEL_NAME = "UserFullName";
@@ -39,7 +37,6 @@ namespace RF.AssetWizzard.Editor
         private VisualContainer m_sessionIdContainer;
 
         private UserTemplate m_user;
-        private Texture2D m_avatar = new Texture2D(1,1);
         
         private const float AVATAR_MAX_WIDTH = 64f;
         private const float AVATAR_MAX_HEIGHT = 64f;
@@ -49,7 +46,7 @@ namespace RF.AssetWizzard.Editor
             m_logoutFormContainer = CreateLogoutForm();
             SetupForms();
             
-            UserManager.OnUserTemplateUpdate += user => {
+            UserManager.OnUserTemplateUpdate.AddListener(user => {
                 m_user = user;
                 var userFullNameLabel = m_userInfoContainer.Q<Label>(USER_LABEL_NAME);
                 userFullNameLabel.text = m_user.FullName();
@@ -57,32 +54,17 @@ namespace RF.AssetWizzard.Editor
                 var userEmailLabel = m_userInfoContainer.Q<Label>(USER_LABEL_EMAIL);
                 userEmailLabel.text = m_user.Email;
                 
-                //todo Add getter for Avatar
                 var userAvatarLabel = m_userInfoContainer.Q<Label>(USER_LABEL_AVATAR);
-                m_user.OnAvatarLoaded.AddListener(tex => {
+                m_user.GetAvatar(tex => {
                     var width = (float)tex.width;
                     var height = (float)tex.height;
-                    ResizeTexture(ref width, ref height);
+                    TextureResizer.ResizeTextureMaintainAspectRatio(AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT, ref width, ref height);
                     
                     userAvatarLabel.style.width = width;
                     userAvatarLabel.style.height = height;
                     userAvatarLabel.style.backgroundImage = tex;
                 });
-            };
-        }
-
-        private void ResizeTexture(ref float width, ref float height) {
-            var ratio = 0f;
-            if(width > height) {
-                ratio = height / width;
-                width = AVATAR_MAX_WIDTH;
-                height = width * ratio;
-            }
-            else {
-                ratio = width / height;
-                height = AVATAR_MAX_HEIGHT;
-                width = height * ratio;
-            }
+            });
         }
 
         private VisualContainer CreateLoginForm() {
@@ -131,8 +113,6 @@ namespace RF.AssetWizzard.Editor
 
             return loginContainer;
         }
-        
-        
 
         private VisualContainer CreateLogoutForm() {
             var userInfo = new VisualContainer {
@@ -147,10 +127,7 @@ namespace RF.AssetWizzard.Editor
             
             m_userInfoContainer = new VisualContainer {
                 new Label {
-                    name = USER_LABEL_AVATAR,
-                    style = {
-                        backgroundImage = m_avatar
-                    }
+                    name = USER_LABEL_AVATAR
                 },
                 userInfo
             };
@@ -173,7 +150,7 @@ namespace RF.AssetWizzard.Editor
 
         private void SetupForms() {
             if (AssetBundlesSettings.Instance.IsLoggedIn) {
-                new GetUserTemplateCommand().Execute(result => {});
+                UserManager.Authenticate();
                 m_loginFormContainer.RemoveFromHierarchy();
                 Add(m_logoutFormContainer);
             }

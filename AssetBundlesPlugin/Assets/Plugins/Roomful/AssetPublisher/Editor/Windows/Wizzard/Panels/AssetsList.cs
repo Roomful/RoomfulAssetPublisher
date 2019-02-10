@@ -118,7 +118,7 @@ namespace RF.AssetWizzard.Editor
 
             foreach (var asset in LocalySavedTemplates) {
 
-                GUIContent assetDisaplyContent = asset.DisaplyContent;
+                GUIContent assetDisaplyContent = asset.DisplayContent;
 
                 if (assetDisaplyContent.image == null) {
                     Texture2D preloader = IconManager.Rotate(IconManager.GetIcon(Icon.loader), m_itemsPreloaderAgnle);

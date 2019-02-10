@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using RF.AssetWizzard.Commands;
 using RF.AssetWizzard.Results;
 using UnityEditor;
+using UnityEditor.Experimental.UIElements;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 
 namespace RF.AssetWizzard.Editor {
@@ -19,8 +20,79 @@ namespace RF.AssetWizzard.Editor {
         private AssetInfoView m_assetInfoView;
         private VisualContainer m_myPropsContainer;
         
-        //vkladki buttons +  removefrom hierarchy
+        
+        private TabsBar m_tabsBar;
+        
+        /*private BaseWizardTab m_currentSelectedTab;
+        private TabBar m_sideBar;
+        private VisualElement m_tabContainer;
+        
+        private void DidaEnable() {
+            var tabContainer = new VisualContainer();
+            Add(tabContainer);
+            var splitter = new VisualSplitter {
+                style = {
+                    flexGrow = 1f,
+                    flexDirection = FlexDirection.Row
+                }
+            };
+            
+            Add(splitter); 
+            m_sideBar = new TabBar();
+            m_sideBar.AddTabItem(new MyPropsTab());
+            m_sideBar.AddTabItem(new MyStylesTab());
+            m_sideBar.AddTabItem(new MyEnvironmentsTab());
+            m_sideBar.AddOnTabSelectCallback(OnTabSelect);
+            
+            splitter.Add(m_sideBar);
+            
+            m_tabContainer = new VisualElement {
+                style = {
+                    marginLeft = 10,
+                    flexGrow = 0.7f
+                }
+            };
+            splitter.Add(m_tabContainer);
+            UpdateMainView();
+        }
+
+        private void OnTabSelect(BaseWizardTab tab) {
+            if (AssetBundlesSettings.Instance.IsLoggedIn) {
+                UpdateMainView();
+            }
+        }
+
+        private void UpdateMainView() {
+            m_currentSelectedTab?.RemoveFromHierarchy();
+            m_currentSelectedTab = m_sideBar.Selected;
+            m_tabContainer.Add(m_currentSelectedTab);
+        }
+        */
+        
+        
+        
+        /// <summary>
+        /// /////////
+        /// </summary>
+        
         public MyAssetsTab() {
+            m_tabsBar = new TabsBar();
+            m_tabsBar.AddTabItem(new MyPropsTab());
+            m_tabsBar.AddTabItem(new MyStylesTab());
+            m_tabsBar.AddTabItem(new MyEnvironmentsTab());
+            Add(m_tabsBar);
+            m_tabsBar.Init();
+            //m_tabBar.AddOnTabSelectCallback(OnTabSelect);
+           // DidaEnable();
+            
+            
+            
+            
+            
+            
+            
+            
+            
             m_listView = new AssetListView();
             m_listView.OnTabSelectCallback(ItemClickHandler);
             
