@@ -1,7 +1,10 @@
 ﻿using System;
-namespace RF.AssetWizzard.Commands {
-    public abstract class AbstractCommand<T> where T: ICommandResult {
 
+namespace RF.AssetWizzard.Commands 
+{
+    
+    public abstract class AbstractCommand<T> where T: ICommandResult 
+    {
         private Action<T> m_completeCallback;
         public void Execute(Action<T> onComplete) {
             m_completeCallback = onComplete;

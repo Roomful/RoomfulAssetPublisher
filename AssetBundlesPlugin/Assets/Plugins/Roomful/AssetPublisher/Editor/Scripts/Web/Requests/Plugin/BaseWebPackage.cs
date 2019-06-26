@@ -1,23 +1,22 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using SA.Common.Models;
 
 namespace RF.AssetWizzard.Network.Request {
-	public abstract class BaseWebPackage  {
-		protected byte[] m_packData;
-
+	
+	public abstract class BaseWebPackage  
+	{
+		
 		public Action<string> PackageCallbackText = delegate {};
 		public Action<byte[]> PackageCallbackData = delegate {};
-        public Action<long> PackageCallbackError = delegate { };
-
-        public Action<float> DownloadProgress= delegate { };
-        public Action<float> UploadProgress = delegate { };
+        public Action<long> PackageCallbackError = delegate {};
+        public Action<float> DownloadProgress= delegate {};
+        public Action<float> UploadProgress = delegate {};
 
         protected Dictionary<string, string> m_headers = new Dictionary<string, string>();
-        private Error m_error = null;
+		protected byte[] m_packData;
+        private Error m_error;
 
         public BaseWebPackage() {
             m_headers.Add(WebServer.HeaderSessionId, AssetBundlesSettings.Instance.SessionId);
