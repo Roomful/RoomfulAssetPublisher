@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿// Copyright Roomful 2013-2019. All rights reserved.
 
 namespace RF.AssetWizzard {
 	
@@ -11,7 +8,7 @@ namespace RF.AssetWizzard {
         Audio,
         Video,
 		Book,
-        File
+        File,
+        Directory
 	}
-
 }
