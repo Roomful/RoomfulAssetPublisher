@@ -9,6 +9,7 @@ namespace RF.AssetBundles.Serialization
 
 		public bool IsBoundToResourceIndex = false;
 		public int ResourceIndex = 0;
+	    public bool IsLogo;
 
     }
 }

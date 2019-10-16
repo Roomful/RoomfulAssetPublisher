@@ -36,6 +36,7 @@ namespace RF.AssetWizzard.Editor {
 			Model.Settings.IsBoundToResourceIndex = SA.Common.Editor.Tools.ToggleFiled("Bound To Resource Index", Model.Settings.IsBoundToResourceIndex);
 			if (Model.Settings.IsBoundToResourceIndex) {
 				Model.Settings.ResourceIndex = EditorGUILayout.IntField("Resource Index", Model.Settings.ResourceIndex);
+				Model.Settings.IsLogo = SA.Common.Editor.Tools.ToggleFiled("Is Logo", Model.Settings.IsLogo);
 			}
 
 
