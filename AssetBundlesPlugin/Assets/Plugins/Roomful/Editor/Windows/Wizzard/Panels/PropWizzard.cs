@@ -67,6 +67,7 @@ namespace RF.AssetWizzard.Editor
                 }
 
                 Asset.Template.CanStack = YesNoFiled("Can Stack", Asset.Template.CanStack, 100, 240);
+                Asset.Template.AlternativeZoom = YesNoFiled("Alternative Zoom", Asset.Template.AlternativeZoom, 100, 240);
                 Asset.Template.PedestalInZoomView = YesNoFiled("Pedestal In Zoom", Asset.Template.PedestalInZoomView, 100, 240);
                 GUI.enabled = GUIState;
 

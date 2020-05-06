@@ -29,6 +29,7 @@ namespace RF.AssetWizzard.Editor
             AssetInfoLable("Placement", SelectedAsset.Placing);
             AssetInfoLable("Invoke", SelectedAsset.InvokeType);
             AssetInfoLable("Can Stack", SelectedAsset.CanStack);
+            AssetInfoLable("Alternative Zoom", SelectedAsset.AlternativeZoom);
             AssetInfoLable("Max Scale", SelectedAsset.MaxSize);
             AssetInfoLable("Min Scale", SelectedAsset.MinSize);
 
