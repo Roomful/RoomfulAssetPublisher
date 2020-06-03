@@ -71,19 +71,27 @@ namespace RF.AssetWizzard.Editor
                 GUILayout.BeginArea(rect);
                 GUI.Box(rect, GUIContent.none, WizardWindow.Constants.settingsBox);
 
-                GUI.Box(new Rect(rect.x, rect.y, rect.width, 20.0f), GUIContent.none, EditorStyles.toolbar);
-                if (GUILayout.Button("+Variant", EditorStyles.toolbarButton, GUILayout.Width(btnWidth)))
+                using (new SA_GuiBeginHorizontal())
                 {
-                    var selection = Selection.objects.Where(o => o != null && o is GameObject && !EditorUtility.IsPersistent(o))
-                        .Select(o => (GameObject)o);
+                    GUILayout.Label("Variants:", WizardWindow.Constants.settingsBoxTitle);
 
-                    PropVariant variant;
-                    if (Asset.Template.TryCreateVariant(selection, out variant))
+                    if (GUILayout.Button("+", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20)))
                     {
-                        variant.AddSkin(new Skin("default", variant.Materials));
-                        Asset.Template.AddVariant(variant);
-                        m_SelectedVariant = variant;
-                        SelectSkin(variant.DefaultSkin);
+                        var selection = Selection.objects.Where(o => o != null && o is GameObject && !EditorUtility.IsPersistent(o))
+                            .Select(o => (GameObject)o);
+
+                        PropVariant variant;
+                        if (Asset.Template.TryCreateVariant(selection, out variant))
+                        {
+                            variant.AddSkin(new Skin("default", variant.Materials));
+                            Asset.Template.AddVariant(variant);
+                            m_SelectedVariant = variant;
+                            SelectSkin(variant.DefaultSkin);
+                        }
+                        else
+                        {
+                            ShowNotification(new GUIContent("Variant Creation Failed! Check Console!"));
+                        }
                     }
                 }
 

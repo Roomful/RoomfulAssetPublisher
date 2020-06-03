@@ -1,13 +1,12 @@
-﻿using UnityEditor;
-using UnityEditor.IMGUI.Controls;
+﻿using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 namespace RF.AssetWizzard.Editor
 {
     public sealed class VariantHierarchyView : TreeView
     {
-        PropVariant m_Variant;
-        Skin m_Skin;
+        readonly PropVariant m_Variant;
+        readonly Skin m_Skin;
 
         public VariantHierarchyView(TreeViewState state, PropVariant variant, Skin skin)
             : base(state)
@@ -24,7 +23,8 @@ namespace RF.AssetWizzard.Editor
 
             for (int i = 0; i < m_Variant.Renderers.Count; i ++)
             {
-                TreeViewItem item = new VariantHierarchyViewItem(i, 0);
+                Renderer renderer = m_Variant.Renderers[i];
+                TreeViewItem item = new VariantHierarchyViewItem(i, 0, renderer.name, m_Skin);
                 root.AddChild(item);
             }
 
@@ -35,7 +35,13 @@ namespace RF.AssetWizzard.Editor
 
         protected override void RowGUI(RowGUIArgs args)
         {
-            EditorGUI.ObjectField(args.rowRect, "material", null, typeof(Material), false);
+            VariantHierarchyViewItem item = args.item as VariantHierarchyViewItem;
+            if (item != null) item.OnGUI(args.rowRect);
+        }
+
+        protected override bool CanMultiSelect(TreeViewItem item)
+        {
+            return false;
         }
     }
 }
