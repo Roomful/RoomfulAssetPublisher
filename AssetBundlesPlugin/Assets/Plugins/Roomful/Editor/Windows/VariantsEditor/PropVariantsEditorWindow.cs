@@ -1,0 +1,273 @@
+﻿using System.Linq;
+using SA.Foundation.Editor;
+using UnityEditor;
+using UnityEditor.IMGUI.Controls;
+using UnityEngine;
+
+namespace RF.AssetWizzard.Editor
+{
+    public sealed class PropVariantsEditorWindow : EditorWindow
+    {
+        Vector2 m_VariantsScrollPos = Vector2.zero;
+        Vector2 m_SkinsScrollPos = Vector2.zero;
+
+        PropVariant m_SelectedVariant;
+        Skin m_SelectedSkin;
+
+        PropAsset m_Asset;
+
+        VariantHierarchyView m_HierarchyView;
+
+        readonly Vector2 m_MinSize = new Vector2(600.0f, 100.0f);
+
+        GUIStyle m_HeaderLabel;
+
+        GUIStyle HeaderLabel
+        {
+            get
+            {
+                if (m_HeaderLabel == null)
+                {
+                    m_HeaderLabel = new GUIStyle(EditorStyles.largeLabel);
+                    m_HeaderLabel.fontStyle = FontStyle.Bold;
+                    m_HeaderLabel.fontSize = 18;
+                    m_HeaderLabel.margin.top = -1;
+                    m_HeaderLabel.margin.left++;
+
+                    m_HeaderLabel.normal.textColor = !EditorGUIUtility.isProSkin ?
+                        new Color(0.4f, 0.4f, 0.4f, 1f) : new Color(0.7f, 0.7f, 0.7f, 1f);
+                }
+                return m_HeaderLabel;
+            }
+        }
+
+        void SelectSkin(Skin skin)
+        {
+            if (skin != m_SelectedSkin)
+            {
+                m_SelectedSkin = skin;
+
+                m_HierarchyView = new VariantHierarchyView(new TreeViewState(), m_SelectedVariant, m_SelectedSkin);
+            }
+        }
+
+        void OnEnable()
+        {
+            minSize = m_MinSize;
+        }
+
+        void OnGUI()
+        {
+            if (Asset == null)
+            {
+                GUILayout.Label("[No Prop Assets in Edit mode]", EditorStyles.centeredGreyMiniLabel);
+                return;
+            }
+
+            float btnWidth = 80;
+            using (new SA_GuiBeginHorizontal())
+            {
+                Rect rect = new Rect(0.0f, 0.0f, 300.0f, Screen.height);
+                GUILayout.BeginArea(rect);
+                GUI.Box(rect, GUIContent.none, WizardWindow.Constants.settingsBox);
+
+                GUI.Box(new Rect(rect.x, rect.y, rect.width, 20.0f), GUIContent.none, EditorStyles.toolbar);
+                if (GUILayout.Button("+Variant", EditorStyles.toolbarButton, GUILayout.Width(btnWidth)))
+                {
+                    var selection = Selection.objects.Where(o => o != null && o is GameObject && !EditorUtility.IsPersistent(o))
+                        .Select(o => (GameObject)o);
+
+                    PropVariant variant;
+                    if (Asset.Template.TryCreateVariant(selection, out variant))
+                    {
+                        variant.AddSkin(new Skin("default", variant.Materials));
+                        Asset.Template.AddVariant(variant);
+                        m_SelectedVariant = variant;
+                        SelectSkin(variant.DefaultSkin);
+                    }
+                }
+
+                using (new SA_GuiBeginHorizontal())
+                {
+                    GUILayout.Space(1.0f);
+                    m_VariantsScrollPos = GUILayout.BeginScrollView(m_VariantsScrollPos, GUILayout.Height(Screen.height - 39.0f));
+                    foreach (var variant in Asset.Template.Variants)
+                    {
+                        using (new SA_GuiBeginHorizontal())
+                        {
+                            if (GUILayout.Toggle(m_SelectedVariant == variant, variant.Name, WizardWindow.Constants.keysElement)) {
+                                m_SelectedVariant = variant;
+                            }
+                        }
+                    }
+                    GUILayout.EndScrollView();
+                }
+                GUILayout.EndArea();
+
+                rect = new Rect(rect.x + rect.width, rect.y, 300.0f, Screen.height);
+                GUILayout.BeginArea(rect);
+
+                Rect localRect = new Rect(0.0f, 0.0f, rect.width, rect.height);
+                GUI.Box(localRect, GUIContent.none, WizardWindow.Constants.settingsBox);
+
+                if (m_SelectedVariant != null)
+                {
+
+                    using (new SA_GuiBeginHorizontal())
+                    {
+                        GUILayout.Label(m_SelectedVariant.Name, HeaderLabel, GUILayout.Width(200.0f));
+                        GUILayout.FlexibleSpace();
+
+                        using (new SA_GuiBeginVertical())
+                        {
+                            GUILayout.Space(3.0f);
+                            using (new SA_GuiBeginHorizontal(GUILayout.Width(80.0f)))
+                            {
+                                if (GUILayout.Button("Remove", EditorStyles.miniButton, GUILayout.Width(80.0f)))
+                                {
+                                    Asset.Template.RemoveVariant(m_SelectedVariant);
+                                    m_SelectedVariant = null;
+                                }
+                            }
+                        }
+                    }
+
+                    GUILayout.Label("Prop Variant Info");
+
+                    using (new SA_GuiBeginHorizontal())
+                    {
+                        GUILayout.Label("Skins:", WizardWindow.Constants.settingsBoxTitle);
+
+                        GUI.enabled = m_SelectedVariant != null;
+                        if (GUILayout.Button("+", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20)))
+                        {
+                            if (m_SelectedVariant != null)
+                            {
+                                m_SelectedVariant.AddSkin(new Skin("new skin", m_SelectedVariant.Materials));
+                            }
+                        }
+
+                        GUI.enabled = true;
+                    }
+
+                    GUILayout.Space(1.0f);
+                    using (new SA_GuiBeginHorizontal())
+                    {
+                        GUILayout.Space(1.0f);
+
+                        m_SkinsScrollPos = GUILayout.BeginScrollView(m_SkinsScrollPos);
+                        if (m_SelectedVariant != null)
+                            foreach (var skin in m_SelectedVariant.Skins)
+                            {
+                                using (new SA_GuiBeginHorizontal())
+                                {
+                                    if (GUILayout.Toggle(m_SelectedSkin == skin, skin.Name, WizardWindow.Constants.keysElement))
+                                    {
+                                        SelectSkin(skin);
+                                    }
+                                }
+                            }
+
+                        GUILayout.EndScrollView();
+                    }
+                }
+                GUILayout.EndArea();
+
+                rect = new Rect(rect.x + rect.width, rect.y, Screen.width - 2.0f * 300.0f, Screen.height);
+                GUILayout.BeginArea(rect);
+
+                localRect = new Rect(0.0f, 0.0f, rect.width, rect.height);
+                GUI.Box(localRect, GUIContent.none, WizardWindow.Constants.settingsBox);
+
+                if (m_SelectedSkin != null && m_SelectedVariant != null)
+                {
+                    using (new SA_GuiBeginHorizontal())
+                    {
+                        GUILayout.Label(m_SelectedSkin.Name, HeaderLabel, GUILayout.Width(200.0f));
+                        GUILayout.FlexibleSpace();
+
+                        using (new SA_GuiBeginVertical())
+                        {
+                            GUILayout.Space(3.0f);
+                            using (new SA_GuiBeginHorizontal(GUILayout.Width(100.0f)))
+                            {
+                                if (GUILayout.Button("Apply", EditorStyles.miniButton, GUILayout.Width(80.0f)))
+                                {
+                                    m_SelectedVariant.ApplySkin(m_SelectedSkin);
+                                }
+
+                                if (GUILayout.Button("Remove", EditorStyles.miniButton, GUILayout.Width(80.0f)))
+                                {
+                                    m_SelectedVariant.RemoveSkin(m_SelectedSkin);
+                                }
+
+                                GUILayout.Space(4.0f);
+                            }
+                        }
+                    }
+
+                    using (new SA_GuiBeginHorizontal())
+                    {
+                        const float previewWidth = 100.0f;
+                        float width = localRect.width - previewWidth - 15.0f;
+                        using (new SA_GuiBeginVertical(GUILayout.Width(width)))
+                        {
+                            GUILayout.Label("Prop Skin Info");
+                        }
+
+                        GUILayout.FlexibleSpace();
+                        using (new SA_GuiBeginVertical(GUILayout.Width(previewWidth)))
+                        {
+                            EditorGUILayout.LabelField("Preview Icon: ", EditorStyles.boldLabel);
+                            m_SelectedSkin.PreviewIcon = (Texture2D)EditorGUILayout.ObjectField(m_SelectedSkin.PreviewIcon,
+                                typeof(Texture2D), false, GUILayout.Width(previewWidth), GUILayout.Height(previewWidth));
+                        }
+                    }
+
+                    GUILayout.Label("Hierarchy:", WizardWindow.Constants.settingsBoxTitle);
+
+                    if (Event.current.type == EventType.Repaint)
+                    {
+                        localRect = GUILayoutUtility.GetLastRect();
+                        float bot = localRect.y + localRect.height + 1.0f;
+                        localRect = new Rect(1.0f, bot,
+                            rect.width - 1.0f, rect.height - bot - 24.0f);
+                    }
+
+                    if (m_HierarchyView != null)
+                        m_HierarchyView.OnGUI(localRect);
+                }
+
+                GUILayout.EndArea();
+            }
+        }
+
+        PropAsset Asset {
+            get {
+                if(m_Asset == null) {
+                    m_Asset = FindObjectWithType<PropAsset>();
+                }
+                return m_Asset;
+            }
+        }
+
+        T FindObjectWithType<T>() {
+            var allFoundObjects = Resources.FindObjectsOfTypeAll(typeof(GameObject));
+            foreach (var obj in allFoundObjects) {
+                var gameObject = (GameObject)obj;
+                T target = gameObject.GetComponent<T>();
+
+                if (target != null) {
+                    return target;
+                }
+            }
+            return default(T);
+        }
+
+        public static PropVariantsEditorWindow Editor {
+            get {
+                return GetWindow<PropVariantsEditorWindow>("Variants");
+            }
+        }
+    }
+}

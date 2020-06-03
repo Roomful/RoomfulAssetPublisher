@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard {
-	
+
 	[Serializable]
 	public class PropTemplate : Template {
-		
+
         public const float MIN_ALLOWED_AXIS_SIZE = 0.5f;
         public const float MAX_ALLOWED_AXIS_SIZE = 5f;
 
@@ -21,6 +21,9 @@ namespace RF.AssetWizzard {
 		public Vector3 Size =  Vector3.one;
         protected float m_minSize = MIN_ALLOWED_AXIS_SIZE;
         protected float m_maxSize = MAX_ALLOWED_AXIS_SIZE;
+
+        protected List<PropVariant> m_Variants = new List<PropVariant>();
+        protected Dictionary<Renderer, PropVariant> m_VariantByRenderer = new Dictionary<Renderer, PropVariant>();
 
         public PropTemplate():base() {}
         public PropTemplate(string data) : base(data) { }
@@ -74,6 +77,49 @@ namespace RF.AssetWizzard {
 			Size.z = sizeData.GetValue<float> ("z");
 		}
 
+		public bool TryCreateVariant(IEnumerable<GameObject> gameObjects, out PropVariant variant)
+		{
+			variant = null;
+
+			List<Renderer> renderers = new List<Renderer>();
+			foreach (var go in gameObjects)
+			{
+				Renderer renderer = go.GetComponent<Renderer>();
+				if (renderer != null)
+				{
+					if (HasVariantForRenderer(renderer))
+					{
+						return false;
+					}
+
+					renderers.Add(renderer);
+				}
+			}
+
+			if (renderers.Count == 0)
+			{
+				return false;
+			}
+
+			variant = new PropVariant("prop variant", renderers);
+			return true;
+		}
+
+		public bool HasVariantForRenderer(Renderer renderer)
+		{
+			return m_VariantByRenderer.ContainsKey(renderer);
+		}
+
+		public void AddVariant(PropVariant variant)
+		{
+			m_Variants.Add(variant);
+		}
+
+		public void RemoveVariant(PropVariant variant)
+		{
+			m_Variants.Remove(variant);
+		}
+
         public float MinSize {
             get {
                 return m_minSize;
@@ -93,5 +139,13 @@ namespace RF.AssetWizzard {
                 m_maxSize = value;
             }
         }
-    }
+
+        public IEnumerable<PropVariant> Variants
+        {
+	        get
+	        {
+		        return m_Variants;
+	        }
+        }
+	}
 }
