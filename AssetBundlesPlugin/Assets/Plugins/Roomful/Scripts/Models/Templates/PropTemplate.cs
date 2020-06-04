@@ -140,6 +140,10 @@ namespace RF.AssetWizzard {
 
 		public void RemoveVariant(PropVariant variant)
 		{
+			foreach (var renderer in variant.Renderers)
+			{
+				m_VariantByRenderer.Remove(renderer);
+			}
 			m_Variants.Remove(variant);
 		}
 

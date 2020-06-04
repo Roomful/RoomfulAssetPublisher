@@ -57,6 +57,16 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
+        void SelectVariant(PropVariant variant)
+        {
+            if (variant != m_SelectedVariant)
+            {
+                m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
+                m_SelectedVariant = variant;
+                SelectSkin(m_SelectedVariant.DefaultSkin);
+            }
+        }
+
         void SelectSkin(Skin skin)
         {
             if (skin != m_SelectedSkin)
@@ -104,6 +114,11 @@ namespace RF.AssetWizzard.Editor
                             PropVariant variant;
                             if (Asset.Template.TryCreateVariant(selection, out variant))
                             {
+                                if (m_SelectedVariant != null)
+                                {
+                                    m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
+                                }
+
                                 variant.AddSkin(new Skin("default", variant.Materials));
                                 Asset.Template.AddVariant(variant);
                                 m_SelectedVariant = variant;
@@ -138,7 +153,7 @@ namespace RF.AssetWizzard.Editor
 
                             EditorGUI.BeginChangeCheck();
                             if (GUI.Toggle(r, m_SelectedVariant == variant, variantLabel, VariantTitle)) {
-                                m_SelectedVariant = variant;
+                                SelectVariant(variant);
 
                             } if (EditorGUI.EndChangeCheck()){
                                 GUIUtility.keyboardControl = 0;
@@ -170,8 +185,17 @@ namespace RF.AssetWizzard.Editor
                             {
                                 if (GUILayout.Button("Remove", EditorStyles.miniButton, GUILayout.Width(80.0f)))
                                 {
+                                    m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
                                     Asset.Template.RemoveVariant(m_SelectedVariant);
-                                    m_SelectedVariant = null;
+                                    if (Asset.Template.Variants.Any())
+                                    {
+                                        SelectVariant(Asset.Template.Variants.First());
+                                    }
+                                    else
+                                    {
+                                        m_SelectedVariant = null;
+                                        m_SelectedSkin = null;
+                                    }
                                 }
                             }
                         }
@@ -188,7 +212,9 @@ namespace RF.AssetWizzard.Editor
                         {
                             if (m_SelectedVariant != null)
                             {
-                                m_SelectedVariant.AddSkin(new Skin("new skin", m_SelectedVariant.Materials));
+                                var newSkin = new Skin("new skin", m_SelectedVariant.Materials);
+                                m_SelectedVariant.AddSkin(newSkin);
+                                SelectSkin(newSkin);
                             }
                         }
 
@@ -243,7 +269,12 @@ namespace RF.AssetWizzard.Editor
 
                                 if (GUILayout.Button("Remove", EditorStyles.miniButton, GUILayout.Width(80.0f)))
                                 {
-                                    m_SelectedVariant.RemoveSkin(m_SelectedSkin);
+                                    if (m_SelectedSkin != m_SelectedVariant.DefaultSkin)
+                                    {
+                                        m_SelectedVariant.RemoveSkin(m_SelectedSkin);
+                                        SelectSkin(m_SelectedVariant.DefaultSkin);
+                                        m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
+                                    }
                                 }
 
                                 GUILayout.Space(4.0f);
