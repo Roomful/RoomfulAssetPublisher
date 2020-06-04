@@ -93,19 +93,26 @@ namespace RF.AssetWizzard.Editor
                     if (GUILayout.Button("+", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20)))
                     {
                         var selection = Selection.objects.Where(o => o != null && o is GameObject && !EditorUtility.IsPersistent(o))
-                            .Select(o => (GameObject)o);
+                            .Select(o => (GameObject)o).ToList();
 
-                        PropVariant variant;
-                        if (Asset.Template.TryCreateVariant(selection, out variant))
+                        if (selection.Count == 0)
                         {
-                            variant.AddSkin(new Skin("default", variant.Materials));
-                            Asset.Template.AddVariant(variant);
-                            m_SelectedVariant = variant;
-                            SelectSkin(variant.DefaultSkin);
+                            ShowNotification(new GUIContent("Variant Creation Failed! Nothing selected"));
                         }
                         else
                         {
-                            ShowNotification(new GUIContent("Variant Creation Failed! Check Console!"));
+                            PropVariant variant;
+                            if (Asset.Template.TryCreateVariant(selection, out variant))
+                            {
+                                variant.AddSkin(new Skin("default", variant.Materials));
+                                Asset.Template.AddVariant(variant);
+                                m_SelectedVariant = variant;
+                                SelectSkin(variant.DefaultSkin);
+                            }
+                            else
+                            {
+                                ShowNotification(new GUIContent("Variant Creation Failed! Check Console!"));
+                            }
                         }
                     }
                 }
