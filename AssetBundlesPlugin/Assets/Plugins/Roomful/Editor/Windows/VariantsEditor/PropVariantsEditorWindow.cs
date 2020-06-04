@@ -20,6 +20,22 @@ namespace RF.AssetWizzard.Editor
 
         readonly Vector2 m_MinSize = new Vector2(600.0f, 100.0f);
 
+        GUIStyle m_VariantTitle;
+
+        GUIStyle VariantTitle
+        {
+            get
+            {
+                if (m_VariantTitle == null)
+                {
+                    m_VariantTitle = "PreferencesSection";
+                    m_VariantTitle.alignment = TextAnchor.MiddleLeft;
+                }
+
+                return m_VariantTitle;
+            }
+        }
+
         GUIStyle m_HeaderLabel;
 
         GUIStyle HeaderLabel
@@ -64,7 +80,6 @@ namespace RF.AssetWizzard.Editor
                 return;
             }
 
-            float btnWidth = 80;
             using (new SA_GuiBeginHorizontal())
             {
                 Rect rect = new Rect(0.0f, 0.0f, 300.0f, Screen.height);
@@ -103,8 +118,23 @@ namespace RF.AssetWizzard.Editor
                     {
                         using (new SA_GuiBeginHorizontal())
                         {
-                            if (GUILayout.Toggle(m_SelectedVariant == variant, variant.Name, WizardWindow.Constants.keysElement)) {
+                            GUIContent variantLabel = new GUIContent(variant.Name);
+                            Rect r = GUILayoutUtility.GetRect(variantLabel, VariantTitle, GUILayout.ExpandWidth(true));
+
+                            if (m_SelectedVariant == variant && Event.current.type == EventType.Repaint)
+                            {
+                                var color = EditorGUIUtility.isProSkin ? new Color(62f / 255f, 95f / 255f, 150f / 255f, 1f)
+                                    : new Color(62f / 255f, 125f / 255f, 231f / 255f, 1f);
+
+                                GUI.DrawTexture(r, IconManager.GetIcon(color));
+                            }
+
+                            EditorGUI.BeginChangeCheck();
+                            if (GUI.Toggle(r, m_SelectedVariant == variant, variantLabel, VariantTitle)) {
                                 m_SelectedVariant = variant;
+
+                            } if (EditorGUI.EndChangeCheck()){
+                                GUIUtility.keyboardControl = 0;
                             }
                         }
                     }
