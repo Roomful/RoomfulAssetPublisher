@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System;
 using SA.Foundation.Editor;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -111,18 +112,25 @@ namespace RF.AssetWizzard.Editor
                         }
                         else
                         {
-                            PropVariant variant;
-                            if (Asset.Template.TryCreateVariant(selection, out variant))
+                            if (Asset.Template.ValidateVariantCreate(selection))
                             {
-                                if (m_SelectedVariant != null)
+                                ShowCreateNewPropVariant((name) =>
                                 {
-                                    m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
-                                }
+                                    PropVariant variant;
+                                    Asset.Template.TryCreateVariant(selection, out variant, name);
 
-                                variant.AddSkin(new Skin("default", variant.Materials));
-                                Asset.Template.AddVariant(variant);
-                                m_SelectedVariant = variant;
-                                SelectSkin(variant.DefaultSkin);
+
+                                    if (m_SelectedVariant != null)
+                                    {
+                                        m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
+                                    }
+
+                                    variant.AddSkin(new Skin("default", variant.Materials));
+                                    Asset.Template.AddVariant(variant);
+                                    m_SelectedVariant = variant;
+                                    SelectSkin(variant.DefaultSkin);
+
+                                });
                             }
                             else
                             {
@@ -152,10 +160,13 @@ namespace RF.AssetWizzard.Editor
                             }
 
                             EditorGUI.BeginChangeCheck();
-                            if (GUI.Toggle(r, m_SelectedVariant == variant, variantLabel, VariantTitle)) {
+                            if (GUI.Toggle(r, m_SelectedVariant == variant, variantLabel, VariantTitle))
+                            {
                                 SelectVariant(variant);
 
-                            } if (EditorGUI.EndChangeCheck()){
+                            }
+                            if (EditorGUI.EndChangeCheck())
+                            {
                                 GUIUtility.keyboardControl = 0;
                             }
                         }
@@ -318,30 +329,50 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
-        PropAsset Asset {
-            get {
-                if(m_Asset == null) {
+        public void ShowCreateNewPropVariant(Action<string> callback)
+        {
+            CreatePropVariant window = EditorWindow.GetWindow<CreatePropVariant>(true, "Create Prop variant");
+            window.OnCreateClickEvent += callback;
+            window.minSize = new Vector2(300f, 100f);
+            window.maxSize = new Vector2(window.minSize.x, window.maxSize.y);
+            window.position = new Rect(new Vector2(Screen.width - (window.minSize.x / 2), Screen.height - (window.minSize.y / 2)), window.minSize);
+            window.Focus();
+
+            window.ShowAuxWindow();
+        }
+
+        PropAsset Asset
+        {
+            get
+            {
+                if (m_Asset == null)
+                {
                     m_Asset = FindObjectWithType<PropAsset>();
                 }
                 return m_Asset;
             }
         }
 
-        T FindObjectWithType<T>() {
+        T FindObjectWithType<T>()
+        {
             var allFoundObjects = Resources.FindObjectsOfTypeAll(typeof(GameObject));
-            foreach (var obj in allFoundObjects) {
+            foreach (var obj in allFoundObjects)
+            {
                 var gameObject = (GameObject)obj;
                 T target = gameObject.GetComponent<T>();
 
-                if (target != null) {
+                if (target != null)
+                {
                     return target;
                 }
             }
             return default(T);
         }
 
-        public static PropVariantsEditorWindow Editor {
-            get {
+        public static PropVariantsEditorWindow Editor
+        {
+            get
+            {
                 return GetWindow<PropVariantsEditorWindow>("Variants");
             }
         }

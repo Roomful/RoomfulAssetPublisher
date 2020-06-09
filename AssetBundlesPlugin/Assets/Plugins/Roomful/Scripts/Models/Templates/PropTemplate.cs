@@ -78,7 +78,49 @@ namespace RF.AssetWizzard {
 			Size.z = sizeData.GetValue<float> ("z");
 		}
 
-		public bool TryCreateVariant(IEnumerable<GameObject> gameObjects, out PropVariant variant)
+		public bool ValidateVariantCreate(IEnumerable<GameObject> gameObjects)
+        {
+			List<Renderer> usedRenderers = new List<Renderer>();
+			List<Renderer> renderers = new List<Renderer>();
+			foreach (var go in gameObjects)
+			{
+				Renderer renderer = go.GetComponent<Renderer>();
+				if (renderer != null)
+				{
+					if (HasVariantForRenderer(renderer))
+					{
+						usedRenderers.Add(renderer);
+					}
+					else
+					{
+						renderers.Add(renderer);
+					}
+				}
+			}
+
+			if (usedRenderers.Count > 0)
+			{
+				StringBuilder builder = new StringBuilder();
+				builder.AppendLine("Can't create Variant for Selected Renderers collection!");
+				builder.AppendLine("Renderers:");
+				foreach (var r in usedRenderers)
+				{
+					builder.AppendLine(r.name);
+				}
+				builder.AppendLine("already in use!");
+				Debug.LogWarning(builder.ToString());
+				return false;
+			}
+
+			if (renderers.Count == 0)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public bool TryCreateVariant(IEnumerable<GameObject> gameObjects, out PropVariant variant, string name)
 		{
 			variant = null;
 
@@ -119,7 +161,7 @@ namespace RF.AssetWizzard {
 				return false;
 			}
 
-			variant = new PropVariant("prop variant", renderers);
+			variant = new PropVariant(name, renderers);
 			foreach (var renderer in renderers)
 			{
 				m_VariantByRenderer[renderer] = variant;
