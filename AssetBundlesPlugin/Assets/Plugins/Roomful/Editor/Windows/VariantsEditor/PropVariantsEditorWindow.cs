@@ -263,7 +263,6 @@ namespace RF.AssetWizzard.Editor
 
                 if (m_SelectedSkin != null && m_SelectedVariant != null)
                 {
-                    Debug.Log(m_SelectedSkin.PreviewIcon);
                     using (new SA_GuiBeginHorizontal())
                     {
                         GUILayout.Label(m_SelectedSkin.Name, HeaderLabel, GUILayout.Width(200.0f));
@@ -302,7 +301,7 @@ namespace RF.AssetWizzard.Editor
                         {
                             GUILayout.Label("Prop Skin Info");
                         }
-                        
+
                         GUILayout.FlexibleSpace();
                         CreateSkinPreviewIcon();
 
