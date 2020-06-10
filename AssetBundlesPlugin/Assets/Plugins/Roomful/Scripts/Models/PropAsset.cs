@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -289,6 +289,14 @@ namespace RF.AssetWizzard {
             }
         }
 
+		public IEnumerable<Renderer> Renderers
+		{
+			get
+			{
+				return GetComponentsInChildren<Renderer>();
+			}
+		}
+
 
         //--------------------------------------
         // Private Methods
@@ -441,5 +449,5 @@ namespace RF.AssetWizzard {
 			UpdateBounds ();
 			FinalVisualisation ();
 		}
-    }
+	}
 }

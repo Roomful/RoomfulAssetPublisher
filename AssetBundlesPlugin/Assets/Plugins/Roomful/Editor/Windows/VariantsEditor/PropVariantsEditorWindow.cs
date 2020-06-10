@@ -263,6 +263,7 @@ namespace RF.AssetWizzard.Editor
 
                 if (m_SelectedSkin != null && m_SelectedVariant != null)
                 {
+                    Debug.Log(m_SelectedSkin.PreviewIcon);
                     using (new SA_GuiBeginHorizontal())
                     {
                         GUILayout.Label(m_SelectedSkin.Name, HeaderLabel, GUILayout.Width(200.0f));
@@ -301,8 +302,10 @@ namespace RF.AssetWizzard.Editor
                         {
                             GUILayout.Label("Prop Skin Info");
                         }
-
+                        
                         GUILayout.FlexibleSpace();
+                        CreateSkinPreviewIcon();
+
                         using (new SA_GuiBeginVertical(GUILayout.Width(previewWidth)))
                         {
                             EditorGUILayout.LabelField("Preview Icon: ", EditorStyles.boldLabel);
@@ -326,6 +329,24 @@ namespace RF.AssetWizzard.Editor
                 }
 
                 GUILayout.EndArea();
+            }
+        }
+
+        private void CreateSkinPreviewIcon()
+        {
+            foreach (var rend in m_Asset.Renderers)
+            {
+                rend.enabled = false;
+            }
+            foreach (var rend in m_SelectedVariant.Renderers)
+            {
+                if (m_Asset.Renderers.Contains(rend))
+                    rend.enabled = true;
+            }
+            PropAssetScreenshotTool.CreateIcon(false, m_Asset, m_SelectedSkin);
+            foreach (var rend in m_Asset.Renderers)
+            {
+                rend.enabled = true;
             }
         }
 
