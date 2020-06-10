@@ -114,22 +114,28 @@ namespace RF.AssetWizzard.Editor
                         {
                             if (Asset.Template.ValidateVariantCreate(selection))
                             {
-                                ShowCreateNewPropVariant((name) =>
+                                ShowCreateNewPropVariant((isSuccessful, name) =>
                                 {
-                                    PropVariant variant;
-                                    Asset.Template.TryCreateVariant(selection, out variant, name);
-
-
-                                    if (m_SelectedVariant != null)
+                                    if (isSuccessful)
                                     {
-                                        m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
+                                        PropVariant variant;
+                                        Asset.Template.TryCreateVariant(selection, out variant, name);
+
+
+                                        if (m_SelectedVariant != null)
+                                        {
+                                            m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
+                                        }
+
+                                        variant.AddSkin(new Skin("default", variant.Materials));
+                                        Asset.Template.AddVariant(variant);
+                                        m_SelectedVariant = variant;
+                                        SelectSkin(variant.DefaultSkin);
                                     }
-
-                                    variant.AddSkin(new Skin("default", variant.Materials));
-                                    Asset.Template.AddVariant(variant);
-                                    m_SelectedVariant = variant;
-                                    SelectSkin(variant.DefaultSkin);
-
+                                    else
+                                    {
+                                        Debug.Log("Variant Creation Cancaled");
+                                    }
                                 });
                             }
                             else
@@ -349,12 +355,11 @@ namespace RF.AssetWizzard.Editor
             }
         }
 
-        public void ShowCreateNewPropVariant(Action<string> callback)
+        public void ShowCreateNewPropVariant(Action<bool, string> callback)
         {
             CreatePropVariant window = EditorWindow.GetWindow<CreatePropVariant>(true, "Create Prop variant");
             window.OnCreateClickEvent += callback;
             window.minSize = new Vector2(300f, 100f);
-            window.maxSize = new Vector2(window.minSize.x, window.maxSize.y);
             window.position = new Rect(new Vector2(Screen.width - (window.minSize.x / 2), Screen.height - (window.minSize.y / 2)), window.minSize);
             window.Focus();
 

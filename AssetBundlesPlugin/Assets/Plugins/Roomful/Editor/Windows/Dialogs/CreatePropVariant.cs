@@ -1,30 +1,54 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using SA.Foundation.Editor;
 
 namespace RF.AssetWizzard.Editor
 {
 	public class CreatePropVariant : EditorWindow
 	{
-		public Action<string> OnCreateClickEvent;
-		string m_name = "prop variant";
-		private bool isFocused;
+		public event Action<bool, string> OnCreateClickEvent = delegate { };
+		string m_Name = "prop variant";
+		bool m_IsFocused;
+		bool m_IsSuccessful;
+
 		void OnGUI()
 		{
-
-			GUIContent headerContent = new GUIContent("Enter variant name");
-			EditorGUI.LabelField(new Rect(100, 10, 300, 40), headerContent);
-			GUI.SetNextControlName(m_name);
-			m_name = EditorGUI.TextField(new Rect(50, 40, 200, 16), m_name);
-			if (!isFocused)
+			if (Event.current.type == EventType.KeyDown)
 			{
-				EditorGUI.FocusTextInControl(m_name);
-				isFocused = true;
+				switch (Event.current.keyCode)
+				{
+					case KeyCode.Return:
+					case KeyCode.KeypadEnter:
+						m_IsSuccessful = true;
+						Dismiss();
+						break;
+				}
 			}
-			GUILayout.Space(80f);
-			GUILayout.BeginHorizontal();
+			using (new SA_GuiBeginHorizontal())
 			{
-				GUILayout.Space(25);
+				GUIContent headerContent = new GUIContent("Enter variant name");
+				GUILayout.FlexibleSpace();
+				GUILayout.Label(headerContent);
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.Space(15f);
+			using (new SA_GuiBeginHorizontal())
+			{
+				GUILayout.FlexibleSpace();
+				GUI.SetNextControlName(m_Name);
+				m_Name = GUILayout.TextField(m_Name, GUILayout.Width(200));
+				GUILayout.FlexibleSpace();
+				if (!m_IsFocused)
+				{
+					EditorGUI.FocusTextInControl(m_Name);
+					m_IsFocused = true;
+				}
+			}
+			GUILayout.Space(25f);
+			using (new SA_GuiBeginHorizontal())
+			{
+				GUILayout.FlexibleSpace();
 				bool cancel = GUILayout.Button("Cancel", EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(100) });
 				if (cancel)
 				{
@@ -34,20 +58,21 @@ namespace RF.AssetWizzard.Editor
 				bool create = GUILayout.Button("Create", EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(100) });
 				if (create)
 				{
-					if (OnCreateClickEvent != null)
-						OnCreateClickEvent(m_name);
-
+					m_IsSuccessful = true;
 					Dismiss();
 				}
+				GUILayout.FlexibleSpace();
 			}
-			GUILayout.EndHorizontal();
-
 		}
 
-		private void Dismiss()
+		void Dismiss()
 		{
-			OnCreateClickEvent = null;
 			this.Close();
+		}
+
+		private void OnDisable()
+		{
+			OnCreateClickEvent(m_IsSuccessful, m_Name);
 		}
 	}
 }
