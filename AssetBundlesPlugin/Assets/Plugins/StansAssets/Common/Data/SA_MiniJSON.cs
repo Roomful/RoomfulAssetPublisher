@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -521,7 +522,8 @@ namespace  SA.Common.Data {
                     || value is ushort
                     || value is ulong
                     || value is decimal) {
-                    builder.Append(value.ToString());
+                    builder.Append(Convert.ToString(value, CultureInfo.InvariantCulture));
+                   // builder.Append(value.ToString());
                 }
                 else {
                     SerializeString(value.ToString());

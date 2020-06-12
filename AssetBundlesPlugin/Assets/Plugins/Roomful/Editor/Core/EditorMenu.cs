@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEditor;
 
@@ -13,6 +14,7 @@ namespace RF.AssetWizzard.Editor {
 
 		[MenuItem("Roomful/Asset Wizzard &w", false, 100)]
 		public static void ShowWizzrd() {
+			System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 			WindowManager.ShowWizard ();
 		}
 
