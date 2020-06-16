@@ -127,7 +127,7 @@ namespace RF.AssetWizzard.Editor
                                             m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
                                         }
 
-                                        variant.AddSkin(new Skin("default", variant.Materials));
+                                        variant.AddSkin(new Skin("default", variant.MaterialDictionary));
                                         Asset.Template.AddVariant(variant);
                                         m_SelectedVariant = variant;
                                         SelectSkin(variant.DefaultSkin);
@@ -229,7 +229,7 @@ namespace RF.AssetWizzard.Editor
                         {
                             if (m_SelectedVariant != null)
                             {
-                                var newSkin = new Skin("new skin", m_SelectedVariant.Materials);
+                                var newSkin = new Skin("new skin", m_SelectedVariant.MaterialDictionary);
                                 m_SelectedVariant.AddSkin(newSkin);
                                 SelectSkin(newSkin);
                             }
@@ -306,10 +306,14 @@ namespace RF.AssetWizzard.Editor
                         using (new SA_GuiBeginVertical(GUILayout.Width(width)))
                         {
                             GUILayout.Label("Prop Skin Info");
+                            if (GUILayout.Button("Reload Preview Icon", EditorStyles.miniButton, GUILayout.Width(180.0f)))
+                            {
+                                CreateSkinPreviewIcon();
+                            }
                         }
 
                         GUILayout.FlexibleSpace();
-                        CreateSkinPreviewIcon();
+                        
 
                         using (new SA_GuiBeginVertical(GUILayout.Width(previewWidth)))
                         {

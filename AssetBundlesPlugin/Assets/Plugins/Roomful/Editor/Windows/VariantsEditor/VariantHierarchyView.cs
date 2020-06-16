@@ -1,5 +1,7 @@
 ﻿using UnityEditor.IMGUI.Controls;
+using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace RF.AssetWizzard.Editor
 {
@@ -7,6 +9,7 @@ namespace RF.AssetWizzard.Editor
     {
         readonly PropVariant m_Variant;
         readonly Skin m_Skin;
+        int m_Id;
 
         public VariantHierarchyView(TreeViewState state, PropVariant variant, Skin skin)
             : base(state)
@@ -21,11 +24,18 @@ namespace RF.AssetWizzard.Editor
         {
             TreeViewItem root = new TreeViewItem(-1, -1, "Root");
 
-            for (int i = 0; i < m_Variant.Renderers.Count; i ++)
+            for (int i = 0; i < m_Variant.Renderers.Count; i++)
             {
                 Renderer renderer = m_Variant.Renderers[i];
-                TreeViewItem item = new VariantHierarchyViewItem(i, 0, renderer.name, m_Skin);
+                TreeViewWithIconItem item = new TreeViewWithIconItem(GetID(), 0, "   " + renderer.name);
+
                 root.AddChild(item);
+
+                for (int j = 0; j < m_Variant.Renderers[i].materials.Length; j++)
+                {
+                    TreeViewItem materialItem = new VariantHierarchyViewItem(GetID(), 1, "Element " + j, m_Skin, renderer, j);
+                    item.AddChild(materialItem);
+                }
             }
 
             SetupDepthsFromParentsAndChildren(root);
@@ -35,13 +45,37 @@ namespace RF.AssetWizzard.Editor
 
         protected override void RowGUI(RowGUIArgs args)
         {
-            VariantHierarchyViewItem item = args.item as VariantHierarchyViewItem;
-            if (item != null) item.OnGUI(args.rowRect);
+            TreeViewWithIconItem item = args.item as TreeViewWithIconItem;
+
+            if (item.GetType() == typeof(VariantHierarchyViewItem))
+            {
+                float indent = GetContentIndent(item);
+                Rect itemRect = new Rect(args.rowRect.x + indent, args.rowRect.y, args.rowRect.width - indent, args.rowRect.height);
+                ((VariantHierarchyViewItem)item).OnGUI(itemRect);
+            }
+            else
+            {
+                args.rowRect = item.DrawIcon(args.rowRect, new Vector2(15, 0));
+            }
+
+            if (args.item.depth > 0)
+            {
+                args.label = "";
+            } 
+                
+            base.RowGUI(args);
         }
+
+        
 
         protected override bool CanMultiSelect(TreeViewItem item)
         {
             return false;
+        }
+
+        private int GetID()
+        {
+            return m_Id++;
         }
     }
 }

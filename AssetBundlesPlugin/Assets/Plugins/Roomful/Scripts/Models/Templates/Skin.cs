@@ -7,19 +7,14 @@ namespace RF.AssetWizzard
     {
         public Texture2D PreviewIcon { get; set; }
 
-        public readonly List<Material> Materials;
+        public readonly Dictionary<Renderer, List<Material>> MaterialDictionary;
 
         public string Name { get; private set; }
 
-        public Skin(string name, IEnumerable<Material> materials)
+        public Skin(string name, Dictionary<Renderer, List<Material>> materialDictionary)
         {
             Name = name;
-            Materials = new List<Material>(materials);
-        }
-
-        public Material GetMaterial(int index)
-        {
-            return Materials[index];
+            MaterialDictionary = new Dictionary<Renderer, List<Material>>(materialDictionary);
         }
     }
 }

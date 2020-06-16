@@ -10,6 +10,7 @@ namespace RF.AssetWizzard
         public readonly List<Renderer> Renderers;
 
         readonly List<Material> m_Materials;
+        public readonly Dictionary<Renderer, List<Material>> MaterialDictionary;
 
         public IEnumerable<Material> Materials
         {
@@ -22,11 +23,17 @@ namespace RF.AssetWizzard
         {
             Name = name;
             Renderers = new List<Renderer>(renderers);
+            MaterialDictionary = new Dictionary<Renderer, List<Material>>();
 
             m_Materials = new List<Material>();
             foreach (var renderer in Renderers)
             {
-                m_Materials.Add(renderer.sharedMaterial);
+                MaterialDictionary.Add(renderer, new List<Material>());
+                foreach(var material in renderer.sharedMaterials)
+                {
+                    m_Materials.Add(material);
+                    MaterialDictionary[renderer].Add(material);
+                }          
             }
         }
 
@@ -42,14 +49,12 @@ namespace RF.AssetWizzard
 
         public void ApplySkin(Skin skin)
         {
-            // OMG. Ya v ahue s etogo koda 0_o
-            // PLEASE, UNSEE *_*
-
-            int index = 0;
-            foreach (var renderer in Renderers)
+            foreach(var render in Renderers)
             {
-                renderer.material = skin.GetMaterial(index);
-                index++;
+                for(int i = 0; i < MaterialDictionary[render].Count; i++)
+                {
+                    render.sharedMaterials[i] = skin.MaterialDictionary[render][i];
+                }
             }
         }
 
