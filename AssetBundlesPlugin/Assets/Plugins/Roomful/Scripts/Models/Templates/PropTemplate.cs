@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RF.AssetWizzard {
-	
+
 	[Serializable]
 	public class PropTemplate : Template {
-		
+
         public const float MIN_ALLOWED_AXIS_SIZE = 0.5f;
-        public const float MAX_ALLOWED_AXIS_SIZE = 5f;
+        public const float MAX_ALLOWED_AXIS_SIZE = 50f;
 
 	    public List<ContentType> ContentTypes =  new List<ContentType>();
 	    public AssetSilhouette Silhouette;
