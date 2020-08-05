@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RF.AssetBundles.Serialization {
     [Serializable, RequireComponent(typeof(Collider))]
-    public class AnimationMarker : MonoBehaviour {
+    public class AnimationMarker : MonoBehaviour, IRecreatableOnLoad {
 
         public BoxCollider Collider;
         public string Key;

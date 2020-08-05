@@ -2,7 +2,7 @@
 
 namespace RF.AssetBundles.Serialization {
 
-    public class PropAssetSettings : MonoBehaviour {
+    public class PropAssetSettings : MonoBehaviour, IRecreatableOnLoad {
 
         public bool ShowAnimationsUI;
     }
