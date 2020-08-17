@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using RF.AssetBundles.Serialization;
 using UnityEngine;
 using UnityEditor;
 
@@ -117,6 +118,12 @@ namespace RF.AssetWizzard.Editor {
         static void AddAnchor() {
             Selection.activeGameObject.AddComponent<PropAnchor>();
         }
+        
+        [MenuItem("GameObject/Roomful/Add Component/Prop Asset Settings", false, 104)]
+        static void AddPropAssetSettings() {
+	        Selection.activeGameObject.AddComponent<PropAssetSettings>();
+        }
+
 
 
         [MenuItem("GameObject/Roomful/Add Component/Frame", false, 100)]
