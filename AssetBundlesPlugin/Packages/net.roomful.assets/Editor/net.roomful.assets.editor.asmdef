@@ -1,0 +1,16 @@
+{
+    "name": "net.roomful.assets.editor",
+    "references": [
+        "net.roomful.assets",
+        "StansAssets.Plugins.Editor",
+        "StansAssets.Foundation"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
