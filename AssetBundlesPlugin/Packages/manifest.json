@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "com.stansassets.foundation": "1.0.11",
-    "com.stansassets.plugins-dev-kit": "file:/Users/stan/Documents/StansAssets/com.stansassets.plugins-dev-kit/com.stansassets.plugins-dev-kit",
+    "com.stansassets.plugins-dev-kit": "0.0.5-preview",
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.2.3",
     "com.unity.collab-proxy": "1.2.15",

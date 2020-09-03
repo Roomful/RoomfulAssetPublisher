@@ -26,29 +26,23 @@ namespace RF.AssetWizzard.Editor {
 
 
         private static void OnSceneGUI(SceneView sceneView) {
-            
+
             if (Asset == null) { return; }
             m_sceneView = sceneView;
-
-           
 
             if (WindowX < 0) {
                 WindowX = 0;
             }
-
 
             float maxX = sceneView.position.width - m_windowRect.width;
             if (WindowX > maxX) {
                 WindowX = maxX;
             }
 
-
             m_position.x = WindowX;
             m_position.y = 20;
             m_windowRect = GUILayout.Window(WINDOW_ID, m_position, OnWindowGui, Asset.name, GUILayout.ExpandHeight(true));
             WindowX = m_windowRect.x;
-
-          
 
             if(m_isMouseOverIcon) {
                 m_ionRect = new Rect(
@@ -69,7 +63,7 @@ namespace RF.AssetWizzard.Editor {
         }
 
         public static void Repaint() {
-           
+
             SceneView.RepaintAll();
         }
 
@@ -83,9 +77,9 @@ namespace RF.AssetWizzard.Editor {
 
         private static bool s_useEditorCameraPosition = false;
         private static void OnWindowGui(int id) {
-           
+
             EditorGUILayout.LabelField("Icon: ", EditorStyles.boldLabel);
-           
+
             using (new IMGUIBeginHorizontal()) {
                 Asset.Icon = (Texture2D) EditorGUILayout.ObjectField(Asset.Icon, typeof(Texture2D), false, new GUILayoutOption[] { GUILayout.Width(70), GUILayout.Height(70) });
 
@@ -93,8 +87,6 @@ namespace RF.AssetWizzard.Editor {
                     var  lastRect = GUILayoutUtility.GetLastRect();
                     m_isMouseOverIcon = lastRect.Contains(Event.current.mousePosition);
                 }
-
-            
 
                 EditorGUILayout.Space();
                 using (new IMGUIBeginVertical()) {
@@ -104,24 +96,22 @@ namespace RF.AssetWizzard.Editor {
                     if (createIcon) {
                         PropAssetScreenshotTool.CreateIcon(s_useEditorCameraPosition, Asset);
                     }
-                }  
+                }
             }
-           
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Asset: ", EditorStyles.boldLabel);
-            
+
             EditorGUI.BeginChangeCheck();
-            
+
             using (new IMGUIBeginHorizontal()) {
                 Vector3 def = Asset.Size * 100f * Asset.Scale;
 
                 EditorGUILayout.LabelField("Size(mm): " + (int)def.x + "x" + (int)def.y + "x" + (int)def.z);
             }
-           
-            
+
             Asset.Scale =  EditorGUILayout.Slider(Asset.Scale, Asset.MinScale, Asset.MaxScale);
-           
+
             Asset.DisplayMode = (PropDisplayMode) EditorGUILayout.EnumPopup("Display Mode", Asset.DisplayMode);
 
             DrawGizmosSiwtch();
@@ -130,12 +120,10 @@ namespace RF.AssetWizzard.Editor {
             if(EditorGUI.EndChangeCheck()) {
                 Asset.Update();
             }
-             
-
+            float btnWidth = 80;
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Actions: ", EditorStyles.boldLabel);
 
-            float btnWidth = 80;
             if (Asset.GetTemplate().IsNew) {
                 bool upload = GUILayout.Button("Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
                 if (upload) {
@@ -160,11 +148,7 @@ namespace RF.AssetWizzard.Editor {
 
                 }
             }
-                
 
-
-               
-        
             using (new IMGUIBeginHorizontal()) {
                 bool wizzard = GUILayout.Button("Wizzard", EditorStyles.miniButton, GUILayout.Width(btnWidth));
                 if (wizzard) {
@@ -176,13 +160,12 @@ namespace RF.AssetWizzard.Editor {
                 if (create) {
                     PropWizzard.CreateProp();
                 }
+
+                if (GUILayout.Button("Variants", EditorStyles.miniButton, GUILayout.Width(btnWidth)))
+                {
+                    PropVariantsEditorWindow.Editor.Show();
+                }
             }
-
-
-            
-
-
-
 
             GUI.DragWindow(new Rect(0, 0, m_sceneView.position.width, m_sceneView.position.height));
         }
@@ -207,7 +190,7 @@ namespace RF.AssetWizzard.Editor {
             get {
                 if(m_asset == null) {
                     m_asset = FindObjectWithType<PropAsset>();
-                } 
+                }
                 return m_asset;
             }
         }
@@ -250,11 +233,11 @@ namespace RF.AssetWizzard.Editor {
 
                 if(m_propEditor == null) {
                     m_propEditor = UnityEditor.Editor.CreateEditor(Asset);
-                } 
+                }
                 return m_propEditor;
             }
 
-            
+
         }
     }
 }

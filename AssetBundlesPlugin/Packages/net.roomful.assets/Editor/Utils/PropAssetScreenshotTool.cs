@@ -42,6 +42,46 @@ namespace RF.AssetWizzard.Editor
             GameObject.DestroyImmediate(cameraHolder);
         }
 
+        public static void CreateIcon(bool useEditorCamera, PropAsset prop, Skin skin)
+        {
+
+            var savedLayer = prop.gameObject.layer;
+            const int screenShotLayer = 31;
+            SetLayerForAsset(screenShotLayer, prop);
+            var enviroment = EditorSceneManager.GetActiveScene().GetComponentInScene<Environment>();
+            var cameraHolder = new GameObject();
+            cameraHolder.transform.SetParent(enviroment.gameObject.transform);
+            var camera = cameraHolder.AddComponent<Camera>();
+
+
+            if (useEditorCamera)
+            {
+                var sceneView = SceneView.currentDrawingSceneView;
+                camera.transform.position = sceneView.camera.transform.position;
+                camera.transform.rotation = sceneView.camera.transform.rotation;
+            }
+            else
+            {
+                if (prop.Template.Placing == Placing.Floor)
+                {
+                    SetupCameraForFloorProp(prop.Template.Size, prop.gameObject.transform.position, camera);
+                }
+                else
+                {
+                    SetupCameraForWallProp(prop.Template.Size, prop.gameObject.transform.position, camera);
+                }
+            }
+
+            Texture2D whiteScreenshot = MakeScreenshotWithBackground(camera, Color.white, screenShotLayer);
+            Texture2D blackScreenshot = MakeScreenshotWithBackground(camera, Color.black, screenShotLayer);
+
+            Texture2D resultIcon = MakeTextureFromIntersection(whiteScreenshot, blackScreenshot);
+            skin.PreviewIcon = resultIcon;
+
+            SetLayerForAsset(savedLayer, prop);
+            GameObject.DestroyImmediate(cameraHolder);
+        }
+
         private static void SetLayerForAsset(int savedLayer, PropAsset prop) {
             foreach (Transform trans in prop.gameObject.GetComponentsInChildren<Transform>(true)) {
                 trans.gameObject.layer = savedLayer;

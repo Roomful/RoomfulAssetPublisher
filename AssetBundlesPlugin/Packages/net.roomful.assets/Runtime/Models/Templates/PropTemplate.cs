@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using StansAssets.Foundation;
+using System.Text;
 using UnityEngine;
 
 namespace RF.AssetWizzard {
@@ -22,6 +23,9 @@ namespace RF.AssetWizzard {
 		public Vector3 Size =  Vector3.one;
         protected float m_minSize = MIN_ALLOWED_AXIS_SIZE;
         protected float m_maxSize = MAX_ALLOWED_AXIS_SIZE;
+
+        protected List<PropVariant> m_Variants = new List<PropVariant>();
+        protected Dictionary<Renderer, PropVariant> m_VariantByRenderer = new Dictionary<Renderer, PropVariant>();
 
         public PropTemplate():base() {}
         public PropTemplate(string data) : base(data) { }
@@ -75,6 +79,117 @@ namespace RF.AssetWizzard {
 			Size.z = sizeData.GetValue<float> ("z");
 		}
 
+		public bool ValidateVariantCreate(IEnumerable<GameObject> gameObjects)
+        {
+			List<Renderer> usedRenderers = new List<Renderer>();
+			List<Renderer> renderers = new List<Renderer>();
+			foreach (var go in gameObjects)
+			{
+				Renderer renderer = go.GetComponent<Renderer>();
+				if (renderer != null)
+				{
+					if (HasVariantForRenderer(renderer))
+					{
+						usedRenderers.Add(renderer);
+					}
+					else
+					{
+						renderers.Add(renderer);
+					}
+				}
+			}
+
+			if (usedRenderers.Count > 0)
+			{
+				StringBuilder builder = new StringBuilder();
+				builder.AppendLine("Can't create Variant for Selected Renderers collection!");
+				builder.AppendLine("Renderers:");
+				foreach (var r in usedRenderers)
+				{
+					builder.AppendLine(r.name);
+				}
+				builder.AppendLine("already in use!");
+				Debug.LogWarning(builder.ToString());
+				return false;
+			}
+
+			if (renderers.Count == 0)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public bool TryCreateVariant(IEnumerable<GameObject> gameObjects, out PropVariant variant, string name)
+		{
+			variant = null;
+
+			List<Renderer> usedRenderers = new List<Renderer>();
+			List<Renderer> renderers = new List<Renderer>();
+			foreach (var go in gameObjects)
+			{
+				Renderer renderer = go.GetComponent<Renderer>();
+				if (renderer != null)
+				{
+					if (HasVariantForRenderer(renderer))
+					{
+						usedRenderers.Add(renderer);
+					}
+					else
+					{
+						renderers.Add(renderer);
+					}
+				}
+			}
+
+			if (usedRenderers.Count > 0)
+			{
+				StringBuilder builder = new StringBuilder();
+				builder.AppendLine("Can't create Variant for Selected Renderers collection!");
+				builder.AppendLine("Renderers:");
+				foreach (var r in usedRenderers)
+				{
+					builder.AppendLine(r.name);
+				}
+				builder.AppendLine("already in use!");
+				Debug.LogWarning(builder.ToString());
+				return false;
+			}
+
+			if (renderers.Count == 0)
+			{
+				return false;
+			}
+
+			variant = new PropVariant(name, renderers);
+			foreach (var renderer in renderers)
+			{
+				m_VariantByRenderer[renderer] = variant;
+			}
+
+			return true;
+		}
+
+		public bool HasVariantForRenderer(Renderer renderer)
+		{
+			return m_VariantByRenderer.ContainsKey(renderer);
+		}
+
+		public void AddVariant(PropVariant variant)
+		{
+			m_Variants.Add(variant);
+		}
+
+		public void RemoveVariant(PropVariant variant)
+		{
+			foreach (var renderer in variant.Renderers)
+			{
+				m_VariantByRenderer.Remove(renderer);
+			}
+			m_Variants.Remove(variant);
+		}
+
         public float MinSize {
             get {
                 return m_minSize;
@@ -94,5 +209,13 @@ namespace RF.AssetWizzard {
                 m_maxSize = value;
             }
         }
-    }
+
+        public IEnumerable<PropVariant> Variants
+        {
+	        get
+	        {
+		        return m_Variants;
+	        }
+        }
+	}
 }
