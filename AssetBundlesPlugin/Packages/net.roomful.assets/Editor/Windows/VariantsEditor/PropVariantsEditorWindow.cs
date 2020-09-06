@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System;
-using SA.Foundation.Editor;
+using StansAssets.Plugins.Editor;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -91,13 +91,13 @@ namespace RF.AssetWizzard.Editor
                 return;
             }
 
-            using (new SA_GuiBeginHorizontal())
+            using (new IMGUIBeginHorizontal())
             {
                 Rect rect = new Rect(0.0f, 0.0f, 300.0f, Screen.height);
                 GUILayout.BeginArea(rect);
                 GUI.Box(rect, GUIContent.none, WizardWindow.Constants.settingsBox);
 
-                using (new SA_GuiBeginHorizontal())
+                using (new IMGUIBeginHorizontal())
                 {
                     GUILayout.Label("Variants:", WizardWindow.Constants.settingsBoxTitle);
 
@@ -146,13 +146,13 @@ namespace RF.AssetWizzard.Editor
                     }
                 }
 
-                using (new SA_GuiBeginHorizontal())
+                using (new IMGUIBeginHorizontal())
                 {
                     GUILayout.Space(1.0f);
                     m_VariantsScrollPos = GUILayout.BeginScrollView(m_VariantsScrollPos, GUILayout.Height(Screen.height - 39.0f));
                     foreach (var variant in Asset.Template.Variants)
                     {
-                        using (new SA_GuiBeginHorizontal())
+                        using (new IMGUIBeginHorizontal())
                         {
                             GUIContent variantLabel = new GUIContent(variant.Name);
                             Rect r = GUILayoutUtility.GetRect(variantLabel, VariantTitle, GUILayout.ExpandWidth(true));
@@ -190,15 +190,15 @@ namespace RF.AssetWizzard.Editor
                 if (m_SelectedVariant != null)
                 {
 
-                    using (new SA_GuiBeginHorizontal())
+                    using (new IMGUIBeginHorizontal())
                     {
                         GUILayout.Label(m_SelectedVariant.Name, HeaderLabel, GUILayout.Width(200.0f));
                         GUILayout.FlexibleSpace();
 
-                        using (new SA_GuiBeginVertical())
+                        using (new IMGUIBeginVertical())
                         {
                             GUILayout.Space(3.0f);
-                            using (new SA_GuiBeginHorizontal(GUILayout.Width(80.0f)))
+                            using (new IMGUIBeginHorizontal(GUILayout.Width(80.0f)))
                             {
                                 if (GUILayout.Button("Remove", EditorStyles.miniButton, GUILayout.Width(80.0f)))
                                 {
@@ -220,7 +220,7 @@ namespace RF.AssetWizzard.Editor
 
                     GUILayout.Label("Prop Variant Info");
 
-                    using (new SA_GuiBeginHorizontal())
+                    using (new IMGUIBeginHorizontal())
                     {
                         GUILayout.Label("Skins:", WizardWindow.Constants.settingsBoxTitle);
 
@@ -239,7 +239,7 @@ namespace RF.AssetWizzard.Editor
                     }
 
                     GUILayout.Space(1.0f);
-                    using (new SA_GuiBeginHorizontal())
+                    using (new IMGUIBeginHorizontal())
                     {
                         GUILayout.Space(1.0f);
 
@@ -247,7 +247,7 @@ namespace RF.AssetWizzard.Editor
                         if (m_SelectedVariant != null)
                             foreach (var skin in m_SelectedVariant.Skins)
                             {
-                                using (new SA_GuiBeginHorizontal())
+                                using (new IMGUIBeginHorizontal())
                                 {
                                     if (GUILayout.Toggle(m_SelectedSkin == skin, skin.Name, WizardWindow.Constants.keysElement))
                                     {
@@ -269,15 +269,15 @@ namespace RF.AssetWizzard.Editor
 
                 if (m_SelectedSkin != null && m_SelectedVariant != null)
                 {
-                    using (new SA_GuiBeginHorizontal())
+                    using (new IMGUIBeginHorizontal())
                     {
                         GUILayout.Label(m_SelectedSkin.Name, HeaderLabel, GUILayout.Width(200.0f));
                         GUILayout.FlexibleSpace();
-
-                        using (new SA_GuiBeginVertical())
+                        
+                        using (new IMGUIBeginVertical())
                         {
                             GUILayout.Space(3.0f);
-                            using (new SA_GuiBeginHorizontal(GUILayout.Width(100.0f)))
+                            using (new IMGUIBeginHorizontal(GUILayout.Width(100.0f)))
                             {
                                 if (GUILayout.Button("Apply", EditorStyles.miniButton, GUILayout.Width(80.0f)))
                                 {
@@ -299,11 +299,11 @@ namespace RF.AssetWizzard.Editor
                         }
                     }
 
-                    using (new SA_GuiBeginHorizontal())
+                    using (new IMGUIBeginHorizontal())
                     {
                         const float previewWidth = 100.0f;
                         float width = localRect.width - previewWidth - 15.0f;
-                        using (new SA_GuiBeginVertical(GUILayout.Width(width)))
+                        using (new IMGUIBeginVertical(GUILayout.Width(width)))
                         {
                             GUILayout.Label("Prop Skin Info");
                             if (GUILayout.Button("Reload Preview Icon", EditorStyles.miniButton, GUILayout.Width(180.0f)))
@@ -315,7 +315,7 @@ namespace RF.AssetWizzard.Editor
                         GUILayout.FlexibleSpace();
                         
 
-                        using (new SA_GuiBeginVertical(GUILayout.Width(previewWidth)))
+                        using (new IMGUIBeginVertical(GUILayout.Width(previewWidth)))
                         {
                             EditorGUILayout.LabelField("Preview Icon: ", EditorStyles.boldLabel);
                             m_SelectedSkin.PreviewIcon = (Texture2D)EditorGUILayout.ObjectField(m_SelectedSkin.PreviewIcon,

@@ -2,11 +2,11 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace RF.AssetWizzard.Editor {
-
+namespace RF.AssetWizzard.Editor
+{
     [InitializeOnLoad]
-    public static class SceneViewOptionsWindow  {
-
+    public static class SceneViewOptionsWindow
+    {
         private static int WINDOW_ID = 5162389;
         private static int WINDOW_TEX_ID = 6162389;
         private static SceneView m_sceneView;
@@ -21,13 +21,16 @@ namespace RF.AssetWizzard.Editor {
         private static PropAsset m_asset = null;
 
         static SceneViewOptionsWindow() {
+#if UNITY_2019_4_OR_NEWER
+            SceneView.duringSceneGui += OnSceneGUI;
+#else
             SceneView.onSceneGUIDelegate += OnSceneGUI;
+#endif
         }
 
-
         private static void OnSceneGUI(SceneView sceneView) {
-
             if (Asset == null) { return; }
+
             m_sceneView = sceneView;
 
             if (WindowX < 0) {
@@ -44,26 +47,24 @@ namespace RF.AssetWizzard.Editor {
             m_windowRect = GUILayout.Window(WINDOW_ID, m_position, OnWindowGui, Asset.name, GUILayout.ExpandHeight(true));
             WindowX = m_windowRect.x;
 
-            if(m_isMouseOverIcon) {
+            if (m_isMouseOverIcon) {
                 m_ionRect = new Rect(
-                            Event.current.mousePosition.x + 20,
-                        Event.current.mousePosition.y + 40,
-                        Asset.Icon.width,
-                        Asset.Icon.height + 20);
+                    Event.current.mousePosition.x + 20,
+                    Event.current.mousePosition.y + 40,
+                    Asset.Icon.width,
+                    Asset.Icon.height + 20);
 
                 GUI.Window(WINDOW_TEX_ID, m_ionRect, OnTExtureWindowGui, "Asset Icon");
-
             }
 
             if (Event.current.type == EventType.Repaint) {
-                if(m_windowRect.Contains(Event.current.mousePosition)) {
+                if (m_windowRect.Contains(Event.current.mousePosition)) {
                     Repaint();
                 }
             }
         }
 
         public static void Repaint() {
-
             SceneView.RepaintAll();
         }
 
@@ -72,19 +73,19 @@ namespace RF.AssetWizzard.Editor {
             rect.x = 0;
             rect.y = 20;
             rect.height -= 20;
-            GUI.DrawTexture(rect,  Asset.Icon);
+            GUI.DrawTexture(rect, Asset.Icon);
         }
 
         private static bool s_useEditorCameraPosition = false;
-        private static void OnWindowGui(int id) {
 
+        private static void OnWindowGui(int id) {
             EditorGUILayout.LabelField("Icon: ", EditorStyles.boldLabel);
 
             using (new IMGUIBeginHorizontal()) {
-                Asset.Icon = (Texture2D) EditorGUILayout.ObjectField(Asset.Icon, typeof(Texture2D), false, new GUILayoutOption[] { GUILayout.Width(70), GUILayout.Height(70) });
+                Asset.Icon = (Texture2D)EditorGUILayout.ObjectField(Asset.Icon, typeof(Texture2D), false, new GUILayoutOption[] { GUILayout.Width(70), GUILayout.Height(70) });
 
                 if (Event.current.type == EventType.Repaint) {
-                    var  lastRect = GUILayoutUtility.GetLastRect();
+                    var lastRect = GUILayoutUtility.GetLastRect();
                     m_isMouseOverIcon = lastRect.Contains(Event.current.mousePosition);
                 }
 
@@ -110,16 +111,17 @@ namespace RF.AssetWizzard.Editor {
                 EditorGUILayout.LabelField("Size(mm): " + (int)def.x + "x" + (int)def.y + "x" + (int)def.z);
             }
 
-            Asset.Scale =  EditorGUILayout.Slider(Asset.Scale, Asset.MinScale, Asset.MaxScale);
+            Asset.Scale = EditorGUILayout.Slider(Asset.Scale, Asset.MinScale, Asset.MaxScale);
 
-            Asset.DisplayMode = (PropDisplayMode) EditorGUILayout.EnumPopup("Display Mode", Asset.DisplayMode);
+            Asset.DisplayMode = (PropDisplayMode)EditorGUILayout.EnumPopup("Display Mode", Asset.DisplayMode);
 
             DrawGizmosSiwtch();
             DrawEnvironmentSiwtch();
 
-            if(EditorGUI.EndChangeCheck()) {
+            if (EditorGUI.EndChangeCheck()) {
                 Asset.Update();
             }
+
             float btnWidth = 80;
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Actions: ", EditorStyles.boldLabel);
@@ -129,7 +131,8 @@ namespace RF.AssetWizzard.Editor {
                 if (upload) {
                     PropWizzard.UploadProp(Asset);
                 }
-            } else {
+            }
+            else {
                 using (new IMGUIBeginHorizontal()) {
                     bool upload = GUILayout.Button("Re-Upload", EditorStyles.miniButton, GUILayout.Width(btnWidth));
                     if (upload) {
@@ -145,7 +148,6 @@ namespace RF.AssetWizzard.Editor {
                     if (refresh) {
                         PropWizzard.DownloadProp(Asset.Template);
                     }
-
                 }
             }
 
@@ -161,15 +163,13 @@ namespace RF.AssetWizzard.Editor {
                     PropWizzard.CreateProp();
                 }
 
-                if (GUILayout.Button("Variants", EditorStyles.miniButton, GUILayout.Width(btnWidth)))
-                {
+                if (GUILayout.Button("Variants", EditorStyles.miniButton, GUILayout.Width(btnWidth))) {
                     PropVariantsEditorWindow.Editor.Show();
                 }
             }
 
             GUI.DragWindow(new Rect(0, 0, m_sceneView.position.width, m_sceneView.position.height));
         }
-
 
         public static void DrawEnvironmentSiwtch() {
             Environment env = GameObject.FindObjectOfType<Environment>();
@@ -188,13 +188,13 @@ namespace RF.AssetWizzard.Editor {
 
         private static PropAsset Asset {
             get {
-                if(m_asset == null) {
+                if (m_asset == null) {
                     m_asset = FindObjectWithType<PropAsset>();
                 }
+
                 return m_asset;
             }
         }
-
 
         private static T FindObjectWithType<T>() {
             var allFindedObjects = Resources.FindObjectsOfTypeAll(typeof(GameObject));
@@ -205,6 +205,7 @@ namespace RF.AssetWizzard.Editor {
                     return target;
                 }
             }
+
             return default(T);
         }
 
@@ -213,7 +214,8 @@ namespace RF.AssetWizzard.Editor {
                 string key = "SceneViewOptionsWindow_WindowX";
                 if (EditorPrefs.HasKey(key)) {
                     return EditorPrefs.GetFloat(key);
-                } else {
+                }
+                else {
                     return 0f;
                 }
             }
@@ -226,18 +228,16 @@ namespace RF.AssetWizzard.Editor {
 
         public static UnityEditor.Editor PropEditor {
             get {
-
-                if(m_propEditor != null && m_propEditor.target != Asset) {
+                if (m_propEditor != null && m_propEditor.target != Asset) {
                     m_propEditor = null;
                 }
 
-                if(m_propEditor == null) {
+                if (m_propEditor == null) {
                     m_propEditor = UnityEditor.Editor.CreateEditor(Asset);
                 }
+
                 return m_propEditor;
             }
-
-
         }
     }
 }

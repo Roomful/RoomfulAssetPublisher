@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
-using SA.Foundation.Editor;
+using StansAssets.Plugins.Editor;
 
 namespace RF.AssetWizzard.Editor
 {
@@ -25,7 +25,7 @@ namespace RF.AssetWizzard.Editor
 						break;
 				}
 			}
-			using (new SA_GuiBeginHorizontal())
+			using (new IMGUIBeginHorizontal())
 			{
 				GUIContent headerContent = new GUIContent("Enter variant name");
 				GUILayout.FlexibleSpace();
@@ -33,7 +33,7 @@ namespace RF.AssetWizzard.Editor
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.Space(15f);
-			using (new SA_GuiBeginHorizontal())
+			using (new IMGUIBeginHorizontal())
 			{
 				GUILayout.FlexibleSpace();
 				GUI.SetNextControlName(m_Name);
@@ -46,7 +46,7 @@ namespace RF.AssetWizzard.Editor
 				}
 			}
 			GUILayout.Space(25f);
-			using (new SA_GuiBeginHorizontal())
+			using (new IMGUIBeginHorizontal())
 			{
 				GUILayout.FlexibleSpace();
 				bool cancel = GUILayout.Button("Cancel", EditorStyles.miniButton, new GUILayoutOption[] { GUILayout.Width(100) });
