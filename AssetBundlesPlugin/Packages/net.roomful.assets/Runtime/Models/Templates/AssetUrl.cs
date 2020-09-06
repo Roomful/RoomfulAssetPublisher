@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 	[Serializable]
 	public class AssetUrl  {
 

@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine.Networking;
 
 
-namespace RF.AssetWizzard.Network
+namespace net.roomful.assets.Network
 {
 
 

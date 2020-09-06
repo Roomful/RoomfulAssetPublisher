@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 	public class EnvironmentCollector : BaseCollector {
 
 		public override void Run(IAsset asset) {
 			
-			foreach (SerializedEnviromnent e in asset.gameObject.GetComponentsInChildren<SerializedEnviromnent>(true)) {
+			foreach (SerializedEnvironment e in asset.gameObject.GetComponentsInChildren<SerializedEnvironment>(true)) {
 				if(e.ReflectionCubemapFileData  != null && e.ReflectionCubemapFileData.Length > 0) {
                     e.ReflectionCubemap = null;
                     string path = AssetDatabase.SaveCubemapAsset(asset, e);

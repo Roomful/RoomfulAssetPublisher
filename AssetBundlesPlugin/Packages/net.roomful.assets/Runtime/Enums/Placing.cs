@@ -1,4 +1,4 @@
-﻿namespace RF.AssetWizzard
+﻿namespace net.roomful.assets
 {
     public enum Placing
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RF.AssetBundles.Serialization {
+namespace net.roomful.assets.serialization {
 
     public interface IVideoTexturePlugin {
         void Init();

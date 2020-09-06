@@ -5,7 +5,7 @@ using Rotorz.ReorderableList;
 using UnityEditor.SceneManagement;
 
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
     public abstract class AssetWizzard<A> : WizzardUIComponent, IAssetWizzard where A : IAsset {

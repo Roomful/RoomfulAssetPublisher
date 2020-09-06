@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 
 	public interface IPropComponent  {
 

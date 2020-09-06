@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace RF.AssetWizzard
+namespace net.roomful.assets
 {
     public static class AssetHierarchySettings
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
     [Serializable]
     public class BatchUploadServiceConfig {
         public string state;

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using RF.AssetWizzard.Network.Request;
+using net.roomful.assets.Network.Request;
 using StansAssets.Foundation;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
     public class GetAllPropsWithIds {
         private Action<List<PropTemplate>> m_callback;
         private List<PropTemplate> m_templates = new List<PropTemplate>();

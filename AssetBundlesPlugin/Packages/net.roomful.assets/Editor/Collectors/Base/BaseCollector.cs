@@ -1,6 +1,6 @@
-﻿using RF.AssetWizzard.Editor;
+﻿using net.roomful.assets.Editor;
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
     public abstract class BaseCollector: ICollector {
         public abstract void Run(IAsset asset);
 

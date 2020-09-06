@@ -60,3 +60,6 @@ AssetBundlesPlugin/.vs/
 AssetBundlesPlugin/.idea/
 AssetBundlesPlugin/Assets/Plugins/Editor/JetBrains.meta
 AssetBundlesPlugin/Assets/Plugins/Editor/JetBrains/
+AssetBundlesPlugin/net.roomful.assets.csproj
+AssetBundlesPlugin/net.roomful.assets.editor.csproj
+AssetBundlesPlugin/net.roomful.assets.tests.csproj

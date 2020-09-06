@@ -5,7 +5,7 @@ using UnityEditor;
 
 
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 
 	[CustomEditor(typeof(PropAsset))]
 	public class PropAssetInspector : AssetInspector<PropTemplate, PropAsset>

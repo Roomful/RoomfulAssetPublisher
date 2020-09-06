@@ -6,7 +6,7 @@ using SA.Foundation.Time;
 using StansAssets.Foundation;
 
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 
 	[Serializable]
 	public class Resource {
@@ -177,10 +177,10 @@ namespace RF.AssetWizzard {
                 return;
 			}
 
-			var getAssetUrl = new RF.AssetWizzard.Network.Request.GetResourceUrl (Id);
+			var getAssetUrl = new net.roomful.assets.Network.Request.GetResourceUrl (Id);
 			getAssetUrl.PackageCallbackText = (assetUrl) => {
 
-				var loadThumbnail = new RF.AssetWizzard.Network.Request.DownloadIcon (assetUrl);
+				var loadThumbnail = new net.roomful.assets.Network.Request.DownloadIcon (assetUrl);
 				loadThumbnail.PackageCallbackData = (data) => {
 
 					Texture2D texture = new Texture2D (2, 2);

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using RF.AssetWizzard.Network.Request;
+using net.roomful.assets.Network.Request;
 using System;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     public abstract class BundleManager<T, A> : IBundleManager  where T : Template where A : IAsset
     {
@@ -47,11 +47,11 @@ namespace RF.AssetWizzard.Editor
         private void UploadThumbnail(A asset, Action<Template> callback) {
             var template = asset.GetTemplate();
             EditorProgressBar.AddProgress(template.Title, "Requesting Thumbnail Upload Link", 0.1f);
-            var getIconUploadLink = new RF.AssetWizzard.Network.Request.GetUploadLink_Thumbnail(template.Id);
+            var getIconUploadLink = new net.roomful.assets.Network.Request.GetUploadLink_Thumbnail(template.Id);
             getIconUploadLink.PackageCallbackText = (linkCallback) => {
 
                 EditorProgressBar.AddProgress(template.Title, "Uploading Asset Thumbnail", 0.1f);
-                var uploadRequest = new RF.AssetWizzard.Network.Request.UploadAsset_Thumbnail(linkCallback, asset.GetIcon());
+                var uploadRequest = new net.roomful.assets.Network.Request.UploadAsset_Thumbnail(linkCallback, asset.GetIcon());
 
                 float currentUploadProgress = EditorProgressBar.UploadProgress;
                 uploadRequest.UploadProgress = (float progress) => {
@@ -190,10 +190,10 @@ namespace RF.AssetWizzard.Editor
 
                 string pl = EditorUserBuildSettings.activeBuildTarget.ToString();
 
-                GetAssetUrl getAssetUrl = new RF.AssetWizzard.Network.Request.GetAssetUrl(tpl.Id, pl);
+                GetAssetUrl getAssetUrl = new net.roomful.assets.Network.Request.GetAssetUrl(tpl.Id, pl);
                 getAssetUrl.PackageCallbackText = (assetUrl) => {
 
-                    DownloadAsset loadAsset = new RF.AssetWizzard.Network.Request.DownloadAsset(assetUrl);
+                    DownloadAsset loadAsset = new net.roomful.assets.Network.Request.DownloadAsset(assetUrl);
                     loadAsset.PackageCallbackData = (byte[] assetData) => {
 
                         WindowManager.Wizzard.SiwtchTab(WizardTabs.Wizzard);

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
     public static class EditorProgressBar

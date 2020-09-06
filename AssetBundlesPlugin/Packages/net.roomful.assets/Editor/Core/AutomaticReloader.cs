@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using StansAssets.Foundation;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 
     public class AutomaticReloader {
 
@@ -12,7 +12,7 @@ namespace RF.AssetWizzard.Editor {
             AssetBundlesSettings.Instance.LocalPropTemplates.Clear();
             IsInReUploadGrogress = true;
 
-            var allAssetsRequest = new RF.AssetWizzard.Network.Request.GetPropsList(0, 999, "");
+            var allAssetsRequest = new net.roomful.assets.Network.Request.GetPropsList(0, 999, "");
             allAssetsRequest.PackageCallbackText = (allAssetsCallback) => {
                 List<object> allAssetsList = Json.Deserialize(allAssetsCallback) as List<object>;
 

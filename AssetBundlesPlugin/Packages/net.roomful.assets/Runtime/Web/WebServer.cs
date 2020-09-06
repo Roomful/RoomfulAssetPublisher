@@ -10,7 +10,7 @@ using StansAssets.Foundation.Patterns;
 using UnityEngine.Networking;
 
 
-namespace RF.AssetWizzard.Network {
+namespace net.roomful.assets.Network {
 	public class WebServer : Singleton<WebServer> {
 		private static List<Request.BaseWebPackage> DelayedPackages =  new List<Request.BaseWebPackage>();
 

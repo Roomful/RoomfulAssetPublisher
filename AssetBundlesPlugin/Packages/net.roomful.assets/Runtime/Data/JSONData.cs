@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SA.Foundation.Time;
 using StansAssets.Foundation;
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 	
 	public class JSONData  {
 

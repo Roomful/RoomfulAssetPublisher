@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(PropTiledFrame))]
     public class TiledPropFrameEditor : UnityEditor.Editor {

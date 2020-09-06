@@ -4,7 +4,7 @@ using System.Text;
 using Models;
 using StansAssets.Foundation;
 
-namespace RF.AssetWizzard.Network.Request
+namespace net.roomful.assets.Network.Request
 {
     public abstract class BaseWebPackage
     {

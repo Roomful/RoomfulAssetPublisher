@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 using System;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 	
 	public class RendererCollector : BaseCollector {

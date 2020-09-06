@@ -3,7 +3,7 @@ using UnityEngine;
 
 // Copyright Roomful 2013-2019. All rights reserved.
 
-namespace RF.AssetBundles.Serialization {
+namespace net.roomful.assets.serialization {
     
     [Serializable]
     public class ContainerElement : MonoBehaviour, IRecreatableOnLoad {

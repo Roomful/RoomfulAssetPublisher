@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 	public class V1_ThumbnailsCollector : BaseCollector {
 

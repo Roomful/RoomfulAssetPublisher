@@ -1,37 +1,26 @@
 ﻿using UnityEngine;
 
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
-	public class ComponentsCollector : BaseCollector {
+    public class ComponentsCollector : BaseCollector {
 
-		public override void Run(IAsset asset) {
-
-            foreach (var component in asset.gameObject.GetComponentsInChildren<Component>()) {
-                Debug.Log(component);
-                if (component == null) {
-                    Debug.Log("We have null component");
-                    
-                }
-                Debug.Log(component.GetType());
-                Debug.Log(component.name);
-            }
-            
+        public override void Run(IAsset asset) {
             var scripts = asset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>(true);
             foreach (var script in scripts) {
                 CopySerializedComponent(script, script.gameObject);
                 GameObject.DestroyImmediate(script as Component);
             }
             foreach (var thumbnail in asset.gameObject.GetComponentsInChildren<SerializedThumbnail>()) {
-				thumbnail.gameObject.AddComponent<PropThumbnail> ();
-			}
-			foreach (var meshThumbnail in asset.gameObject.GetComponentsInChildren<SerializedMeshThumbnail>()) {
-				meshThumbnail.gameObject.AddComponent<PropMeshThumbnail> ();
-			}
-			foreach (var frame in asset.gameObject.GetComponentsInChildren<SerializedFrame>()) {
-				frame.gameObject.AddComponent<PropStretchedFrame> ();
-			}
+                thumbnail.gameObject.AddComponent<PropThumbnail> ();
+            }
+            foreach (var meshThumbnail in asset.gameObject.GetComponentsInChildren<SerializedMeshThumbnail>()) {
+                meshThumbnail.gameObject.AddComponent<PropMeshThumbnail> ();
+            }
+            foreach (var frame in asset.gameObject.GetComponentsInChildren<SerializedFrame>()) {
+                frame.gameObject.AddComponent<PropStretchedFrame> ();
+            }
             foreach (var frame in asset.gameObject.GetComponentsInChildren<SerializedTiledFrame>()) {
                 frame.gameObject.AddComponent<PropTiledFrame>();
             }

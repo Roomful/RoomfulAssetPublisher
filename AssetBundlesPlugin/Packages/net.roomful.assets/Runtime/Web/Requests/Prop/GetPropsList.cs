@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Network.Request {
+namespace net.roomful.assets.Network.Request {
 	public class GetPropsList : GetAssetsList
     {
         public const string RequestUrl = "/api/v0/asset/list";

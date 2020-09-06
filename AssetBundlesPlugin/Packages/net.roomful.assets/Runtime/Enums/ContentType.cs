@@ -1,6 +1,6 @@
 ﻿// Copyright Roomful 2013-2019. All rights reserved.
 
-namespace RF.AssetWizzard
+namespace net.roomful.assets
 {
     public enum ContentType
     {

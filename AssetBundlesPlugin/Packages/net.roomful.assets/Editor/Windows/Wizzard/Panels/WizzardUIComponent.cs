@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     public abstract class WizzardUIComponent  {
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(EnvironmentAsset))]
     public class EnvironmentAssetInspector : AssetInspector<EnvironmentTemplate, EnvironmentAsset>

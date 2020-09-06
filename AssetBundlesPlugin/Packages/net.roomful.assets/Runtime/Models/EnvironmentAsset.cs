@@ -6,9 +6,9 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard
+namespace net.roomful.assets
 {
 
     [ExecuteInEditMode]
@@ -97,12 +97,12 @@ namespace RF.AssetWizzard
         //--------------------------------------
 
 
-        public SerializedEnviromnent Settings {
+        public SerializedEnvironment Settings {
             get {
 
-                var settings = GetComponent<SerializedEnviromnent>();
+                var settings = GetComponent<SerializedEnvironment>();
                 if (settings == null) {
-                    settings = gameObject.AddComponent<SerializedEnviromnent>();
+                    settings = gameObject.AddComponent<SerializedEnvironment>();
                 }
 
             //    settings.hideFlags = HideFlags.HideInInspector;

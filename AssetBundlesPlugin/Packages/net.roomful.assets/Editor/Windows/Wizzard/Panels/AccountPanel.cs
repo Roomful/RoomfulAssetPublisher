@@ -4,7 +4,7 @@ using UnityEngine;
 using Rotorz.ReorderableList;
 using StansAssets.Foundation;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     public class AccountPanel : Panel
     {
@@ -49,7 +49,7 @@ namespace RF.AssetWizzard.Editor
                 if (string.IsNullOrEmpty(Mail) || string.IsNullOrEmpty(Password)) {
                     Debug.Log("Fill all inputs ");
                 } else {
-                    Network.Request.Signin signInRequest = new RF.AssetWizzard.Network.Request.Signin(Mail, Password);
+                    Network.Request.Signin signInRequest = new net.roomful.assets.Network.Request.Signin(Mail, Password);
 
                     signInRequest.PackageCallbackText = (signInCallback) => {
                         ParseSessionToken(signInCallback);

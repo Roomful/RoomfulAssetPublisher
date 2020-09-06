@@ -7,7 +7,7 @@ using Rotorz.ReorderableList;
 using StansAssets.Foundation;
 
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     public class PropWizzard : AssetWizzard<PropAsset>
     {

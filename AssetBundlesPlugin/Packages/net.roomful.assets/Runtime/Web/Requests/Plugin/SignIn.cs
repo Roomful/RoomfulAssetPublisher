@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RF.AssetWizzard.Network.Request {
+namespace net.roomful.assets.Network.Request {
 	public class Signin : BaseWebPackage  {
 
 		public const string PackUrl = "/auth/signin";

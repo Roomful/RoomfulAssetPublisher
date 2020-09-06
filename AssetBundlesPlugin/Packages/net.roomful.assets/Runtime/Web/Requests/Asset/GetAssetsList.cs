@@ -2,7 +2,7 @@
 using StansAssets.Foundation;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Network.Request
+namespace net.roomful.assets.Network.Request
 {
     public abstract class GetAssetsList : BaseWebPackage
     {

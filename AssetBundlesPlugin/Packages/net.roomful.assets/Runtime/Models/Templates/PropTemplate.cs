@@ -4,7 +4,7 @@ using StansAssets.Foundation;
 using System.Text;
 using UnityEngine;
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 
 	[Serializable]
 	public class PropTemplate : Template {

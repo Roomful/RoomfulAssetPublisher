@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace RF.AssetBundles.Serialization {
+namespace net.roomful.assets.serialization {
 
     [Serializable]
     public class VideoTexturePlugin : MonoBehaviour, IRecreatableOnLoad {

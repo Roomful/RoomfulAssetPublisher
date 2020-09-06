@@ -7,7 +7,7 @@ using UnityEditor;
 #endif
 
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 
 	public static class PrefabManager  {
 

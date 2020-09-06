@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
 
-namespace RF.AssetWizzard
+namespace net.roomful.assets
 {
     [System.Serializable]
     public class StylePanelMetadata {

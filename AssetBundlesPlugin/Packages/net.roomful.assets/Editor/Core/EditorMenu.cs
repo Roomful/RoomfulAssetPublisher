@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 using UnityEngine;
 using UnityEditor;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 	public static class EditorMenu {
 
 		//--------------------------------------
@@ -162,7 +162,7 @@ namespace RF.AssetWizzard.Editor {
 			}
 
 			if(valid) {
-                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedFloorMarker>();  
+                Selection.activeGameObject.AddComponent<net.roomful.assets.serialization.SerializedFloorMarker>();  
 			}
 		}
 
@@ -191,7 +191,7 @@ namespace RF.AssetWizzard.Editor {
 
 		[MenuItem("GameObject/Roomful/Add Component/Ignore Bounds", false, 103)]
 		static void IgnoreObjectBounds () {
-            Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedBoundsIgnoreMarker>();
+            Selection.activeGameObject.AddComponent<net.roomful.assets.serialization.SerializedBoundsIgnoreMarker>();
 		}
 
 
@@ -206,7 +206,7 @@ namespace RF.AssetWizzard.Editor {
                     return;
                 }
 
-                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedDisabledAreaMarker>();
+                Selection.activeGameObject.AddComponent<net.roomful.assets.serialization.SerializedDisabledAreaMarker>();
             }
 
         }
@@ -215,7 +215,7 @@ namespace RF.AssetWizzard.Editor {
         static void NoMirror() {
             bool valid = IsStyleGameobject();
             if (valid) {
-                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedNoMirrorMarker>();
+                Selection.activeGameObject.AddComponent<net.roomful.assets.serialization.SerializedNoMirrorMarker>();
             }
 
         }
@@ -224,7 +224,7 @@ namespace RF.AssetWizzard.Editor {
         static void FocusPointer() {
             bool valid = IsValidPropGameobject();
             if (valid) {
-                Selection.activeGameObject.AddComponent<RF.AssetBundles.Serialization.SerializedFocusPointer>();
+                Selection.activeGameObject.AddComponent<net.roomful.assets.serialization.SerializedFocusPointer>();
             }
 
         }

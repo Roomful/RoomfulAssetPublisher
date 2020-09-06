@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 	public class CreateEnvironmentWindow : EditorWindow {
 
 		private EnvironmentTemplate m_template = new EnvironmentTemplate();

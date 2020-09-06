@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 	public class V1_MarkersCollector : BaseCollector {
 
@@ -18,7 +18,7 @@ namespace RF.AssetWizzard.Editor
 
             Transform stands = propAsset.GetLayer("StandSurface");
             foreach (Transform tb in stands) {
-                tb.gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedFloorMarker>();
+                tb.gameObject.AddComponent<net.roomful.assets.serialization.SerializedFloorMarker>();
                 tb.transform.parent = propAsset.GetLayer(HierarchyLayers.Graphics);
             }
 
@@ -31,7 +31,7 @@ namespace RF.AssetWizzard.Editor
 
             Transform ignoredGpahics = propAsset.GetLayer("IgnoredGraphics");
             foreach (Transform tb in ignoredGpahics) {
-                tb.gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedBoundsIgnoreMarker>();
+                tb.gameObject.AddComponent<net.roomful.assets.serialization.SerializedBoundsIgnoreMarker>();
                 tb.transform.parent = propAsset.GetLayer(HierarchyLayers.Graphics);
             }
 

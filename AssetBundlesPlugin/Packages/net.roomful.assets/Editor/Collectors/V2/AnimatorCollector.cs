@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
 #endif
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
     public class AnimatorCollector : BaseCollector {
         public override void Run(IAsset asset) {
             SerializedAnimatorController[] animators = asset.gameObject.GetComponentsInChildren<SerializedAnimatorController>(true);

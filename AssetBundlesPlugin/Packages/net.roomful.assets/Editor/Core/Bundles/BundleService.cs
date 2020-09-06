@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
     [InitializeOnLoad]
     public static class BundleService {
 

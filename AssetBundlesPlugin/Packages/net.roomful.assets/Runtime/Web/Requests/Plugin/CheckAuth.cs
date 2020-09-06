@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RF.AssetWizzard.Network.Request {
+namespace net.roomful.assets.Network.Request {
     public class CheckAuth : BaseWebPackage  {
 
         public const string PackUrl = "/auth/check";

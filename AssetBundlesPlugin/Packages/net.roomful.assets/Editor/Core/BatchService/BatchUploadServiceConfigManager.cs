@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
     public class BatchUploadServiceConfigManager {
         private const string CONFIG_FILE_NAME = "batchUploadConfig.json"; 
         private static BatchUploadServiceConfig s_config;

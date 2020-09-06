@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 
 
 	[CustomPropertyDrawer(typeof(FontData), true)]

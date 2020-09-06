@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Network.Request {
+namespace net.roomful.assets.Network.Request {
 	public class DownloadAsset : BaseWebPackage {
 		
 		private const RequestMethods PackMethodName = RequestMethods.GET;

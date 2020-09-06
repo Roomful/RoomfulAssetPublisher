@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetWizzard.Network.Request;
+using net.roomful.assets.Network.Request;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     public class PropBundleManager : BundleManager<PropTemplate, PropAsset>
     {

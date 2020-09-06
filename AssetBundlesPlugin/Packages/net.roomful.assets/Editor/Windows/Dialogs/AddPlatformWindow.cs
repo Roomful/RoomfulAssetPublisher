@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 	public class AddPlatformWindow : EditorWindow {
 
 		public static event System.Action<UnityEditor.BuildTarget> NewPlatformAdded = delegate{};

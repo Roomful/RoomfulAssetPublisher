@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 
 	public class MeshSerializer {
 

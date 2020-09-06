@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
     public class EnvironmentList : AssetsList<EnvironmentTemplate>
@@ -39,10 +39,10 @@ namespace RF.AssetWizzard.Editor
                     break;
                 case SeartchRequestType.ByTag:
                     List<string> separatedTags = new List<string>(SeartchPattern.Split(','));
-                    listRequest = new RF.AssetWizzard.Network.Request.GetEnvironmentsList(LocalySavedTemplates.Count, 5, separatedTags);
+                    listRequest = new net.roomful.assets.Network.Request.GetEnvironmentsList(LocalySavedTemplates.Count, 5, separatedTags);
                     break;
                 case SeartchRequestType.ById:
-                    listRequest = new RF.AssetWizzard.Network.Request.GetEnvironmentsList(LocalySavedTemplates.Count, 5, string.Empty);
+                    listRequest = new net.roomful.assets.Network.Request.GetEnvironmentsList(LocalySavedTemplates.Count, 5, string.Empty);
                     listRequest.SetId(SeartchPattern);
                     break;
 

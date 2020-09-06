@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 using System.Text;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 	
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(RectTransform))]
@@ -88,7 +88,7 @@ namespace RF.AssetWizzard {
 
         public void PrepareForUpalod() {
 
-            var textInfo = gameObject.AddComponent<RF.AssetBundles.Serialization.SerializedText>();
+            var textInfo = gameObject.AddComponent<net.roomful.assets.serialization.SerializedText>();
             textInfo.PlaceHolderText = PlaceHolderText;
             textInfo.Color = Color;
 

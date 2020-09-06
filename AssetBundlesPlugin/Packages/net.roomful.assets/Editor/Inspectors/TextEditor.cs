@@ -5,7 +5,7 @@ using UnityEditor;
 
 
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 
 	[CanEditMultipleObjects, CustomEditor(typeof(RoomfulText))]
 	public class TextEditor : UnityEditor.Editor {

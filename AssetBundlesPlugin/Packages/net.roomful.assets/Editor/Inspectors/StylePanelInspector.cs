@@ -5,7 +5,7 @@ using UnityEditor;
 
 
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 
 	[CustomEditor(typeof(StylePanel))]
 	public class StylePanelInspector : UnityEditor.Editor

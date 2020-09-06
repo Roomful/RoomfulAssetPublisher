@@ -6,8 +6,8 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-using RF.AssetBundles.Serialization;
-namespace RF.AssetWizzard.Editor
+using net.roomful.assets.serialization;
+namespace net.roomful.assets.Editor
 { 
     public class AnimationCollector : BaseCollector {
         

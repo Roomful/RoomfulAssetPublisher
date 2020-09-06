@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetBundles.Serialization {
+namespace net.roomful.assets.serialization {
     [Serializable]
     public class DummyVideoTexturePlugin : MonoBehaviour, IVideoTexturePlugin {
         readonly List<Texture2D> m_Textures = new List<Texture2D>();

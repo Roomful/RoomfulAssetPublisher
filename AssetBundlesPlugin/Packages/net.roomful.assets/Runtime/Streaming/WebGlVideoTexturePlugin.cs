@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 #endif
 using UnityEngine;
 
-namespace RF.AssetBundles.Serialization {
+namespace net.roomful.assets.serialization {
     [Serializable]
     public class WebGlVideoTexturePlugin : MonoBehaviour, IVideoTexturePlugin {
 #if UNITY_WEBGL

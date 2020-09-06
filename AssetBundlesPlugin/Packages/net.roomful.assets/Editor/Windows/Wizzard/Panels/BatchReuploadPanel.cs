@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using RF.AssetWizzard.Network.Request;
+using net.roomful.assets.Network.Request;
 using UnityEditor;
 using UnityEngine;
 
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
     public class BatchReuploadPanel : Panel

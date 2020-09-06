@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 	
 	public static class GizmosDrawer {
 

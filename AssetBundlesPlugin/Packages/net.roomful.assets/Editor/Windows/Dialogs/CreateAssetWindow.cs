@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 	public class CreateAssetWindow : EditorWindow {
 
 		private PropTemplate m_template = new PropTemplate();

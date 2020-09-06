@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEditor;
 
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
 
 	[CustomPropertyDrawer(typeof(TextContent))]
 	public class TextContentDrawer : PropertyDrawer {

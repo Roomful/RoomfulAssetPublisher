@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
 	public class V1_RendererCollector : BaseCollector {

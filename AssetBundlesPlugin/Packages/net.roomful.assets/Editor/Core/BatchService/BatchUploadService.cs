@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RF.AssetWizzard.Network.Request;
+using net.roomful.assets.Network.Request;
 using StansAssets.Foundation;
 using UnityEditor;
 using UnityEngine;
 using Application = UnityEngine.Application;
 
-namespace RF.AssetWizzard.Editor {
+namespace net.roomful.assets.Editor {
     public static class BatchUploadService {
         private static string RELATIVE_ASSETS_RESOURCES_LOCATION = "Batch Downloader Cache";
 

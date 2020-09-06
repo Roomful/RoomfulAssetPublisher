@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     public interface IBundleManager
     {

@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using StansAssets.Foundation;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
     public static class BundleUtility

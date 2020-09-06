@@ -5,7 +5,7 @@ using System;
 using SA.Foundation.Time;
 
 
-namespace RF.AssetWizzard
+namespace net.roomful.assets
 {
 
     [Serializable]

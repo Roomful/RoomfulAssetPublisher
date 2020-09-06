@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using Rotorz.ReorderableList;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
     public class WizzardPanel : Panel

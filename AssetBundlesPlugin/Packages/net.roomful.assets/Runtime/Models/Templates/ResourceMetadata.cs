@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-namespace RF.AssetWizzard {
+namespace net.roomful.assets {
 
 	[Serializable]
 	public class ResourceMetadata {

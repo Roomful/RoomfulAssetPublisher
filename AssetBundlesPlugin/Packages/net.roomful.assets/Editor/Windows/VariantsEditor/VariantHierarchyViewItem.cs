@@ -2,7 +2,7 @@
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
     public sealed class VariantHierarchyViewItem : TreeViewWithIconItem
     {

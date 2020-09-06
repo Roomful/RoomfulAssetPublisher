@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RF.AssetBundles.Serialization;
+using net.roomful.assets.serialization;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 	public class AssetDatabase {
 		private string m_pathRelativeAssetsFolder = "";
@@ -26,7 +26,7 @@ namespace RF.AssetWizzard.Editor
 			SaveFont (title, st.Font, st.FullFontName, st.FontFileContent);
 		}
 
-        public string SaveCubemapAsset(IAsset asset, SerializedEnviromnent e) {
+        public string SaveCubemapAsset(IAsset asset, SerializedEnvironment e) {
             
             string title = asset.GetTemplate().Title;
             ValidateBundleFolder(title);
@@ -86,7 +86,7 @@ namespace RF.AssetWizzard.Editor
 			return (Font)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(Font));
 		}
 
-        public Cubemap LoadCubemapAsset(IAsset asset, SerializedEnviromnent e) {
+        public Cubemap LoadCubemapAsset(IAsset asset, SerializedEnvironment e) {
             string fullPath = GetFullFilePath(typeof(Cubemap), asset.GetTemplate().Title, e.ReflectionCubemapFileName);
             return (Cubemap)UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(Cubemap));
         }

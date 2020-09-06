@@ -6,7 +6,7 @@ using UnityEditor;
 
 #endif
 
-namespace RF.AssetWizzard
+namespace net.roomful.assets
 {
 #if UNITY_EDITOR
     [InitializeOnLoad]

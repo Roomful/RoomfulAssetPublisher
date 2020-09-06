@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace RF.AssetWizzard
+namespace net.roomful.assets
 {
     public abstract class AbstractPropFrame : BaseComponent, IPropComponent
     {

@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using RF.AssetWizzard.Network;
+using net.roomful.assets.Network;
 using StansAssets.Foundation;
 
-namespace RF.AssetWizzard.Editor
+namespace net.roomful.assets.Editor
 {
 
     public abstract class AssetsList<T> : Panel where T : Template
@@ -23,7 +23,7 @@ namespace RF.AssetWizzard.Editor
 
         public AssetsList(EditorWindow window) : base(window) {}
         protected abstract void DrawAssetInfo();
-        protected abstract RF.AssetWizzard.Network.Request.GetAssetsList CreateAssetsListRequests();
+        protected abstract net.roomful.assets.Network.Request.GetAssetsList CreateAssetsListRequests();
         protected abstract List<T> LocalySavedTemplates { get; }
 
 
