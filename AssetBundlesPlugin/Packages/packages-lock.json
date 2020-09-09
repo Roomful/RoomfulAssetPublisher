@@ -2,7 +2,7 @@
   "dependencies": {
     "com.stansassets.foundation": {
       "version": "1.0.13",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://registry.npmjs.org"
@@ -116,6 +116,13 @@
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
+    },
+    "net.roomful.api": {
+      "version": "ssh://git@github.com/Roomful/net.roomful.api.git#1.0.35",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "12192821315caf8bb4d7b0a73eaf1f70c646b910"
     },
     "net.roomful.assets": {
       "version": "file:net.roomful.assets",

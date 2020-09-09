@@ -4,7 +4,7 @@ namespace net.roomful.assets {
 
 	public interface IPropComponent  {
 
-		void PrepareForUpalod();
+		void PrepareForUpload();
 		void RemoveSilhouette();
 
 		void Update();

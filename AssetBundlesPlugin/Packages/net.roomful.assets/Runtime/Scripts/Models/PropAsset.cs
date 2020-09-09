@@ -6,39 +6,26 @@ using StansAssets.Foundation.Extensions;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    public class PropAsset : Asset<PropTemplate>
+    public sealed class PropAsset : Asset<PropTemplate>
     {
-        public float Scale = 1f;
-
-        public bool IsInited = false;
-
-        public PropDisplayMode DisplayMode = PropDisplayMode.Normal;
-
+        [SerializeField] private float m_scale = 1f;
+        
         private Bounds m_bounds = new Bounds(Vector3.zero, Vector3.zero);
 
-        //--------------------------------------
-        // Initialization
-        //--------------------------------------
-
-        private void Awake() {
-            FinalVisualisation();
+        public float Scale {
+            get => m_scale;
+            set => m_scale = value;
         }
-
-        private void Start() {
-            if (!IsInited) { }
-
-            IsInited = true;
-        }
+        
         //--------------------------------------
         // Unity Editor
         //--------------------------------------
 
         public void Update() {
-            PreliminaryVisualisation();
-            CheckhHierarchy();
+            CheckHierarchy();
         }
 
-        protected virtual void OnDrawGizmos() {
+        private void OnDrawGizmos() {
             if (!DrawGizmos) {
                 return;
             }
@@ -66,18 +53,12 @@ namespace net.roomful.assets
 
         [ContextMenu("Prepare For Upload")]
         public override void PrepareForUpload() {
-            CleanUpSilhouette();
-
-            Scale = 1f;
-
+            m_scale = 1f;
             if (HasStandSurface) {
                 Template.CanStack = false;
             }
-
-            DisplayMode = PropDisplayMode.Normal;
-            DestroyImmediate(GetLayer(HierarchyLayers.Silhouette).gameObject);
-
-            PrepareCoponentsForUpload();
+            
+            PrepareComponentsForUpload();
         }
 
         public void Refresh() {
@@ -87,15 +68,12 @@ namespace net.roomful.assets
         public void SetTemplate(PropTemplate tpl) {
             _Template = tpl;
         }
+        
 
         public Transform GetLayer(HierarchyLayers layer) {
-            return GetLayer(layer.ToString());
-        }
-
-        public Transform GetLayer(string layer) {
-            var hLayer = Model.Find(layer);
+            var hLayer = Model.Find(layer.ToString());
             if (hLayer == null) {
-                var go = new GameObject(layer);
+                var go = new GameObject(layer.ToString());
                 go.transform.parent = Model;
                 go.transform.localPosition = Vector3.zero;
                 go.transform.localScale = Vector3.one;
@@ -111,7 +89,7 @@ namespace net.roomful.assets
         // Get / Set
         //--------------------------------------
 
-        public Transform Model {
+        private Transform Model {
             get {
                 var model = transform.Find("Model");
                 if (model == null) {
@@ -128,7 +106,7 @@ namespace net.roomful.assets
             }
         }
 
-        public Animator[] AnimatorControllers => GetComponentsInChildren<Animator>();
+        public IEnumerable<Animator> AnimatorControllers => GetComponentsInChildren<Animator>();
 
         public float MaxAxisValue {
             get {
@@ -137,7 +115,7 @@ namespace net.roomful.assets
             }
         }
 
-        public Vector3 Size => m_bounds.size / Scale;
+        public Vector3 Size => m_bounds.size / m_scale;
 
         public float MaxScale {
             get {
@@ -190,7 +168,6 @@ namespace net.roomful.assets
             get {
                 if (m_boundsManager == null) {
                     m_boundsManager = new PropBounds();
-                    m_boundsManager.SetSilhouetteLayer(GetLayer(HierarchyLayers.Silhouette));
                 }
 
                 return m_boundsManager;
@@ -202,53 +179,15 @@ namespace net.roomful.assets
         //--------------------------------------
         // Private Methods
         //--------------------------------------
-
-        private void PreliminaryVisualisation() {
-            foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
-                GetLayer(layer).gameObject.SetActive(true);
-            }
-
-            GetLayer(HierarchyLayers.Silhouette).gameObject.SetActive(false);
-        }
-
-        private void FinalVisualisation() {
-            foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
-                GetLayer(layer).gameObject.SetActive(true);
-
-                var silhouetteRenderers = GetLayer(HierarchyLayers.Silhouette).GetComponentsInChildren<Renderer>();
-                foreach (var r in silhouetteRenderers) {
-                    if (r.gameObject.GetComponent<SilhouetteCustomMaterial>() != null) {
-                        continue;
-                    }
-
-                    if (r.sharedMaterial != null) {
-                        r.sharedMaterial = new Material(Shader.Find("Roomful/Silhouette"));
-                    }
-                }
-            }
-
-            switch (DisplayMode) {
-                case PropDisplayMode.Normal:
-                    GetLayer(HierarchyLayers.Silhouette).gameObject.SetActive(false);
-                    break;
-                case PropDisplayMode.Silhouette:
-                    foreach (HierarchyLayers layer in System.Enum.GetValues(typeof(HierarchyLayers))) {
-                        if (layer != HierarchyLayers.Silhouette) {
-                            GetLayer(layer).gameObject.SetActive(false);
-                        }
-                    }
-
-                    break;
-            }
-        }
-
+        
+        
         private void UpdateBounds() {
             m_bounds = BoundsManager.Calculate(gameObject);
             Template.Size = m_bounds.size;
         }
 
-        protected override void CheckhHierarchy() {
-            base.CheckhHierarchy();
+        protected override void CheckHierarchy() {
+            base.CheckHierarchy();
 
             Model.Reset();
             Environment.transform.parent = null;
@@ -291,40 +230,32 @@ namespace net.roomful.assets
                 undefinedObjects.Add(child);
             }
 
-            if (DisplayMode == PropDisplayMode.Silhouette) {
-                foreach (var undefined in undefinedObjects) {
-                    undefined.SetParent(GetLayer(HierarchyLayers.Silhouette));
-                    undefined.localPosition = Vector3.zero;
-                }
-            }
-            else {
-                foreach (var undefined in undefinedObjects) {
-                    undefined.SetParent(GetLayer(HierarchyLayers.Graphics));
-                    undefined.localPosition = Vector3.zero;
-                }
+            foreach (var undefined in undefinedObjects) {
+                undefined.SetParent(GetLayer(HierarchyLayers.Graphics));
+                undefined.localPosition = Vector3.zero;
             }
 
-            transform.rotation = Quaternion.identity;
-            transform.localScale = Vector3.one * Scale;
+            var propTransform = transform;
+            propTransform.rotation = Quaternion.identity;
+            propTransform.localScale = Vector3.one * m_scale;
 
             if (Template.Placing == Placing.Floor) {
                 transform.position = Vector3.zero;
 
-                var rendererPoint = transform.GetVertex(SA_VertexX.Center, SA_VertexY.Bottom, SA_VertexZ.Center);
-                var diff = transform.position - rendererPoint;
-                transform.position += diff;
+                var rendererPoint = propTransform.GetVertex(SA_VertexX.Center, SA_VertexY.Bottom, SA_VertexZ.Center);
+                var diff = propTransform.position - rendererPoint;
+                propTransform.position += diff;
             }
 
             if (Template.Placing == Placing.Wall) {
-                transform.position = new Vector3(0, 1.5f, -1.5f);
+                propTransform.position = new Vector3(0, 1.5f, -1.5f);
 
                 var rendererPoint = transform.GetVertex(SA_VertexX.Center, SA_VertexY.Center, SA_VertexZ.Back);
-                var diff = transform.position - rendererPoint;
-                transform.position += diff;
+                var diff = propTransform.position - rendererPoint;
+                propTransform.position += diff;
             }
 
             UpdateBounds();
-            FinalVisualisation();
         }
     }
 }

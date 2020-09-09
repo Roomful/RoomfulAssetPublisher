@@ -102,8 +102,6 @@ namespace net.roomful.assets.Editor
 
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded() {
-            UnityEngine.Debug.Log("Scripts reloaded");
-
             foreach (var bundle in s_bundles) {
                 if (bundle.IsUploadInProgress) {
                     bundle.ResumeUpload();

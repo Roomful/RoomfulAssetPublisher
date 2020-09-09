@@ -13,7 +13,7 @@ namespace net.roomful.assets.Editor
                 return;
             }
 
-            var stands = propAsset.GetLayer("StandSurface");
+            var stands = propAsset.GetLayer(HierarchyLayers.StandSurface);
             foreach (Transform tb in stands) {
                 tb.gameObject.AddComponent<serialization.SerializedFloorMarker>();
                 tb.transform.parent = propAsset.GetLayer(HierarchyLayers.Graphics);
@@ -26,7 +26,7 @@ namespace net.roomful.assets.Editor
                 stands.parent = propAsset.GetLayer(HierarchyLayers.Graphics);
             }
 
-            var ignoredGpahics = propAsset.GetLayer("IgnoredGraphics");
+            var ignoredGpahics = propAsset.GetLayer(HierarchyLayers.IgnoredGraphics);
             foreach (Transform tb in ignoredGpahics) {
                 tb.gameObject.AddComponent<serialization.SerializedBoundsIgnoreMarker>();
                 tb.transform.parent = propAsset.GetLayer(HierarchyLayers.Graphics);

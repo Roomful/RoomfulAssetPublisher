@@ -50,11 +50,6 @@ namespace net.roomful.assets.Editor
                 return false;
             }
 
-            if (asset.GetLayer(HierarchyLayers.Silhouette).transform.childCount == 0) {
-                EditorUtility.DisplayDialog("Error", "Silhouette is empty! Please add some graphics!", "Ok");
-                return false;
-            }
-
             return true;
         }
 

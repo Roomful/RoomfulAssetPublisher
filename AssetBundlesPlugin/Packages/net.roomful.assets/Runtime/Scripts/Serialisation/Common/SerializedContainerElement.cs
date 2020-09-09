@@ -6,7 +6,7 @@ using UnityEngine;
 namespace net.roomful.assets.serialization {
     
     [Serializable]
-    public class ContainerElement : MonoBehaviour, IRecreatableOnLoad {
+    public class SerializedContainerElement : MonoBehaviour, IRecreatableOnLoad {
         public int ResourceIndex;
     }
 }

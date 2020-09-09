@@ -115,8 +115,7 @@ namespace net.roomful.assets.Editor
 
             Asset.Scale = EditorGUILayout.Slider(Asset.Scale, Asset.MinScale, Asset.MaxScale);
 
-            Asset.DisplayMode = (PropDisplayMode) EditorGUILayout.EnumPopup("Display Mode", Asset.DisplayMode);
-
+          
             DrawGizmosSiwtch();
             DrawEnvironmentSiwtch();
 

@@ -1,17 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using net.roomful.assets.serialization;
 
 namespace net.roomful.assets
 {
     public abstract class Asset<T> : MonoBehaviour, IAsset where T : Template, new()
     {
-
-        [SerializeField]
-        [HideInInspector]
         protected T _Template;
 
         public Texture2D Icon;
-        private bool m_drawGizmos = true;
 
         //--------------------------------------
         // Abstract Methods
@@ -36,7 +33,7 @@ namespace net.roomful.assets
         // Protected Methods
         //--------------------------------------
 
-        protected virtual void CheckhHierarchy() {
+        protected virtual void CheckHierarchy() {
             if (Icon == null) {
                 Icon = Template.Icon.Thumbnail;
             }
@@ -49,10 +46,10 @@ namespace net.roomful.assets
             }
         }
 
-        protected virtual void PrepareCoponentsForUpload() {
+        protected virtual void PrepareComponentsForUpload() {
 
             foreach (var c in Components) {
-                c.PrepareForUpalod();
+                c.PrepareForUpload();
             }
 
 
@@ -73,19 +70,19 @@ namespace net.roomful.assets
 
           
             var renderers = transform.GetComponentsInChildren<Renderer>();
-            foreach (var renderer in renderers) {
+            foreach (var rnd in renderers) {
                 try {
-                    if (renderer != null) {
-                        foreach (var mat in renderer.sharedMaterials) {
+                    if (rnd != null) {
+                        foreach (var mat in rnd.sharedMaterials) {
                             if (mat != null) {
-                                var md = renderer.gameObject.AddComponent<SerializedMaterial>();
+                                var md = rnd.gameObject.AddComponent<SerializedMaterial>();
                                 md.Serialize(mat);
                             }
                         }
-                        renderer.sharedMaterials = new Material[0];
+                        rnd.sharedMaterials = new Material[0];
                     }
                 } catch (System.Exception ex) {
-                    Debug.LogError("Failed to Serialize Material", renderer.gameObject);
+                    Debug.LogError("Failed to Serialize Material", rnd.gameObject);
                     Debug.LogError(ex.StackTrace);
                     throw (new System.Exception("Serialisation Failed"));
                 }
@@ -113,23 +110,11 @@ namespace net.roomful.assets
         // Get / Set
         //--------------------------------------
 
-        public T Template {
-            get {
-                if (_Template == null) {
-                    _Template = new T();
-                }
+        public T Template => _Template ?? (_Template = new T());
 
-                return _Template;
-            }
-        }
+        public bool DrawGizmos { get; set; } = true;
 
-        public bool DrawGizmos {
-            get => m_drawGizmos;
-
-            set => m_drawGizmos = value;
-        }
-
-        public IPropComponent[] Components => GetComponentsInChildren<IPropComponent>();
+        private IEnumerable<IPropComponent> Components => GetComponentsInChildren<IPropComponent>();
 
         public Component Component => this;
 

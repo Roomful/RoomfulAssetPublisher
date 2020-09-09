@@ -2,10 +2,6 @@
 
 public static class SA_Extensions_GameObject
 {
-    public static void Reset(this GameObject go) {
-        go.transform.Reset();
-    }
-
     //--------------------------------------
     // Bounds
     //--------------------------------------

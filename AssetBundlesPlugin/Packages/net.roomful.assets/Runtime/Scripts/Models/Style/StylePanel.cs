@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using net.roomful.assets.serialization;
-
+using StansAssets.Foundation.Extensions;
 
 namespace net.roomful.assets
 {

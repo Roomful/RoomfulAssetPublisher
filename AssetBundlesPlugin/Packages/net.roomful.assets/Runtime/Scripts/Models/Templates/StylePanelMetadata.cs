@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using net.roomful.api;
 using UnityEngine;
 
 using net.roomful.assets.serialization;

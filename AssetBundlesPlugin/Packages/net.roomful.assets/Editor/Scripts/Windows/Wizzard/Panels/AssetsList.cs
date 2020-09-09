@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using net.roomful.api;
 using UnityEditor;
 using UnityEngine;
 using StansAssets.Foundation;
+using Json = StansAssets.Foundation.Json;
 
 namespace net.roomful.assets.Editor
 {

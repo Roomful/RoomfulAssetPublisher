@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StansAssets.Foundation.Extensions;
+using UnityEngine;
 using UnityEditor;
 
 namespace net.roomful.assets.Editor

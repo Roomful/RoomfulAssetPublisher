@@ -3,8 +3,10 @@
     "references": [
         "net.roomful.assets",
         "StansAssets.Plugins.Editor",
-        "StansAssets.Foundation"
+        "StansAssets.Foundation",
+        "net.roomful.api"
     ],
+    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -13,7 +15,5 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+    "defineConstraints": []
 }

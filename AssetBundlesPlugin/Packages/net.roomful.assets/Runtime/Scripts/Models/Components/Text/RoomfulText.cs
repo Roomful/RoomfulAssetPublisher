@@ -84,7 +84,7 @@ namespace net.roomful.assets {
         }
 
 
-        public void PrepareForUpalod() {
+        public void PrepareForUpload() {
 
             var textInfo = gameObject.AddComponent<SerializedText>();
             textInfo.PlaceHolderText = PlaceHolderText;

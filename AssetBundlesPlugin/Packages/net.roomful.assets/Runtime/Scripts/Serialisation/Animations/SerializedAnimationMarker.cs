@@ -7,9 +7,14 @@ namespace net.roomful.assets.serialization {
     
     [Serializable]
     [RequireComponent(typeof(Collider))]
-    public class AnimationMarker : MonoBehaviour, IRecreatableOnLoad {
+    public class SerializedAnimationMarker : MonoBehaviour, IRecreatableOnLoad {
 
         public BoxCollider Collider;
         public string Key;
+        
+        
+        public bool IsHidden;
+        public Animator Animator { get; set; }
+
     }
 }

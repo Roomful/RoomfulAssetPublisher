@@ -32,15 +32,13 @@ namespace net.roomful.assets
                 Canvas.sharedMaterial.name = gameObject.name;
                 Canvas.sharedMaterial.mainTexture = Thumbnail;
             }
-
-            GenerateSilhouette();
         }
 
         //--------------------------------------
         // Public Methods
         //--------------------------------------
 
-        public void PrepareForUpalod() {
+        public void PrepareForUpload() {
             RemoveSilhouette();
             Canvas.sharedMaterial.mainTexture = null;
             DestroyImmediate(this);
@@ -76,20 +74,6 @@ namespace net.roomful.assets
         }
 
         public Priority UpdatePriority => Priority.High;
-
-        //--------------------------------------
-        // Private Methods
-        //--------------------------------------
-
-        private void GenerateSilhouette() {
-            Silhouette.Clear();
-
-            var canvasSilhouette = Instantiate(Canvas.gameObject);
-            canvasSilhouette.transform.parent = Silhouette;
-            canvasSilhouette.transform.Reset();
-            canvasSilhouette.transform.Clear();
-
-            canvasSilhouette.AddComponent<SilhouetteCustomMaterial>();
-        }
+        
     }
 }

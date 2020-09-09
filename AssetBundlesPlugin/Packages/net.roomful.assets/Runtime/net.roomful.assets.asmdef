@@ -1,7 +1,8 @@
 {
     "name": "net.roomful.assets",
     "references": [
-        "StansAssets.Foundation"
+        "StansAssets.Foundation",
+        "net.roomful.api"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

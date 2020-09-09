@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using StansAssets.Foundation;
 using System.Text;
+using net.roomful.api;
 using UnityEngine;
 
 namespace net.roomful.assets {

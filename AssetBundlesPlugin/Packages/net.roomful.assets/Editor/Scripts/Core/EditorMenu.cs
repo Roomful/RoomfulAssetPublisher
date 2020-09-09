@@ -7,63 +7,64 @@ namespace net.roomful.assets.Editor
 {
     public static class EditorMenu
     {
+        private const string MENU_ROOT = "Roomful/Assets/";
         //--------------------------------------
         //  Top Menu
         //--------------------------------------
 
-        [MenuItem("Roomful/Asset Wizzard &w", false, 100)]
-        public static void ShowWizzrd() {
+        [MenuItem(MENU_ROOT+ "Wizzard &w", false, 100)]
+        public static void ShowWizzard() {
             System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             WindowManager.ShowWizard();
         }
 
-        [MenuItem("Roomful/Create/Text &t", false, 0)]
-        public static void ShowWizzrd2() {
+        [MenuItem(MENU_ROOT+ "Create/Text &t", false, 0)]
+        public static void ShowWizzard2() {
             AddTextComponent();
         }
 
-        [MenuItem("Roomful/Create/Thumbnail &m", false, 1)]
-        public static void ShowWizzrd3() {
+        [MenuItem(MENU_ROOT+ "Create/Thumbnail", false, 1)]
+        public static void ShowWizzard3() {
             SetAsThumbnail();
         }
 
-        [MenuItem("Roomful/Add Component/Mesh Thumbnail &#m", false, 2)]
-        public static void ShowWizzrd5() {
+        [MenuItem(MENU_ROOT+ "Add Component/Mesh Thumbnail", false, 2)]
+        public static void ShowWizzard5() {
             MarkAsThumbnail();
         }
 
-        [MenuItem("Roomful/Add Component/Frame &#b", false, 3)]
-        public static void ShowWizzrd4() {
+        [MenuItem(MENU_ROOT+ "Add Component/Frame &#b", false, 3)]
+        public static void ShowWizzard4() {
             AddStretchedFrame();
         }
 
-        [MenuItem("Roomful/Add Component/Tiled Frame", false, 3)]
-        public static void ShowWizzrd9() {
+        [MenuItem(MENU_ROOT+ "Add Component/Tiled Frame", false, 3)]
+        public static void ShowWizzard9() {
             AddTiledFrame();
         }
 
-        [MenuItem("Roomful/Add Component/Floor &#f", false, 4)]
-        public static void ShowWizzrd6() {
+        [MenuItem(MENU_ROOT+ "Add Component/Floor &#f", false, 4)]
+        public static void ShowWizzard6() {
             MarkAsStand();
         }
 
-        [MenuItem("Roomful/Add Component/Ignore Bounds &#i", false, 5)]
-        public static void ShowWizzrd7() {
+        [MenuItem(MENU_ROOT+ "Add Component/Ignore Bounds &#i", false, 5)]
+        public static void ShowWizzard7() {
             IgnoreObjectBounds();
         }
 
-        [MenuItem("Roomful/Add Component/Placing Disabled &#d", false, 5)]
-        public static void ShowWizzrd77() {
+        [MenuItem(MENU_ROOT+ "Add Component/Placing Disabled &#d", false, 5)]
+        public static void ShowWizzard77() {
             PlacingDisabled();
         }
 
-        [MenuItem("Roomful/Add Component/No Mirror &#m", false, 5)]
-        public static void ShowWizzrd78() {
+        [MenuItem(MENU_ROOT+ "Add Component/No Mirror &#m", false, 5)]
+        public static void ShowWizzard78() {
             NoMirror();
         }
 
-        [MenuItem("Roomful/Add Component/Add Anchor &#a", false, 5)]
-        public static void ShowWizzrd8() {
+        [MenuItem(MENU_ROOT+ "Add Component/Add Anchor &#a", false, 5)]
+        public static void ShowWizzard8() {
             AddAnchor();
         }
 
@@ -71,8 +72,8 @@ namespace net.roomful.assets.Editor
         //  Context Menu
         //--------------------------------------
 
-        [MenuItem("GameObject/Roomful/Text", false, 0)]
-        static void AddTextComponent() {
+        [MenuItem("GameObject/Roomful Assets/Text", false, 0)]
+        private static void AddTextComponent() {
             var text = new GameObject("Text").AddComponent<RoomfulText>();
             text.RectTransform.sizeDelta = new Vector2(1f, 1f / 5f);
 
@@ -81,38 +82,38 @@ namespace net.roomful.assets.Editor
             Selection.activeObject = text.gameObject;
         }
 
-        [MenuItem("GameObject/Roomful/Thumbnail", false, 1)]
-        static void SetAsThumbnail() {
-            var Thumbnail = new GameObject("Thumbnail");
-            Thumbnail.AddComponent<PropThumbnail>();
-            Thumbnail.transform.localScale = Vector3.one * 1.5f;
+        [MenuItem("GameObject/Roomful Assets/Thumbnail", false, 1)]
+        private static void SetAsThumbnail() {
+            var thumbnail = new GameObject("Thumbnail");
+            thumbnail.AddComponent<PropThumbnail>();
+            thumbnail.transform.localScale = Vector3.one * 1.5f;
 
-            Selection.activeGameObject = Thumbnail;
+            Selection.activeGameObject = thumbnail;
         }
 
-        [MenuItem("GameObject/Roomful/CanvasMirror", false, 1)]
-        static void CanvasMirror() {
+        [MenuItem("GameObject/Roomful Assets/CanvasMirror", false, 1)]
+        private static void CanvasMirror() {
             var canvas = GameObject.CreatePrimitive(PrimitiveType.Quad);
             canvas.name = "Canvas Mirror";
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Anchor", false, 104)]
-        static void AddAnchor() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/Anchor", false, 104)]
+        private static void AddAnchor() {
             Selection.activeGameObject.AddComponent<PropAnchor>();
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Prop Asset Settings", false, 104)]
-        static void AddPropAssetSettings() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/Prop Asset Settings", false, 104)]
+        private static void AddPropAssetSettings() {
             Selection.activeGameObject.AddComponent<PropAssetSettings>();
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Frame", false, 100)]
+        [MenuItem("GameObject/Roomful Assets/Add Component/Frame", false, 100)]
         public static void AddStretchedFrame() {
             var frame = Selection.activeGameObject.AddComponent<PropStretchedFrame>();
             AddDefaultBorderParts(frame);
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Tiled Frame", false, 101)]
+        [MenuItem("GameObject/Roomful Assets/Add Component/Tiled Frame", false, 101)]
         public static void AddTiledFrame() {
             var frame = Selection.activeGameObject.AddComponent<PropTiledFrame>();
             AddDefaultBorderParts(frame);
@@ -130,8 +131,8 @@ namespace net.roomful.assets.Editor
             frame.SetBackOffset(-0.001f);
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Floor", false, 101)]
-        static void MarkAsStand() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/Floor", false, 101)]
+        private static void MarkAsStand() {
             var valid = IsValidPropGameobject();
             if (Selection.activeGameObject.GetComponent<BoxCollider>() == null) {
                 valid = false;
@@ -143,8 +144,8 @@ namespace net.roomful.assets.Editor
             }
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Mesh Thumbnail", false, 102)]
-        static void MarkAsThumbnail() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/Mesh Thumbnail", false, 102)]
+        private static void MarkAsThumbnail() {
             var valid = IsValidPropGameobject();
 
             if (valid) {
@@ -163,13 +164,13 @@ namespace net.roomful.assets.Editor
             }
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Ignore Bounds", false, 103)]
-        static void IgnoreObjectBounds() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/Ignore Bounds", false, 103)]
+        private static void IgnoreObjectBounds() {
             Selection.activeGameObject.AddComponent<SerializedBoundsIgnoreMarker>();
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Placing Disabled", false, 104)]
-        static void PlacingDisabled() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/Placing Disabled", false, 104)]
+        private static void PlacingDisabled() {
             var valid = IsStyleGameobject();
             if (valid) {
                 if (Selection.activeGameObject.GetComponent<BoxCollider>() == null) {
@@ -181,16 +182,16 @@ namespace net.roomful.assets.Editor
             }
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/No Mirror", false, 104)]
-        static void NoMirror() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/No Mirror", false, 104)]
+        private static void NoMirror() {
             var valid = IsStyleGameobject();
             if (valid) {
                 Selection.activeGameObject.AddComponent<SerializedNoMirrorMarker>();
             }
         }
 
-        [MenuItem("GameObject/Roomful/Add Component/Focus Pointer", false, 104)]
-        static void FocusPointer() {
+        [MenuItem("GameObject/Roomful Assets/Add Component/Focus Pointer", false, 104)]
+        private static void FocusPointer() {
             var valid = IsValidPropGameobject();
             if (valid) {
                 Selection.activeGameObject.AddComponent<SerializedFocusPointer>();

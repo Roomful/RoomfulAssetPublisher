@@ -16,7 +16,8 @@
     }
   ],
   "dependencies": {
-    "com.stansassets.foundation": "1.0.12",
+    "com.stansassets.foundation": "1.0.13",
+    "net.roomful.api": "ssh://git@github.com/Roomful/net.roomful.api.git#1.0.35",
     "com.stansassets.plugins-dev-kit": "0.0.5-preview",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using net.roomful.api;
 
 namespace net.roomful.assets
 {

@@ -2,12 +2,6 @@
 
 public static class SA_Extensions_Transform
 {
-    public static void Reset(this Transform t) {
-        t.localScale = Vector3.one;
-        t.localPosition = Vector3.zero;
-        t.localRotation = Quaternion.identity;
-    }
-
     //--------------------------------------
     // Bounds
     //--------------------------------------

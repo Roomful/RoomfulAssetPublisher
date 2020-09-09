@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using net.roomful.assets.serialization;
+using StansAssets.Foundation.Extensions;
 
 namespace net.roomful.assets
 {
@@ -11,15 +12,7 @@ namespace net.roomful.assets
 
         public bool ShowWalls = false;
         public bool ShowEditUI = false;
-
-
-        //--------------------------------------
-        // Initialization
-        //--------------------------------------
-
-        public void Start() {
-          
-        }
+        
 
         public void SetTemplate(StyleTemplate tpl) {
             _Template = tpl;
@@ -32,7 +25,7 @@ namespace net.roomful.assets
 
 
         public void Update() {
-            CheckhHierarchy();
+            CheckHierarchy();
         }
 
 
@@ -51,7 +44,7 @@ namespace net.roomful.assets
             Template.Metadata = new StyleMetadata(this);
   
             CleanUpSilhouette();
-            PrepareCoponentsForUpload();
+            PrepareComponentsForUpload();
 
             ShowEditUI = false;
             ShowWalls = false;
@@ -84,8 +77,8 @@ namespace net.roomful.assets
         // Private Methods
         //--------------------------------------
 
-        protected override void PrepareCoponentsForUpload() {
-            base.PrepareCoponentsForUpload();
+        protected override void PrepareComponentsForUpload() {
+            base.PrepareComponentsForUpload();
 
             foreach(var panel in Panels) {
                 DestroyImmediate(panel);
@@ -99,45 +92,45 @@ namespace net.roomful.assets
             }
 
             DefaultElements = new GameObject("DefaultElements");
-            DefaultElements.Reset();
+            DefaultElements.transform.Reset();
             DefaultElements.hideFlags = HideFlags.HideInHierarchy;
 
             if (ShowWalls) {
                 PlaceWalls(DefaultElements);
             }
 
-           if(ShowEditUI) {
+            if(ShowEditUI) {
                 PlaceEditUI(DefaultElements);
             }
 
-           if(DefaultElements.transform.childCount == 0) {
+            if(DefaultElements.transform.childCount == 0) {
                 DestroyImmediate(DefaultElements);
-           }
-
-        }
-
-        private void PlaceEditUI(GameObject DefaultElements) {
-            foreach (var panel in Panels) {
-                var removeUI = PrefabManager.CreatePrefab("Style/RemoveUI");
-                removeUI.transform.parent = DefaultElements.transform;
-
-                removeUI.transform.position = panel.Bounds.GetVertex(SA_VertexX.Center, SA_VertexY.Center, SA_VertexZ.Back);
+            }
 
             }
-        }
 
-        private void PlaceWalls(GameObject DefaultElements) {
-            var startWall = PrefabManager.CreatePrefab("Style/RoomGlassWall");
-            startWall.transform.parent = DefaultElements.transform;
-            startWall.transform.position = Panels[0].Bounds.GetVertex(SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexZ.Front);
+            private void PlaceEditUI(GameObject defaultElements) {
+                foreach (var panel in Panels) {
+                    var removeUI = PrefabManager.CreatePrefab("Style/RemoveUI");
+                    removeUI.transform.parent = defaultElements.transform;
+
+                    removeUI.transform.position = panel.Bounds.GetVertex(SA_VertexX.Center, SA_VertexY.Center, SA_VertexZ.Back);
+
+                }
+            }
+
+            private void PlaceWalls(GameObject DefaultElements) {
+                var startWall = PrefabManager.CreatePrefab("Style/RoomGlassWall");
+                startWall.transform.parent = DefaultElements.transform;
+                startWall.transform.position = Panels[0].Bounds.GetVertex(SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexZ.Front);
 
 
-            var endtWall = PrefabManager.CreatePrefab("Style/RoomGlassWall");
-            endtWall.transform.parent = DefaultElements.transform;
+                var endtWall = PrefabManager.CreatePrefab("Style/RoomGlassWall");
+                endtWall.transform.parent = DefaultElements.transform;
 
-            var index = Panels.Length - 1;
-            endtWall.transform.position = Panels[index].Bounds.GetVertex(SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexZ.Front);
-        }
+                var index = Panels.Length - 1;
+                endtWall.transform.position = Panels[index].Bounds.GetVertex(SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexZ.Front);
+            }
 
 
     }

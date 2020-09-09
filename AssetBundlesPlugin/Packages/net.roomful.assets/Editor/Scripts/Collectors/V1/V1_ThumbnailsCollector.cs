@@ -14,7 +14,7 @@ namespace net.roomful.assets.Editor
                 return;
             }
 
-            var thumbnails = propAsset.GetLayer("Thumbnails");
+            var thumbnails = propAsset.GetLayer(HierarchyLayers.Thumbnails);
             foreach (Transform tb in thumbnails) {
                 var info = tb.gameObject.AddComponent<SerializedThumbnail>();
                 info.IsFixedRatio = tb.Find("CanvasRatio") != null;

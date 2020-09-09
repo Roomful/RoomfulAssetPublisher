@@ -1,45 +1,35 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
 using net.roomful.assets.serialization;
+using StansAssets.Foundation.Extensions;
 
 namespace net.roomful.assets
 {
-
     [ExecuteInEditMode]
     public class EnvironmentAsset : Asset<EnvironmentTemplate>
     {
-
-
         //--------------------------------------
         // Initialization
         //--------------------------------------
 
         public void Start() {
-            ApplyEnvironment(); 
+            ApplyEnvironment();
         }
 
         public void SetTemplate(EnvironmentTemplate tpl) {
             _Template = tpl;
         }
 
-
         //--------------------------------------
         // Unity Editor
         //--------------------------------------
 
-
         public void Update() {
-            CheckhHierarchy();
-
-            
-
+            CheckHierarchy();
         }
-
 
         //--------------------------------------
         // Public Methods
@@ -47,22 +37,19 @@ namespace net.roomful.assets
 
         [ContextMenu("Prepare For Upload")]
         public override void PrepareForUpload() {
-
             CleanUpSilhouette();
-            PrepareCoponentsForUpload();
+            PrepareComponentsForUpload();
         }
 
-        protected override void PrepareCoponentsForUpload() {
-
-            base.PrepareCoponentsForUpload();
+        protected override void PrepareComponentsForUpload() {
+            base.PrepareComponentsForUpload();
 
 #if UNITY_EDITOR
             var cubemapPath = AssetDatabase.GetAssetPath(Settings.ReflectionCubemap);
 
             if (System.IO.File.Exists(cubemapPath)) {
-
                 //remove Assets/ string from a path. Yes I know that is not stable hack.
-                //If you know a better way, make it happend
+                //If you know a better way, make it happened
                 cubemapPath = cubemapPath.Substring(7, cubemapPath.Length - 7);
                 var data = SA.Common.Util.Files.ReadBytes(cubemapPath);
                 Settings.ReflectionCubemapFileData = data;
@@ -72,16 +59,11 @@ namespace net.roomful.assets
                 Settings.ReflectionCubemapSettings.Serialize(Settings.ReflectionCubemap);
             }
 #endif
-
-
         }
 
-
         public void ApplyEnvironment() {
-
             RenderSettings.skybox = SkyRenderer.sharedMaterial;
             RenderSettings.ambientIntensity = Settings.AmbientIntensity;
-
 
             RenderSettings.defaultReflectionMode = UnityEngine.Rendering.DefaultReflectionMode.Custom;
             RenderSettings.customReflection = Settings.ReflectionCubemap;
@@ -90,57 +72,46 @@ namespace net.roomful.assets
             DynamicGI.UpdateEnvironment();
         }
 
-
         //--------------------------------------
         // Get / Set
         //--------------------------------------
 
-
         public SerializedEnvironment Settings {
             get {
-
                 var settings = GetComponent<SerializedEnvironment>();
                 if (settings == null) {
                     settings = gameObject.AddComponent<SerializedEnvironment>();
                 }
-
-            //    settings.hideFlags = HideFlags.HideInInspector;
-
+                
                 return settings;
             }
         }
 
-
         public MeshRenderer SkyRenderer {
             get {
-
-                var renderer = GetComponent<MeshRenderer>();
-                if (renderer == null) {
-                    renderer = gameObject.AddComponent<MeshRenderer>();
+                var meshRenderer = GetComponent<MeshRenderer>();
+                if (meshRenderer == null) {
+                    meshRenderer = gameObject.AddComponent<MeshRenderer>();
                 }
 
-                renderer.hideFlags = HideFlags.HideInInspector;
+                meshRenderer.hideFlags = HideFlags.HideInInspector;
 
-                return renderer;
+                return meshRenderer;
             }
         }
-
-
 
         //--------------------------------------
         // Private Methods
         //--------------------------------------
 
-
-        protected override void CheckhHierarchy() {
-
-            base.CheckhHierarchy();
+        protected override void CheckHierarchy() {
+            base.CheckHierarchy();
 
             transform.Reset();
             Environment.transform.parent = null;
-            Environment.transform.Reset(); 
+            Environment.transform.Reset();
 
-            var UndefinedObjects = new List<Transform>();
+            var undefinedObjects = new List<Transform>();
             var allObjects = FindObjectsOfType<Transform>();
             foreach (var child in allObjects) {
                 if (child == transform) {
@@ -155,16 +126,13 @@ namespace net.roomful.assets
                     continue;
                 }
 
-                UndefinedObjects.Add(child);
+                undefinedObjects.Add(child);
             }
 
-            foreach (var undefined in UndefinedObjects) {
+            foreach (var undefined in undefinedObjects) {
                 undefined.SetParent(transform);
                 undefined.localPosition = Vector3.zero;
             }
-
         }
-
-
     }
 }

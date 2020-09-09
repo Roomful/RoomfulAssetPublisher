@@ -1,17 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
 using net.roomful.assets.serialization;
-
-
-
 
 namespace net.roomful.assets
 {
-
     [ExecuteInEditMode]
-    public class PropTiledFrame : AbstractPropFrame {
-        private GameObject Filler;
+    public class PropTiledFrame : AbstractPropFrame
+    {
+        private GameObject m_filler;
         private const string FILLER_NAME = "Filler";
 
         protected override void Awake() {
@@ -20,11 +16,11 @@ namespace net.roomful.assets
         }
 
         private void CreateFiller() {
-            Filler = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Filler.name = FILLER_NAME;
-            Filler.gameObject.SetActive(false);
-            Filler.transform.parent = GetLayer(BorderLayers.BorderParts);
-            var fillerRenderer = Filler.GetComponent<Renderer>();
+            m_filler = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            m_filler.name = FILLER_NAME;
+            m_filler.gameObject.SetActive(false);
+            m_filler.transform.parent = GetLayer(BorderLayers.BorderParts);
+            var fillerRenderer = m_filler.GetComponent<Renderer>();
             if (fillerRenderer != null) {
                 fillerRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
                 fillerRenderer.sharedMaterial.SetColor("_Color", Settings.FillerColor);
@@ -62,17 +58,15 @@ namespace net.roomful.assets
                 var tilesCountVertical = Mathf.CeilToInt(m_canvasSize.y / m_borderPartSize.x);
                 var tiledSquare = new Vector2(tilesCountHorizontal * m_borderPartSize.x, tilesCountVertical * m_borderPartSize.x);
                 m_borderPartCount = new Vector2(tilesCountHorizontal, tilesCountVertical);
-                m_borderCornerHeightDiff =  m_cornerPartSize.x - m_borderPartSize.y;
+                m_borderCornerHeightDiff = m_cornerPartSize.x - m_borderPartSize.y;
                 m_fillerSize = new Vector2(tiledSquare.x + 2 * m_borderCornerHeightDiff, tiledSquare.y + 2 * m_borderCornerHeightDiff);
                 m_fillerOffset = new Vector3((m_fillerSize.x - m_canvasSize.x) / 2, (m_fillerSize.y - m_canvasSize.y) / 2, -0.0001f);
                 m_tilesOffset = new Vector2((tiledSquare.x - m_canvasSize.x) / 2, (tiledSquare.y - m_canvasSize.y) / 2);
             }
         }
 
-
         public SerializedTiledFrame Settings {
             get {
-
                 var settings = GetComponent<SerializedTiledFrame>();
                 if (settings == null) {
                     settings = gameObject.AddComponent<SerializedTiledFrame>();
@@ -93,14 +87,14 @@ namespace net.roomful.assets
                 if (IsPersistent(Corner) || Corner.scene != gameObject.scene) {
                     Corner = Instantiate(Corner);
                 }
-                    
-                
 
                 Corner.transform.parent = borderParts;
                 Corner.SetActive(false);
                 Corner.gameObject.name = CORNER_NAME;
 
-                if (Corner == Border) { Border = null; }
+                if (Corner == Border) {
+                    Border = null;
+                }
             }
 
             if (Border != null) {
@@ -113,27 +107,26 @@ namespace net.roomful.assets
                 Border.gameObject.name = BORDER_NAME;
             }
 
-            if (Filler != null) {
-                Filler.transform.parent = borderParts;
-                Filler.SetActive(false);
-                Filler.name = FILLER_NAME;
-                var renderer = Filler.GetComponent<Renderer>();
+            if (m_filler != null) {
+                m_filler.transform.parent = borderParts;
+                m_filler.SetActive(false);
+                m_filler.name = FILLER_NAME;
+                var renderer = m_filler.GetComponent<Renderer>();
                 if (renderer != null) {
                     renderer.sharedMaterial.SetColor("_Color", Settings.FillerColor);
                 }
             }
 
             if (Back != null) {
-
-                Back.transform.parent = borderParts; 
+                Back.transform.parent = borderParts;
                 Back.gameObject.SetActive(false);
                 Back.gameObject.name = BACK_NAME;
             }
 
             var parts = borderParts.GetComponentsInChildren<Transform>(true);
-            foreach(var part in parts) {
+            foreach (var part in parts) {
                 var go = part.gameObject;
-                if(go != Border && go != Corner && go != Back && go != Filler && go != borderParts.gameObject) {
+                if (go != Border && go != Corner && go != Back && go != m_filler && go != borderParts.gameObject) {
                     DestroyImmediate(go);
                 }
             }
@@ -147,9 +140,11 @@ namespace net.roomful.assets
             resetScale = false;
             if (resetScale) {
                 p.transform.localScale = Vector3.one;
-            } else {
+            }
+            else {
                 p.transform.localScale = p.transform.localScale / CurrentProp.Scale;
             }
+
             p.transform.localRotation = Quaternion.identity;
             return p;
         }
@@ -159,7 +154,7 @@ namespace net.roomful.assets
 
             var rendererPoint = obj.GetVertex(objectVertexHorizontal, objectVertexVertical, SA_VertexZ.Back);
             var diff = obj.transform.position - rendererPoint;
-            obj.transform.position += diff ;
+            obj.transform.position += diff;
             obj.transform.position += offset;
 
             var localPos = obj.transform.localPosition;
@@ -170,7 +165,6 @@ namespace net.roomful.assets
         public override void SetBackOffset(float offset) {
             Settings.BackOffset = offset;
         }
-
 
         protected override void GenerateFrame() {
             var oldRotation = transform.rotation;
@@ -183,6 +177,7 @@ namespace net.roomful.assets
                 GenerateCorners();
                 GenerateTiledBorders();
             }
+
             GenerateFiller();
             GenerateBack();
 
@@ -208,7 +203,6 @@ namespace net.roomful.assets
                     back.transform.position = Bounds.GetVertex(SA_VertexX.Left, SA_VertexY.Top, SA_VertexZ.Back) + m_fillerOffset;
                 }
 
-
                 var rendererPoint = back.GetVertex(SA_VertexX.Left, SA_VertexY.Top, SA_VertexZ.Front);
                 var diff = back.transform.position - rendererPoint;
                 back.transform.position += diff;
@@ -216,7 +210,6 @@ namespace net.roomful.assets
                 var localPos = back.transform.localPosition;
                 localPos.z += (Settings.BackOffset / Prop.Scale);
                 back.transform.localPosition = localPos;
-
             }
         }
 
@@ -229,7 +222,6 @@ namespace net.roomful.assets
         }
 
         private void GenerateTiledBorders() {
-
             for (var i = 0; i < m_borderPartCount.x; i++) {
                 var tBorder = InstantiateBorderPart(Border.gameObject, true);
                 tBorder.transform.Rotate(Vector3.forward, 180);
@@ -253,8 +245,8 @@ namespace net.roomful.assets
         }
 
         private void GenerateFiller() {
-            if (Filler != null) {
-                m_generatedFiller = InstantiateBorderPart(Filler.gameObject);
+            if (m_filler != null) {
+                m_generatedFiller = InstantiateBorderPart(m_filler.gameObject);
                 var fillerBounds = m_generatedFiller.GetRendererBounds().size;
                 var scaleX = fillerBounds.x / m_fillerSize.x;
                 var scaleY = fillerBounds.y / m_fillerSize.y;
@@ -266,7 +258,6 @@ namespace net.roomful.assets
                 var rendererPoint = m_generatedFiller.GetVertex(SA_VertexX.Left, SA_VertexY.Top, SA_VertexZ.Front);
                 var diff = m_generatedFiller.transform.position - rendererPoint;
                 m_generatedFiller.transform.position += diff;
-
             }
             else {
                 m_generatedFiller = null;
@@ -284,13 +275,12 @@ namespace net.roomful.assets
 
             return corner;
         }
- 
+
         private void GenerateCorners() {
             // Left top horizontal corner
             var corner = InstantiateCorner(180, true);
-            SnapObjectToCanvas(corner, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Right, SA_VertexY.Bottom, new Vector3(m_tilesOffset.x , m_fillerOffset.y));
+            SnapObjectToCanvas(corner, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Right, SA_VertexY.Bottom, new Vector3(m_tilesOffset.x, m_fillerOffset.y));
             // Left top vertical corner
-
 
             corner = InstantiateCorner(90, false);
             SnapObjectToCanvas(corner, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Right, SA_VertexY.Bottom, new Vector3(m_fillerOffset.x, m_tilesOffset.y));
@@ -305,7 +295,7 @@ namespace net.roomful.assets
             SnapObjectToCanvas(corner, SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexX.Left, SA_VertexY.Top, new Vector3(-m_fillerOffset.x, -m_tilesOffset.y));
             // Right bottom vertical corner
             corner = InstantiateCorner(0, true);
-            SnapObjectToCanvas(corner, SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexX.Left, SA_VertexY.Top, new Vector3(-m_tilesOffset.x, -m_fillerOffset.y ));
+            SnapObjectToCanvas(corner, SA_VertexX.Right, SA_VertexY.Bottom, SA_VertexX.Left, SA_VertexY.Top, new Vector3(-m_tilesOffset.x, -m_fillerOffset.y));
             // Left bottom horizontal corner
             corner = InstantiateCorner(0, false);
             SnapObjectToCanvas(corner, SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexX.Right, SA_VertexY.Top, new Vector3(m_tilesOffset.x, -m_fillerOffset.y));
@@ -313,7 +303,5 @@ namespace net.roomful.assets
             corner = InstantiateCorner(90, true);
             SnapObjectToCanvas(corner, SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexX.Right, SA_VertexY.Top, new Vector3(m_fillerOffset.x, -m_tilesOffset.y));
         }
-
-
     }
 }

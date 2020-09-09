@@ -1,4 +1,5 @@
 ﻿
+using StansAssets.Foundation.Extensions;
 using UnityEngine;
 
 
@@ -57,7 +58,7 @@ namespace net.roomful.assets
 
         protected abstract void GenerateFrame();
 
-        public void PrepareForUpalod() {
+        public void PrepareForUpload() {
 
             if (Border != null) {
                 Border.SetActive(true);
@@ -76,17 +77,7 @@ namespace net.roomful.assets
             DestroyImmediate(this);
 
         }
-
-        public void GenerateSilhouette() {
-            if (Border != null && Corner != null) {
-                var GeneratedBorder = GetLayer(BorderLayers.GeneratedBorder);
-                var borderSilhouette = Instantiate(GeneratedBorder.gameObject);
-
-                borderSilhouette.transform.parent = Silhouette;
-                borderSilhouette.Reset();
-            }
-        }
-
+        
         protected Transform GetLayer(BorderLayers layer) {
             var hLayer = transform.Find(layer.ToString());
             if (hLayer == null) {

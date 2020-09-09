@@ -10,7 +10,6 @@ namespace net.roomful.assets.Editor
 
         private SerializedProperty m_scaleProperty;
         private SerializedProperty m_showCenterProperty;
-        private SerializedProperty m_displayMode;
 
         private void Awake() {
             EditorApplication.update += OnEditorUpdate;
@@ -21,8 +20,7 @@ namespace net.roomful.assets.Editor
         }
 
         void OnEnable() {
-            m_scaleProperty = serializedObject.FindProperty("Scale");
-            m_displayMode = serializedObject.FindProperty("DisplayMode");
+            m_scaleProperty = serializedObject.FindProperty("m_scale");
         }
 
         private void OnEditorUpdate() {
@@ -48,8 +46,7 @@ namespace net.roomful.assets.Editor
             GUILayout.EndHorizontal();
 
             EditorGUILayout.Slider(m_scaleProperty, Asset.MinScale, Asset.MaxScale);
-
-            EditorGUILayout.PropertyField(m_displayMode);
+            
             DrawGizmosSwitch();
 
             DrawEnvironmentSwitch();
@@ -123,19 +120,7 @@ namespace net.roomful.assets.Editor
 
         private void PrintPropState() {
             var valid = true;
-
-            if (Asset.DisplayMode == PropDisplayMode.Silhouette || Asset.DisplayMode == PropDisplayMode.Hybrid) {
-                EditorGUILayout.HelpBox("The Silhouette is a placeholder so the user knows your prop is being downloaded.\nWe recommend you create a simplified version of your object that fully envelops your prop. Use the 'Hybrid' Display Mode to check how your silhouette is working", MessageType.Info);
-            }
-
-            if (Asset.DisplayMode == PropDisplayMode.Silhouette) {
-                if (Asset.IsEmpty) {
-                    EditorGUILayout.HelpBox("Silhouette is empty! Please add some graphics.", MessageType.Error);
-                }
-
-                return;
-            }
-
+            
             if (!Asset.ValidSize) {
                 valid = false;
                 EditorGUILayout.HelpBox("Your prop's default size doesn't follow our guidelines. We recommend you keep your prop between 50cm and 3m", MessageType.Error);
@@ -145,12 +130,7 @@ namespace net.roomful.assets.Editor
                 valid = false;
                 EditorGUILayout.HelpBox("Asset is empty! Please add some graphics.", MessageType.Error);
             }
-
-            if (Asset.GetLayer(HierarchyLayers.Silhouette).transform.childCount == 0) {
-                valid = false;
-                EditorGUILayout.HelpBox("Silhouette is empty! Please add some graphics.", MessageType.Error);
-            }
-
+            
             if (!Asset.HasCollision) {
                 valid = false;
                 EditorGUILayout.HelpBox("Your asset has no colliders, consider adding one.", MessageType.Error);

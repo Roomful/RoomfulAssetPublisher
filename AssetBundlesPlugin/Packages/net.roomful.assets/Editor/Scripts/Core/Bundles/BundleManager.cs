@@ -248,8 +248,6 @@ namespace net.roomful.assets.Editor
             }
 
             var platformIndex = AssetBundlesSettings.Instance.UploadPlatformIndex;
-            Debug.Log(platformIndex);
-            Debug.Log(AssetBundlesSettings.Instance.TargetPlatforms.Count);
             var platform = AssetBundlesSettings.Instance.TargetPlatforms[platformIndex];
 
             var assetBundleName = tpl.Title + "_" + platform;

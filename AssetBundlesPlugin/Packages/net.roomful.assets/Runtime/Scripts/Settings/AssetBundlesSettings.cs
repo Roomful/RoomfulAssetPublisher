@@ -27,7 +27,7 @@ namespace net.roomful.assets
 
         public const string FULL_ASSETS_RESOURCES_LOCATION = "Assets/" + ASSETS_RESOURCES_LOCATION;
 
-        public const string PLUGIN_PREFABS_LOCATION = PACKAGE_LOCATION + "Prefabs/";
+        public const string PLUGIN_PREFABS_LOCATION = PACKAGE_LOCATION + "Editor/Prefabs/";
 
         public const string THUMBNAIL_POINTER = "rf_prop_thumbnail_pointer";
         public const string THUMBNAIL_RESOURCE_INDEX_BOUND = "ResourceIndexBound";

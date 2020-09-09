@@ -3,6 +3,8 @@
     public enum HierarchyLayers
     {
         Graphics,
-        Silhouette
+        StandSurface,
+        IgnoredGraphics,
+        Thumbnails
     }
 }
