@@ -4,7 +4,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomPropertyDrawer(typeof(FontData), true)]
-    public class FontDataDrawer : PropertyDrawer
+    internal class FontDataDrawer : PropertyDrawer
     {
         private static class Styles
         {
@@ -220,7 +220,7 @@ namespace net.roomful.assets.Editor
                 for (var i = 0; i < targetObjects.Length; i++) {
                     var @object = targetObjects[i];
                     var text = @object as RoomfulText;
-                    horizontalAlignment = GetHorizontalAlignment(text.FontData.alignment);
+                    horizontalAlignment = GetHorizontalAlignment(text.FontData.Alignment);
                     flag = (flag || horizontalAlignment == HorizontalTextAligment.Left);
                     flag2 = (flag2 || horizontalAlignment == HorizontalTextAligment.Center);
                     flag3 = (flag3 || horizontalAlignment == HorizontalTextAligment.Right);
@@ -260,7 +260,7 @@ namespace net.roomful.assets.Editor
                 for (var i = 0; i < targetObjects.Length; i++) {
                     var @object = targetObjects[i];
                     var text = @object as RoomfulText;
-                    var alignment2 = text.FontData.alignment;
+                    var alignment2 = text.FontData.Alignment;
                     verticalAlignment = GetVerticalAlignment(alignment2);
                     flag = (flag || verticalAlignment == VerticalTextAligment.Top);
                     flag2 = (flag2 || verticalAlignment == VerticalTextAligment.Middle);
@@ -367,9 +367,9 @@ namespace net.roomful.assets.Editor
                 var @object = targetObjects[i];
 
                 var text = @object as RoomfulText;
-                var verticalAlignment = GetVerticalAlignment(text.FontData.alignment);
+                var verticalAlignment = GetVerticalAlignment(text.FontData.Alignment);
                 Undo.RecordObject(text, "Horizontal Alignment");
-                text.FontData.alignment = GetAnchor(verticalAlignment, horizontalAlignment);
+                text.FontData.Alignment = GetAnchor(verticalAlignment, horizontalAlignment);
                 EditorUtility.SetDirty(@object);
             }
         }
@@ -379,9 +379,9 @@ namespace net.roomful.assets.Editor
             for (var i = 0; i < targetObjects.Length; i++) {
                 var @object = targetObjects[i];
                 var text = @object as RoomfulText;
-                var horizontalAlignment = GetHorizontalAlignment(text.FontData.alignment);
+                var horizontalAlignment = GetHorizontalAlignment(text.FontData.Alignment);
                 Undo.RecordObject(text, "Vertical Alignment");
-                text.FontData.alignment = GetAnchor(verticalAlignment, horizontalAlignment);
+                text.FontData.Alignment = GetAnchor(verticalAlignment, horizontalAlignment);
                 EditorUtility.SetDirty(@object);
             }
         }

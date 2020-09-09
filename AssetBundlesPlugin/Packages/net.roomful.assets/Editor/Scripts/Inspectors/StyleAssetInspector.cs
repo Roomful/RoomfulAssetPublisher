@@ -5,7 +5,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(StyleAsset))]
-    public class StyleAssetInspector : AssetInspector<StyleTemplate, StyleAsset>
+    internal class StyleAssetInspector : AssetInspector<StyleTemplate, StyleAsset>
     {
         private SerializedProperty m_showWalls;
         private SerializedProperty m_showEditUI;

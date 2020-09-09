@@ -1,18 +1,15 @@
 ﻿using UnityEngine;
 
-namespace net.roomful.assets {
+namespace net.roomful.assets
+{
+    internal interface IPropComponent
+    {
+        void PrepareForUpload();
+        void RemoveSilhouette();
 
-	public interface IPropComponent  {
-
-		void PrepareForUpload();
-		void RemoveSilhouette();
-
-		void Update();
-
+        void Update();
 
         Priority UpdatePriority { get; }
         GameObject gameObject { get; }
-
     }
-
 }

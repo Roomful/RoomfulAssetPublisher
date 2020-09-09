@@ -1,8 +1,11 @@
-﻿public enum ShaderPropertyType
+﻿namespace net.roomful.assets
 {
-    Color,
-    Vector,
-    Float,
-    Range,
-    TexEnv
+    public enum ShaderPropertyType
+    {
+        Color,
+        Vector,
+        Float,
+        Range,
+        TexEnv
+    }
 }

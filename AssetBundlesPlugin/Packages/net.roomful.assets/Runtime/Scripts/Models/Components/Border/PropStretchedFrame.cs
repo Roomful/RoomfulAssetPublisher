@@ -1,19 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
 using net.roomful.assets.serialization;
-
 
 namespace net.roomful.assets
 {
-
     [ExecuteInEditMode]
-    public class PropStretchedFrame : AbstractPropFrame {
-        
-
+    internal class PropStretchedFrame : AbstractPropFrame
+    {
         public SerializedFrame Settings {
             get {
-
                 var settings = GetComponent<SerializedFrame>();
                 if (settings == null) {
                     settings = gameObject.AddComponent<SerializedFrame>();
@@ -29,44 +24,40 @@ namespace net.roomful.assets
             Settings.BackOffset = offset;
         }
 
-        protected override void CheckhHierarchy() {
-     
-
+        protected override void CheckHierarchy() {
             if (Corner != null) {
-                Corner.transform.parent = GetLayer(BorderLayers.BorderParts); 
+                Corner.transform.parent = GetLayer(BorderLayers.BorderParts);
                 Corner.gameObject.SetActive(false);
                 Corner.gameObject.name = CORNER_NAME;
 
-                if (Corner == Border) { Border = null; }
+                if (Corner == Border) {
+                    Border = null;
+                }
             }
 
-
             if (Border != null) {
-
-                Border.transform.parent = GetLayer(BorderLayers.BorderParts); 
+                Border.transform.parent = GetLayer(BorderLayers.BorderParts);
                 Border.gameObject.SetActive(false);
                 Border.gameObject.name = BORDER_NAME;
             }
 
             if (Back != null) {
-
-                Back.transform.parent = GetLayer(BorderLayers.BorderParts); 
+                Back.transform.parent = GetLayer(BorderLayers.BorderParts);
                 Back.gameObject.SetActive(false);
                 Back.gameObject.name = BACK_NAME;
             }
 
             var borderParts = GetLayer(BorderLayers.BorderParts).gameObject;
             var parts = GetLayer(BorderLayers.BorderParts).GetComponentsInChildren<Transform>(true);
-            foreach(var part in parts) {
+            foreach (var part in parts) {
                 var go = part.gameObject;
-                if(go != Border && go != Corner && go != Back && go != borderParts) {
+                if (go != Border && go != Corner && go != Back && go != borderParts) {
                     DestroyImmediate(go);
                 }
             }
         }
 
         protected override void GenerateFrame() {
-
             var oldRotation = transform.rotation;
             transform.rotation = Quaternion.identity;
 
@@ -80,21 +71,18 @@ namespace net.roomful.assets
             if (Back != null) {
                 var back = InstantiateBorderPart(Back.gameObject);
 
-
                 var canvasW = Bounds.extents.x;
                 var canvasH = Bounds.extents.y;
 
                 var backW = back.GetRendererBounds().extents.x;
                 var backH = back.GetRendererBounds().extents.x;
 
-
                 var scaleX = canvasW / backW;
                 var scaleY = canvasH / backH;
 
-               // Vector3 backLocaclScale = new Vector3(back.transform.localScale.x, back.transform.localScale.y, back.transform.localScale.z);
+                // Vector3 backLocaclScale = new Vector3(back.transform.localScale.x, back.transform.localScale.y, back.transform.localScale.z);
                 var newScale = new Vector3(back.transform.localScale.x * scaleX, back.transform.localScale.y * scaleY, back.transform.localScale.z);
                 back.transform.localScale = newScale;
-
 
                 back.transform.position = Bounds.GetVertex(SA_VertexX.Right, SA_VertexY.Top, SA_VertexZ.Back);
 
@@ -103,17 +91,14 @@ namespace net.roomful.assets
                 back.transform.position += diff;
 
                 var localPos = back.transform.localPosition;
-                localPos.z += (Settings.BackOffset / CurrentProp.Scale); 
+                localPos.z += (Settings.BackOffset / CurrentProp.Scale);
                 back.transform.localPosition = localPos;
-
             }
-
 
             if (Border != null && Corner != null) {
                 GenerateCorners();
                 GenerateStretchedBorders();
             }
-
 
             transform.rotation = oldRotation;
         }
@@ -125,7 +110,6 @@ namespace net.roomful.assets
             var topBorder = InstantiateBorderPart(Border.gameObject);
             var borderW = topBorder.GetRendererBounds().extents.x;
 
-            
             var scaleX = canvasW / borderW;
             var scaleY = canvasH / borderW;
 
@@ -135,7 +119,6 @@ namespace net.roomful.assets
 
             topBorder.transform.localScale = xScale;
             SnapObjectToCanvas(topBorder, SA_VertexX.Left, SA_VertexY.Top, SA_VertexX.Left, SA_VertexY.Bottom, Vector3.zero);
-
 
             var bottomBorder = InstantiateBorderPart(Border.gameObject);
             bottomBorder.transform.localScale = xScale;
@@ -186,13 +169,12 @@ namespace net.roomful.assets
 
             var rendererPoint = obj.GetVertex(objectVertexHorizontal, objectVertexVertical, SA_VertexZ.Back);
             var diff = obj.transform.position - rendererPoint;
-            obj.transform.position += diff ;
+            obj.transform.position += diff;
             obj.transform.position += offset;
 
             var localPos = obj.transform.localPosition;
             localPos.z += (Settings.FrameOffset / CurrentProp.Scale);
             obj.transform.localPosition = localPos;
         }
-
     }
 }

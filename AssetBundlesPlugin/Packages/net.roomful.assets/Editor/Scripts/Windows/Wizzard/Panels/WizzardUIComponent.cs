@@ -2,13 +2,11 @@
 using UnityEditor;
 using UnityEngine;
 
-
 namespace net.roomful.assets.Editor
 {
-    public abstract class WizzardUIComponent  {
-
+    internal abstract class WizzardUIComponent
+    {
         private int m_rotationAnimatorAgnle = 0;
-
 
         protected void DrawPreloaderAt(Rect rect) {
             var preloader = IconManager.GetIcon(Icon.loader);
@@ -24,26 +22,26 @@ namespace net.roomful.assets.Editor
             GUI.matrix = Matrix4x4.identity;
         }
 
-
         protected bool YesNoFiled(string title, bool value, int width1, int width2) {
-
             var initialValue = IMGUIToggleStyle.YesNoBool.Yes;
             if (!value) {
                 initialValue = IMGUIToggleStyle.YesNoBool.No;
             }
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(title, GUILayout.Width(width1));
 
-            initialValue = (IMGUIToggleStyle.YesNoBool)EditorGUILayout.EnumPopup(initialValue, GUILayout.Width(width2));
+            initialValue = (IMGUIToggleStyle.YesNoBool) EditorGUILayout.EnumPopup(initialValue, GUILayout.Width(width2));
             if (initialValue == IMGUIToggleStyle.YesNoBool.Yes) {
                 value = true;
-            } else {
+            }
+            else {
                 value = false;
             }
+
             EditorGUILayout.EndHorizontal();
 
             return value;
         }
-
     }
 }

@@ -4,7 +4,7 @@ using net.roomful.assets.Network.Request;
 
 namespace net.roomful.assets.Editor
 {
-    public class StyleBundleManager : BundleManager<StyleTemplate, StyleAsset>
+    internal class StyleBundleManager : BundleManager<StyleTemplate, StyleAsset>
     {
         protected override void CreateAsset(StyleTemplate tpl) {
             var asset = new GameObject(tpl.Title).AddComponent<StyleAsset>();

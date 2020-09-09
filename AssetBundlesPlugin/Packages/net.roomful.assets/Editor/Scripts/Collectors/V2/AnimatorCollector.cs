@@ -6,7 +6,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets.Editor
 {
-    public class AnimatorCollector : BaseCollector
+    internal class AnimatorCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             var animators = asset.gameObject.GetComponentsInChildren<SerializedAnimatorController>(true);

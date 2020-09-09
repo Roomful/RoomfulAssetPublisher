@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public static class EditorMenu
+    internal static class EditorMenu
     {
         private const string MENU_ROOT = "Roomful/Assets/";
         //--------------------------------------

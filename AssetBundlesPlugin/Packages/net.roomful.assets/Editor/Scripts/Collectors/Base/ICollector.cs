@@ -1,6 +1,6 @@
 ﻿namespace net.roomful.assets
 {
-    public interface ICollector
+    internal interface ICollector
     {
         void Run(IAsset asset);
     }

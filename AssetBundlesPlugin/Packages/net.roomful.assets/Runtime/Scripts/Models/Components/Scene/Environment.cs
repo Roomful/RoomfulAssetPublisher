@@ -4,7 +4,7 @@ namespace net.roomful.assets
 {
 
 	[ExecuteInEditMode]
-	public class Environment : MonoBehaviour {
+	internal class Environment : MonoBehaviour {
 
 
 	    public GameObject Light;

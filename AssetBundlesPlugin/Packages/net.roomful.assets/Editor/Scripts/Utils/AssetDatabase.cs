@@ -3,7 +3,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets.Editor
 {
-	public class AssetDatabase {
+	internal class AssetDatabase {
 		private readonly string m_pathRelativeAssetsFolder = "";
 		private readonly string m_pathRelativeProjectFolder = "Assets/";
         //--------------------------------------

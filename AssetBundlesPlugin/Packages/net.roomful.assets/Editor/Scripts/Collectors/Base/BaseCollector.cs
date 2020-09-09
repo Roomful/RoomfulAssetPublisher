@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets
 {
-    public abstract class BaseCollector : ICollector
+    internal abstract class BaseCollector : ICollector
     {
         public abstract void Run(IAsset asset);
 

@@ -5,7 +5,7 @@ namespace net.roomful.assets
 {
 
     [System.Serializable]
-    public class StyleMetadata 
+    internal class StyleMetadata 
     {
         public List<StylePanelMetadata> Panels = new List<StylePanelMetadata>();
 

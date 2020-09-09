@@ -5,7 +5,7 @@ using StansAssets.Foundation;
 
 namespace net.roomful.assets.Editor
 {
-    public static class BundleUtility
+    internal static class BundleUtility
     {
         //--------------------------------------
         // Public Methods

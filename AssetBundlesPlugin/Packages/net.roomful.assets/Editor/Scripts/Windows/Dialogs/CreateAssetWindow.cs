@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using net.roomful.api;
+using UnityEngine;
 using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public class CreateAssetWindow : EditorWindow
+    internal class CreateAssetWindow : EditorWindow
     {
         private PropTemplate m_template = new PropTemplate();
 
@@ -19,7 +20,7 @@ namespace net.roomful.assets.Editor
             m_template.Title = EditorGUI.TextField(new Rect(170, 50, 180, 16), m_template.Title);
 
             EditorGUI.LabelField(new Rect(100, 70, 300, 16), "Placement:");
-            m_template.Placing = (Placing) EditorGUI.EnumPopup(new Rect(170, 70, 180, 16), m_template.Placing);
+            m_template.Placing = (PlacingType) EditorGUI.EnumPopup(new Rect(170, 70, 180, 16), m_template.Placing);
 
             GUILayout.Space(110f);
             GUILayout.BeginHorizontal();

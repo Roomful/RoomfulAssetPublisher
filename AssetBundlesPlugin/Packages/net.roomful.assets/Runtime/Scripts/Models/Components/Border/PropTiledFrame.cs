@@ -5,7 +5,7 @@ using net.roomful.assets.serialization;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    public class PropTiledFrame : AbstractPropFrame
+    internal class PropTiledFrame : AbstractPropFrame
     {
         private GameObject m_filler;
         private const string FILLER_NAME = "Filler";
@@ -78,7 +78,7 @@ namespace net.roomful.assets
             }
         }
 
-        protected override void CheckhHierarchy() {
+        protected override void CheckHierarchy() {
             m_frameIsInvalid = Corner == null || Border == null;
 
             var borderParts = GetLayer(BorderLayers.BorderParts);

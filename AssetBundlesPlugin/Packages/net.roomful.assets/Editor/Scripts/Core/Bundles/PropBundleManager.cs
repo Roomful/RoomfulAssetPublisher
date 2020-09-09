@@ -3,7 +3,7 @@ using net.roomful.assets.Network.Request;
 
 namespace net.roomful.assets.Editor
 {
-    public class PropBundleManager : BundleManager<PropTemplate, PropAsset>
+    internal class PropBundleManager : BundleManager<PropTemplate, PropAsset>
     {
         protected override void CreateAsset(PropTemplate tpl) {
             var createdProp = new GameObject(tpl.Title).AddComponent<PropAsset>();

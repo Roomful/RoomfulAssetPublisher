@@ -4,7 +4,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(PropTiledFrame))]
-    public class TiledPropFrameEditor : UnityEditor.Editor
+    internal class TiledPropFrameEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI() {
             EditorGUILayout.LabelField("Frame", EditorStyles.boldLabel);

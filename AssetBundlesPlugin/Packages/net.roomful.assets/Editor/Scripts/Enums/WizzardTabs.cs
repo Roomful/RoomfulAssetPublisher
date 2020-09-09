@@ -1,5 +1,5 @@
 ﻿namespace net.roomful.assets.Editor {
-	public enum WizardTabs {
+	internal enum WizardTabs {
 		Wizzard = 0,
 		Props = 1,
         Styles = 2,

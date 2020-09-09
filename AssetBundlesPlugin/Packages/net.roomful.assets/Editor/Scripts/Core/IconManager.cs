@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace net.roomful.assets.Editor
 {
-    public static class IconManager
+    internal static class IconManager
     {
         private static readonly Dictionary<Icon, Texture2D> s_icons = new Dictionary<Icon, Texture2D>();
         private static readonly Dictionary<float, Texture2D> s_colorIcons = new Dictionary<float, Texture2D>();

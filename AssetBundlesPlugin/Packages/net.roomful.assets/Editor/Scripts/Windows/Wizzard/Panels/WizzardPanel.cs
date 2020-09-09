@@ -4,25 +4,21 @@ using UnityEngine;
 
 namespace net.roomful.assets.Editor
 {
-
-    public class WizzardPanel : Panel
+    internal class WizzardPanel : Panel
     {
-
         private List<IAssetWizzard> m_wizards = null;
-
 
         public WizzardPanel(EditorWindow window) : base(window) { }
 
         public override void OnGUI() {
-
             if (BundleService.IsUploadInProgress) {
                 DrawPreloaderAt(new Rect(570, 12, 20, 20));
                 GUI.enabled = false;
             }
 
             GUILayout.Space(10f);
-            foreach(var wizard in Wizards) {
-                if(wizard.HasAsset) {
+            foreach (var wizard in Wizards) {
+                if (wizard.HasAsset) {
                     wizard.OnGUI(GUI.enabled);
                     Window.Repaint();
                     return;
@@ -34,28 +30,22 @@ namespace net.roomful.assets.Editor
             Window.Repaint();
         }
 
-     
-        
         private List<IAssetWizzard> Wizards {
             get {
-                if(m_wizards == null || m_wizards.Count == 0) {
+                if (m_wizards == null || m_wizards.Count == 0) {
                     m_wizards = new List<IAssetWizzard>();
                     m_wizards.Add(new PropWizzard());
                     m_wizards.Add(new EnvironmentWizzard());
-                    m_wizards.Add(new StyleWizzard()); 
+                    m_wizards.Add(new StyleWizzard());
                 }
 
                 return m_wizards;
             }
         }
 
-
-
         private void NoAssetWizard() {
-
             GUILayout.Label("Create New Roomful Asset", EditorStyles.boldLabel);
             GUILayout.Space(10);
-
 
             var prop_icon = IconManager.GetIcon(Icon.prop_icon_light);
             if (EditorGUIUtility.isProSkin) {
@@ -72,14 +62,12 @@ namespace net.roomful.assets.Editor
                 style_icon = IconManager.GetIcon(Icon.style_icon);
             }
 
-
             var propMsg = "Props are objects that can be placed in rooms" +
                           "\n" +
-                          "Upload any 3D model, and share it with the world" ;
+                          "Upload any 3D model, and share it with the world";
             DrawCreateAssetItem("Prop", propMsg, prop_icon, () => {
                 WindowManager.ShowCreateNewProp();
             });
-
 
             var styleMsg = "Styles are the building blocks for rooms" +
                            "\n" +
@@ -88,19 +76,15 @@ namespace net.roomful.assets.Editor
                 WindowManager.ShowCreateNewStyle();
             });
 
-
             var envMsg = "Environments are effects that make rooms come alive" +
                          "\n" +
                          "Like a skybox, sounds, particles and visual effects";
             DrawCreateAssetItem("Environment", envMsg, environment_icon, () => {
                 WindowManager.ShowCreateNewEnvironment();
             });
-
         }
 
-
         private void DrawCreateAssetItem(string title, string msg, Texture2D image, System.Action callback) {
-
             var options = new GUILayoutOption[2] { GUILayout.Width(75), GUILayout.Height(75) };
             var leftPannelOptions = new GUILayoutOption[2] { GUILayout.Width(75), GUILayout.Height(100) };
             var rightPannelOptions = new GUILayoutOption[2] { GUILayout.Width(350), GUILayout.Height(100) };
@@ -113,7 +97,6 @@ namespace net.roomful.assets.Editor
 
             GUILayout.BeginHorizontal();
             {
-
                 GUILayout.BeginVertical(leftPannelOptions);
                 {
                     imageButton = GUILayout.Button(createAssetContent, options);
@@ -134,12 +117,9 @@ namespace net.roomful.assets.Editor
             }
             GUILayout.EndHorizontal();
 
-            if(createButton || imageButton) {
+            if (createButton || imageButton) {
                 callback();
             }
         }
-
-
-
     }
 }

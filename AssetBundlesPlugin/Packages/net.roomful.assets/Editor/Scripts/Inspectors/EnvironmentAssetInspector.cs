@@ -4,7 +4,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(EnvironmentAsset))]
-    public class EnvironmentAssetInspector : AssetInspector<EnvironmentTemplate, EnvironmentAsset>
+    internal class EnvironmentAssetInspector : AssetInspector<EnvironmentTemplate, EnvironmentAsset>
     {
         public override void OnInspectorGUI() {
             serializedObject.Update();

@@ -6,7 +6,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(PropMeshThumbnail))]
-    public class PropMeshThumbnailEditor : UnityEditor.Editor
+    internal class PropMeshThumbnailEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI() {
             EditorGUI.BeginChangeCheck();

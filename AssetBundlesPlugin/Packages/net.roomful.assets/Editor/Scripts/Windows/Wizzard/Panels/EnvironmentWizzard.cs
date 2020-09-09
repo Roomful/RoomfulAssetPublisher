@@ -3,18 +3,17 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public class EnvironmentWizzard : AssetWizzard<EnvironmentAsset>
+    internal class EnvironmentWizzard : AssetWizzard<EnvironmentAsset>
     {
-
-        public override void Create() {
+        protected override void Create() {
             WindowManager.ShowCreateNewEnvironment();
         }
 
-        public override void Download() {
+        protected override void Download() {
             BundleService.Download(Asset.Template);
         }
 
-        public override void Upload() {
+        protected override void Upload() {
             BundleService.Upload(Asset);
         }
 

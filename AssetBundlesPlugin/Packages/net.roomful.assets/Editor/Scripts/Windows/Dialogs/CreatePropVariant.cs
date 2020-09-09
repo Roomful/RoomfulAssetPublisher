@@ -5,7 +5,7 @@ using StansAssets.Plugins.Editor;
 
 namespace net.roomful.assets.Editor
 {
-    public class CreatePropVariant : EditorWindow
+    internal class CreatePropVariant : EditorWindow
     {
         public event Action<bool, string> OnCreateClickEvent = delegate { };
         string m_Name = "prop variant";

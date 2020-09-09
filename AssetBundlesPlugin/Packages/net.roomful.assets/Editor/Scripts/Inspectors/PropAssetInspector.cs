@@ -4,7 +4,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(PropAsset))]
-    public class PropAssetInspector : AssetInspector<PropTemplate, PropAsset>
+    internal class PropAssetInspector : AssetInspector<PropTemplate, PropAsset>
     {
         private static bool s_playAnimation = false;
 

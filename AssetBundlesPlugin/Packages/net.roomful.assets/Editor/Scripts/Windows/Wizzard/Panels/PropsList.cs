@@ -3,22 +3,17 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-
-    public class PropsList : AssetsList<PropTemplate>
+    internal class PropsList : AssetsList<PropTemplate>
     {
-
         public PropsList(EditorWindow window) : base(window) { }
-
 
         protected override void CreateNewAsset() {
             WindowManager.ShowCreateNewProp();
         }
 
-
         protected override List<PropTemplate> LocalySavedTemplates => AssetBundlesSettings.Instance.m_localPropTemplates;
 
         protected override void DrawAssetInfo() {
-
             AssetInfoLable("Size", SelectedAsset.Size);
             AssetInfoLable("Placement", SelectedAsset.Placing);
             AssetInfoLable("Invoke", SelectedAsset.InvokeType);
@@ -34,7 +29,8 @@ namespace net.roomful.assets.Editor
 
                 if (SelectedAsset.ContentTypes.IndexOf(t) == (SelectedAsset.ContentTypes.Count - 1)) {
                     types += ";";
-                } else {
+                }
+                else {
                     types += ", ";
                 }
             }
@@ -46,13 +42,10 @@ namespace net.roomful.assets.Editor
             AssetInfoLable("Types", types);
         }
 
-
         protected override Network.Request.GetAssetsList CreateAssetsListRequests() {
-
             Network.Request.GetPropsList listRequest = null;
 
-
-            switch(SeartchType) {
+            switch (SeartchType) {
                 case SeartchRequestType.ByName:
                     listRequest = new Network.Request.GetPropsList(LocalySavedTemplates.Count, 5, SeartchPattern);
                     break;
@@ -64,11 +57,9 @@ namespace net.roomful.assets.Editor
                     listRequest = new Network.Request.GetPropsList(LocalySavedTemplates.Count, 5, string.Empty);
                     listRequest.SetId(SeartchPattern);
                     break;
-
             }
 
             return listRequest;
         }
-
     }
 }

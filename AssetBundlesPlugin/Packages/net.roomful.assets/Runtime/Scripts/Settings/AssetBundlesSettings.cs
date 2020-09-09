@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace net.roomful.assets
 {
-    public class AssetBundlesSettings : ScriptableObject
+    internal class AssetBundlesSettings : ScriptableObject
     {
         //--------------------------------------
         // Constants

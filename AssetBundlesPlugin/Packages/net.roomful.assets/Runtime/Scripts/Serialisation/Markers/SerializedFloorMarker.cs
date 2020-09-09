@@ -23,7 +23,7 @@ namespace net.roomful.assets.serialization
 
         }
 
-        public BoxCollider FloorCollider {
+        private BoxCollider FloorCollider {
             get {
                 var c = gameObject.GetComponent<BoxCollider>();
                 if(c == null) {
@@ -34,8 +34,7 @@ namespace net.roomful.assets.serialization
             }
         }
 
-       
-        public PropAsset Prop {
+        private PropAsset Prop {
             get {
                 var go = gameObject.transform;
                 while (go != null) {

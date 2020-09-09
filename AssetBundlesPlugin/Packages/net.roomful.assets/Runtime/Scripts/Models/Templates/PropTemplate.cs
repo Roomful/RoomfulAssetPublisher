@@ -14,7 +14,7 @@ namespace net.roomful.assets {
         public const float MAX_ALLOWED_AXIS_SIZE = 50f;
 
 	    public List<ContentType> ContentTypes =  new List<ContentType>();
-	    public Placing Placing = Placing.Floor;
+	    public PlacingType Placing = PlacingType.Floor;
 		public InvokeTypes InvokeType = InvokeTypes.Default;
 		public bool CanStack;
 		public bool AlternativeZoom;
@@ -47,7 +47,7 @@ namespace net.roomful.assets {
 
 		public override void ParseData(JSONData assetData) {
             base.ParseData(assetData);
-			Placing = EnumUtility.ParseEnum<Placing> (assetData.GetValue<string> ("placing"));
+			Placing = EnumUtility.ParseEnum<PlacingType> (assetData.GetValue<string> ("placing"));
 			InvokeType = EnumUtility.ParseEnum<InvokeTypes> (assetData.GetValue<string> ("invokeType"));
 			MinSize = assetData.GetValue<float> ("minScale");
             MaxSize = assetData.GetValue<float> ("maxScale");

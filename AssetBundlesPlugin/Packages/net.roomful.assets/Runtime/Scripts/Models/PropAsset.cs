@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using net.roomful.api;
 using UnityEngine;
 using net.roomful.assets.serialization;
 using StansAssets.Foundation.Extensions;
@@ -6,17 +7,17 @@ using StansAssets.Foundation.Extensions;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    public sealed class PropAsset : Asset<PropTemplate>
+    internal sealed class PropAsset : Asset<PropTemplate>
     {
         [SerializeField] private float m_scale = 1f;
-        
+
         private Bounds m_bounds = new Bounds(Vector3.zero, Vector3.zero);
 
         public float Scale {
             get => m_scale;
             set => m_scale = value;
         }
-        
+
         //--------------------------------------
         // Unity Editor
         //--------------------------------------
@@ -36,17 +37,6 @@ namespace net.roomful.assets
             GizmosDrawer.DrawCube(m_bounds.center, transform.rotation, m_bounds.size, Color.cyan);
         }
 
-        public static void DrawCube(Vector3 position, Quaternion rotation, Vector3 scale) {
-            var cubeTransform = Matrix4x4.TRS(position, rotation, scale);
-            var oldGizmosMatrix = Gizmos.matrix;
-
-            Gizmos.matrix *= cubeTransform;
-
-            Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-
-            Gizmos.matrix = oldGizmosMatrix;
-        }
-
         //--------------------------------------
         // Public Methods
         //--------------------------------------
@@ -57,18 +47,13 @@ namespace net.roomful.assets
             if (HasStandSurface) {
                 Template.CanStack = false;
             }
-            
-            PrepareComponentsForUpload();
-        }
 
-        public void Refresh() {
-            SetTemplate(Template);
+            PrepareComponentsForUpload();
         }
 
         public void SetTemplate(PropTemplate tpl) {
             _Template = tpl;
         }
-        
 
         public Transform GetLayer(HierarchyLayers layer) {
             var hLayer = Model.Find(layer.ToString());
@@ -179,8 +164,7 @@ namespace net.roomful.assets
         //--------------------------------------
         // Private Methods
         //--------------------------------------
-        
-        
+
         private void UpdateBounds() {
             m_bounds = BoundsManager.Calculate(gameObject);
             Template.Size = m_bounds.size;
@@ -239,7 +223,7 @@ namespace net.roomful.assets
             propTransform.rotation = Quaternion.identity;
             propTransform.localScale = Vector3.one * m_scale;
 
-            if (Template.Placing == Placing.Floor) {
+            if (Template.Placing == PlacingType.Floor) {
                 transform.position = Vector3.zero;
 
                 var rendererPoint = propTransform.GetVertex(SA_VertexX.Center, SA_VertexY.Bottom, SA_VertexZ.Center);
@@ -247,7 +231,7 @@ namespace net.roomful.assets
                 propTransform.position += diff;
             }
 
-            if (Template.Placing == Placing.Wall) {
+            if (Template.Placing == PlacingType.Wall) {
                 propTransform.position = new Vector3(0, 1.5f, -1.5f);
 
                 var rendererPoint = transform.GetVertex(SA_VertexX.Center, SA_VertexY.Center, SA_VertexZ.Back);

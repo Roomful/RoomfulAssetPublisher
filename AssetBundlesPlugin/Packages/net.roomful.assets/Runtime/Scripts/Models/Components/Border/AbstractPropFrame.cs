@@ -1,17 +1,12 @@
-﻿
-using StansAssets.Foundation.Extensions;
-using UnityEngine;
-
-
+﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 namespace net.roomful.assets
 {
-    public abstract class AbstractPropFrame : BaseComponent, IPropComponent
+    internal abstract class AbstractPropFrame : BaseComponent, IPropComponent
     {
-
         public GameObject Corner;
         public GameObject Border;
         public GameObject Back;
@@ -20,9 +15,7 @@ namespace net.roomful.assets
         protected const string BORDER_NAME = "Border";
         protected const string BACK_NAME = "Back";
 
-
         protected virtual void Awake() {
-
             var c = GetLayer(BorderLayers.BorderParts).Find(CORNER_NAME);
             if (c != null) {
                 Corner = c.gameObject;
@@ -33,7 +26,6 @@ namespace net.roomful.assets
                 Border = b.gameObject;
             }
 
-
             var back = GetLayer(BorderLayers.BorderParts).Find(BACK_NAME);
             if (back != null) {
                 Back = back.gameObject;
@@ -42,16 +34,15 @@ namespace net.roomful.assets
             UpdateFrame();
         }
 
-
-		public void OnDestroy() {
-			DestroyImmediate (GetLayer (BorderLayers.GeneratedBorder).gameObject);
-		}
+        public void OnDestroy() {
+            DestroyImmediate(GetLayer(BorderLayers.GeneratedBorder).gameObject);
+        }
 
         public void UpdateFrame() {
-            CheckhHierarchy();
+            CheckHierarchy();
             GenerateFrame();
 
-            if(Prop != null) {
+            if (Prop != null) {
                 Prop.Update();
             }
         }
@@ -59,7 +50,6 @@ namespace net.roomful.assets
         protected abstract void GenerateFrame();
 
         public void PrepareForUpload() {
-
             if (Border != null) {
                 Border.SetActive(true);
             }
@@ -72,12 +62,10 @@ namespace net.roomful.assets
                 Back.SetActive(true);
             }
 
-
             DestroyImmediate(GetLayer(BorderLayers.GeneratedBorder).gameObject);
             DestroyImmediate(this);
-
         }
-        
+
         protected Transform GetLayer(BorderLayers layer) {
             var hLayer = transform.Find(layer.ToString());
             if (hLayer == null) {
@@ -93,17 +81,11 @@ namespace net.roomful.assets
             return hLayer;
         }
 
-
-
         protected Bounds Bounds {
             get {
-
-  
-
                 foreach (BorderLayers layer in System.Enum.GetValues(typeof(BorderLayers))) {
                     GetLayer(layer).gameObject.SetActive(false);
                 }
-
 
                 var bounds = Scene.GetBounds(gameObject);
 
@@ -115,9 +97,13 @@ namespace net.roomful.assets
             }
         }
 
+        public void Update() {
+            
+        }
+
         public Priority UpdatePriority => Priority.Medium;
 
-        protected abstract void CheckhHierarchy();
+        protected abstract void CheckHierarchy();
 
         public abstract void SetBackOffset(float offset);
 
@@ -132,19 +118,12 @@ namespace net.roomful.assets
             return p;
         }
 
-
-       
-        public bool IsPersistent(GameObject go) {
+        protected bool IsPersistent(GameObject go) {
 #if UNITY_EDITOR
             return EditorUtility.IsPersistent(gameObject);
 #else
             return false;
 #endif
-        }
-
-
-        public void Update() {
-
         }
     }
 }

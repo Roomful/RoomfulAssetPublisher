@@ -8,7 +8,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor {
 
 	[CustomEditor(typeof(PropThumbnail))]
-	public class PropThumbnailEditor : UnityEditor.Editor {
+	internal class PropThumbnailEditor : UnityEditor.Editor {
 
 
 		public override void OnInspectorGUI() {

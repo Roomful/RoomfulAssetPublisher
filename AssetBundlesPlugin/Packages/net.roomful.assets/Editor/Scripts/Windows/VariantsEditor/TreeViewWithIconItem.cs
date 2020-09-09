@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace net.roomful.assets.Editor
 {
-    public class TreeViewWithIconItem : TreeViewItem
+    internal class TreeViewWithIconItem : TreeViewItem
     {
         readonly Texture m_Icon = EditorGUIUtility.IconContent("GameObject Icon").image;
         Rect m_Rect;

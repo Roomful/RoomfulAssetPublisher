@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace net.roomful.assets.Editor
 {
-    public abstract class BundleManager<T, TAsset> : IBundleManager where T : Template where TAsset : IAsset
+    internal abstract class BundleManager<T, TAsset> : IBundleManager where T : Template where TAsset : IAsset
     {
         public event Action OnUploaded = delegate { };
 

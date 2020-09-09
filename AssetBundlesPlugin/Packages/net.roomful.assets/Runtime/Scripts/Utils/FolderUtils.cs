@@ -8,7 +8,7 @@ using UnityEditor;
 #endif
 
 namespace net.roomful.assets {
-	public class FolderUtils  {
+	internal class FolderUtils  {
 		//--------------------------------------
 		// Config
 		//--------------------------------------

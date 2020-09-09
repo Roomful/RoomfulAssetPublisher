@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets.Editor
 {
-    public class V1_MarkersCollector : BaseCollector
+    internal class V1_MarkersCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             PropAsset propAsset;

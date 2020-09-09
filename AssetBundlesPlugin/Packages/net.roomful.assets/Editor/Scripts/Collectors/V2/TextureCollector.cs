@@ -4,7 +4,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets.Editor
 {
-    public class TextureCollector : BaseCollector
+    internal class TextureCollector : BaseCollector
     {
         public void Run(IAsset asset, SerializedTexture st) {
             var texName = st.MainTexture.name;

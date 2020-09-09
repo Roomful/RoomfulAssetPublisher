@@ -5,19 +5,14 @@ using StansAssets.Foundation;
 
 namespace net.roomful.assets.Editor
 {
-    public class AccountPanel : Panel
+    internal class AccountPanel : Panel
     {
-
-        private string Mail = string.Empty;
-        private string Password = string.Empty;
-
+        private string m_mail = string.Empty;
+        private string m_password = string.Empty;
 
         public AccountPanel(EditorWindow window) : base(window) { }
 
-
-
         public override void OnGUI() {
-
             if (AssetBundlesSettings.Instance.IsLoggedIn) {
                 GUILayout.Label("Use your Roomful account email and password to sign in.");
 
@@ -25,30 +20,29 @@ namespace net.roomful.assets.Editor
                 return;
             }
 
-
             GUILayout.Label("Roomful asset wizzard. Logged in as: " + AssetBundlesSettings.Instance.SessionId);
 
             if (GUILayout.Button("Log Out")) {
-                Mail = string.Empty;
-                Password = string.Empty;
+                m_mail = string.Empty;
+                m_password = string.Empty;
 
                 AssetBundlesSettings.Instance.SetSessionId(string.Empty);
                 BundleUtility.ClearLocalCache();
             }
         }
 
-
         private void AuthWindow() {
             GUILayout.BeginVertical();
 
-            Mail = EditorGUILayout.TextField("E-mail: ", Mail);
-            Password = EditorGUILayout.PasswordField("Password: ", Password);
+            m_mail = EditorGUILayout.TextField("E-mail: ", m_mail);
+            m_password = EditorGUILayout.PasswordField("Password: ", m_password);
 
             if (GUILayout.Button("Log In")) {
-                if (string.IsNullOrEmpty(Mail) || string.IsNullOrEmpty(Password)) {
+                if (string.IsNullOrEmpty(m_mail) || string.IsNullOrEmpty(m_password)) {
                     Debug.Log("Fill all inputs ");
-                } else {
-                    var signInRequest = new Network.Request.Signin(Mail, Password);
+                }
+                else {
+                    var signInRequest = new Network.Request.Signin(m_mail, m_password);
 
                     signInRequest.PackageCallbackText = signInCallback => {
                         ParseSessionToken(signInCallback);

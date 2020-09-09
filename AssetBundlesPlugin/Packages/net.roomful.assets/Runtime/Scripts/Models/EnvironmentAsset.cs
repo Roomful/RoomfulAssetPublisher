@@ -9,7 +9,7 @@ using StansAssets.Foundation.Extensions;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    public class EnvironmentAsset : Asset<EnvironmentTemplate>
+    internal class EnvironmentAsset : Asset<EnvironmentTemplate>
     {
         //--------------------------------------
         // Initialization

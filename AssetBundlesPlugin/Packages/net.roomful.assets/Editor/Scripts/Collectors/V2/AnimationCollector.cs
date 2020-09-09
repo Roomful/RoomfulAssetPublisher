@@ -7,7 +7,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public class AnimationCollector : BaseCollector
+    internal class AnimationCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             var anims = asset.gameObject.GetComponentsInChildren<Animation>(true);

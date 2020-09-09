@@ -1,6 +1,6 @@
 ﻿namespace net.roomful.assets.Editor
 {
-    public enum Icon
+    internal enum Icon
     {
         wizard,
         loader,

@@ -8,7 +8,7 @@ using Json = StansAssets.Foundation.Json;
 
 namespace net.roomful.assets.Editor
 {
-    public abstract class AssetsList<T> : Panel where T : Template
+    internal abstract class AssetsList<T> : Panel where T : Template
     {
         protected T SelectedAsset = null;
         protected SeartchRequestType SeartchType = SeartchRequestType.ByName;

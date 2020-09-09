@@ -1,5 +1,5 @@
 ﻿using System;
-
+using net.roomful.api;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -8,11 +8,9 @@ using Object = UnityEngine.Object;
 
 namespace net.roomful.assets.Editor
 {
-
-    public static class PropAssetScreenshotTool 
+    internal static class PropAssetScreenshotTool
     {
         public static void CreateIcon(bool useEditorCamera, PropAsset prop) {
-
             var savedLayer = prop.gameObject.layer;
             const int screenShotLayer = 31;
             SetLayerForAsset(screenShotLayer, prop);
@@ -21,15 +19,16 @@ namespace net.roomful.assets.Editor
             cameraHolder.transform.SetParent(environment.gameObject.transform);
             var camera = cameraHolder.AddComponent<Camera>();
 
-
             if (useEditorCamera) {
                 var sceneView = SceneView.currentDrawingSceneView;
                 camera.transform.position = sceneView.camera.transform.position;
                 camera.transform.rotation = sceneView.camera.transform.rotation;
-            } else {
-                if (prop.Template.Placing == Placing.Floor) {
+            }
+            else {
+                if (prop.Template.Placing == PlacingType.Floor) {
                     SetupCameraForFloorProp(prop.Template.Size, prop.gameObject.transform.position, camera);
-                } else {
+                }
+                else {
                     SetupCameraForWallProp(prop.Template.Size, prop.gameObject.transform.position, camera);
                 }
             }
@@ -44,9 +43,7 @@ namespace net.roomful.assets.Editor
             Object.DestroyImmediate(cameraHolder);
         }
 
-        public static void CreateIcon(bool useEditorCamera, PropAsset prop, Skin skin)
-        {
-
+        public static void CreateIcon(bool useEditorCamera, PropAsset prop, Skin skin) {
             var savedLayer = prop.gameObject.layer;
             const int screenShotLayer = 31;
             SetLayerForAsset(screenShotLayer, prop);
@@ -55,21 +52,16 @@ namespace net.roomful.assets.Editor
             cameraHolder.transform.SetParent(environment.gameObject.transform);
             var camera = cameraHolder.AddComponent<Camera>();
 
-
-            if (useEditorCamera)
-            {
+            if (useEditorCamera) {
                 var sceneView = SceneView.currentDrawingSceneView;
                 camera.transform.position = sceneView.camera.transform.position;
                 camera.transform.rotation = sceneView.camera.transform.rotation;
             }
-            else
-            {
-                if (prop.Template.Placing == Placing.Floor)
-                {
+            else {
+                if (prop.Template.Placing == PlacingType.Floor) {
                     SetupCameraForFloorProp(prop.Template.Size, prop.gameObject.transform.position, camera);
                 }
-                else
-                {
+                else {
                     SetupCameraForWallProp(prop.Template.Size, prop.gameObject.transform.position, camera);
                 }
             }
@@ -91,7 +83,6 @@ namespace net.roomful.assets.Editor
         }
 
         private static Texture2D MakeScreenshotWithBackground(Camera camera, Color background, int layer) {
-
             camera.cullingMask = (1 << layer);
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = background;
@@ -113,6 +104,7 @@ namespace net.roomful.assets.Editor
             if (left.width != right.width || left.height != right.height) {
                 throw new ArgumentException("Textures dimentions must be equal");
             }
+
             var resultIcon = new Texture2D(left.width, left.height, TextureFormat.RGBA32, false);
             var leftColors = left.GetPixels32();
             var rightColors = right.GetPixels32();
@@ -120,10 +112,12 @@ namespace net.roomful.assets.Editor
             for (var i = resultColors.Length - 1; i >= 0; i--) {
                 if (leftColors[i].Equals(rightColors[i])) {
                     resultColors[i] = leftColors[i];
-                } else {
+                }
+                else {
                     resultColors[i] = Color.clear;
                 }
             }
+
             resultIcon.SetPixels32(resultColors);
             resultIcon.Apply();
             return resultIcon;
@@ -142,8 +136,6 @@ namespace net.roomful.assets.Editor
             camera.transform.position -= camera.transform.forward.normalized * distance;
         }
 
-
-
         private static void SetupCameraForWallProp(Vector3 size, Vector3 propPosition, Camera camera) {
             var center = new Vector3(propPosition.x, propPosition.y, propPosition.z);
             var deltaZ = size.y / 2 / Mathf.Tan(Mathf.Deg2Rad * camera.fieldOfView / 2);
@@ -151,6 +143,7 @@ namespace net.roomful.assets.Editor
             if (propAspectRatio > camera.aspect) {
                 deltaZ = deltaZ / camera.aspect * propAspectRatio;
             }
+
             center.z += size.z / 2;
             center.z += deltaZ;
             camera.transform.position = center;

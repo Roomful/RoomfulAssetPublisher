@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public class CreateEnvironmentWindow : EditorWindow
+    internal class CreateEnvironmentWindow : EditorWindow
     {
         private EnvironmentTemplate m_template = new EnvironmentTemplate();
 

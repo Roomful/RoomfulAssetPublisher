@@ -4,7 +4,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(StylePanel))]
-    public class StylePanelInspector : UnityEditor.Editor
+    internal class StylePanelInspector : UnityEditor.Editor
     {
         public override void OnInspectorGUI() {
             serializedObject.Update();

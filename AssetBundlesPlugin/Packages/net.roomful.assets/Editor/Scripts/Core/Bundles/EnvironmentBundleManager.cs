@@ -3,7 +3,7 @@ using net.roomful.assets.Network.Request;
 
 namespace net.roomful.assets.Editor
 {
-    public class EnvironmentBundleManager : BundleManager<EnvironmentTemplate, EnvironmentAsset>
+    internal class EnvironmentBundleManager : BundleManager<EnvironmentTemplate, EnvironmentAsset>
     {
         protected override void CreateAsset(EnvironmentTemplate tpl) {
             var asset = new GameObject(tpl.Title).AddComponent<EnvironmentAsset>();

@@ -3,7 +3,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets.Editor
 {
-    public class TextCollector : BaseCollector
+    internal class TextCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             foreach (var textInfo in asset.gameObject.GetComponentsInChildren<SerializedText>(true)) {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace net.roomful.assets.Editor
 {
-    public class V1_RendererCollector : BaseCollector
+    internal class V1_RendererCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             var renderers = asset.gameObject.GetComponentsInChildren<Renderer>(true);

@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets.Editor
 {
-    public class EnvironmentCollector : BaseCollector
+    internal class EnvironmentCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             foreach (var e in asset.gameObject.GetComponentsInChildren<SerializedEnvironment>(true)) {

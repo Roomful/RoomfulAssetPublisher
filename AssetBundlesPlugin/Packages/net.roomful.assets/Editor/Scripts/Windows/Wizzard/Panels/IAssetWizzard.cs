@@ -1,7 +1,9 @@
-﻿public interface IAssetWizzard {
+﻿namespace net.roomful.assets.Editor
+{
+    internal interface IAssetWizzard
+    {
+        void OnGUI(bool guiState);
 
-    void OnGUI(bool GUIState);
-
-    bool HasAsset { get; }
-
+        bool HasAsset { get; }
+    }
 }

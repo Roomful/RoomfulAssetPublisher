@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets
 {
-    public static class AssetHierarchySettings
+    internal static class AssetHierarchySettings
     {
         private static List<string> s_hierarchyLayers = null;
 

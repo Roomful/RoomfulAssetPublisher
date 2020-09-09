@@ -5,7 +5,7 @@ using net.roomful.api;
 namespace net.roomful.assets
 {
     [Serializable]
-    public class StyleTemplate : Template
+    internal class StyleTemplate : Template
     {
 
         public StyleMetadata Metadata = null;

@@ -51,8 +51,8 @@ namespace net.roomful.assets.Editor
                 var rect = GUILayoutUtility.GetRect(section.Content, Constants.sectionElement, GUILayout.ExpandWidth(true));
 
                 if (section == SelectedSection && Event.current.type == EventType.Repaint) {
-                    var color = EditorGUIUtility.isProSkin 
-                        ? new Color(62f / 255f, 95f / 255f, 150f / 255f, 1f) 
+                    var color = EditorGUIUtility.isProSkin
+                        ? new Color(62f / 255f, 95f / 255f, 150f / 255f, 1f)
                         : new Color(62f / 255f, 125f / 255f, 231f / 255f, 1f);
 
                     GUI.DrawTexture(rect, Texture2DUtility.MakePlainColorImage(color));

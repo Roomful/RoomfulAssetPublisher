@@ -3,7 +3,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets.Editor
 {
-    public class ComponentsCollector : BaseCollector
+    internal class ComponentsCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             var scripts = asset.gameObject.GetComponentsInChildren<IRecreatableOnLoad>(true);

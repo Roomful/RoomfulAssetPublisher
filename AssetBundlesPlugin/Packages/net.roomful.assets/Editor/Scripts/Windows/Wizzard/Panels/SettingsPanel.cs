@@ -7,7 +7,7 @@ using StansAssets.Plugins.Editor;
 
 namespace net.roomful.assets.Editor
 {
-    public class SettingsPanel : Panel
+    internal class SettingsPanel : Panel
     {
         public SettingsPanel(EditorWindow window) : base(window) { }
 

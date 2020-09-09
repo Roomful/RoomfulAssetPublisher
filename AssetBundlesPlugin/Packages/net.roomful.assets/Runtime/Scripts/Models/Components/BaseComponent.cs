@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets
 {
-    public class BaseComponent : MonoBehaviour
+    internal class BaseComponent : MonoBehaviour
     {
         protected PropAsset Prop => FindObjectOfType<PropAsset>();
 

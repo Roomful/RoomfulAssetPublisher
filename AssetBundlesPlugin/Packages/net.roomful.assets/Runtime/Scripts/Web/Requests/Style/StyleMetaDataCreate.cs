@@ -1,5 +1,5 @@
 ﻿namespace net.roomful.assets.Network.Request {
-	public class StyleMetaDataCreate : AssetMetadataRequest
+    internal class StyleMetaDataCreate : AssetMetadataRequest
     {
 
         public const string RequestUrl = "/api/v0/asset/style/create";

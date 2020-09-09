@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace net.roomful.assets
 {
-    public static class PrefabManager
+    internal static class PrefabManager
     {
         public static GameObject CreatePrefab(string prefabName) {
 #if UNITY_EDITOR

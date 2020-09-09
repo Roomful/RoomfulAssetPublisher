@@ -4,7 +4,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomEditor(typeof(PropStretchedFrame))]
-    public class StretchedPropFrameEditor : UnityEditor.Editor {
+    internal class StretchedPropFrameEditor : UnityEditor.Editor {
 
 
         public override void OnInspectorGUI() {

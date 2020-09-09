@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets.Editor
 {
-    public static class EditorProgressBar
+    internal static class EditorProgressBar
     {
         public static void AddProgress(string title, string message, float progress) {
             UploadProgress += progress;

@@ -1,11 +1,8 @@
 ﻿namespace net.roomful.assets.Editor
 {
-
-    public interface IPanel
+    internal interface IPanel
     {
-
         void OnGUI();
-        bool CanBeSelected { get;  }
-
+        bool CanBeSelected { get; }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-
 namespace net.roomful.assets.Editor
 {
-    public class WizzardConstants
+    internal class WizzardConstants
     {
-
         public GUIStyle sectionScrollView = "PreferencesSectionBox";
         public GUIStyle settingsBoxTitle = "OL Title";
         public GUIStyle settingsBox = "OL Box";
@@ -28,21 +26,19 @@ namespace net.roomful.assets.Editor
             sectionScrollView = new GUIStyle(sectionScrollView);
             sectionScrollView.overflow.bottom++;
 
-
             toolbarStyle = GUI.skin.FindStyle("Toolbar");
             toolbarSeachTextFieldStyle = GUI.skin.FindStyle("ToolbarSeachTextField");
             toolbarSeachCancelButtonStyle = GUI.skin.FindStyle("ToolbarSeachCancelButton");
-
 
             sectionHeader.fontStyle = FontStyle.Bold;
             sectionHeader.fontSize = 18;
             sectionHeader.margin.top = 10;
             sectionHeader.margin.left++;
 
-
             if (!EditorGUIUtility.isProSkin) {
                 sectionHeader.normal.textColor = new Color(0.4f, 0.4f, 0.4f, 1f);
-            } else {
+            }
+            else {
                 sectionHeader.normal.textColor = new Color(0.7f, 0.7f, 0.7f, 1f);
             }
 

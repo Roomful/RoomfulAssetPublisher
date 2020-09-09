@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace net.roomful.assets.Editor
 {
-    public sealed class VariantHierarchyViewItem : TreeViewWithIconItem
+    internal sealed class VariantHierarchyViewItem : TreeViewWithIconItem
     {
         readonly Skin m_Skin;
         readonly Renderer m_Renderer;

@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets.Editor
 {
-    public class MeshCollector : BaseCollector
+    internal class MeshCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             var meshes = asset.gameObject.GetComponentsInChildren<MeshFilter>(true);

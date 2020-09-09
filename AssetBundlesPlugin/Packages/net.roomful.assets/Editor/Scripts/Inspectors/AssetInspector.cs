@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public abstract class AssetInspector<T, TAsset> : UnityEditor.Editor where T : Template where TAsset : class, IAsset
+    internal abstract class AssetInspector<T, TAsset> : UnityEditor.Editor where T : Template where TAsset : class, IAsset
     {
         public void DrawEnvironmentSwitch() {
             var env = FindObjectOfType<Environment>();

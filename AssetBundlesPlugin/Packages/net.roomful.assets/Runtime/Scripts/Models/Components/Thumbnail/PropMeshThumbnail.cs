@@ -5,7 +5,7 @@ using StansAssets.Foundation.Extensions;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    public class PropMeshThumbnail : BaseComponent, IPropComponent
+    internal class PropMeshThumbnail : BaseComponent, IPropComponent
     {
         public int ImageIndex = 0;
         public Texture2D Thumbnail;

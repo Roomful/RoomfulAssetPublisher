@@ -4,7 +4,7 @@ using System.Globalization;
 namespace SA.Foundation.Time
 {
 
-    public static class SA_Rfc3339_Time
+    internal static class SA_Rfc3339_Time
     {
 
         private static string[] _rfc3339Formats = new string[0];

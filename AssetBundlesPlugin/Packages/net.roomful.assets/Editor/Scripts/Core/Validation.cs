@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public static class Validation
+    internal static class Validation
     {
         private static readonly List<BuildTarget> s_allowedTargets = new List<BuildTarget>();
 

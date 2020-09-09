@@ -5,7 +5,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [InitializeOnLoad]
-    public static class BundleService
+    internal static class BundleService
     {
         private static readonly List<IBundleManager> s_bundles;
 

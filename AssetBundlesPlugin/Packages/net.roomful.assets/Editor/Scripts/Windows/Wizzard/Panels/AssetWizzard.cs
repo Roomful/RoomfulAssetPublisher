@@ -7,10 +7,8 @@ using UnityEngine.SceneManagement;
 
 namespace net.roomful.assets.Editor
 {
-
-    public abstract class AssetWizzard<A> : WizzardUIComponent, IAssetWizzard where A : IAsset {
-
-
+    internal abstract class AssetWizzard<A> : WizzardUIComponent, IAssetWizzard where A : IAsset
+    {
         private A m_currentAsset;
         private GameObject m_currentAssetGameObject;
 
@@ -20,9 +18,9 @@ namespace net.roomful.assets.Editor
 
         public abstract void OnGUI(bool GUIState);
 
-        public abstract void Create();
-        public abstract void Upload();
-        public abstract void Download();
+        protected abstract void Create();
+        protected abstract void Upload();
+        protected abstract void Download();
 
         //--------------------------------------
         // Public Methods
@@ -52,22 +50,20 @@ namespace net.roomful.assets.Editor
         }
 
         public void DrawControlButtons() {
-
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
             var buttonRect1 = new Rect(460, 360, 120, 18);
             var buttonRect2 = new Rect(310, 360, 120, 18);
             var buttonRect3 = new Rect(460, 390, 120, 18);
-          
 
             if (Asset.GetTemplate().IsNew) {
                 var upload = GUI.Button(buttonRect1, "Upload");
                 if (upload) {
                     Upload();
                 }
-
-            } else {
+            }
+            else {
                 var upload = GUI.Button(buttonRect1, "Reupload");
                 if (upload) {
                     Upload();
@@ -77,25 +73,20 @@ namespace net.roomful.assets.Editor
                 if (refresh) {
                     Download();
                 }
-            } 
-           
+            }
 
             var create = GUI.Button(buttonRect3, "Create New");
             if (create) {
                 Create();
             }
 
-
             GUILayout.Space(40f);
             GUILayout.EndHorizontal();
         }
 
-       
-
         //--------------------------------------
         // Get / Set
         //--------------------------------------
-
 
         public bool HasAsset => Asset != null;
 
@@ -103,21 +94,18 @@ namespace net.roomful.assets.Editor
 
         protected A Asset {
             get {
-                if(m_currentAssetGameObject != null) {
+                if (m_currentAssetGameObject != null) {
                     return m_currentAsset;
-                } else {
+                }
+                else {
                     return FindAsset();
                 }
-              
             }
         }
-
-
 
         //--------------------------------------
         // Private Methods
         //--------------------------------------
-
 
         private string TagListItem(Rect position, string itemValue) {
             if (itemValue == null)
@@ -129,11 +117,9 @@ namespace net.roomful.assets.Editor
             GUILayout.Label("No items in list.", EditorStyles.miniLabel);
         }
 
-
-
         private A FindAsset() {
             var scene = SceneManager.GetActiveScene();
-            foreach(var gameObject in scene.GetRootGameObjects()) {
+            foreach (var gameObject in scene.GetRootGameObjects()) {
                 var target = gameObject.GetComponent<A>();
                 if (target != null) {
                     m_currentAsset = target;
@@ -144,6 +130,5 @@ namespace net.roomful.assets.Editor
 
             return default(A);
         }
-
     }
 }

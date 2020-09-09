@@ -29,7 +29,7 @@ namespace net.roomful.assets {
 
 		[TextArea(3, 10)]
 		public string PlaceHolderText = "Hello Roomful";
-		public FontData FontData = FontData.defaultFontData;
+		public FontData FontData = FontData.DefaultFontData;
 		public Color Color = Color.white;
 		public TextContent Source = new TextContent();
 
@@ -65,14 +65,14 @@ namespace net.roomful.assets {
           
             PlaceHolderText = info.PlaceHolderText;
             Color = info.Color;
-            FontData.font = info.Font;
-            FontData.fontSize = info.FontSize;
-            FontData.lineSpacing = info.LineSpacing;
+            FontData.Font = info.Font;
+            FontData.FontSize = info.FontSize;
+            FontData.LineSpacing = info.LineSpacing;
             FontData.LineCharacterLimit = info.LineCharacterLimit;
-            FontData.fontStyle = info.FontStyle;
-            FontData.alignment = info.Alignment;
-            FontData.horizontalOverflow = info.HorizontalOverflow;
-            FontData.verticalOverflow = info.VerticalOverflow;
+            FontData.FontStyle = info.FontStyle;
+            FontData.Alignment = info.Alignment;
+            FontData.HorizontalOverflow = info.HorizontalOverflow;
+            FontData.VerticalOverflow = info.VerticalOverflow;
 
 
 			Source.DataProvider = info.DataProvider;
@@ -90,19 +90,19 @@ namespace net.roomful.assets {
             textInfo.PlaceHolderText = PlaceHolderText;
             textInfo.Color = Color;
 
-			if(FontData.font != null) {
-				textInfo.Font = FontData.font;
+			if(FontData.Font != null) {
+				textInfo.Font = FontData.Font;
                 textInfo.Font.material.shader = Shader.Find("GUI/Text Shader");
             }
 
            
-            textInfo.FontSize = FontData.fontSize;
-            textInfo.LineSpacing = FontData.lineSpacing;
+            textInfo.FontSize = FontData.FontSize;
+            textInfo.LineSpacing = FontData.LineSpacing;
             textInfo.LineCharacterLimit = FontData.LineCharacterLimit;
-            textInfo.FontStyle = FontData.fontStyle;
-            textInfo.Alignment = FontData.alignment;
-            textInfo.HorizontalOverflow = FontData.horizontalOverflow;
-            textInfo.VerticalOverflow = FontData.verticalOverflow;
+            textInfo.FontStyle = FontData.FontStyle;
+            textInfo.Alignment = FontData.Alignment;
+            textInfo.HorizontalOverflow = FontData.HorizontalOverflow;
+            textInfo.VerticalOverflow = FontData.VerticalOverflow;
 
 			textInfo.DataProvider = Source.DataProvider;
 			textInfo.ResourceIndex = Source.ResourceIndex;
@@ -147,7 +147,7 @@ namespace net.roomful.assets {
             }
         }
 
-        public PropAsset Prop {
+        private PropAsset Prop {
             get {
                 var go = gameObject.transform;
                 while (go != null) {
@@ -201,11 +201,11 @@ namespace net.roomful.assets {
             
  
 			TextRenderer.text = WrapText(PlaceHolderText);
-			TextRenderer.fontSize = FontData.fontSize;
-			TextRenderer.lineSpacing = FontData.lineSpacing;
-			TextRenderer.fontStyle = FontData.fontStyle;
+			TextRenderer.fontSize = FontData.FontSize;
+			TextRenderer.lineSpacing = FontData.LineSpacing;
+			TextRenderer.fontStyle = FontData.FontStyle;
             TextRenderer.color = Color;
-            TextRenderer.font = FontData.font;
+            TextRenderer.font = FontData.Font;
             TextRenderer.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
             if (TextRenderer.font != null) {
@@ -228,7 +228,7 @@ namespace net.roomful.assets {
 
 
 
-            if (FontData.horizontalOverflow == SerializedTextWrapMode.Truncate) {
+            if (FontData.HorizontalOverflow == SerializedTextWrapMode.Truncate) {
 				if(m_textBounds.size.x > Width) {
                     var dif = Width / m_textBounds.size.x;
                     TextRenderer.transform.localScale = TextRenderer.transform.localScale * dif;
@@ -236,7 +236,7 @@ namespace net.roomful.assets {
 				}
 			}
 
-			if(FontData.verticalOverflow == SerializedTextWrapMode.Truncate) {
+			if(FontData.VerticalOverflow == SerializedTextWrapMode.Truncate) {
                 if (m_textBounds.size.y > Height) {
                     var dif = Height / m_textBounds.size.y;
                     TextRenderer.transform.localScale = TextRenderer.transform.localScale * dif;
@@ -245,7 +245,7 @@ namespace net.roomful.assets {
 			}
 
 
-			switch(FontData.alignment) {
+			switch(FontData.Alignment) {
 			case TextAnchor.LowerCenter:
 				ApplyAligment (AlignmentVertical.Lower, AlignmentHorizontal.Center);
 				break;

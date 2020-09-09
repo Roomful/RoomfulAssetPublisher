@@ -5,7 +5,7 @@ namespace net.roomful.assets
 {
     [SelectionBase]
     [ExecuteInEditMode]
-    public class PropThumbnail : BaseComponent, IPropComponent
+    internal class PropThumbnail : BaseComponent, IPropComponent
     {
         public int ImageIndex = 0;
         public Texture2D Thumbnail;

@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    public class AddPlatformWindow : EditorWindow
+    internal class AddPlatformWindow : EditorWindow
     {
         private BuildTarget m_platform = BuildTarget.NoTarget;
 

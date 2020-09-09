@@ -4,7 +4,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets.Editor
 {
-    public class RendererCollector : BaseCollector
+    internal class RendererCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             var rens = asset.gameObject.GetComponentsInChildren<Renderer>(true);

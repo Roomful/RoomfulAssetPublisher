@@ -3,7 +3,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets.Editor
 {
-    public class V1_ThumbnailsCollector : BaseCollector
+    internal class V1_ThumbnailsCollector : BaseCollector
     {
         public override void Run(IAsset asset) {
             PropAsset propAsset;

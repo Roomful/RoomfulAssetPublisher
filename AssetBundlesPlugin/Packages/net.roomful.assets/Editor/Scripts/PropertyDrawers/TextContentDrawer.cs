@@ -4,7 +4,7 @@ using UnityEditor;
 namespace net.roomful.assets.Editor
 {
     [CustomPropertyDrawer(typeof(TextContent))]
-    public class TextContentDrawer : PropertyDrawer
+    internal class TextContentDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
             var DataProvider = property.FindPropertyRelative("DataProvider");

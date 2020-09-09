@@ -2,21 +2,20 @@
 
 namespace net.roomful.assets
 {
-
-    public class PriorityComparer : IComparer<IPropComponent>
+    internal class PriorityComparer : IComparer<IPropComponent>
     {
-
         public int Compare(IPropComponent a, IPropComponent b) {
-
             var p1 = (int) a.UpdatePriority;
             var p2 = (int) b.UpdatePriority;
 
-           if(p1 > p2) {
+            if (p1 > p2) {
                 return 1;
-           } else {
-                if(p1 < p2) {
+            }
+            else {
+                if (p1 < p2) {
                     return -1;
-                } else {
+                }
+                else {
                     return 0;
                 }
             }

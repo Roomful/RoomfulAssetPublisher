@@ -3,7 +3,7 @@
 
 namespace net.roomful.assets
 {
-    public class PanelBounds : AssetBounds
+    internal class PanelBounds : AssetBounds
     {
 
         public override bool IsValidForBounds(Renderer renderer) {

@@ -1,25 +1,20 @@
 ﻿using UnityEngine;
 
+namespace net.roomful.assets
+{
+    internal static class GizmosDrawer
+    {
+        public static void DrawCube(Vector3 position, Quaternion rotation, Vector3 scale, Color color) {
+            Gizmos.color = color;
 
-namespace net.roomful.assets {
-	
-	public static class GizmosDrawer {
+            var cubeTransform = Matrix4x4.TRS(position, rotation, scale);
+            var oldGizmosMatrix = Gizmos.matrix;
 
-		public static void DrawCube (Vector3 position, Quaternion rotation, Vector3 scale, Color color) {
+            Gizmos.matrix *= cubeTransform;
 
-			Gizmos.color = color; 
+            Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
 
-			var cubeTransform = Matrix4x4.TRS (position, rotation, scale);
-			var oldGizmosMatrix = Gizmos.matrix;
-
-			Gizmos.matrix *= cubeTransform;
-
-			Gizmos.DrawWireCube (Vector3.zero, Vector3.one);
-
-			Gizmos.matrix = oldGizmosMatrix;
-
-
-		}
-	}
-
+            Gizmos.matrix = oldGizmosMatrix;
+        }
+    }
 }
