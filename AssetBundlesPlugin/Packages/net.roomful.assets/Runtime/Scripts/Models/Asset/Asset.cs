@@ -4,7 +4,7 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets
 {
-    internal abstract class Asset<T> : MonoBehaviour, IAsset where T : Template, new()
+    internal abstract class Asset<T> : MonoBehaviour, IAsset where T : AssetTemplate, new()
     {
         protected T _Template;
 
@@ -20,7 +20,7 @@ namespace net.roomful.assets
         // Public Methods
         //--------------------------------------
 
-        public Template GetTemplate() {
+        public AssetTemplate GetTemplate() {
             return Template;
         }
 

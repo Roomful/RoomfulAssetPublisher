@@ -6,7 +6,7 @@ namespace net.roomful.assets.Editor
 {
     internal class CreateAssetWindow : EditorWindow
     {
-        private PropTemplate m_template = new PropTemplate();
+        private PropAssetTemplate m_assetTemplate = new PropAssetTemplate();
 
         void OnGUI() {
             var wizardIcon = IconManager.GetIcon(Icon.wizard);
@@ -17,10 +17,10 @@ namespace net.roomful.assets.Editor
             EditorGUI.LabelField(new Rect(100, 10, 300, 40), headerContent);
 
             EditorGUI.LabelField(new Rect(100, 50, 300, 16), "Name:");
-            m_template.Title = EditorGUI.TextField(new Rect(170, 50, 180, 16), m_template.Title);
+            m_assetTemplate.Title = EditorGUI.TextField(new Rect(170, 50, 180, 16), m_assetTemplate.Title);
 
             EditorGUI.LabelField(new Rect(100, 70, 300, 16), "Placement:");
-            m_template.Placing = (PlacingType) EditorGUI.EnumPopup(new Rect(170, 70, 180, 16), m_template.Placing);
+            m_assetTemplate.Placing = (PlacingType) EditorGUI.EnumPopup(new Rect(170, 70, 180, 16), m_assetTemplate.Placing);
 
             GUILayout.Space(110f);
             GUILayout.BeginHorizontal();
@@ -33,7 +33,7 @@ namespace net.roomful.assets.Editor
 
                 var create = GUILayout.Button("Create", EditorStyles.miniButton, GUILayout.Width(80));
                 if (create) {
-                    BundleService.Create(m_template);
+                    BundleService.Create(m_assetTemplate);
                     Dismiss();
                 }
 
@@ -43,7 +43,7 @@ namespace net.roomful.assets.Editor
         }
 
         private void Dismiss() {
-            m_template = new PropTemplate();
+            m_assetTemplate = new PropAssetTemplate();
             Close();
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace net.roomful.assets
 {
-    public class Skin
+    internal class Skin
     {
         public Texture2D PreviewIcon { get; set; }
 

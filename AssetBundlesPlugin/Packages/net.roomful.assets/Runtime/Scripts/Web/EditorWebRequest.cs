@@ -10,7 +10,7 @@ namespace net.roomful.assets.Network
 {
 
 
-    public class EditorWebRequest
+    internal class EditorWebRequest
     {
 
         private readonly UnityWebRequest m_request = null;

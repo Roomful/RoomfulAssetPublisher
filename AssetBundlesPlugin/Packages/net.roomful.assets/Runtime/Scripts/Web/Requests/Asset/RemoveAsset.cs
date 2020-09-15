@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace net.roomful.assets.Network.Request {
-	public class RemoveAsset : BaseWebPackage {
+	internal class RemoveAsset : BaseWebPackage {
 
 		public const string PackUrl = "/api/v0/asset/remove";
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace net.roomful.assets.Network.Request {
-	public class UploadAsset_Thumbnail : BaseWebPackage {
+	internal class UploadAsset_Thumbnail : BaseWebPackage {
 
 		private const RequestMethods PackMethodName = RequestMethods.PUT;
 

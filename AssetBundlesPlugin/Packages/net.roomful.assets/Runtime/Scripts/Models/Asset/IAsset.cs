@@ -4,7 +4,7 @@ namespace net.roomful.assets
 {
     internal interface IAsset
     {
-        Template GetTemplate();
+        AssetTemplate GetTemplate();
         Texture2D GetIcon();
         void PrepareForUpload();
 

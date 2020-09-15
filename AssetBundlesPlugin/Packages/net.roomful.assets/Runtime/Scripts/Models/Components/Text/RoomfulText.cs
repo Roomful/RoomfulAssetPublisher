@@ -10,7 +10,7 @@ namespace net.roomful.assets {
 	
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(RectTransform))]
-	public class RoomfulText : MonoBehaviour, IPropComponent
+	internal class RoomfulText : MonoBehaviour, IPropComponent
     {
 		public enum AlignmentVertical {
 			Upper,
@@ -55,9 +55,6 @@ namespace net.roomful.assets {
 			} else {
 				GizmosDrawer.DrawCube (transform.position, transform.rotation, new Vector2(Width, Height), Color.red);
 			}
-
-          //  GizmosDrawer.DrawCube(m_textBounds.center, transform.rotation, m_textBounds.size, Color.white);
-
         }
 
 
@@ -162,7 +159,7 @@ namespace net.roomful.assets {
             }
         }
 
-        public Priority UpdatePriority => Priority.High;
+        public PropComponentUpdatePriority UpdatePriority => PropComponentUpdatePriority.High;
 
         private string WrapText(string text) {
       

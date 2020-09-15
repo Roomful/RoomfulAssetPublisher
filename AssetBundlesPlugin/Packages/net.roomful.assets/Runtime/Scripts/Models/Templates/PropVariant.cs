@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace net.roomful.assets
 {
-    public class PropVariant
+    internal class PropVariant
     {
         public string Name { get; private set; }
 

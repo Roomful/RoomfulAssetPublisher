@@ -11,12 +11,12 @@ namespace net.roomful.assets.Editor
         // Public Methods
         //--------------------------------------
 
-        public static void SaveTemplateToFile(string path, Template tpl) {
+        public static void SaveTemplateToFile(string path, AssetTemplate tpl) {
             var content = Json.Serialize(tpl.ToDictionary());
             File.WriteAllText(path, content);
         }
 
-        public static T LoadTemplateFromFile<T>(string path) where T : Template {
+        public static T LoadTemplateFromFile<T>(string path) where T : AssetTemplate {
             var content = File.ReadAllText(path);
             if (string.IsNullOrEmpty(content)) {
                 return null;
@@ -52,7 +52,7 @@ namespace net.roomful.assets.Editor
             DeleteTempFiles();
         }
 
-        public static void ClearLocalCacheForAsset(Template tpl) {
+        public static void ClearLocalCacheForAsset(AssetTemplate tpl) {
             var path = AssetBundlesSettings.ASSETS_RESOURCES_LOCATION + "/" + tpl.Title;
 
             if (FolderUtils.IsFolderExists(path)) {

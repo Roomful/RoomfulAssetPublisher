@@ -5,7 +5,7 @@ using UnityEngine;
 namespace net.roomful.assets.serialization
 {
     [Serializable]
-    public class DummyVideoTexturePlugin : MonoBehaviour, IVideoTexturePlugin
+    internal class DummyVideoTexturePlugin : MonoBehaviour, IVideoTexturePlugin
     {
         private readonly List<Texture2D> m_textures = new List<Texture2D>();
 

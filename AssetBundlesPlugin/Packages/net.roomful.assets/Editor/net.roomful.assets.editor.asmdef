@@ -1,10 +1,11 @@
 {
     "name": "net.roomful.assets.editor",
     "references": [
+        "net.roomful.api",
         "net.roomful.assets",
-        "StansAssets.Plugins.Editor",
+        "net.roomful.assets.runtime",
         "StansAssets.Foundation",
-        "net.roomful.api"
+        "StansAssets.Plugins.Editor"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

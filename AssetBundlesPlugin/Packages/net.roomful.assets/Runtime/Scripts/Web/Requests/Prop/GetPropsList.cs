@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace net.roomful.assets.Network.Request {
-	public class GetPropsList : GetAssetsList
+	internal class GetPropsList : GetAssetsList
     {
         public const string RequestUrl = "/api/v0/asset/list";
 

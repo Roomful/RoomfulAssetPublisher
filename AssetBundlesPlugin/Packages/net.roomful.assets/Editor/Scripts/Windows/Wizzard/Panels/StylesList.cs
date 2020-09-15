@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    internal class StylesList : AssetsList<StyleTemplate>
+    internal class StylesList : AssetsList<StyleAssetTemplate>
     {
         public StylesList(EditorWindow window) : base(window) { }
 
@@ -11,7 +11,7 @@ namespace net.roomful.assets.Editor
             WindowManager.ShowCreateNewStyle();
         }
 
-        protected override List<StyleTemplate> LocalySavedTemplates => AssetBundlesSettings.Instance.m_localStyleTemplates;
+        protected override List<StyleAssetTemplate> LocalySavedTemplates => AssetBundlesSettings.Instance.m_localStyleTemplates;
 
         protected override void DrawAssetInfo() { }
 

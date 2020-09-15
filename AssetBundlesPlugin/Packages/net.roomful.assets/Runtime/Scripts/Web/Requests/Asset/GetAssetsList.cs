@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace net.roomful.assets.Network.Request
 {
-    public abstract class GetAssetsList : BaseWebPackage
+    internal abstract class GetAssetsList : BaseWebPackage
     {
         public const string PackUrl = "/api/v0/asset/list";
         private readonly string Title = string.Empty;

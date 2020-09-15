@@ -4,16 +4,16 @@ using net.roomful.assets.Network.Request;
 
 namespace net.roomful.assets.Editor
 {
-    internal class StyleBundleManager : BundleManager<StyleTemplate, StyleAsset>
+    internal class StyleBundleManager : BundleManager<StyleAssetTemplate, StyleAsset>
     {
-        protected override void CreateAsset(StyleTemplate tpl) {
+        protected override void CreateAsset(StyleAssetTemplate tpl) {
             var asset = new GameObject(tpl.Title).AddComponent<StyleAsset>();
             asset.SetTemplate(tpl);
 
             Selection.activeGameObject = asset.gameObject;
         }
 
-        protected override IAsset CreateDownloadedAsset(StyleTemplate tpl, GameObject gameObject) {
+        protected override IAsset CreateDownloadedAsset(StyleAssetTemplate tpl, GameObject gameObject) {
             var asset = gameObject.AddComponent<StyleAsset>();
             asset.SetTemplate(tpl);
 

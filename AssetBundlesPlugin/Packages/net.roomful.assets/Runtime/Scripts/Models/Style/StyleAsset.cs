@@ -5,12 +5,12 @@ using StansAssets.Foundation.Extensions;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    internal class StyleAsset : Asset<StyleTemplate>
+    internal class StyleAsset : Asset<StyleAssetTemplate>
     {
         public bool ShowWalls = false;
         public bool ShowEditUI = false;
 
-        public void SetTemplate(StyleTemplate tpl) {
+        public void SetTemplate(StyleAssetTemplate tpl) {
             _Template = tpl;
         }
 

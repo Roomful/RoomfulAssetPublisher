@@ -2,7 +2,7 @@
 {
     internal static class RequestManager
     {
-        public static void RemoveAsset(Template tpl) {
+        public static void RemoveAsset(AssetTemplate tpl) {
             var removeRequest = new Network.Request.RemoveAsset(tpl.Id);
 
             removeRequest.PackageCallbackData = removeCallback => {

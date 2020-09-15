@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace net.roomful.assets.Network.Request {
-	public class DownloadAsset : BaseWebPackage {
+	internal class DownloadAsset : BaseWebPackage {
 		
 		private const RequestMethods PackMethodName = RequestMethods.GET;
 

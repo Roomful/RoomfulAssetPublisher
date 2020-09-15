@@ -11,7 +11,7 @@ using UnityEngine.Networking;
 
 
 namespace net.roomful.assets.Network {
-	public class WebServer : Singleton<WebServer> {
+	internal class WebServer : Singleton<WebServer> {
 		private static readonly List<Request.BaseWebPackage> DelayedPackages =  new List<Request.BaseWebPackage>();
 
         public static Action<Request.BaseWebPackage> OnRequestFailed = delegate { };

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using net.roomful.assets.serialization;
+using Scripts.Extensions;
 
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    public class PropAnchor : MonoBehaviour, IPropComponent
+    internal class PropAnchor : MonoBehaviour, IPropComponent
     {
         public void Update() {
             Settings.Anchor.x = Mathf.Clamp(Settings.Anchor.x, 0f, 1f);
@@ -19,8 +20,9 @@ namespace net.roomful.assets
             Settings.XSize = Mathf.Clamp(Settings.XSize, 0.001f, 1f);
             Settings.YSize = Mathf.Clamp(Settings.YSize, 0.001f, 1f);
 
-            if (Settings.SmartParent != null) {
-                var parentBounds = Scene.GetBounds(Settings.SmartParent);
+            var smartParent = Settings.GetSmartParent();
+            if (smartParent != null) {
+                var parentBounds = Scene.GetBounds(smartParent);
                 transform.position = parentBounds.center;
 
                 var xPos = parentBounds.center.x - parentBounds.extents.x + parentBounds.size.x * Settings.Anchor.x;
@@ -86,7 +88,7 @@ namespace net.roomful.assets
 
         public void RemoveSilhouette() { }
 
-        public Priority UpdatePriority => Priority.Lowest;
+        public PropComponentUpdatePriority UpdatePriority => PropComponentUpdatePriority.Lowest;
 
         private SerializedAnchor Settings {
             get {

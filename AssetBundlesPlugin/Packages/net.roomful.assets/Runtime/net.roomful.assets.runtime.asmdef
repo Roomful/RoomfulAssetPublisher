@@ -1,0 +1,16 @@
+{
+    "name": "net.roomful.assets.runtime",
+    "references": [
+        "net.roomful.api",
+        "net.roomful.assets",
+        "StansAssets.Foundation"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": []
+}

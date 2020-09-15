@@ -4,7 +4,7 @@ using UnityEngine;
 namespace net.roomful.assets.serialization
 {
     [Serializable]
-    public class VideoTexturePlugin : MonoBehaviour, IRecreatableOnLoad
+    internal class VideoTexturePlugin : MonoBehaviour, IRecreatableOnLoad
     {
         enum StreamMode
         {

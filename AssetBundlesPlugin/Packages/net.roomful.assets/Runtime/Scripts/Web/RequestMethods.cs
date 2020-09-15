@@ -1,7 +1,7 @@
 ﻿
 namespace net.roomful.assets.Network {
 
-	public enum RequestMethods {
+	internal enum RequestMethods {
 		PUT,
 		POST,
 		GET

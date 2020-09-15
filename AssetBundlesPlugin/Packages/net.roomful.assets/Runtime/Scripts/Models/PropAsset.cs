@@ -7,7 +7,7 @@ using StansAssets.Foundation.Extensions;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    internal sealed class PropAsset : Asset<PropTemplate>
+    internal sealed class PropAsset : Asset<PropAssetTemplate>
     {
         [SerializeField] private float m_scale = 1f;
 
@@ -51,7 +51,7 @@ namespace net.roomful.assets
             PrepareComponentsForUpload();
         }
 
-        public void SetTemplate(PropTemplate tpl) {
+        public void SetTemplate(PropAssetTemplate tpl) {
             _Template = tpl;
         }
 

@@ -5,7 +5,7 @@ namespace net.roomful.assets.Editor
 {
     internal class CreateEnvironmentWindow : EditorWindow
     {
-        private EnvironmentTemplate m_template = new EnvironmentTemplate();
+        private EnvironmentAssetTemplate m_assetTemplate = new EnvironmentAssetTemplate();
 
         void OnGUI() {
             var wizardIcon = IconManager.GetIcon(Icon.wizard);
@@ -16,7 +16,7 @@ namespace net.roomful.assets.Editor
             EditorGUI.LabelField(new Rect(100, 10, 300, 40), headerContent);
 
             EditorGUI.LabelField(new Rect(100, 50, 300, 16), "Name:");
-            m_template.Title = EditorGUI.TextField(new Rect(160, 50, 190, 16), m_template.Title);
+            m_assetTemplate.Title = EditorGUI.TextField(new Rect(160, 50, 190, 16), m_assetTemplate.Title);
 
             GUILayout.Space(110f);
             GUILayout.BeginHorizontal();
@@ -29,7 +29,7 @@ namespace net.roomful.assets.Editor
 
                 var create = GUILayout.Button("Create", EditorStyles.miniButton, GUILayout.Width(80));
                 if (create) {
-                    BundleService.Create(m_template);
+                    BundleService.Create(m_assetTemplate);
                     Dismiss();
                 }
 
@@ -39,7 +39,7 @@ namespace net.roomful.assets.Editor
         }
 
         private void Dismiss() {
-            m_template = new EnvironmentTemplate();
+            m_assetTemplate = new EnvironmentAssetTemplate();
             Close();
         }
     }

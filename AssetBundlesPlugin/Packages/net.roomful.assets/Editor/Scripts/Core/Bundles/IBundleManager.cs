@@ -4,10 +4,10 @@ namespace net.roomful.assets.Editor
 {
     internal interface IBundleManager
     {
-        void Create(Template tpl);
+        void Create(AssetTemplate tpl);
         void Upload(IAsset asset);
         void UpdateMeta(IAsset asset);
-        void Download(Template tpl);
+        void Download(AssetTemplate tpl);
 
         void ResumeUpload();
 

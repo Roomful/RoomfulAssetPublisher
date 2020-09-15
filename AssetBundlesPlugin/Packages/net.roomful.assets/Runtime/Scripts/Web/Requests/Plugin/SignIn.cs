@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace net.roomful.assets.Network.Request {
-	public class Signin : BaseWebPackage  {
+	internal class Signin : BaseWebPackage  {
 
 		public const string PackUrl = "/auth/signin";
 

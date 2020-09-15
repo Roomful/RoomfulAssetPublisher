@@ -73,7 +73,7 @@ namespace net.roomful.assets
             }
         }
 
-        public Priority UpdatePriority => Priority.High;
+        public PropComponentUpdatePriority UpdatePriority => PropComponentUpdatePriority.High;
         
     }
 }

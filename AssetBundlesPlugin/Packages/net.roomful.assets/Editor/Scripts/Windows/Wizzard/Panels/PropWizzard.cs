@@ -26,7 +26,7 @@ namespace net.roomful.assets.Editor
             WindowManager.ShowCreateNewProp();
         }
 
-        public static void DownloadProp(PropTemplate tpl) {
+        public static void DownloadProp(PropAssetTemplate tpl) {
             BundleService.Download(tpl);
         }
 
@@ -51,7 +51,7 @@ namespace net.roomful.assets.Editor
 
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Invoke Type: ", GUILayout.Width(100));
-                Asset.Template.InvokeType = (InvokeTypes) EditorGUILayout.EnumPopup(Asset.Template.InvokeType, GUILayout.Width(240));
+                Asset.Template.InvokeType = (PropInvokeType) EditorGUILayout.EnumPopup(Asset.Template.InvokeType, GUILayout.Width(240));
                 GUILayout.EndHorizontal();
 
                 if (Asset.HasStandSurface) {
@@ -60,8 +60,6 @@ namespace net.roomful.assets.Editor
                 }
 
                 Asset.Template.CanStack = YesNoFiled("Can Stack", Asset.Template.CanStack, 100, 240);
-                Asset.Template.AlternativeZoom = YesNoFiled("Alternative Zoom", Asset.Template.AlternativeZoom, 100, 240);
-                Asset.Template.PedestalInZoomView = YesNoFiled("Pedestal In Zoom", Asset.Template.PedestalInZoomView, 100, 240);
                 GUI.enabled = GUIState;
             }
 
@@ -88,7 +86,7 @@ namespace net.roomful.assets.Editor
 
             var minSize = Asset.Template.MinSize;
             var maxSize = Asset.Template.MaxSize;
-            EditorGUILayout.MinMaxSlider(ref minSize, ref maxSize, PropTemplate.MIN_ALLOWED_AXIS_SIZE, PropTemplate.MAX_ALLOWED_AXIS_SIZE, GUILayout.Width(240)); //    EditorGUILayout.MinMaxSlider (CurrentProp.Template.MinScale, GUILayout.Width (240));
+            EditorGUILayout.MinMaxSlider(ref minSize, ref maxSize, PropAssetTemplate.MIN_ALLOWED_AXIS_SIZE, PropAssetTemplate.MAX_ALLOWED_AXIS_SIZE, GUILayout.Width(240)); //    EditorGUILayout.MinMaxSlider (CurrentProp.Template.MinScale, GUILayout.Width (240));
 
             Asset.Template.MinSize = minSize;
             Asset.Template.MaxSize = maxSize;

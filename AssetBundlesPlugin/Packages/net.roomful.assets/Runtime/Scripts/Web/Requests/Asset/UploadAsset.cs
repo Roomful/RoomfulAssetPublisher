@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace net.roomful.assets.Network.Request {
-	public class UploadAsset : BaseWebPackage {
+	internal class UploadAsset : BaseWebPackage {
 
 		private const RequestMethods PackMethodName = RequestMethods.PUT;
 

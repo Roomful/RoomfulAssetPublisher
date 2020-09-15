@@ -6,7 +6,7 @@ namespace net.roomful.assets
 {
 
     [ExecuteInEditMode]
-    public class StylePanel : MonoBehaviour
+    internal class StylePanel : MonoBehaviour
     {
 
         public const string WALL_PARENT_NAME = "Wall";

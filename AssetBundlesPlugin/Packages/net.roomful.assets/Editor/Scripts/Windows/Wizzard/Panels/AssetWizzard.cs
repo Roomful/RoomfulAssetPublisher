@@ -30,7 +30,7 @@ namespace net.roomful.assets.Editor
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Title: ", GUILayout.Width(100));
             GUI.enabled = false;
-            Template.Title = EditorGUILayout.TextField(Template.Title, GUILayout.Width(240));
+            AssetTemplate.Title = EditorGUILayout.TextField(AssetTemplate.Title, GUILayout.Width(240));
             GUI.enabled = GUIState;
             GUILayout.EndHorizontal();
         }
@@ -40,7 +40,7 @@ namespace net.roomful.assets.Editor
             {
                 ReorderableListGUI.Title("Asset Tags");
                 try {
-                    ReorderableListGUI.ListField(Template.Tags, TagListItem, DrawEmptyTag);
+                    ReorderableListGUI.ListField(AssetTemplate.Tags, TagListItem, DrawEmptyTag);
                 }
                 catch (Exception e) {
                     Console.WriteLine(e);
@@ -90,7 +90,7 @@ namespace net.roomful.assets.Editor
 
         public bool HasAsset => Asset != null;
 
-        protected Template Template => Asset.GetTemplate();
+        protected AssetTemplate AssetTemplate => Asset.GetTemplate();
 
         protected A Asset {
             get {

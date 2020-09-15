@@ -15,7 +15,7 @@ namespace net.roomful.assets.Editor
                     var exportedMterials = new List<Material>();
 
                     foreach (var sm in materialsData) {
-                        var m = DeserealizeMaterial(sm, asset);
+                        var m = DeserializeMaterial(sm, asset);
                         exportedMterials.Add(m);
                     }
 
@@ -32,7 +32,7 @@ namespace net.roomful.assets.Editor
                 var sm = p.gameObject.GetComponent<SerializedMaterial>();
 
                 if (sm != null) {
-                    var m = DeserealizeMaterial(sm, asset);
+                    var m = DeserializeMaterial(sm, asset);
                     p.material = m;
 
                     Object.DestroyImmediate(sm);
@@ -40,101 +40,112 @@ namespace net.roomful.assets.Editor
             }
         }
 
-        private Material DeserealizeMaterial(SerializedMaterial sm, IAsset asset) {
-            var shader = Shader.Find(sm.ShaderName);
-            if (shader == null) {
-                shader = Shader.Find("Standard");
-            }
-
-            var newMaterial = new Material(shader);
-            newMaterial.name = sm.MatName;
+        private Material DeserializeMaterial(SerializedMaterial sm, IAsset asset) {
+            var newMaterial = MaterialDeserializer.CreteMaterial(sm);
 
             if (AssetDatabase.IsAssetExist(asset, newMaterial)) {
                 return AssetDatabase.LoadAsset<Material>(asset, newMaterial.name);
             }
-            else {
-                newMaterial.DisableKeyword("_NORMALMAP");
-                newMaterial.DisableKeyword("_ALPHATEST_ON");
-                newMaterial.DisableKeyword("_ALPHABLEND_ON");
-                newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                newMaterial.DisableKeyword("_EMISSION");
-                newMaterial.DisableKeyword("_PARALLAXMAP");
-                newMaterial.DisableKeyword("_DETAIL_MULX2");
-                newMaterial.DisableKeyword("_METALLICGLOSSMAP");
-                newMaterial.DisableKeyword("_SPECGLOSSMAP");
 
-                newMaterial.shaderKeywords = sm.ShaderKeywords.ToArray();
-                foreach (var keyword in newMaterial.shaderKeywords) {
-                    newMaterial.EnableKeyword(keyword);
-                }
+            MaterialDeserializer.ApplySerializedProperties(newMaterial, sm, serializedTexture => {
+                var texName = serializedTexture.MainTexture.name;
+                AssetDatabase.SaveAsset(asset, serializedTexture.MainTexture);
+                var textureCollector = new TextureCollector();
+                textureCollector.SetAssetDatabase(AssetDatabase);
+                textureCollector.Run(asset, serializedTexture);
 
-                newMaterial.renderQueue = sm.RenderQueue;
+                return AssetDatabase.LoadAsset<Texture>(asset, texName);
+            });
 
-                foreach (var property in sm.ShadersProperties) {
-                    var propertyType = (ShaderPropertyType) System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
+            Debug.Log("here");
+            AssetDatabase.SaveAsset(asset, newMaterial);
+            return AssetDatabase.LoadAsset<Material>(asset, newMaterial.name);
 
-                    switch (propertyType) {
-                        case ShaderPropertyType.TexEnv:
-                            if (property.SerializedTextureValue != null) {
-                                if (property.SerializedTextureValue.MainTexture != null) {
-                                    var texName = property.SerializedTextureValue.MainTexture.name;
-                                    AssetDatabase.SaveAsset(asset, property.SerializedTextureValue.MainTexture);
-                                    var textureCollector = new TextureCollector();
-                                    textureCollector.SetAssetDatabase(AssetDatabase);
-                                    textureCollector.Run(asset, property.SerializedTextureValue);
+            //Old Code just to have a ref if new one doesn't work
 
-                                    if (property.PropertyName.Equals("_BumpMap")) {
-                                        AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");
-                                    }
+            /*
+            newMaterial.DisableKeyword("_NORMALMAP");
+            newMaterial.DisableKeyword("_ALPHATEST_ON");
+            newMaterial.DisableKeyword("_ALPHABLEND_ON");
+            newMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            newMaterial.DisableKeyword("_EMISSION");
+            newMaterial.DisableKeyword("_PARALLAXMAP");
+            newMaterial.DisableKeyword("_DETAIL_MULX2");
+            newMaterial.DisableKeyword("_METALLICGLOSSMAP");
+            newMaterial.DisableKeyword("_SPECGLOSSMAP");
 
-                                    newMaterial.SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
+            newMaterial.shaderKeywords = sm.ShaderKeywords.ToArray();
+            foreach (var keyword in newMaterial.shaderKeywords) {
+                newMaterial.EnableKeyword(keyword);
+            }
+
+            newMaterial.renderQueue = sm.RenderQueue;
+
+            foreach (var property in sm.ShadersProperties) {
+                var propertyType = (ShaderPropertyType) System.Enum.Parse(typeof(ShaderPropertyType), property.PropertyType);
+
+                switch (propertyType) {
+                    case ShaderPropertyType.TexEnv:
+                        if (property.SerializedTextureValue != null) {
+                            if (property.SerializedTextureValue.MainTexture != null) {
+                                var texName = property.SerializedTextureValue.MainTexture.name;
+                                AssetDatabase.SaveAsset(asset, property.SerializedTextureValue.MainTexture);
+                                var textureCollector = new TextureCollector();
+                                textureCollector.SetAssetDatabase(AssetDatabase);
+                                textureCollector.Run(asset, property.SerializedTextureValue);
+
+                                if (property.PropertyName.Equals("_BumpMap")) {
+                                    AssetDatabase.LoadAsset<Material>(asset, newMaterial.name).EnableKeyword("_NORMALMAP");
                                 }
 
-                                newMaterial.SetTextureScale(property.PropertyName, property.SerializedTextureValue.TextureScale);
-                                newMaterial.SetTextureOffset(property.PropertyName, property.SerializedTextureValue.TextureOffset);
+                                newMaterial.SetTexture(property.PropertyName, AssetDatabase.LoadAsset<Texture>(asset, texName));
                             }
 
-                            break;
-
-                        case ShaderPropertyType.Float:
-                        case ShaderPropertyType.Range:
-                            newMaterial.SetFloat(property.PropertyName, property.FloatValue);
-                            break;
-
-                        case ShaderPropertyType.Vector:
-                            newMaterial.SetVector(property.PropertyName, property.VectorValue);
-
-                            break;
-                        case ShaderPropertyType.Color:
-                            newMaterial.SetColor(property.PropertyName, property.VectorValue);
-
-                            break;
-                    }
-
-                    if (property.PropertyName.Equals("_Mode")) {
-                        var renderMode = (int) property.FloatValue;
-                        switch (renderMode) {
-                            case 0: //Opaque
-                                newMaterial.SetOverrideTag("RenderType", "");
-
-                                break;
-                            case 1: // Cut out
-                                newMaterial.SetOverrideTag("RenderType", "TransparentCutout");
-                                break;
-                            case 2: // Fade
-                                newMaterial.SetOverrideTag("RenderType", "Transparent");
-                                break;
-                            case 3: // Transparent
-                                newMaterial.SetOverrideTag("RenderType", "Transparent");
-                                break;
+                            newMaterial.SetTextureScale(property.PropertyName, property.SerializedTextureValue.TextureScale);
+                            newMaterial.SetTextureOffset(property.PropertyName, property.SerializedTextureValue.TextureOffset);
                         }
-                    }
 
-                    AssetDatabase.SaveAsset(asset, newMaterial);
+                        break;
+
+                    case ShaderPropertyType.Float:
+                    case ShaderPropertyType.Range:
+                        newMaterial.SetFloat(property.PropertyName, property.FloatValue);
+                        break;
+
+                    case ShaderPropertyType.Vector:
+                        newMaterial.SetVector(property.PropertyName, property.VectorValue);
+
+                        break;
+                    case ShaderPropertyType.Color:
+                        newMaterial.SetColor(property.PropertyName, property.VectorValue);
+
+                        break;
                 }
 
-                return AssetDatabase.LoadAsset<Material>(asset, newMaterial.name);
+                if (property.PropertyName.Equals("_Mode")) {
+                    var renderMode = (int) property.FloatValue;
+                    switch (renderMode) {
+                        case 0: //Opaque
+                            newMaterial.SetOverrideTag("RenderType", "");
+
+                            break;
+                        case 1: // Cut out
+                            newMaterial.SetOverrideTag("RenderType", "TransparentCutout");
+                            break;
+                        case 2: // Fade
+                            newMaterial.SetOverrideTag("RenderType", "Transparent");
+                            break;
+                        case 3: // Transparent
+                            newMaterial.SetOverrideTag("RenderType", "Transparent");
+                            break;
+                    }
+                }
+
+                AssetDatabase.SaveAsset(asset, newMaterial);
             }
+
+            return AssetDatabase.LoadAsset<Material>(asset, newMaterial.name);
+            */
         }
     }
 }

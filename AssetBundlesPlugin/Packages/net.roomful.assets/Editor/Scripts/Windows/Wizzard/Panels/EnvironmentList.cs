@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    internal class EnvironmentList : AssetsList<EnvironmentTemplate>
+    internal class EnvironmentList : AssetsList<EnvironmentAssetTemplate>
     {
         public EnvironmentList(EditorWindow window) : base(window) { }
 
@@ -11,7 +11,7 @@ namespace net.roomful.assets.Editor
             WindowManager.ShowCreateNewEnvironment();
         }
 
-        protected override List<EnvironmentTemplate> LocalySavedTemplates => AssetBundlesSettings.Instance.m_localEnvironmentsTemplates;
+        protected override List<EnvironmentAssetTemplate> LocalySavedTemplates => AssetBundlesSettings.Instance.m_localEnvironmentsTemplates;
 
         protected override void DrawAssetInfo() { }
 

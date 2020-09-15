@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.Editor
 {
-    internal class PropsList : AssetsList<PropTemplate>
+    internal class PropsList : AssetsList<PropAssetTemplate>
     {
         public PropsList(EditorWindow window) : base(window) { }
 
@@ -11,14 +11,13 @@ namespace net.roomful.assets.Editor
             WindowManager.ShowCreateNewProp();
         }
 
-        protected override List<PropTemplate> LocalySavedTemplates => AssetBundlesSettings.Instance.m_localPropTemplates;
+        protected override List<PropAssetTemplate> LocalySavedTemplates => AssetBundlesSettings.Instance.m_localPropTemplates;
 
         protected override void DrawAssetInfo() {
             AssetInfoLable("Size", SelectedAsset.Size);
             AssetInfoLable("Placement", SelectedAsset.Placing);
             AssetInfoLable("Invoke", SelectedAsset.InvokeType);
             AssetInfoLable("Can Stack", SelectedAsset.CanStack);
-            AssetInfoLable("Alternative Zoom", SelectedAsset.AlternativeZoom);
             AssetInfoLable("Max Scale", SelectedAsset.MaxSize);
             AssetInfoLable("Min Scale", SelectedAsset.MinSize);
 

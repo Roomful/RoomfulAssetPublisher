@@ -3,14 +3,14 @@ using net.roomful.assets.Network.Request;
 
 namespace net.roomful.assets.Editor
 {
-    internal class EnvironmentBundleManager : BundleManager<EnvironmentTemplate, EnvironmentAsset>
+    internal class EnvironmentBundleManager : BundleManager<EnvironmentAssetTemplate, EnvironmentAsset>
     {
-        protected override void CreateAsset(EnvironmentTemplate tpl) {
+        protected override void CreateAsset(EnvironmentAssetTemplate tpl) {
             var asset = new GameObject(tpl.Title).AddComponent<EnvironmentAsset>();
             asset.SetTemplate(tpl);
         }
 
-        protected override IAsset CreateDownloadedAsset(EnvironmentTemplate tpl, GameObject gameObject) {
+        protected override IAsset CreateDownloadedAsset(EnvironmentAssetTemplate tpl, GameObject gameObject) {
             var asset = gameObject.AddComponent<EnvironmentAsset>();
             asset.SetTemplate(tpl);
 

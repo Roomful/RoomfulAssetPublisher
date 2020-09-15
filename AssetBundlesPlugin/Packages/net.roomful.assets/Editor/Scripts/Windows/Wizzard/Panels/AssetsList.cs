@@ -8,7 +8,7 @@ using Json = StansAssets.Foundation.Json;
 
 namespace net.roomful.assets.Editor
 {
-    internal abstract class AssetsList<T> : Panel where T : Template
+    internal abstract class AssetsList<T> : Panel where T : AssetTemplate
     {
         protected T SelectedAsset = null;
         protected SeartchRequestType SeartchType = SeartchRequestType.ByName;
@@ -93,7 +93,7 @@ namespace net.roomful.assets.Editor
             }
 
             foreach (var asset in LocalySavedTemplates) {
-                var assetDisaplyContent = asset.DisaplyContent;
+                var assetDisaplyContent = asset.DisplayContent;
 
                 if (assetDisaplyContent.image == null) {
                     var preloader = Texture2DUtility.Rotate(IconManager.GetIcon(Icon.loader), m_itemsPreloaderAgnle);

@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace net.roomful.assets.Editor
 {
-    internal abstract class BundleManager<T, TAsset> : IBundleManager where T : Template where TAsset : IAsset
+    internal abstract class BundleManager<T, TAsset> : IBundleManager where T : AssetTemplate where TAsset : IAsset
     {
         public event Action OnUploaded = delegate { };
 
@@ -34,7 +34,7 @@ namespace net.roomful.assets.Editor
             var metaRequest = GenerateMeta_Update_Request(bundleAsset);
 
             metaRequest.PackageCallbackText = callback => {
-                asset.GetTemplate().Id = new Template(callback).Id;
+                asset.GetTemplate().Id = new AssetTemplate(callback).Id;
                 UploadThumbnail(bundleAsset, template => {
                     EditorProgressBar.FinishUploadProgress();
                 });
@@ -42,7 +42,7 @@ namespace net.roomful.assets.Editor
             metaRequest.Send();
         }
 
-        private void UploadThumbnail(TAsset asset, Action<Template> callback) {
+        private void UploadThumbnail(TAsset asset, Action<AssetTemplate> callback) {
             var template = asset.GetTemplate();
             EditorProgressBar.AddProgress(template.Title, "Requesting Thumbnail Upload Link", 0.1f);
             var getIconUploadLink = new GetUploadLink_Thumbnail(template.Id);
@@ -72,11 +72,11 @@ namespace net.roomful.assets.Editor
             getIconUploadLink.Send();
         }
 
-        public void Download(Template tpl) {
+        public void Download(AssetTemplate tpl) {
             DownloadAsset((T) tpl);
         }
 
-        public void Create(Template tpl) {
+        public void Create(AssetTemplate tpl) {
             if (string.IsNullOrEmpty(tpl.Title)) {
                 EditorUtility.DisplayDialog("Error", "Name is empty!", "Ok");
                 return;
@@ -143,7 +143,7 @@ namespace net.roomful.assets.Editor
             BundleUtility.SaveTemplateToFile(PersistentTemplatePath, asset.GetTemplate());
 
             metaRequest.PackageCallbackText = callback => {
-                asset.GetTemplate().Id = new Template(callback).Id;
+                asset.GetTemplate().Id = new AssetTemplate(callback).Id;
                 UploadAssetBundle(asset);
             };
             metaRequest.Send();
@@ -224,7 +224,7 @@ namespace net.roomful.assets.Editor
             });
         }
 
-        private void AssetsUploadLoop(int platformIndex, Template tpl) {
+        private void AssetsUploadLoop(int platformIndex, AssetTemplate tpl) {
             AssetBundlesSettings.Instance.UploadPlatformIndex = platformIndex;
 
             if (platformIndex < AssetBundlesSettings.Instance.TargetPlatforms.Count) {
@@ -242,7 +242,7 @@ namespace net.roomful.assets.Editor
         }
 
         public void ResumeUpload() {
-            var tpl = BundleUtility.LoadTemplateFromFile<Template>(PersistentTemplatePath);
+            var tpl = BundleUtility.LoadTemplateFromFile<AssetTemplate>(PersistentTemplatePath);
             if (tpl == null) {
                 return;
             }

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace net.roomful.assets.serialization
 {
     [Serializable]
-    public class WebGlVideoTexturePlugin : MonoBehaviour, IVideoTexturePlugin
+    internal class WebGlVideoTexturePlugin : MonoBehaviour, IVideoTexturePlugin
     {
 #if UNITY_WEBGL
         [DllImport("__Internal")]

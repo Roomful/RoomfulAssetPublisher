@@ -27,12 +27,12 @@ namespace net.roomful.assets.Editor
         // Public Methods
         //--------------------------------------
 
-        public static void Create<T>(T tpl) where T : Template {
+        public static void Create<T>(T tpl) where T : AssetTemplate {
             var bundle = GetBundleByTemplateType(typeof(T));
             bundle.Create(tpl);
         }
 
-        public static void Download<T>(T tpl) where T : Template {
+        public static void Download<T>(T tpl) where T : AssetTemplate {
             var bundle = GetBundleByTemplateType(typeof(T));
             bundle.Download(tpl);
         }

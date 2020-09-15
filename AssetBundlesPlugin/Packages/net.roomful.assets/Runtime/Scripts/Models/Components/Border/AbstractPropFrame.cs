@@ -101,7 +101,7 @@ namespace net.roomful.assets
             
         }
 
-        public Priority UpdatePriority => Priority.Medium;
+        public PropComponentUpdatePriority UpdatePriority => PropComponentUpdatePriority.Medium;
 
         protected abstract void CheckHierarchy();
 

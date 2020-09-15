@@ -9,7 +9,7 @@ namespace net.roomful.assets
 
         void Update();
 
-        Priority UpdatePriority { get; }
+        PropComponentUpdatePriority UpdatePriority { get; }
         GameObject gameObject { get; }
     }
 }

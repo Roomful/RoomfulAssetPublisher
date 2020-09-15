@@ -1,6 +1,6 @@
 ﻿namespace net.roomful.assets
 {
-    public enum HierarchyLayers
+    internal enum HierarchyLayers
     {
         Graphics,
         StandSurface,

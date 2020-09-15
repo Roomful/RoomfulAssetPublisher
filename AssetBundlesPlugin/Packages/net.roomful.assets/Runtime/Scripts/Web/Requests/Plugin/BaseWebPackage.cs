@@ -6,7 +6,7 @@ using StansAssets.Foundation;
 
 namespace net.roomful.assets.Network.Request
 {
-    public abstract class BaseWebPackage
+    internal abstract class BaseWebPackage
     {
         protected string _Url;
         private readonly int _TimeStamp;

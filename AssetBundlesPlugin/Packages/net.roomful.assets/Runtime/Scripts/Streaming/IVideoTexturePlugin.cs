@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets.serialization
 {
-    public interface IVideoTexturePlugin
+    internal interface IVideoTexturePlugin
     {
         void Init();
 

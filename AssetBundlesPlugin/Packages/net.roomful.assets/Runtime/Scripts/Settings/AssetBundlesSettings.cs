@@ -9,8 +9,7 @@ namespace net.roomful.assets
         //--------------------------------------
         // Constants
         //--------------------------------------
-
-        private const string SETTINGS_ASSET_NAME = "AssetBundlesSettings";
+        
         private const string SETTINGS_ASSET_EXTENSION = ".asset";
 
         private const string PACKAGE_NAME = "net.roomful.assets";
@@ -38,9 +37,9 @@ namespace net.roomful.assets
 
         [SerializeField] private string m_sessionId = string.Empty;
 
-        [SerializeField] public List<PropTemplate> m_localPropTemplates = new List<PropTemplate>();
-        [SerializeField] public List<StyleTemplate> m_localStyleTemplates = new List<StyleTemplate>();
-        [SerializeField] public List<EnvironmentTemplate> m_localEnvironmentsTemplates = new List<EnvironmentTemplate>();
+        [SerializeField] public List<PropAssetTemplate> m_localPropTemplates = new List<PropAssetTemplate>();
+        [SerializeField] public List<StyleAssetTemplate> m_localStyleTemplates = new List<StyleAssetTemplate>();
+        [SerializeField] public List<EnvironmentAssetTemplate> m_localEnvironmentsTemplates = new List<EnvironmentAssetTemplate>();
        
         [field: SerializeField]
         public int WizardWindowSelectedTabIndex { get; set; } = 0;
@@ -67,7 +66,7 @@ namespace net.roomful.assets
         public static AssetBundlesSettings Instance {
             get {
                 if (s_instance == null) {
-                    s_instance = Resources.Load("Settings/" + SETTINGS_ASSET_NAME) as AssetBundlesSettings;
+                    s_instance = Resources.Load(nameof(AssetBundlesSettings)) as AssetBundlesSettings;  
 
                     if (s_instance == null) {
                         s_instance = CreateInstance<AssetBundlesSettings>();
@@ -75,7 +74,7 @@ namespace net.roomful.assets
 #if UNITY_EDITOR
                         FolderUtils.CreateFolder(SETTINGS_LOCATION);
                         var fullPath = Path.Combine(Path.Combine("Assets", SETTINGS_LOCATION),
-                            SETTINGS_ASSET_NAME + SETTINGS_ASSET_EXTENSION
+                            nameof(AssetBundlesSettings) + SETTINGS_ASSET_EXTENSION
                         );
 
                         UnityEditor.AssetDatabase.CreateAsset(s_instance, fullPath);
@@ -123,7 +122,7 @@ namespace net.roomful.assets
 #endif
         }
 
-        public void RemoveSavedTemplate(Template tpl) {
+        public void RemoveSavedTemplate(AssetTemplate tpl) {
             RemoveTemplateFromList(tpl, m_localPropTemplates);
             RemoveTemplateFromList(tpl, m_localStyleTemplates);
             RemoveTemplateFromList(tpl, m_localEnvironmentsTemplates);
@@ -131,7 +130,7 @@ namespace net.roomful.assets
             Save();
         }
 
-        public void ReplaceSavedTemplate(Template tpl) {
+        public void ReplaceSavedTemplate(AssetTemplate tpl) {
             ReplaceTemplateInList(tpl, m_localPropTemplates);
             ReplaceTemplateInList(tpl, m_localStyleTemplates);
             ReplaceTemplateInList(tpl, m_localEnvironmentsTemplates);
@@ -143,7 +142,7 @@ namespace net.roomful.assets
         // Private Methods
         //--------------------------------------
 
-        private void ReplaceTemplateInList<T>(Template tpl, List<T> templates) where T : Template {
+        private void ReplaceTemplateInList<T>(AssetTemplate tpl, List<T> templates) where T : AssetTemplate {
             for (var i = 0; i < templates.Count; i++) {
                 if (templates[i].Id.Equals(tpl.Id)) {
                     templates[i] = (T) tpl;
@@ -152,7 +151,7 @@ namespace net.roomful.assets
             }
         }
 
-        private void RemoveTemplateFromList<T>(Template tpl, List<T> templates) where T : Template {
+        private void RemoveTemplateFromList<T>(AssetTemplate tpl, List<T> templates) where T : AssetTemplate {
             for (var i = 0; i < templates.Count; i++) {
                 if (templates[i].Id.Equals(tpl.Id)) {
                     templates.Remove(templates[i]);

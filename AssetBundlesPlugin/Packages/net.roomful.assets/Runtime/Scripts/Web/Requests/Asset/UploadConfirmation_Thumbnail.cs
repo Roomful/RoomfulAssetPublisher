@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace net.roomful.assets.Network.Request {
-	public class UploadConfirmation_Thumbnail : BaseWebPackage {
+	internal class UploadConfirmation_Thumbnail : BaseWebPackage {
 
 		private const string PackUrl = "/api/v0/asset/upload/thumbnail/link/complete";
 

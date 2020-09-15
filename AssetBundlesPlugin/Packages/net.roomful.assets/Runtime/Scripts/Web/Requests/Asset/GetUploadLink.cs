@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace net.roomful.assets.Network.Request {
-	public class GetUploadLink : BaseWebPackage {
+	internal class GetUploadLink : BaseWebPackage {
 
 		private const string PackUrl = "/api/v0/asset/upload/link";
 

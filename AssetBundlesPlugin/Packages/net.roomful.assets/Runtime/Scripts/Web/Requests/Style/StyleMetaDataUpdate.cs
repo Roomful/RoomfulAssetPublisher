@@ -4,8 +4,8 @@
 
         public const string RequestUrl = "/api/v0/asset/style/update";
 
-        public StyleMetaDataUpdate(StyleTemplate template) : base(RequestUrl) {
-            SetTemplate(template);
+        public StyleMetaDataUpdate(StyleAssetTemplate assetTemplate) : base(RequestUrl) {
+            SetTemplate(assetTemplate);
         }
     }
 }

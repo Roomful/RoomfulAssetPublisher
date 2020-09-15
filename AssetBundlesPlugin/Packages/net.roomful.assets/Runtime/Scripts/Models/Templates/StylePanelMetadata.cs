@@ -8,7 +8,7 @@ using net.roomful.assets.serialization;
 namespace net.roomful.assets
 {
     [System.Serializable]
-    public class StylePanelMetadata {
+    internal class StylePanelMetadata {
 
         public string Name = string.Empty;
         public Vector3 Size = Vector3.zero;
