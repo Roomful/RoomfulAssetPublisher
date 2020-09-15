@@ -6,8 +6,7 @@ using net.roomful.api;
 using UnityEngine;
 
 namespace net.roomful.assets {
-
-	[Serializable]
+	
 	public class PropTemplate : Template {
 
         public const float MIN_ALLOWED_AXIS_SIZE = 0.5f;
@@ -21,28 +20,25 @@ namespace net.roomful.assets {
         public bool PedestalInZoomView = true;
 
 		public Vector3 Size =  Vector3.one;
-        protected float m_minSize = MIN_ALLOWED_AXIS_SIZE;
-        protected float m_maxSize = MAX_ALLOWED_AXIS_SIZE;
+		private float m_minSize = MIN_ALLOWED_AXIS_SIZE;
+		private float m_maxSize = MAX_ALLOWED_AXIS_SIZE;
 
-        protected List<PropVariant> m_Variants = new List<PropVariant>();
-        protected Dictionary<Renderer, PropVariant> m_VariantByRenderer = new Dictionary<Renderer, PropVariant>();
-
-        public PropTemplate():base() {}
-        public PropTemplate(string data) : base(data) { }
+		private readonly List<PropVariant> m_variants = new List<PropVariant>();
+		private readonly Dictionary<Renderer, PropVariant> m_variantByRenderer = new Dictionary<Renderer, PropVariant>();
 
 		public override Dictionary<string, object> ToDictionary () {
-            var OriginalJSON = base.ToDictionary();
-			OriginalJSON.Add("placing", Placing.ToString());
-			OriginalJSON.Add("invokeType", InvokeType.ToString());
-			OriginalJSON.Add("minScale", m_minSize);
-			OriginalJSON.Add("maxScale", m_maxSize);
+            var originalJSON = base.ToDictionary();
+			originalJSON.Add("placing", Placing.ToString());
+			originalJSON.Add("invokeType", InvokeType.ToString());
+			originalJSON.Add("minScale", m_minSize);
+			originalJSON.Add("maxScale", m_maxSize);
 			var sizeData = new Dictionary<string, object> {{"x", Size.x}, {"y", Size.y}, {"z", Size.z}};
-			OriginalJSON.Add ("size", sizeData);
-			OriginalJSON.Add ("canStack", CanStack);
-			OriginalJSON.Add ("alternativeZoom", AlternativeZoom);
-			OriginalJSON.Add ("contentType", ContentTypes);
-            OriginalJSON.Add ("pedestalInZoomView", PedestalInZoomView);
-			return OriginalJSON;
+			originalJSON.Add ("size", sizeData);
+			originalJSON.Add ("canStack", CanStack);
+			originalJSON.Add ("alternativeZoom", AlternativeZoom);
+			originalJSON.Add ("contentType", ContentTypes);
+            originalJSON.Add ("pedestalInZoomView", PedestalInZoomView);
+			return originalJSON;
 		}
 
 		public override void ParseData(JSONData assetData) {
@@ -160,7 +156,7 @@ namespace net.roomful.assets {
 			variant = new PropVariant(name, renderers);
 			foreach (var renderer in renderers)
 			{
-				m_VariantByRenderer[renderer] = variant;
+				m_variantByRenderer[renderer] = variant;
 			}
 
 			return true;
@@ -168,21 +164,21 @@ namespace net.roomful.assets {
 
 		public bool HasVariantForRenderer(Renderer renderer)
 		{
-			return m_VariantByRenderer.ContainsKey(renderer);
+			return m_variantByRenderer.ContainsKey(renderer);
 		}
 
 		public void AddVariant(PropVariant variant)
 		{
-			m_Variants.Add(variant);
+			m_variants.Add(variant);
 		}
 
 		public void RemoveVariant(PropVariant variant)
 		{
 			foreach (var renderer in variant.Renderers)
 			{
-				m_VariantByRenderer.Remove(renderer);
+				m_variantByRenderer.Remove(renderer);
 			}
-			m_Variants.Remove(variant);
+			m_variants.Remove(variant);
 		}
 
         public float MinSize {
@@ -201,6 +197,6 @@ namespace net.roomful.assets {
             }
         }
 
-        public IEnumerable<PropVariant> Variants => m_Variants;
+        public IEnumerable<PropVariant> Variants => m_variants;
 	}
 }

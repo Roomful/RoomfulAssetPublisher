@@ -9,12 +9,12 @@ namespace net.roomful.assets
 
         public readonly List<Renderer> Renderers;
 
-        readonly List<Material> m_Materials;
+        private readonly List<Material> m_materials;
         public readonly Dictionary<Renderer, List<Material>> MaterialDictionary;
 
-        public IEnumerable<Material> Materials => m_Materials;
+        public IEnumerable<Material> Materials => m_materials;
 
-        readonly List<Skin> m_Skins = new List<Skin>();
+        private readonly List<Skin> m_skins = new List<Skin>();
 
         public PropVariant(string name, IEnumerable<Renderer> renderers)
         {
@@ -22,13 +22,13 @@ namespace net.roomful.assets
             Renderers = new List<Renderer>(renderers);
             MaterialDictionary = new Dictionary<Renderer, List<Material>>();
 
-            m_Materials = new List<Material>();
+            m_materials = new List<Material>();
             foreach (var renderer in Renderers)
             {
                 MaterialDictionary.Add(renderer, new List<Material>());
                 foreach(var material in renderer.sharedMaterials)
                 {
-                    m_Materials.Add(material);
+                    m_materials.Add(material);
                     MaterialDictionary[renderer].Add(material);
                 }          
             }
@@ -36,12 +36,12 @@ namespace net.roomful.assets
 
         public void AddSkin(Skin skin)
         {
-            m_Skins.Add(skin);
+            m_skins.Add(skin);
         }
 
         public void RemoveSkin(Skin skin)
         {
-            m_Skins.Remove(skin);
+            m_skins.Remove(skin);
         }
 
         public void ApplySkin(Skin skin)
@@ -70,8 +70,7 @@ namespace net.roomful.assets
             return hierarchy;
         }
 
-        public IEnumerable<Skin> Skins => m_Skins;
-
-        public Skin DefaultSkin => m_Skins[0];
+        public Skin DefaultSkin => m_skins[0];
+        public IEnumerable<Skin> Skins => m_skins;
     }
 }

@@ -5,15 +5,15 @@ namespace net.roomful.assets.Editor
 {
     internal sealed class VariantHierarchyView : TreeView
     {
-        readonly PropVariant m_Variant;
-        readonly Skin m_Skin;
-        int m_Id;
+        private readonly PropVariant m_variant;
+        private readonly Skin m_skin;
+        private int m_id;
 
         public VariantHierarchyView(TreeViewState state, PropVariant variant, Skin skin)
             : base(state)
         {
-            m_Variant = variant;
-            m_Skin = skin;
+            m_variant = variant;
+            m_skin = skin;
 
             Reload();
         }
@@ -22,16 +22,14 @@ namespace net.roomful.assets.Editor
         {
             var root = new TreeViewItem(-1, -1, "Root");
 
-            for (var i = 0; i < m_Variant.Renderers.Count; i++)
-            {
-                var renderer = m_Variant.Renderers[i];
+            foreach (var renderer in m_variant.Renderers) {
                 var item = new TreeViewWithIconItem(GetID(), 0, "   " + renderer.name);
 
                 root.AddChild(item);
 
-                for (var j = 0; j < m_Variant.Renderers[i].materials.Length; j++)
+                for (var j = 0; j < renderer.sharedMaterials.Length; j++)
                 {
-                    TreeViewItem materialItem = new VariantHierarchyViewItem(GetID(), 1, "Element " + j, m_Skin, renderer, j);
+                    TreeViewItem materialItem = new VariantHierarchyViewItem(GetID(), 1, "Element " + j, m_skin, renderer, j);
                     item.AddChild(materialItem);
                 }
             }
@@ -45,11 +43,11 @@ namespace net.roomful.assets.Editor
         {
             var item = args.item as TreeViewWithIconItem;
 
-            if (item.GetType() == typeof(VariantHierarchyViewItem))
+            if (item is VariantHierarchyViewItem variantHierarchyViewItem)
             {
                 var indent = GetContentIndent(item);
                 var itemRect = new Rect(args.rowRect.x + indent, args.rowRect.y, args.rowRect.width - indent, args.rowRect.height);
-                ((VariantHierarchyViewItem)item).OnGUI(itemRect);
+                variantHierarchyViewItem.OnGUI(itemRect);
             }
             else
             {
@@ -73,7 +71,7 @@ namespace net.roomful.assets.Editor
 
         private int GetID()
         {
-            return m_Id++;
+            return m_id++;
         }
     }
 }

@@ -10,78 +10,41 @@ namespace net.roomful.assets.Editor
 {
     public sealed class PropVariantsEditorWindow : EditorWindow
     {
-        Vector2 m_VariantsScrollPos = Vector2.zero;
-        Vector2 m_SkinsScrollPos = Vector2.zero;
+        private Vector2 m_variantsScrollPos = Vector2.zero;
+        private Vector2 m_skinsScrollPos = Vector2.zero;
 
-        PropVariant m_SelectedVariant;
-        Skin m_SelectedSkin;
+        private PropVariant m_selectedVariant;
+        private Skin m_selectedSkin;
 
-        PropAsset m_Asset;
-
-        VariantHierarchyView m_HierarchyView;
-
-        readonly Vector2 m_MinSize = new Vector2(600.0f, 100.0f);
-
-        GUIStyle m_VariantTitle;
-
-        GUIStyle VariantTitle
-        {
-            get
-            {
-                if (m_VariantTitle == null)
-                {
-                    m_VariantTitle = "PreferencesSection";
-                    m_VariantTitle.alignment = TextAnchor.MiddleLeft;
-                }
-
-                return m_VariantTitle;
-            }
-        }
-
-        GUIStyle m_HeaderLabel;
-
-        GUIStyle HeaderLabel
-        {
-            get
-            {
-                if (m_HeaderLabel == null)
-                {
-                    m_HeaderLabel = new GUIStyle(EditorStyles.largeLabel);
-                    m_HeaderLabel.fontStyle = FontStyle.Bold;
-                    m_HeaderLabel.fontSize = 18;
-                    m_HeaderLabel.margin.top = -1;
-                    m_HeaderLabel.margin.left++;
-
-                    m_HeaderLabel.normal.textColor = !EditorGUIUtility.isProSkin ?
-                        new Color(0.4f, 0.4f, 0.4f, 1f) : new Color(0.7f, 0.7f, 0.7f, 1f);
-                }
-                return m_HeaderLabel;
-            }
-        }
+        private PropAsset m_asset;
+        private VariantHierarchyView m_hierarchyView;
+        private readonly Vector2 m_minSize = new Vector2(600.0f, 100.0f);
+       
 
         void SelectVariant(PropVariant variant)
         {
-            if (variant != m_SelectedVariant)
+            if (variant != m_selectedVariant)
             {
-                m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
-                m_SelectedVariant = variant;
-                SelectSkin(m_SelectedVariant.DefaultSkin);
+                m_selectedVariant.ApplySkin(m_selectedVariant.DefaultSkin);
+                m_selectedVariant = variant;
+                SelectSkin(m_selectedVariant.DefaultSkin);
             }
         }
 
         void SelectSkin(Skin skin)
         {
-            if (skin != m_SelectedSkin)
+            if (skin != m_selectedSkin)
             {
-                m_SelectedSkin = skin;
-
-                m_HierarchyView = new VariantHierarchyView(new TreeViewState(), m_SelectedVariant, m_SelectedSkin);
+                m_selectedSkin = skin;
+                m_hierarchyView = new VariantHierarchyView(new TreeViewState(), m_selectedVariant, m_selectedSkin);
+                
+                m_selectedVariant.ApplySkin(m_selectedSkin);
             }
         }
 
         void OnEnable()
         {
-            minSize = m_MinSize;
+            minSize = m_minSize;
         }
 
         void OnGUI()
@@ -115,27 +78,22 @@ namespace net.roomful.assets.Editor
                         {
                             if (Asset.Template.ValidateVariantCreate(selection))
                             {
-                                ShowCreateNewPropVariant((isSuccessful, name) =>
+                                ShowCreateNewPropVariant((isSuccessful, variantName) =>
                                 {
                                     if (isSuccessful)
                                     {
-                                        PropVariant variant;
-                                        Asset.Template.TryCreateVariant(selection, out variant, name);
-
-
-                                        if (m_SelectedVariant != null)
-                                        {
-                                            m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
-                                        }
+                                        Asset.Template.TryCreateVariant(selection, out var variant, variantName);
+                                        m_selectedVariant?.ApplySkin(m_selectedVariant.DefaultSkin);
 
                                         variant.AddSkin(new Skin("default", variant.MaterialDictionary));
                                         Asset.Template.AddVariant(variant);
-                                        m_SelectedVariant = variant;
+                                        m_selectedVariant = variant;
                                         SelectSkin(variant.DefaultSkin);
                                     }
                                     else
                                     {
-                                        Debug.Log("Variant Creation Cancaled");
+                                        //TODO explain why with popup
+                                        Debug.Log("Variant Creation Canceled");
                                     }
                                 });
                             }
@@ -150,15 +108,15 @@ namespace net.roomful.assets.Editor
                 using (new IMGUIBeginHorizontal())
                 {
                     GUILayout.Space(1.0f);
-                    m_VariantsScrollPos = GUILayout.BeginScrollView(m_VariantsScrollPos, GUILayout.Height(Screen.height - 39.0f));
+                    m_variantsScrollPos = GUILayout.BeginScrollView(m_variantsScrollPos, GUILayout.Height(Screen.height - 39.0f));
                     foreach (var variant in Asset.Template.Variants)
                     {
                         using (new IMGUIBeginHorizontal())
                         {
                             var variantLabel = new GUIContent(variant.Name);
-                            var r = GUILayoutUtility.GetRect(variantLabel, VariantTitle, GUILayout.ExpandWidth(true));
+                            var r = GUILayoutUtility.GetRect(variantLabel, PropVariantsEditorWindowStyles.VariantTitle, GUILayout.ExpandWidth(true));
 
-                            if (m_SelectedVariant == variant && Event.current.type == EventType.Repaint)
+                            if (m_selectedVariant == variant && Event.current.type == EventType.Repaint)
                             {
                                 var color = EditorGUIUtility.isProSkin ? new Color(62f / 255f, 95f / 255f, 150f / 255f, 1f)
                                     : new Color(62f / 255f, 125f / 255f, 231f / 255f, 1f);
@@ -167,7 +125,7 @@ namespace net.roomful.assets.Editor
                             }
 
                             EditorGUI.BeginChangeCheck();
-                            if (GUI.Toggle(r, m_SelectedVariant == variant, variantLabel, VariantTitle))
+                            if (GUI.Toggle(r, m_selectedVariant == variant, variantLabel, PropVariantsEditorWindowStyles.VariantTitle))
                             {
                                 SelectVariant(variant);
 
@@ -188,12 +146,12 @@ namespace net.roomful.assets.Editor
                 var localRect = new Rect(0.0f, 0.0f, rect.width, rect.height);
                 GUI.Box(localRect, GUIContent.none, WizardWindow.Constants.settingsBox);
 
-                if (m_SelectedVariant != null)
+                if (m_selectedVariant != null)
                 {
 
                     using (new IMGUIBeginHorizontal())
                     {
-                        GUILayout.Label(m_SelectedVariant.Name, HeaderLabel, GUILayout.Width(200.0f));
+                        GUILayout.Label(m_selectedVariant.Name, PropVariantsEditorWindowStyles.HeaderLabel, GUILayout.Width(200.0f));
                         GUILayout.FlexibleSpace();
 
                         using (new IMGUIBeginVertical())
@@ -203,16 +161,16 @@ namespace net.roomful.assets.Editor
                             {
                                 if (GUILayout.Button("Remove", EditorStyles.miniButton, GUILayout.Width(80.0f)))
                                 {
-                                    m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
-                                    Asset.Template.RemoveVariant(m_SelectedVariant);
+                                    m_selectedVariant.ApplySkin(m_selectedVariant.DefaultSkin);
+                                    Asset.Template.RemoveVariant(m_selectedVariant);
                                     if (Asset.Template.Variants.Any())
                                     {
                                         SelectVariant(Asset.Template.Variants.First());
                                     }
                                     else
                                     {
-                                        m_SelectedVariant = null;
-                                        m_SelectedSkin = null;
+                                        m_selectedVariant = null;
+                                        m_selectedSkin = null;
                                     }
                                 }
                             }
@@ -225,13 +183,13 @@ namespace net.roomful.assets.Editor
                     {
                         GUILayout.Label("Skins:", WizardWindow.Constants.settingsBoxTitle);
 
-                        GUI.enabled = m_SelectedVariant != null;
+                        GUI.enabled = m_selectedVariant != null;
                         if (GUILayout.Button("+", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20)))
                         {
-                            if (m_SelectedVariant != null)
+                            if (m_selectedVariant != null)
                             {
-                                var newSkin = new Skin("new skin", m_SelectedVariant.MaterialDictionary);
-                                m_SelectedVariant.AddSkin(newSkin);
+                                var newSkin = new Skin("new skin", m_selectedVariant.MaterialDictionary);
+                                m_selectedVariant.AddSkin(newSkin);
                                 SelectSkin(newSkin);
                             }
                         }
@@ -244,13 +202,13 @@ namespace net.roomful.assets.Editor
                     {
                         GUILayout.Space(1.0f);
 
-                        m_SkinsScrollPos = GUILayout.BeginScrollView(m_SkinsScrollPos);
-                        if (m_SelectedVariant != null)
-                            foreach (var skin in m_SelectedVariant.Skins)
+                        m_skinsScrollPos = GUILayout.BeginScrollView(m_skinsScrollPos);
+                        if (m_selectedVariant != null)
+                            foreach (var skin in m_selectedVariant.Skins)
                             {
                                 using (new IMGUIBeginHorizontal())
                                 {
-                                    if (GUILayout.Toggle(m_SelectedSkin == skin, skin.Name, WizardWindow.Constants.keysElement))
+                                    if (GUILayout.Toggle(m_selectedSkin == skin, skin.Name, WizardWindow.Constants.keysElement))
                                     {
                                         SelectSkin(skin);
                                     }
@@ -268,11 +226,11 @@ namespace net.roomful.assets.Editor
                 localRect = new Rect(0.0f, 0.0f, rect.width, rect.height);
                 GUI.Box(localRect, GUIContent.none, WizardWindow.Constants.settingsBox);
 
-                if (m_SelectedSkin != null && m_SelectedVariant != null)
+                if (m_selectedSkin != null && m_selectedVariant != null)
                 {
                     using (new IMGUIBeginHorizontal())
                     {
-                        GUILayout.Label(m_SelectedSkin.Name, HeaderLabel, GUILayout.Width(200.0f));
+                        GUILayout.Label(m_selectedSkin.Name, PropVariantsEditorWindowStyles.HeaderLabel, GUILayout.Width(200.0f));
                         GUILayout.FlexibleSpace();
                         
                         using (new IMGUIBeginVertical())
@@ -282,16 +240,16 @@ namespace net.roomful.assets.Editor
                             {
                                 if (GUILayout.Button("Apply", EditorStyles.miniButton, GUILayout.Width(80.0f)))
                                 {
-                                    m_SelectedVariant.ApplySkin(m_SelectedSkin);
+                                    m_selectedVariant.ApplySkin(m_selectedSkin);
                                 }
 
                                 if (GUILayout.Button("Remove", EditorStyles.miniButton, GUILayout.Width(80.0f)))
                                 {
-                                    if (m_SelectedSkin != m_SelectedVariant.DefaultSkin)
+                                    if (m_selectedSkin != m_selectedVariant.DefaultSkin)
                                     {
-                                        m_SelectedVariant.RemoveSkin(m_SelectedSkin);
-                                        SelectSkin(m_SelectedVariant.DefaultSkin);
-                                        m_SelectedVariant.ApplySkin(m_SelectedVariant.DefaultSkin);
+                                        m_selectedVariant.RemoveSkin(m_selectedSkin);
+                                        SelectSkin(m_selectedVariant.DefaultSkin);
+                                        m_selectedVariant.ApplySkin(m_selectedVariant.DefaultSkin);
                                     }
                                 }
 
@@ -319,7 +277,7 @@ namespace net.roomful.assets.Editor
                         using (new IMGUIBeginVertical(GUILayout.Width(previewWidth)))
                         {
                             EditorGUILayout.LabelField("Preview Icon: ", EditorStyles.boldLabel);
-                            m_SelectedSkin.PreviewIcon = (Texture2D)EditorGUILayout.ObjectField(m_SelectedSkin.PreviewIcon,
+                            m_selectedSkin.PreviewIcon = (Texture2D)EditorGUILayout.ObjectField(m_selectedSkin.PreviewIcon,
                                 typeof(Texture2D), false, GUILayout.Width(previewWidth), GUILayout.Height(previewWidth));
                         }
                     }
@@ -334,8 +292,8 @@ namespace net.roomful.assets.Editor
                             rect.width - 1.0f, rect.height - bot - 24.0f);
                     }
 
-                    if (m_HierarchyView != null)
-                        m_HierarchyView.OnGUI(localRect);
+                    if (m_hierarchyView != null)
+                        m_hierarchyView.OnGUI(localRect);
                 }
 
                 GUILayout.EndArea();
@@ -344,17 +302,17 @@ namespace net.roomful.assets.Editor
 
         private void CreateSkinPreviewIcon()
         {
-            foreach (var rend in m_Asset.Renderers)
+            foreach (var rend in m_asset.Renderers)
             {
                 rend.enabled = false;
             }
-            foreach (var rend in m_SelectedVariant.Renderers)
+            foreach (var rend in m_selectedVariant.Renderers)
             {
-                if (m_Asset.Renderers.Contains(rend))
+                if (m_asset.Renderers.Contains(rend))
                     rend.enabled = true;
             }
-            PropAssetScreenshotTool.CreateIcon(false, m_Asset, m_SelectedSkin);
-            foreach (var rend in m_Asset.Renderers)
+            PropAssetScreenshotTool.CreateIcon(false, m_asset, m_selectedSkin);
+            foreach (var rend in m_asset.Renderers)
             {
                 rend.enabled = true;
             }
@@ -375,11 +333,11 @@ namespace net.roomful.assets.Editor
         {
             get
             {
-                if (m_Asset == null)
+                if (m_asset == null)
                 {
-                    m_Asset = FindObjectWithType<PropAsset>();
+                    m_asset = FindObjectWithType<PropAsset>();
                 }
-                return m_Asset;
+                return m_asset;
             }
         }
 
