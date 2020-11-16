@@ -16,8 +16,8 @@
     "com.unity.purchasing": "2.0.3",
     "com.unity.test-framework": "0.0.4-preview",
     "com.unity.textmeshpro": "1.4.1",
-    "net.roomful.api": "ssh://git@github.com/Roomful/net.roomful.api.git#1.0.44",
-    "net.roomful.assets": "ssh://git@github.com/Roomful/net.roomful.assets.git#1.0.8",
+    "net.roomful.api": "ssh://git@github.com/Roomful/net.roomful.api.git#1.1.5",
+    "net.roomful.assets": "ssh://git@github.com/Roomful/net.roomful.assets.git#1.0.14",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.assetbundle": "1.0.0",
@@ -51,12 +51,12 @@
   },
   "lock": {
     "net.roomful.api": {
-      "revision": "1.0.44",
-      "hash": "a53e375d8024cd0b474550e8506c73bae3d0a963"
+      "revision": "1.1.5",
+      "hash": "f374cb29be71d19781cf70cfc10374058b0fc318"
     },
     "net.roomful.assets": {
-      "revision": "1.0.8",
-      "hash": "1981f93e2009a9a2b17a61193c832bb67fd834bc"
+      "revision": "1.0.14",
+      "hash": "862eda3ffef70dda4f18a19387edc37fa9147d6d"
     }
   }
 }
