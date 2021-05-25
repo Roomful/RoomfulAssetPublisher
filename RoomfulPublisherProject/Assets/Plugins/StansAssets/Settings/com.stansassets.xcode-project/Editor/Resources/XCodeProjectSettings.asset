@@ -1,0 +1,3088 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31eababc099d4442fa4d077e54e58fe7, type: 3}
+  m_Name: XCodeProjectSettings
+  m_EditorClassIdentifier: 
+  Frameworks:
+  - FrameworkName: 12
+  - FrameworkName: 81
+  - FrameworkName: 16
+  - FrameworkName: 17
+  - FrameworkName: 69
+  - FrameworkName: 74
+  - FrameworkName: 2
+  - FrameworkName: 78
+  - FrameworkName: 56
+  - FrameworkName: 85
+  - FrameworkName: 0
+  EmbededFrameworks: []
+  Libraries: []
+  Flags: []
+  PlistVariables:
+  - Name: LSApplicationQueriesSchemes
+    Type: 3
+    StringValue: 
+    IntegerValue: 0
+    FloatValue: 0
+    BooleanValue: 1
+    ChildrenIds:
+    - EV8uMx3O1Vf8xdnJ9qr9
+    - Vpghrjtux9vNqgrNE46Y
+    - 4U1jRSL9xxicbCSWkJKi
+  - Name: CFBundleURLTypes
+    Type: 3
+    StringValue: 
+    IntegerValue: 0
+    FloatValue: 0
+    BooleanValue: 1
+    ChildrenIds:
+    - ZXanmJi4M0d7o0hcIMsP
+    - mvwCPxMFd0kLgdjK7iYb
+  - Name: NSContactsUsageDescription
+    Type: 0
+    StringValue: Please change 'Contacts Usage Description' with IOS Native Editor
+      Settings
+    IntegerValue: 0
+    FloatValue: 0
+    BooleanValue: 1
+    ChildrenIds: []
+  - Name: NSCameraUsageDescription
+    Type: 0
+    StringValue: Please change 'Camera Usage Description' with IOS Native UI Kit
+      Editor Settings
+    IntegerValue: 0
+    FloatValue: 0
+    BooleanValue: 1
+    ChildrenIds: []
+  - Name: NSPhotoLibraryUsageDescription
+    Type: 0
+    StringValue: Please change 'Photo Library Usage Description' with IOS Native
+      UI Kit Editor Settings
+    IntegerValue: 0
+    FloatValue: 0
+    BooleanValue: 1
+    ChildrenIds: []
+  - Name: NSPhotoLibraryAddUsageDescription
+    Type: 0
+    StringValue: Please change 'Photo Library Add Usage Description' with IOS Native
+      UI Kit Editor Settings
+    IntegerValue: 0
+    FloatValue: 0
+    BooleanValue: 1
+    ChildrenIds: []
+  - Name: NSMicrophoneUsageDescription
+    Type: 0
+    StringValue: Please change 'Microphone Usage Description' with IOS Native UI
+      Kit Editor Settings
+    IntegerValue: 0
+    FloatValue: 0
+    BooleanValue: 1
+    ChildrenIds: []
+  VariableDictionary:
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: I72DN0DAuRQZv2WuJO3F
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: CDPnCqAwRF4HCOLYFF8a
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: IvUdjVo6saCYweG1rXL6
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1clLQB70Rg80tEomkPZ7
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: xvjOgGYc3CMRVjWnBwfX
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: IbeEEQ3JQr9rm2LRi5Zl
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1Sjmi8RRJmJpjnNjZCWU
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 5fcKe29iwHKoVXuJ4QTo
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: mQOP7icfKNpGLfYmJmiJ
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: XJoVqIBhVTiALxk2uJ9I
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: ntHtcxUGQrisicYCJSZw
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: IVbuZ6Ie423vvQFFEBBw
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: IUxdSWKaD3A4tZJo7iAY
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1Jo2KoIBinjdT6lraBG8
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1H0KZBvoK2PEWwh7BMVS
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: WUPjZUIc8GACsM9fHZXP
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1u3AqLRgQov1fi3xPGr1
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: MVYV71cY8pMYn5RqIEJN
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: cLdDK23sa5Ns7Kr8R5gM
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: oQhB1prdvLfo4pPcFEpU
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: dW0XlxEu9oqCoVZMxKS5
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: aF0wUaq8hjKgl3Ct3YXg
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: vsQsqNXe5sipirNh9PHr
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: XDmdLksY14HoTxkkaLsP
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 155Gdj8nUXXiHm6FSx0F
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: InpP6ZQXbPuPfHPFbZ5U
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: U4BrU5uDIAW57lCKtrPB
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: kSDYYqbW0Dwe8BTSJJhk
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: PEbbTxV9S8ctf7tVolOB
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Yr4vgwqPXTVBk6esK8su
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: ZPHvHEDppT6uoA2Nn0F4
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: gsljwMx4bdIwRsNMmjhx
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: BWDRgF3gt6FgXQK14DC8
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: WqO4WBVklCsdHe1qXbRO
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: o8K4IGWhKf075pcgu4Hg
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: eWoOgJVDUq162gV7IxEI
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 3lQjiIrccPYxNPu3NXKk
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: tRQXQ5SMtEhRG9SxDDWN
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: QlgVklSLEkb1QWnBTEKW
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: RlfU9ALiBcKo6OTjsm2J
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Y60hS9d0DfePBWpxCfCL
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: HZKMnNjwR76Z5oR85BH0
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: T6qvFs7NVJ1nFnmt2whi
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: LcJHURPVALPk3YhtMDX2
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Fx2gXEopWKuKZCSV5BW1
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 8CIHLUrSCIYQGVIWuJr3
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 5RmausT9XxYUqWq61T60
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: GKge6xA7k3wOFnf6gIHH
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: rmaTQvBKPCrRIIvglMxi
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: p03cZHYGBVibZY0vvag4
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: X39Z1WIkuI1KB706es0c
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: X6svij6WscOiJ97VtO22
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: T6K6qQLfoIlcOiopb2Ol
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Q0CbeJus6ZVa2LYMKMqP
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: EV8uMx3O1Vf8xdnJ9qr9
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Vpghrjtux9vNqgrNE46Y
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fbauth2
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 4U1jRSL9xxicbCSWkJKi
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: wl4xuZA0me9XwVke3bLv
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: NJb99lTeOPNfforDFgjd
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - NJb99lTeOPNfforDFgjd
+    uniqueIdKey: vjxaL4JnGqnYCIgiMVfs
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - wl4xuZA0me9XwVke3bLv
+      - vjxaL4JnGqnYCIgiMVfs
+    uniqueIdKey: g2LkuU1u661DHDfRfqmM
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: UDmktPTYLMHeUTcvihbH
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: rlVqroajKVNQLiOnMwxC
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - rlVqroajKVNQLiOnMwxC
+    uniqueIdKey: bA2IYNLB4avNBRKe7wTo
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - UDmktPTYLMHeUTcvihbH
+      - bA2IYNLB4avNBRKe7wTo
+    uniqueIdKey: IFr4dg2OpmbeQ2w1FJvH
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: iAP4B9iLW2dG5RnsnKbW
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: pVfpv0rdXLrHNddr1ZuJ
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Tb9alYMn4CgmeagdKoDN
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 6KPuAgjYog6AhuTvflDx
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 6KPuAgjYog6AhuTvflDx
+    uniqueIdKey: ZOegqJJZg4xba6CUiiOm
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Tb9alYMn4CgmeagdKoDN
+      - ZOegqJJZg4xba6CUiiOm
+    uniqueIdKey: PZjDHFO4dK7tbfNGegHj
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: kshk88LEgm7DWk9aE2WO
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Bd4kPXc2AutppIYxHwaa
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Bd4kPXc2AutppIYxHwaa
+    uniqueIdKey: NhN6b5WfJwtYRvR71EOO
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - kshk88LEgm7DWk9aE2WO
+      - NhN6b5WfJwtYRvR71EOO
+    uniqueIdKey: BE6HvsUrEQ6JsOwmSS7p
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: sVp4wQ6mBc9mPcNUTVsW
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: KjPWFvpaRRfJorBG6Int
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - KjPWFvpaRRfJorBG6Int
+    uniqueIdKey: IU6YSTrpPkGiFXfTSnB8
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - sVp4wQ6mBc9mPcNUTVsW
+      - IU6YSTrpPkGiFXfTSnB8
+    uniqueIdKey: MH63ioURLgxZWGRIvXtk
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: cZl1BdSxKIlkjkSWVvwW
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: QPkXwhTEar8OZ0SKcuvf
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - QPkXwhTEar8OZ0SKcuvf
+    uniqueIdKey: bjFihIB2d7FkUtVIvrTl
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - cZl1BdSxKIlkjkSWVvwW
+      - bjFihIB2d7FkUtVIvrTl
+    uniqueIdKey: TUoO5MqkduZ1tdUjKQfH
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: H5ZHmIUuKY1SpNH57r4t
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: HEl7E5DJxsx7G5qMwHil
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: SOLGEhXUqDHYMHqMkIk2
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: WS8PKMBkBdAgO2qeBgT8
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - WS8PKMBkBdAgO2qeBgT8
+    uniqueIdKey: iMJ4A7duiS7UdXp6EllD
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - SOLGEhXUqDHYMHqMkIk2
+      - iMJ4A7duiS7UdXp6EllD
+    uniqueIdKey: lUBr7V5qbj60KcQnbnQD
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: iFh5qpouJO9KVbfWRsTV
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 2hM1cYjUTjlqes1mfbhW
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 2hM1cYjUTjlqes1mfbhW
+    uniqueIdKey: bflLNLmLaMAKKH7W4pSH
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - iFh5qpouJO9KVbfWRsTV
+      - bflLNLmLaMAKKH7W4pSH
+    uniqueIdKey: 4kkfPPiH7eosrYwK0596
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: guZ2nO4A7vOXNbsBnUpq
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: BgjZ4lYfD210ETpkoVpk
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: eCFHqpftar3dTfQRv41i
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: oi0nrNc77M7gvFsZvXuj
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - oi0nrNc77M7gvFsZvXuj
+    uniqueIdKey: wo5A0ZbhZUxtJXDgGiha
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - eCFHqpftar3dTfQRv41i
+      - wo5A0ZbhZUxtJXDgGiha
+    uniqueIdKey: fxSpMgeL8bIDBjBQVZb5
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 4FknKMAQsn9ZGV1XBJVx
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: gACiM2LDDAZ880jVqJZ8
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - gACiM2LDDAZ880jVqJZ8
+    uniqueIdKey: RNW4nSFTlmcakDRp1E2q
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 4FknKMAQsn9ZGV1XBJVx
+      - RNW4nSFTlmcakDRp1E2q
+    uniqueIdKey: i7HLwSMXaaJPEf8HADJI
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: YJp88uuJSjSNnTttUqM3
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: lF82slxe1DXExR3bLZi6
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Y0UFnXhOn8oqd4H9p1uT
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: sHiEEglQxUp49MlnS6qf
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - sHiEEglQxUp49MlnS6qf
+    uniqueIdKey: OPmN9dPoPvCtYYhJ6E2p
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Y0UFnXhOn8oqd4H9p1uT
+      - OPmN9dPoPvCtYYhJ6E2p
+    uniqueIdKey: 3D6SsD2kWDnRR3fm6gSE
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: tRAIRlxMUK0t72IbL3Kg
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: HNVlfslDGx8RioQrSbvT
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - HNVlfslDGx8RioQrSbvT
+    uniqueIdKey: QjDWHc0pFAHk7tHKknh0
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - tRAIRlxMUK0t72IbL3Kg
+      - QjDWHc0pFAHk7tHKknh0
+    uniqueIdKey: unHvv72UYY3239LhThXE
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: anrTqu2A5FWV9IZg3QI7
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: jDFdud0meOFj5banNxfx
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: xeLpd8DLZooWcBCZYDCq
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: dUKwUq5aRLawVDWRTFEC
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - dUKwUq5aRLawVDWRTFEC
+    uniqueIdKey: MFu37sKJkOwRgnmqsdQG
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - xeLpd8DLZooWcBCZYDCq
+      - MFu37sKJkOwRgnmqsdQG
+    uniqueIdKey: IIGQ7UPj5UVu3oNP4QwE
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Nl5vTTJfJrCv7gN7DAh9
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: im4SNVe0fEaHNBIDZKZe
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - im4SNVe0fEaHNBIDZKZe
+    uniqueIdKey: QLgLmroe8mk6bq2sH8aj
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Nl5vTTJfJrCv7gN7DAh9
+      - QLgLmroe8mk6bq2sH8aj
+    uniqueIdKey: kjnYdSSc7hjeeweIINus
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: v6AAm4YlSF0fKNs6MT8u
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: qLLJYr4aP12LqL8FNGRx
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - qLLJYr4aP12LqL8FNGRx
+    uniqueIdKey: BklZfMw4O2CSquoPTtUM
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - v6AAm4YlSF0fKNs6MT8u
+      - BklZfMw4O2CSquoPTtUM
+    uniqueIdKey: egfaObgGKbrku5xJkZmX
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: AAPpsFi0wqJ8bkkCxf16
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 7Kl2Vu8uA686uIn7g6fT
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 7Kl2Vu8uA686uIn7g6fT
+    uniqueIdKey: rqkognjpOZGPIwC2jFXh
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - AAPpsFi0wqJ8bkkCxf16
+      - rqkognjpOZGPIwC2jFXh
+    uniqueIdKey: EGt8jawmZrF9Yf6INFbk
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: oAKxHMDaeuBM0Q3FDT55
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: C2wTwqWfLlj7hTNahxJo
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 2sSC684eaXe8OckN0RfH
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: ixlP6gfKW4Tc2JIVvKuA
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - ixlP6gfKW4Tc2JIVvKuA
+    uniqueIdKey: mbqAdCcNAsBiL1o7JdOu
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 2sSC684eaXe8OckN0RfH
+      - mbqAdCcNAsBiL1o7JdOu
+    uniqueIdKey: 1q2xTUHWCkHq1N1skl7k
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: ih4wrfNQJ8c4fBmNHgrQ
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 5K1eBBripo2EctBqTfcQ
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 5K1eBBripo2EctBqTfcQ
+    uniqueIdKey: 3JxbXwt6WlUIW7NATvva
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - ih4wrfNQJ8c4fBmNHgrQ
+      - 3JxbXwt6WlUIW7NATvva
+    uniqueIdKey: RGAXN6XtwtlVKEUkepHJ
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: q0f4PHTaPkGdcFttInNU
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Ih9nbOxmlFo3ZJ2hjhqg
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: aOEILBnwb7LxfoP66oqN
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: YpD9xKba3ETkOtMf1Ow4
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - YpD9xKba3ETkOtMf1Ow4
+    uniqueIdKey: FrYkf7QAKIxuHfc48pg2
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - aOEILBnwb7LxfoP66oqN
+      - FrYkf7QAKIxuHfc48pg2
+    uniqueIdKey: tjMaD9ddwae36IJRXDH0
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: V3nW6AF6ZGAgVDxWJZPw
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: mGiq7uhRLwOBD4F40Ksw
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - mGiq7uhRLwOBD4F40Ksw
+    uniqueIdKey: UdfQLiCU2EYiru85xMJt
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - V3nW6AF6ZGAgVDxWJZPw
+      - UdfQLiCU2EYiru85xMJt
+    uniqueIdKey: oPPNdYYcsuKiuIBmpRQV
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: iqC0Jx5gYELrFkgnIJKK
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 3UNpHueZsldtiXsr7H8u
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: nkfCLmhq7vc3h8bsicqw
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: NfuwgWFTn7LvIOgqKKBs
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - NfuwgWFTn7LvIOgqKKBs
+    uniqueIdKey: Fq45sbvHGnoHweTn9679
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - nkfCLmhq7vc3h8bsicqw
+      - Fq45sbvHGnoHweTn9679
+    uniqueIdKey: uZdVYGwgMBEOPbxWSsZw
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: kNUWFDpjCQFqs3HlFc88
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: iO9esR2ChiofIt454IgX
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - iO9esR2ChiofIt454IgX
+    uniqueIdKey: lfuj661ttXLMKqtEZHCP
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - kNUWFDpjCQFqs3HlFc88
+      - lfuj661ttXLMKqtEZHCP
+    uniqueIdKey: AfbvLSTTjO3Mc7UiKqAd
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: eJ78BkxrEUpgiZEhbguC
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 76Fa07daYpNQXrFHdEEj
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Nm13fHkmA3iiQMbSeQSl
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: gR8t37rqsqBDshKnkwuI
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - gR8t37rqsqBDshKnkwuI
+    uniqueIdKey: Z7UVIWGaTbrDPcUpt8AF
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Nm13fHkmA3iiQMbSeQSl
+      - Z7UVIWGaTbrDPcUpt8AF
+    uniqueIdKey: Ro5xuTFmp7lXeaeXVdfX
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: k6iAORdAjMdr9lcLDK2w
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: RSgVtKgxOoacCn2HDp5U
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - RSgVtKgxOoacCn2HDp5U
+    uniqueIdKey: 2kjXECf4Wcd4RsRnYl3e
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - k6iAORdAjMdr9lcLDK2w
+      - 2kjXECf4Wcd4RsRnYl3e
+    uniqueIdKey: FM80LX1aNkf8HVrMfqw4
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: i33VbPEqN4UGHPePiitX
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: bEe6INPsEvmEsYekFbjE
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: nBBjkE3v8c3Cim4OSu5Q
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: jiFMQ03d4sjC31CmsLPw
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - jiFMQ03d4sjC31CmsLPw
+    uniqueIdKey: ZGWspnUwFCRAQZjBcN8O
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - nBBjkE3v8c3Cim4OSu5Q
+      - ZGWspnUwFCRAQZjBcN8O
+    uniqueIdKey: ejNgqGaQLepL8g1b2YhV
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: fCcpOmuhpTqOmZ6L3cXm
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 8DJWYXt5LIjCKvfv82To
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 8DJWYXt5LIjCKvfv82To
+    uniqueIdKey: QAdC2E7j3krMWDqQ10U8
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - fCcpOmuhpTqOmZ6L3cXm
+      - QAdC2E7j3krMWDqQ10U8
+    uniqueIdKey: 8KK3urWiTBJbr9nnsVKM
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: wHHwd4NfwWNMiOLFv9ee
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: IWQlfI275bY40tZMXGLf
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: jIgJXu4mhCYJbMC57YRg
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: vTFOTDXxkeUFvJI6BcOW
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - vTFOTDXxkeUFvJI6BcOW
+    uniqueIdKey: rtiMcKBdsUeuGdXHAQCX
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - jIgJXu4mhCYJbMC57YRg
+      - rtiMcKBdsUeuGdXHAQCX
+    uniqueIdKey: wANFuB9bNOS3GRPjSgIL
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: CxZCpGRSKfWYnJJeOOiY
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 5agO3siIjXWcWW6gfsTw
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 5agO3siIjXWcWW6gfsTw
+    uniqueIdKey: o7aE7k1pDxJnxfVdXgmJ
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - CxZCpGRSKfWYnJJeOOiY
+      - o7aE7k1pDxJnxfVdXgmJ
+    uniqueIdKey: 2AJndEZaBkDemWAB7uUS
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: BhhD9pxLVKLxmVmL9jsi
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: TowILFCjRYtX85cGRFO1
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: PibVkEbnHAeGpmS2I2uD
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: bs7vOL8xLcPjA9knopFn
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - bs7vOL8xLcPjA9knopFn
+    uniqueIdKey: bf5cxhofo3XQL0fqDuK4
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - PibVkEbnHAeGpmS2I2uD
+      - bf5cxhofo3XQL0fqDuK4
+    uniqueIdKey: X3g4eDKbvoJZWMvQsaJl
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: nrlJFuLYHwAHOI8ffw8k
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 2wxnhMcUFWbw25cI8Bxe
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 2wxnhMcUFWbw25cI8Bxe
+    uniqueIdKey: FHTcJnX6pRPxHtYbAjpJ
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - nrlJFuLYHwAHOI8ffw8k
+      - FHTcJnX6pRPxHtYbAjpJ
+    uniqueIdKey: xkgNIww14xqcNxYLqRrp
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: mNjT3sY02sWZDU5aBbpn
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: qIC5YJDgAV5Ni7WVUcx8
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - qIC5YJDgAV5Ni7WVUcx8
+    uniqueIdKey: 5QanNpfxjjjXtqZh7n6e
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - mNjT3sY02sWZDU5aBbpn
+      - 5QanNpfxjjjXtqZh7n6e
+    uniqueIdKey: vsGd3SlxOqkwNjrxa0dY
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: UI6VSKGIdApRiPDAQUZE
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Wmd2HJ2WN4MAs3h6ZfHC
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Wmd2HJ2WN4MAs3h6ZfHC
+    uniqueIdKey: f74pqq2c3paIB0826ib9
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - UI6VSKGIdApRiPDAQUZE
+      - f74pqq2c3paIB0826ib9
+    uniqueIdKey: 5kOlfAhcce8nHY1ilK2s
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: gJ6rRgWsSQWwrr1QR6Ta
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: H7oOUBTq3aDJ67NuJ6U0
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - H7oOUBTq3aDJ67NuJ6U0
+    uniqueIdKey: cfI8WPrVCkvamCQ48rFd
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - gJ6rRgWsSQWwrr1QR6Ta
+      - cfI8WPrVCkvamCQ48rFd
+    uniqueIdKey: E3emJhIwlqRsD6P0TTrS
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Rvuh5UcJt8Zo0AWpIXwm
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: lVxvDhXrTqKqwjWvnDQw
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - lVxvDhXrTqKqwjWvnDQw
+    uniqueIdKey: gmtXEq7Ielw22FDAvjbE
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Rvuh5UcJt8Zo0AWpIXwm
+      - gmtXEq7Ielw22FDAvjbE
+    uniqueIdKey: g4W2MbL53lOtxAfjnJ88
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: jDIVxl6X6UMEhEj5Vm7N
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: uM8Ga9R7LIL450XIi2ws
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1YdFVVPF3KsomBedfjLt
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: oBAkMJVWswD5uoKZGno9
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - oBAkMJVWswD5uoKZGno9
+    uniqueIdKey: YFF4ZptptuH8xNY2fWR3
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 1YdFVVPF3KsomBedfjLt
+      - YFF4ZptptuH8xNY2fWR3
+    uniqueIdKey: 6ottBSTcPsKACHLIBjJq
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: ShEAdqpJJqQRbEk8se2r
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: H9B2SkqQsJSBdvV1ktMk
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - H9B2SkqQsJSBdvV1ktMk
+    uniqueIdKey: xmrH6JeHM1C6a8MomXLV
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - ShEAdqpJJqQRbEk8se2r
+      - xmrH6JeHM1C6a8MomXLV
+    uniqueIdKey: ZYnOlqINgd5R2or62ceQ
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Xonla2PTwts8UC6nV8vh
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Ss1mAapZ7bH1neekHuC2
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1F7wk5QtObFIFelpgAgm
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: tIGVt4XcKlA14GCUoRsc
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - tIGVt4XcKlA14GCUoRsc
+    uniqueIdKey: OIwLGxL62RanppR62cpM
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 1F7wk5QtObFIFelpgAgm
+      - OIwLGxL62RanppR62cpM
+    uniqueIdKey: EmQH6DdJiFCF3swab2IH
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: emUQeI3Hp96EHLOietGY
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: NUxtNJsLOR0akAj5Tqia
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - NUxtNJsLOR0akAj5Tqia
+    uniqueIdKey: YAPqrtm03SiM0PVY13je
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - emUQeI3Hp96EHLOietGY
+      - YAPqrtm03SiM0PVY13je
+    uniqueIdKey: 7GLHYqJVCgsd9EQT9XWT
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: iRZsbNdGEUr1h8a9hNis
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: KTkoZEQN1mCcxXRgd8Ns
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: JnTfJndixmCABKmb5Mor
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: wbVIAejr8e0nh02qtKE2
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - wbVIAejr8e0nh02qtKE2
+    uniqueIdKey: PBjakr0S1OocgbkFeFkp
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - JnTfJndixmCABKmb5Mor
+      - PBjakr0S1OocgbkFeFkp
+    uniqueIdKey: bSuln2xpkljZ7KcEZ2D7
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: wU0tK4SiZ5QPoPWShUjP
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: YOAStVMScscjsXeTATO5
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - YOAStVMScscjsXeTATO5
+    uniqueIdKey: v08hC3dXjbqdYGr8pRSM
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - wU0tK4SiZ5QPoPWShUjP
+      - v08hC3dXjbqdYGr8pRSM
+    uniqueIdKey: mw6krnZN2ZZ76L8TrrYQ
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: LHXAte53BDDprdMmw9Dw
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 95Y08m9NbOSqNvNRXuPF
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Ht94v7ShCjQltRv9IZmF
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: BqxPXdthRkcpvchKccM2
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - BqxPXdthRkcpvchKccM2
+    uniqueIdKey: rVHLFW9aObubw7Q8vPVX
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Ht94v7ShCjQltRv9IZmF
+      - rVHLFW9aObubw7Q8vPVX
+    uniqueIdKey: 0VuAbVv7XJlsvqwraRS7
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: obascjNVg0EWguSJZjgt
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: cb7exQe8lXjSODbOrn0o
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - cb7exQe8lXjSODbOrn0o
+    uniqueIdKey: CvZ0x6QQfnVS8AN5sY3X
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - obascjNVg0EWguSJZjgt
+      - CvZ0x6QQfnVS8AN5sY3X
+    uniqueIdKey: aPFJlnGHMwNJZUiXGEbM
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: kfpkOrZNC3Ymb7WwcmUU
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: J15jauUGjtElueZQjwHY
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: kVaFM4u859jScaSPBMDv
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: fKGirM2q5vvWSF3LRJFo
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - fKGirM2q5vvWSF3LRJFo
+    uniqueIdKey: COXRt9eWnc6tnnYrelYK
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - kVaFM4u859jScaSPBMDv
+      - COXRt9eWnc6tnnYrelYK
+    uniqueIdKey: fUmbNaaJ0w5X0kcruKBW
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: H06OgCsQoR4xf0AYR8LI
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: e5u91uWFCThJOT8hPng7
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - e5u91uWFCThJOT8hPng7
+    uniqueIdKey: 7LrwkQQtQFlDVp6hqYbF
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - H06OgCsQoR4xf0AYR8LI
+      - 7LrwkQQtQFlDVp6hqYbF
+    uniqueIdKey: DIf0Hk5LCDvV6skp707j
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: rMhikakMnXtob04NOl11
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: xYUpArM2fvX70g4mhGqq
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: ixl51e2MCQu9TR8nB9UX
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: eBcDIOTtvnfkTkLWig5S
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - eBcDIOTtvnfkTkLWig5S
+    uniqueIdKey: jNTOVwlv7FMhbJvAoleQ
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - ixl51e2MCQu9TR8nB9UX
+      - jNTOVwlv7FMhbJvAoleQ
+    uniqueIdKey: 8P2cOCFxuUuTTJwDA58W
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 6PQl6P4t0x8RPij4qiVu
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 7Tu0xBx5E9P17HvaSKct
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 7Tu0xBx5E9P17HvaSKct
+    uniqueIdKey: H1o9qTITvK1S7rKg6D4D
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 6PQl6P4t0x8RPij4qiVu
+      - H1o9qTITvK1S7rKg6D4D
+    uniqueIdKey: cC92CkGhOuxORCYtdwVD
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Z9nMdIs7u87aPIoHB1P5
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 0MF7R8MGEA6BTcnJvPLo
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: rFVXueJZNiCLVSlEwAt5
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: a9SMh95Bx3C2LHsVGjmA
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - a9SMh95Bx3C2LHsVGjmA
+    uniqueIdKey: iSbnacZ8hHGNp18RNQmw
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - rFVXueJZNiCLVSlEwAt5
+      - iSbnacZ8hHGNp18RNQmw
+    uniqueIdKey: pAPEZAPSePblmldSH8jJ
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 1YpOtlkrPGwHqHfNH4X4
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: BlLCBXSm9lRNVfAQmfVf
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - BlLCBXSm9lRNVfAQmfVf
+    uniqueIdKey: qAJciZ8u3AlJpa7KeAae
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 1YpOtlkrPGwHqHfNH4X4
+      - qAJciZ8u3AlJpa7KeAae
+    uniqueIdKey: YOC9lrftarVnxw7WiQZe
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: MY7RBr2Y4rbHgw17wQ45
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: qSuiw9makk1oHkYbaav8
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Umtio4xC2Sjq4IExW5l3
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: IBSlATZtdXHI0e06p6xC
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - IBSlATZtdXHI0e06p6xC
+    uniqueIdKey: I6LpxdE4FDWlLj3Pl0wH
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Umtio4xC2Sjq4IExW5l3
+      - I6LpxdE4FDWlLj3Pl0wH
+    uniqueIdKey: IlIdDB6B27dqCqjUW3Ra
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 6emxx9pL22fAGO5MC1ka
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 5cxwA06bD9xDvZfQtc1n
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 5cxwA06bD9xDvZfQtc1n
+    uniqueIdKey: WoTuHXW5QdvSKtkJHsvE
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - 6emxx9pL22fAGO5MC1ka
+      - WoTuHXW5QdvSKtkJHsvE
+    uniqueIdKey: 1O5J5JURnXghpVjeICEh
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: instagram
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: spce17kT5gDCADGLeFQh
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: whatsapp
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: 7134ZItTe4brdksCPaiV
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: facebook-unity-sdk
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: oTJVlm7k9LhR5jCEmwX5
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: fb1605471223039154
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: Po6MBhmK307VWB7Ihtfo
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - Po6MBhmK307VWB7Ihtfo
+    uniqueIdKey: XZIvcBVbQKp1eJ3scQ6o
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - oTJVlm7k9LhR5jCEmwX5
+      - XZIvcBVbQKp1eJ3scQ6o
+    uniqueIdKey: ZXanmJi4M0d7o0hcIMsP
+  - VariableValue:
+      Name: CFBundleURLName
+      Type: 0
+      StringValue: co.roomful.memories
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: LodXhMFjegBL2pTm7Vtj
+  - VariableValue:
+      Name: 
+      Type: 0
+      StringValue: roomful
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds: []
+    uniqueIdKey: VcKKXvUkkcT9ebOZAKUF
+  - VariableValue:
+      Name: CFBundleURLSchemes
+      Type: 3
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - VcKKXvUkkcT9ebOZAKUF
+    uniqueIdKey: LgRWSLBxioF0wbrUlkrw
+  - VariableValue:
+      Name: 
+      Type: 4
+      StringValue: 
+      IntegerValue: 0
+      FloatValue: 0
+      BooleanValue: 1
+      ChildrenIds:
+      - LodXhMFjegBL2pTm7Vtj
+      - LgRWSLBxioF0wbrUlkrw
+    uniqueIdKey: mvwCPxMFd0kLgdjK7iYb
+  Languages: []
+  ShellScripts:
+  - Name: Twilio
+    Shell: /bin/bash
+    Script: '"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVideo.framework/remove_archs" '
+  m_BuildProperties:
+  - m_Name: ENABLE_BITCODE
+    m_Value: NO
+    m_Options:
+    - YES
+    - NO
+  - m_Name: ENABLE_TESTABILITY
+    m_Value: NO
+    m_Options:
+    - YES
+    - NO
+  - m_Name: GENERATE_PROFILING_CODE
+    m_Value: NO
+    m_Options:
+    - YES
+    - NO
+  - m_Name: GCC_ENABLE_OBJC_EXCEPTIONS
+    m_Value: YES
+    m_Options:
+    - YES
+    - NO
+  Capability:
+    iCloud:
+      Enabled: 0
+      KeyValueStorage: 0
+      iCloudDocument: 0
+      CustomContainers: []
+    PushNotifications:
+      Enabled: 1
+      Development: 1
+    GameCenter:
+      Enabled: 0
+    SignInWithApple:
+      Enabled: 1
+    Wallet:
+      Enabled: 0
+      PassSubset: []
+    Siri:
+      Enabled: 0
+    ApplePay:
+      Enabled: 0
+      Merchants: []
+    InAppPurchase:
+      Enabled: 1
+    Maps:
+      Enabled: 0
+      Options: 
+    PersonalVPN:
+      Enabled: 0
+    BackgroundModes:
+      Enabled: 0
+      Options: 
+    InterAppAudio:
+      Enabled: 0
+    KeychainSharing:
+      Enabled: 0
+      AccessGroups: []
+    AssociatedDomains:
+      Enabled: 0
+      Domains: []
+    AppGroups:
+      Enabled: 0
+      Groups: []
+    DataProtection:
+      Enabled: 0
+    HomeKit:
+      Enabled: 0
+    HealthKit:
+      Enabled: 0
+    WirelessAccessoryConfiguration:
+      Enabled: 0
+  Files: []
+  EntitlementsMode: 0
+  EntitlementsFile: {fileID: 0}

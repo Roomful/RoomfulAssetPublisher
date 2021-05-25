@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19bad17b2ddc34116a631377a42bf0d5, type: 3}
+  m_Name: GD_Settings
+  m_EditorClassIdentifier: 
+  LastVersionCode: 
+  Documents:
+  - Key: 1eAqrhsWRP5hw9T_AuCMpJRSslh2_9S2dFaUkw_Vml4c
+    Name: Roomful Localization
+    DocName: 
+    DocIndex: 0
+    SelectedWorksheet: 0
+    m_worksheets:
+    - ListName: General
+      ListId: 0
+    - ListName: Lobby
+      ListId: 719312598
+    - ListName: Room
+      ListId: 1160229924
+    - ListName: Auth
+      ListId: 500028786
+    - ListName: Notifications
+      ListId: 368341323
+    - ListName: ZoomView
+      ListId: 898800909
+    - ListName: Tutorial
+      ListId: 802290031
+    - ListName: Profile
+      ListId: 262299705
+    - ListName: Storyline
+      ListId: 1947196808
+    - ListName: Share
+      ListId: 1385062828
+    - ListName: RoomCreator
+      ListId: 1195788270
+    - ListName: Payments
+      ListId: 821282955
+    - ListName: TransactionsSummary
+      ListId: 624345329
+    - ListName: Requests
+      ListId: 403629965
+    - ListName: StoreFAQ
+      ListId: 1227514159
+    - ListName: MatchMaking
+      ListId: 1198362217
+    - ListName: AR
+      ListId: 92141336
+  LocalizationDocKey: 1eAqrhsWRP5hw9T_AuCMpJRSslh2_9S2dFaUkw_Vml4c

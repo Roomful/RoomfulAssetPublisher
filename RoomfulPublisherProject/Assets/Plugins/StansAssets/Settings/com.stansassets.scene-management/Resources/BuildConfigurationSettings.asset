@@ -1,0 +1,234 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a132ec5216e554525ab899f3ded4c530, type: 3}
+  m_Name: BuildConfigurationSettings
+  m_EditorClassIdentifier: 
+  ActiveConfigurationIndex: 0
+  BuildConfigurations:
+  - Name: Default
+    DefaultScenesFirst: 0
+    DefaultScenes:
+    - Name: TouchInput
+      Guid: 0fc636229c5ee6a43a09495e052d7e4a
+      Addressable: 0
+    - Name: RoomLinkLoader
+      Guid: d47b66f0c04f37346ba55625fa1e9972
+      Addressable: 0
+    - Name: RoomPointPopupUI
+      Guid: 8fa8f818c04104b3388957bd31715e73
+      Addressable: 0
+    - Name: PropInfoBoard
+      Guid: 800031c1a6040bb41b4834b77b87a409
+      Addressable: 1
+    - Name: ProfilePage
+      Guid: 7a8f41e9375144352b19a67cafd9fad1
+      Addressable: 1
+    - Name: BlackboardScene
+      Guid: b2ee6c4d98998f1448cf8eceea650aa2
+      Addressable: 1
+    - Name: RoomCreater
+      Guid: 5fc4d228df66047839ed1f63f45ffd8f
+      Addressable: 1
+    - Name: Room
+      Guid: f21ff032a481b4e4e8d5bdc3f1be3647
+      Addressable: 1
+    - Name: RoomUI
+      Guid: 299ad18e09afe4129b9948a29dc09cd9
+      Addressable: 1
+    - Name: RoomEditUI
+      Guid: e164cb61565a5cc43a4acc38b6b23d65
+      Addressable: 1
+    - Name: RoomInfo
+      Guid: 08b14d60187ef4cd38a8cdadcaf44405
+      Addressable: 1
+    - Name: MainLobby
+      Guid: a7d1bbb4e75c646e895ed9296145acca
+      Addressable: 1
+    - Name: PublicNetworkLobby
+      Guid: d9f50285a6f98a74da720d81ecab3cf7
+      Addressable: 1
+    - Name: Storyline
+      Guid: f418ce6bf993d9a4a81c1d354858d8aa
+      Addressable: 1
+    - Name: Tutorial_Window
+      Guid: 1c6f2699d9479164996db8c2b49f14dc
+      Addressable: 1
+    - Name: Tutorial_PlacingPicturesP2
+      Guid: 8d90d73a1d19d24418f4736528f71728
+      Addressable: 1
+    - Name: Tutorial_PlacingPicturesP1
+      Guid: 6d3eb47e94bd94347abab181df9b42d6
+      Addressable: 1
+    - Name: Tutorial_Moving_Scaling_P1
+      Guid: d86fdc81aae802549a0a3edf959fc047
+      Addressable: 1
+    - Name: Tutorial_Moving_Scaling_P2
+      Guid: 6bf4100325c659544a4499ad195a9685
+      Addressable: 1
+    - Name: Tutorial_ImportingPicturesP1
+      Guid: 35f273f3a3e26234d96eca53859a57d2
+      Addressable: 1
+    - Name: Tutorial_ImportingPicturesP2
+      Guid: 72c1e7bf28e124e97a4cc99a56ae9012
+      Addressable: 1
+    - Name: Tutorial_HelpButton
+      Guid: a8175f9d80fc5c34cb3967ba7cc2b5fd
+      Addressable: 1
+    - Name: Tutorial_ExtendRoomP1
+      Guid: 1ca28e9baf547284b90c32a9345427eb
+      Addressable: 1
+    - Name: Tutorial_ExtendRoomP2
+      Guid: 17a8ba6296ef2404fb0ec6dbdd52b29a
+      Addressable: 1
+    - Name: Tutorial_ChoosingFromCatalog
+      Guid: a8ce7cad1de11094f9e2af148abd282b
+      Addressable: 1
+    - Name: Tutorial_ChoosingFromCatalog_P2
+      Guid: 02a9199b24523ef4d8a8d8a306555968
+      Addressable: 1
+    - Name: Tutorial_AddSectionP1
+      Guid: 36f037fd1fd4c6b48a3d8ac0c1cb94d7
+      Addressable: 1
+    - Name: Tutorial_AddSectionP2
+      Guid: d6b832fe7d714de40bf37f2d1b582e6a
+      Addressable: 1
+    - Name: InvitationWindow
+      Guid: 8cb4029feccc24f4e8aec45e337bbbe3
+      Addressable: 1
+    - Name: Questionary
+      Guid: 074468ec4f2df3a42b309eb0fb364c94
+      Addressable: 1
+    - Name: RoomSettings
+      Guid: c7da86fd007374faf8f6d102f02bf54a
+      Addressable: 1
+    - Name: DonationWindow
+      Guid: 676c296c243b84a5f9f7e7dfe21e5992
+      Addressable: 1
+    - Name: RoomThumbnailPicker
+      Guid: 699c02fa08c6ef744826616c414b8ef0
+      Addressable: 1
+    - Name: InRoomZoomViewManager
+      Guid: c86938f871e16444d9df7a0b520ba279
+      Addressable: 1
+    - Name: ACProfilePage
+      Guid: c380b05ffaf00344c9d67fb02f857746
+      Addressable: 1
+    - Name: AcsentNetworkLobby
+      Guid: da6b6be4084b6d4418f97b12a14bac40
+      Addressable: 1
+    - Name: Acsent_CardSelectorUI
+      Guid: c9c27de4cf5ff4e478dee026d9e0534b
+      Addressable: 1
+    - Name: MeetingsView
+      Guid: e73fbe5ffd94f464497fc1b97902f3ac
+      Addressable: 1
+    - Name: CardSelectorUI
+      Guid: a3d03f0b547b630498c84f9364ff1335
+      Addressable: 1
+    - Name: QuestionnaireEditor
+      Guid: 310bc08b77a9bb14bba70314b06534df
+      Addressable: 1
+    - Name: QuestionnaireView
+      Guid: 5e1615aec2ebc6e419c24e933f298a82
+      Addressable: 1
+    - Name: VisitorsPanelUI
+      Guid: 917f850e72c77df4bb3993160dfab1ce
+      Addressable: 1
+    - Name: Gamification
+      Guid: 5730e6a69710e214b84723489ec6286c
+      Addressable: 1
+    - Name: BoothsInfo
+      Guid: df9d22d852e3b8543b2c58037c3cb2df
+      Addressable: 1
+    - Name: ShareContact
+      Guid: 83b43ec999a05f243bc0c58c24da2280
+      Addressable: 1
+    - Name: RoomAudioPicker
+      Guid: 84a593bd75c325b40be5eeaa48f04ae5
+      Addressable: 1
+    - Name: InRoomAvatarUI
+      Guid: 222af14b936bc5c40b810e8c9a08854a
+      Addressable: 1
+    - Name: ObjectSettings
+      Guid: b5b0fdcdbc7214628a03b98931973839
+      Addressable: 1
+    - Name: DialInDialog
+      Guid: 3dda83381fbacfe4e85c9cbef097af37
+      Addressable: 1
+    - Name: RoomCustomization
+      Guid: 6dd568dd73ace7f48b43d072320242ef
+      Addressable: 1
+    - Name: RoomCustomizationZoomView
+      Guid: e0e6985727d354247bb2cd203a5f2850
+      Addressable: 1
+    - Name: BoothsAvatarUI
+      Guid: 479db7b6998158642a2ab58d180b0c1d
+      Addressable: 1
+    - Name: InRoomAvatarUI
+      Guid: 222af14b936bc5c40b810e8c9a08854a
+      Addressable: 1
+    - Name: AssetCustomizationView
+      Guid: a830d37e11653466281ba774505365ac
+      Addressable: 1
+    - Name: SocialCircle
+      Guid: 4bd3aa3f70a7f9d41a43952b2ebf2d80
+      Addressable: 1
+    - Name: InRoomAvatarEmotions
+      Guid: 58827fd6bb767e94099990afc49c87c0
+      Addressable: 1
+    - Name: JourneyPath
+      Guid: 187353a867ebe074b858ab1302236cda
+      Addressable: 1
+    - Name: PropEditing
+      Guid: e9d3416130cad20449ef1bbc54be0e28
+      Addressable: 1
+    Platforms:
+    - BuildTargets: 090000000d0000000500000002000000
+      Scenes:
+      - Name: MobileLanding
+        Guid: b9044328a7e5242b88bdc9bcba069054
+        Addressable: 0
+      - Name: MobileAuthentication
+        Guid: 075879328e77c43d1bd6a05f94ea2b8b
+        Addressable: 0
+      - Name: Tutorial_MovingUpDown
+        Guid: 6f563aae49312ba4b923eb6847466243
+        Addressable: 0
+      - Name: Tutorial_MovingInTheRoom
+        Guid: e1b0865d627b524458eb583e7265b831
+        Addressable: 0
+      - Name: StorePage
+        Guid: 42e59143c9ba34314907c2fd3fdf7012
+        Addressable: 0
+      - Name: ShareWindow
+        Guid: acb645b9cd4ecf7498312f533b2840a5
+        Addressable: 0
+    - BuildTargets: 14000000
+      Scenes:
+      - Name: WebLanding
+        Guid: 4b5d13ffc84a46049b557e8ee4f956eb
+        Addressable: 0
+      - Name: Tutorial_Trackpad_MovingInTheRoomWeb
+        Guid: 4a2b30884f922f74ca72a65142848fe6
+        Addressable: 1
+      - Name: Tutorial_Trackpad_MovingUpDownWeb
+        Guid: ad3c53a484e19d241b7b7b139328f265
+        Addressable: 1
+      - Name: Tutorial_MovingUpDownWeb
+        Guid: ec90d4ff7dfa6434fba4de410644514e
+        Addressable: 1
+      - Name: Tutorial_MovingInTheRoomWeb
+        Guid: 88cdf2cfda5e6314db3ed62773f7744a
+        Addressable: 1
+      - Name: WebglStorePage
+        Guid: 8334316d02ac8924ebb07bc30dc92ecc
+        Addressable: 1
