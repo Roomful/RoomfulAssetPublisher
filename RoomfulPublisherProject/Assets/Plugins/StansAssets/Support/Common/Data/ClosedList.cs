@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using SA.Foundation.Events;
+using net.roomful.api.sa;
 
 namespace SA.Common.Patterns {
-    
+
     public class ClosedList<T> : iClosedList<T>
     {
         readonly SA_Event<T> m_onItemAdded = new SA_Event<T>();

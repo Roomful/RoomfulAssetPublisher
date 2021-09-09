@@ -8,8 +8,7 @@ namespace SA.Android.Editor
 {
     class AN_FirebaseFeaturesUI : AN_ServiceSettingsUI
     {
-        public override void OnAwake()
-        {
+        public override void OnAwake() {
             base.OnAwake();
 
             AddFeatureUrl("Getting Started", "https://unionassets.com/android-native-pro/getting-started-758");
@@ -29,45 +28,31 @@ namespace SA.Android.Editor
 
         protected override bool CanBeDisabled => false;
 
-        protected override void OnServiceUI()
-        {
-            using (new SA_WindowBlockWithSpace(new GUIContent("Cloud Messaging(FCM)")))
-            {
-                if (AN_Packages.IsMessagingSdkInstalled)
-                {
+        protected override void OnServiceUI() {
+            using (new SA_WindowBlockWithSpace(new GUIContent("Cloud Messaging(FCM)"))) {
+                if (AN_Packages.IsMessagingSdkInstalled) {
                     EditorGUILayout.HelpBox("Cloud Messaging Active.", MessageType.Info);
                 }
-                else
-                {
+                else {
                     EditorGUILayout.HelpBox("FCM Messaging Plugin not found.", MessageType.Warning);
                     PackageInstallButton(AN_Packages.FirebaseMessagingPackage);
                 }
             }
-            
-            using (new SA_WindowBlockWithSpace(new GUIContent("Analytics")))
-            {
-                if (AN_Packages.IsAnalyticsSdkInstalled)
-                {
+
+            using (new SA_WindowBlockWithSpace(new GUIContent("Analytics"))) {
+                if (AN_Packages.IsAnalyticsSdkInstalled) {
                     EditorGUILayout.HelpBox("Analytics Active.", MessageType.Info);
                 }
-                else
-                {
+                else {
                     EditorGUILayout.HelpBox("Firebase Analytics not found.", MessageType.Warning);
                     PackageInstallButton(AN_Packages.FirebaseAnalyticsPackage);
                 }
             }
         }
-        
-        static void PackageInstallButton(string packageName)
-        {
-            using (new IMGUIBeginHorizontal())
-            {
+
+        static void PackageInstallButton(string packageName) {
+            using (new IMGUIBeginHorizontal()) {
                 GUILayout.FlexibleSpace();
-                var click = GUILayout.Button("Install", EditorStyles.miniButton, GUILayout.Width(80));
-                if (click)
-                {
-                    AN_Packages.InstallFirebasePackage(packageName);
-                }
             }
         }
     }

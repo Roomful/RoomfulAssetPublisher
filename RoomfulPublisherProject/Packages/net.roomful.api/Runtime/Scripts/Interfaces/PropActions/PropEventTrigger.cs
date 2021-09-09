@@ -7,17 +7,7 @@ namespace net.roomful.api {
  	/// </summary>
     public enum PropEventTrigger {
 		OnClick,
-		OnUpdate,
         OnClickNext,
         OnClickPrev,
-		OnStartPlayVideo,
-		OnPauseVideo,
-		OnFinishPlayVideo,
-		OnPlayComments,
-		OnClickRequestThoughts,
-		OnClickWriteComments,
-	    OnClickReactions,
-		OnChangeChannel,
-		OnPropExit
     }
 }

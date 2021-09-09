@@ -31,12 +31,9 @@ namespace net.roomful.api.room
         StorylineSidePanel = 15,
         InvitationPanel = 17,
         StoryLineWizard = 18,
-        Share = 19,
         RoomInfo = 20,
         HelpMenu = 21,
-        RoomSideBarOpen = 23,
         MultiObjectEditor = 25,
-        InRoom360ViewMode = 26,
 
         // Mode for any custom state of UI
         EmptyUIMode

@@ -44,7 +44,7 @@ namespace net.roomful.api
         event Action<BaseEventData> OnSpacePressed;
         event Action<BaseEventData> OnEnterPressed;
         event Action<SwipeEventData> OnSwiped;
-        void SetDispatcherLock(bool locked);
+        event Action<TurnEventData> OnTurned;
 
         Vector3 MousePosition { get; }
     }

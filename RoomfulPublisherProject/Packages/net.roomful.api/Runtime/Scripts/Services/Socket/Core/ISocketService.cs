@@ -8,6 +8,12 @@ namespace net.roomful.api.socket
     public interface ISocketService
     {
         /// <summary>
+        /// Socket connection state.
+        /// </summary>
+        bool IsConnected { get; }
+
+
+        /// <summary>
         /// Send socket request.
         /// </summary>
         /// <param name="socketRequest">Socket request to send.</param>

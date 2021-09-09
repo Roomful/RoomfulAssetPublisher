@@ -4,7 +4,7 @@ namespace net.roomful.api.props
 {
     public interface IPropComponent
     {
-        void Init();
+        void Init(int componentIndex);
         void Refresh();
         void PropScaleChanged();
     }

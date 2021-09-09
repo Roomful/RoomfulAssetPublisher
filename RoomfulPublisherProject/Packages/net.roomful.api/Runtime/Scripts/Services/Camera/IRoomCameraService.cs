@@ -1,5 +1,6 @@
 using System;
 using net.roomful.api.props;
+using net.roomful.api.styles;
 using UnityEngine;
 
 namespace net.roomful.api.cameras
@@ -16,6 +17,13 @@ namespace net.roomful.api.cameras
     public interface IRoomCameraService
     {
         /// <summary>
+        /// Fires when camera snaps
+        /// </summary>
+        event Action<TurnDirection> OnCameraSnapped;
+
+        event Action OnCameraBehaviourChanged;
+
+        /// <summary>
         /// Main room camera.
         /// </summary>
         Camera MainCamera { get; }
@@ -29,6 +37,31 @@ namespace net.roomful.api.cameras
         /// Represents current camera behaviour
         /// </summary>
         ICameraBehaviour Behaviour { get; }
+
+        /// <summary>
+        /// Type of default Camera Behaviour
+        /// </summary>
+        Type DefaultCameraBehaviour { get; }
+
+        Camera WorldSpaceUICamera { get; }
+
+        /// <summary>
+        /// Event is fired when camera moved with certain tolerance.
+        /// </summary>
+        event Action OnMoveDiscretely;
+
+        void FlyTo(IStylePanel stylePanel, Action onComplete = null);
+
+        /// <summary>
+        /// Fly Camera to the prop.
+        /// described by provided position and rotation.
+        ///
+        /// </summary>
+        /// <param name="prop">prop to fly to</param>
+        /// <param name="onComplete">Action will be triggered once camera will reach target destination.</param>
+        /// <param name="stopPreviousTransition">Set as true to stop previous FlyTo transition, otherwise FlyTo will no be executed.</param>
+        void FlyTo(IProp prop, Action onComplete = null, bool stopPreviousTransition = false);
+
 
         /// <summary>
         /// Camera will perform cinematic fly from current point to the new point in space
@@ -54,6 +87,11 @@ namespace net.roomful.api.cameras
         IProp GetPropAtScreenPosition(Vector2 position);
 
         T SetCameraBehaviour<T>() where T : ICameraBehaviour;
+
+        /// <summary>
+        /// Set default Camera behaviour
+        /// </summary>
+        void SetDefaultBehaviour();
 
         CameraRayHits GetRaycastHits(Vector2 point, float distance = Mathf.Infinity);
 

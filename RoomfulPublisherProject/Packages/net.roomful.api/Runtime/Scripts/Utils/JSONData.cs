@@ -15,9 +15,16 @@ namespace net.roomful.api
             try {
                 Data = Json.Deserialize(data) as Dictionary<string, object>;
                 m_rawData = data;
-                IsValid = true;
+                if (Data != null) {
+                    IsValid = true;
+                }
+                else {
+                    IsValid = false;
+                    Data = new Dictionary<string, object>();
+                }
             }
             catch (Exception ex) {
+                FallbackToEmptyData();
                 Debug.LogError(ex.Message);
                 Debug.LogError("Can't parse JSONData out of: " + data);
             }
@@ -29,9 +36,16 @@ namespace net.roomful.api
                 IsValid = true;
             }
             catch (Exception ex) {
+                FallbackToEmptyData();
                 Debug.LogError(ex.Message);
                 Debug.LogError("Can't parse JSONData out of: " + data);
             }
+        }
+
+        private void FallbackToEmptyData() {
+            Data = new Dictionary<string, object>();
+            m_rawData = string.Empty;
+            IsValid = false;
         }
 
         public bool HasValue(params string[] keys) {
@@ -130,8 +144,21 @@ namespace net.roomful.api
             }
         }
 
-        public Dictionary<string, object> Data { get; } = null;
+        public Dictionary<string, object> Data { get; private set; } = null;
 
-        public bool IsValid { get; } = false;
+        public bool IsValid { get; private set; } = false;
+    }
+
+    public static class JSONDataExtension
+    {
+        public static T GetValueSafe<T>(this JSONData jsonData, params string[] keys) {
+            T result = default;
+
+            if (jsonData.HasValue(keys)) {
+                result = jsonData.GetValue<T>(keys);
+            }
+
+            return result;
+        }
     }
 }

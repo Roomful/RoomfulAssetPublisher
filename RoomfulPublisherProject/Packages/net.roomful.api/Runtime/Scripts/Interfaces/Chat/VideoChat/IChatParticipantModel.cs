@@ -10,6 +10,7 @@ namespace net.roomful.api
         IUserTemplateSimple User { get; }
         IEnumerable<IIdentityModel> IdentityModels { get; }
         IConferenceUserPermissions Permissions { get; }
+        int SequentialNumber { get; }
 
         Dictionary<string, object> ToDictionary();
     }

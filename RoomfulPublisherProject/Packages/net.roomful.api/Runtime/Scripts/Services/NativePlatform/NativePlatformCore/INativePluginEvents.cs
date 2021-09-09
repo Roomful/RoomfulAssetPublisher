@@ -59,13 +59,29 @@ namespace net.roomful.api.native
         /// <summary>
         /// Native callback that called when participant change his hand status.
         /// </summary>
-        /// <returns><c>VideoChatHandStatusModel</c> contains video shat id and also int for hand status.</returns>
-        event Action<VideoChatHandStatusModel> OnHandStatusChangedEvent; 
+        /// <returns><c>VideoChatHandStatusModel</c> contains video chat id and also int for hand status.</returns>
+        event Action<VideoChatHandStatusModel> OnHandStatusChangedEvent;
+
+        /// <summary>
+        /// Native callback that called when moderator or presenter change other participant permissions.
+        /// </summary>
+        /// <returns><c>ChangeUserPermissionsModel</c> contains video chat id, user id and permissions</returns>
+        event Action<ChangeUserPermissionsModel> OnUserPermissionChanged; 
         
         /// <summary>
-        /// Notfies that the video chat has been closed
+        /// Notifies that the video chat has been closed
         /// from native controlls.
         event Action OnVideoChatHasBeenClosed;
-        
+
+        /// <summary>
+        /// Notifies that video chat controls state updated on native part.
+        /// </summary>
+        event Action OnVideoChatControlsUpdated;
+
+        /// <summary>
+        /// Notifies that video has been closed for all on native part.
+        /// </summary>
+        /// <returns>Returns video chat id</returns>
+        event Action<string> OnVideoChatClosedForAll;
     }
 }

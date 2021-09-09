@@ -90,6 +90,7 @@ namespace net.roomful.api.native
         void StopVideoChat(string videochatId);
         void MinimizeChatControls();
         void RestoreChatControls();
+        bool GetVideoChatControlsVisibility();
 
         //--------------------------------------
         //  Resources

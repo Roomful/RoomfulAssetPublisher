@@ -20,12 +20,20 @@
             return title;
         }
 
+        public static string GetDebugName(this IProp prop) {
+            return $"{prop.Template.Id} / {prop.Asset.Title}_{prop.GetTitleWithAssetNameFallback()}";
+        }
+
         public static bool IsChildOfBooth(this IProp prop) {
             if (string.IsNullOrEmpty(prop.Template.ParentId))
                 return false;
 
             var parent = Roomful.PropsService.GetCurrentRoomPropById(prop.Template.ParentId);
             return parent != null && parent.Template.Type == PropInvokeType.Container;
+        }
+
+        public static bool HasPropComponent<T>(this IProp prop) where T : IPropComponent {
+            return prop.GetPropComponent<T>() != null;
         }
     }
 }

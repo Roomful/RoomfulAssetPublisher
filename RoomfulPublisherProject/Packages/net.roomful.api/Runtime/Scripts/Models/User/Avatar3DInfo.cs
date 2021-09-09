@@ -30,5 +30,40 @@ namespace net.roomful.api
                 }
             }
         }
+
+        public bool HasTheSameDataAs(Avatar3DInfo other) {
+            if (AssetId.Equals(other.AssetId)) {
+                return false;
+            }
+
+            if (Skins == null) {
+                return other.Skins == null;
+            }
+
+            if (other.Skins == null) {
+                return false;
+            }
+
+            if (other.Skins.Count != Skins.Count) {
+                return false;
+            }
+
+            foreach (var skin in Skins) {
+
+                var key = skin.Key;
+                var val = skin.Value;
+                if (other.Skins.TryGetValue(key, out var otherVal)) {
+                    if (!val.Equals(otherVal)) {
+                        return false;
+                    }
+                }
+                else {
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
     }
 }

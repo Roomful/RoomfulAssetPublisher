@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using net.roomful.api.cameras;
+using UnityEngine;
 
 namespace net.roomful.api.props
 {
@@ -11,12 +13,12 @@ namespace net.roomful.api.props
         /// <summary>
         /// Event fired when prop is created.
         /// In most cases prop is still loading and can't be used for all the interactions.
-        /// See the <see cref="IProp.IsReadyToUse"/>.
+        /// See the <see cref="IProp.IsLoading"/>.
         /// </summary>
         event Action<IProp> OnPropCreated;
 
         /// <summary>
-        /// Event fired when prop is loaded and ready for all interaction. See <see cref="IProp.IsReadyToUse"/>.
+        /// Event fired when prop is loaded and ready for all interaction. See <see cref="IProp.IsLoading"/>.
         /// </summary>
         event Action<IProp> OnPropLoaded;
 
@@ -49,6 +51,14 @@ namespace net.roomful.api.props
         /// <param name="id">The id of the prop.</param>
         /// <returns>Prop instance or `null` if prop with such id wasn't found.</returns>
         IProp GetCurrentRoomPropById(string id);
+
+        /// <summary>
+        /// Returns prop under the Camera hits.
+        /// See <see cref="IRoomCameraService.GetRaycastHits"/>
+        /// </summary>
+        /// <param name="hits"></param>
+        /// <returns>Prop instance under the camera hit or `null`.</returns>
+        IProp GetPropsUnderHits(CameraRayHits hits);
 
         /// <summary>
         /// Preview prop.
@@ -101,11 +111,11 @@ namespace net.roomful.api.props
         /// <summary>
         /// Create new prop. Please note that prop only exists locally until you use <see cref="ServerCreateProp"/>
         /// </summary>
-       /// <param name="assetTemplate">Prop asset template.</param>
-       /// <param name="initialTemplateBuilder">Use to set initial prop template properties.</param>
-       /// <param name="transformation">Use to set prop initial transform values</param>
-       /// <param name="includePropLoader">Use 'false' if you do not want default preloader to be added on a prop</param>
-       /// <returns>Returns prop instance that only exists locally.</returns>
+        /// <param name="assetTemplate">Prop asset template.</param>
+        /// <param name="initialTemplateBuilder">Use to set initial prop template properties.</param>
+        /// <param name="transformation">Use to set prop initial transform values</param>
+        /// <param name="includePropLoader">Use 'false' if you do not want default preloader to be added on a prop</param>
+        /// <returns>Returns prop instance that only exists locally.</returns>
         IProp InstantiateProp(IPropAssetTemplate assetTemplate,
             PropUpdateBuilder initialTemplateBuilder,
             PropTransformationBuilder transformation,
@@ -128,8 +138,43 @@ namespace net.roomful.api.props
         void GetPropAsset(string assetId, Action<IPropAssetTemplate> callback);
 
         /// <summary>
+        /// Remove skins from the prop.
+        /// </summary>
+        /// <param name="propTemplateId">Prop template id.</param>
+        /// <param name="skinId">Skin Id.</param>
+        /// <param name="localOnly">Set to `true` if you only want this skin to removed locally.</param>
+        void RemoveSkin(string propTemplateId, string skinId, bool localOnly);
+
+        /// <summary>
+        /// Apply skins from the prop.
+        /// </summary>
+        /// <param name="propTemplateId">Prop template id.</param>
+        /// <param name="skinId">Skin Id.</param>
+        /// <param name="localOnly">Set to `true` if you only want this skin to be applied locally.</param>
+        void ApplySkin(string propTemplateId, string skinId, bool localOnly);
+
+        /// <summary>
+        /// Apply color to the prop variant.
+        /// </summary>
+        /// <param name="propTemplateId">Prop template id.</param>
+        /// <param name="variantId">Variant Id.</param>
+        /// <param name="color">Color to apply.</param>
+        /// <param name="localOnly">Set to `true` if you only want this skin to be applied locally.</param>
+        void ApplyPropVariantColor(string propTemplateId, string variantId, Color color, bool localOnly);
+
+        /// <summary>
         /// Allows to override application prop click behaviour
         /// </summary>
         IPropsInput Input { get; }
+
+        /// <summary>
+        /// Request to Update prop thumbnails resolution.
+        /// If room has specific settings to work on the lower resolution, resolution will be updated
+        /// to the max supported size.
+        /// </summary>
+        /// <param name="propTemplateId">Target prop id.</param>
+        /// <param name="resource">Target resource.</param>
+        /// <param name="size">Desired resolution.</param>
+        void UpdateThumbnailsResolution(string propTemplateId, IResource resource, ThumbnailSize size);
     }
 }

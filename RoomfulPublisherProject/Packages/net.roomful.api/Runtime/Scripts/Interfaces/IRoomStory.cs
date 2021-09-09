@@ -11,7 +11,6 @@ namespace net.roomful.api {
         Action OnMetaUpdated  { get; set; }
 
         bool Published { get; }
-        Dictionary<string, object> ToDictionary();
         string Title { get; }
         DateTime Created { get; set; }
         List<IStoryFrame> Frames { get; }
@@ -19,8 +18,6 @@ namespace net.roomful.api {
         bool BackgroundMusicAvaliable { get; }
         void SetBackgroundMusic(IResource music);
         List<IStoryFrame> GetValidFrames();
-        void Update(IRoomStory story);
-        bool UpdatePropId(string oldId, string newId);
         float GetBackgroundMusicVolume();
         void RemoveFrame(IStoryFrame frame);
         void SetTitle(string value);

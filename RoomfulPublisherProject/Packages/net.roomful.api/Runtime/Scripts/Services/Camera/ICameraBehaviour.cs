@@ -17,6 +17,11 @@ namespace net.roomful.api.cameras
         void SetTargetRotation(Vector3 rotation);
 
         /// <summary>
+        /// Active camera target position.
+        /// </summary>
+        Vector3 TargetPosition { get; }
+
+        /// <summary>
         /// Change the state of a camera behaviour. True means that behaviour logic is active.
         /// </summary>
         bool Enabled { get; set; }

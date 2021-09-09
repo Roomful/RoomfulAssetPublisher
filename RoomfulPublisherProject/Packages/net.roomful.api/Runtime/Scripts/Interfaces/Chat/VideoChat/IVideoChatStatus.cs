@@ -8,22 +8,22 @@ namespace net.roomful.api
         /// Video chat id.
         /// </summary>
         string VideochatId { get; }
-        
+
         /// <summary>
         /// Video chat name made based on room name or prop name.
         /// </summary>
         string VideochatName { get; }
-        
+
         /// <summary>
         /// Video chat mode.
         /// </summary>
         VideoChatMode VideoChatMode { get; }
-        
+
         /// <summary>
         /// Video chat engine.
         /// </summary>
         VideoChatEngine VideoChatEngine { get; }
-        
+
         /// <summary>
         /// Video chat source.
         /// </summary>
@@ -72,7 +72,7 @@ namespace net.roomful.api
         /// <summary>
         /// Video chat participants.
         /// </summary>
-        IEnumerable<IChatParticipantModel> Participants { get; }
+        IReadOnlyList<IChatParticipantModel> Participants { get; }
 
         /// <summary>
         /// List of user ids.

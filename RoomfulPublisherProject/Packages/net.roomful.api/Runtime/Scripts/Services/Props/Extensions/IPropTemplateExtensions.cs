@@ -20,6 +20,10 @@ namespace net.roomful.api.props
             return template.Content.Count > 0;
         }
 
+        public static bool HasParent(this IPropTemplate template) {
+            return !string.IsNullOrEmpty(template.ParentId);
+        }
+
         public static string GetParamAsString(this IPropTemplate template, string paramKey) {
             var param = template.GetParam(paramKey);
             return param != null ? param.ToString() : string.Empty;

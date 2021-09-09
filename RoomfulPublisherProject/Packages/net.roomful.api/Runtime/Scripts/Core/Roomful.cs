@@ -2,6 +2,7 @@
 
 using net.roomful.api;
 using net.roomful.api.app;
+using net.roomful.api.appMenu;
 using net.roomful.api.assets;
 using net.roomful.api.authentication;
 using net.roomful.api.avatars;
@@ -10,12 +11,18 @@ using net.roomful.api.cameras;
 using net.roomful.api.lobby;
 using net.roomful.api.localization;
 using net.roomful.api.native;
+using net.roomful.api.networks;
+using net.roomful.api.payment;
 using net.roomful.api.presentation.board;
+using net.roomful.api.profile;
 using net.roomful.api.props;
+using net.roomful.api.resources;
 using net.roomful.api.room;
 using net.roomful.api.socket;
 using net.roomful.api.styles;
+using net.roomful.api.videoPlayer;
 using net.roomful.api.zoom;
+using RF.Room.Teleportation;
 using UnityEngine;
 
 namespace net.roomful
@@ -46,6 +53,11 @@ namespace net.roomful
         /// An Accesses point to the Room camera.
         /// </summary>
         public static IRoomCameraService CameraService { get; private set; }
+
+        /// <summary>
+        /// Service for teleportation purposes
+        /// </summary>
+        public static ITeleportationService TeleportationService { get; private set; }
 
         /// <summary>
         /// Platform native functions accesses point.
@@ -93,7 +105,7 @@ namespace net.roomful
         /// <summary>
         /// Service for playing emotions for 3D avatars.
         /// </summary>
-        public static IInRoomAvatarsEmotionService InRoomAvatarEmotionsService { get; private set; }
+        public static IEmotionsService InRoomAvatarEmotionsService { get; private set; }
 
         /// <summary>
         /// Service controls presentation boards.
@@ -109,17 +121,62 @@ namespace net.roomful
         /// Service to inject custom Room Settings
         /// </summary>
         public static IRoomSettingsUIService RoomSettingsUIService { get; private set; }
+        
+        /// <summary>
+        /// Service to inject custom Room Info
+        /// </summary>
+        public static IRoomInfoUIService RoomInfoUIService { get; private set; }
 
         /// <summary>
         /// Service allows subscription to the zoom view events and adding custom behaviour.
         /// </summary>
-        public static IZoomViewService ZoomViewService { get; private set; }
+        public static IZoomViewService ZoomView { get; private set; }
 
         /// <summary>
         /// Provides API to work with VideoChatService
         /// </summary>
         public static IVideoChatService VideoChatService { get; private set; }
-        
+
+        /// <summary>
+        /// Services provides resources related events and API to interact with resources.
+        /// </summary>
+        public static IResourcesService ResourcesService { get; private set; }
+
+        /// <summary>
+        /// Gives access to the app Menu
+        /// </summary>
+        public static IAppMenuService AppMenuService { get; private set; }
+
+        /// <summary>
+        /// Gives access to the text chat api
+        /// </summary>
+        public static IPublicTextChatService TextChat { get; private set; }
+
+        /// <summary>
+        /// Used to display users profile
+        /// </summary>
+        public static IProfileService ProfileService { get; private set; }
+
+        /// <summary>
+        /// Use to monitor networks events.
+        /// </summary>
+        public static INetworksService NetworksService { get; private set; }
+
+        /// <summary>
+        /// Roomful payment service.
+        /// </summary>
+        public static  IPaymentService Payment  { get; private set; }
+
+        /// <summary>
+        /// Used for track video players state.
+        /// </summary>
+        public static  IVideoPlayerService VideoPlayerService  { get; private set; }
+
+        /// <summary>
+        /// Provides info about users current location in Roomful.
+        /// </summary>
+        public static  IUsersTrackingService UsersTracking  { get; private set; }
+
         public static RoomfulPlatform Platform {
             get {
                 switch (Application.platform) {

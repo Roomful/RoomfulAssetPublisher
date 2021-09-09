@@ -1,0 +1,15 @@
+{
+    "name": "SA.Support",
+    "references": [
+        "GUID:a88702033ab570f48808865bc679f5f7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -8,9 +8,19 @@ namespace net.roomful.api.props
     public interface IPropTransform
     {
         /// <summary>
+        /// The parent of the prop transform.
+        /// </summary>
+        IPropTransform Parent { get; }
+
+        /// <summary>
         /// Local rotation represented in euler angles.
         /// </summary>
         Vector3 Rotation { get; }
+
+        /// <summary>
+        /// Global rotation represented in euler angles.
+        /// </summary>
+        Vector3 GlobalRotation { get; }
 
         /// <summary>
         /// Local rotation as quaternion.
@@ -29,11 +39,13 @@ namespace net.roomful.api.props
 
         /// <summary>
         /// Prop bounds without rotation consideration.
+        /// Use Prop Inspector to visualize. In most cases you want <see cref="ObjectBounds"/>.
         /// </summary>
         Bounds NormalizedBounds { get; }
 
         /// <summary>
         /// Prop Bounds.
+        /// Use Prop Inspector to visualize.
         /// </summary>
         Bounds ObjectBounds { get; }
 

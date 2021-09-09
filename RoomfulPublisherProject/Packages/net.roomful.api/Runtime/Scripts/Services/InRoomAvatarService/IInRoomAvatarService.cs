@@ -70,5 +70,10 @@ namespace net.roomful.api.avatars
         /// <param name="avatar">Avatar to destroy.</param>
         void ReleaseAvatar(IInRoomAvatar avatar);
 
+        /// <summary>
+        /// This prop is assumed to be an avatar. If so, returns the avatar. If not, it returns null
+        /// </summary>
+        /// <param name="prop">Alleged avatar prop.</param>
+        IInRoomAvatar GetAvatar(IProp prop);
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 // Copyright Roomful 2013-2021. All rights reserved.
 
 namespace net.roomful.api {
-	
+
 	public class ResourceMetadata {
 
         public static readonly List<string> IMAGE_TYPES = new List<string> { MimeTypePng, MimeTypeJpg, "image/jpeg", "image/gif", "image/bmp", "facebook#photo", "imdb#poster", "pinterest#image", "roomful#url", "amazon#movie", "amazon#mp3", "amazon#music", "amazon#product" };
@@ -20,7 +20,7 @@ namespace net.roomful.api {
 		public const string MimeTypeSimpleUrl = "roomful#url";
 		public const string MimeTypeVideoStream = "application/x-mpegurl";
 		public const string MimeTypePdf = "application/pdf";
-		
+
 		public string Name = string.Empty;
 		public int Size;
 		public string MimeType  = MimeTypePng;
@@ -29,7 +29,7 @@ namespace net.roomful.api {
 		public ResourceGeo Geo = new ResourceGeo();
 		public ResourceOrigin Origin = new ResourceOrigin();
 		public ResourceDimentions Dimentions = new ResourceDimentions();
-		
+
 		public ResourceMetadata() {}
 
 		public ResourceMetadata(JSONData metaInfo) {

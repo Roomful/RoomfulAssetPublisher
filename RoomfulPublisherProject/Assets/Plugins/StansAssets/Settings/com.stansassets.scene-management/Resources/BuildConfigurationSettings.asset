@@ -26,11 +26,26 @@ MonoBehaviour:
     - Name: RoomPointPopupUI
       Guid: 8fa8f818c04104b3388957bd31715e73
       Addressable: 0
+    - Name: UberInfoPanel
+      Guid: 924150d28c9a1de4c8630d4f353d750a
+      Addressable: 0
+    - Name: AppMenu
+      Guid: 54313c10554d343a2ac68f1f58803ae3
+      Addressable: 0
+    - Name: TemplateSideMenuUI
+      Guid: dde40e88f01b0cf4584ee05186941ea4
+      Addressable: 0
+    - Name: Monitoring
+      Guid: 713fa87da75a6f94d8060ebf0eff17b4
+      Addressable: 0
+    - Name: GraphicsQuality
+      Guid: a6b5278a13a3bfb4db0a685f0c26f864
+      Addressable: 0
+    - Name: PropEditing
+      Guid: e9d3416130cad20449ef1bbc54be0e28
+      Addressable: 0
     - Name: PropInfoBoard
       Guid: 800031c1a6040bb41b4834b77b87a409
-      Addressable: 1
-    - Name: ProfilePage
-      Guid: 7a8f41e9375144352b19a67cafd9fad1
       Addressable: 1
     - Name: BlackboardScene
       Guid: b2ee6c4d98998f1448cf8eceea650aa2
@@ -52,9 +67,6 @@ MonoBehaviour:
       Addressable: 1
     - Name: MainLobby
       Guid: a7d1bbb4e75c646e895ed9296145acca
-      Addressable: 1
-    - Name: PublicNetworkLobby
-      Guid: d9f50285a6f98a74da720d81ecab3cf7
       Addressable: 1
     - Name: Storyline
       Guid: f418ce6bf993d9a4a81c1d354858d8aa
@@ -107,30 +119,6 @@ MonoBehaviour:
     - Name: Questionary
       Guid: 074468ec4f2df3a42b309eb0fb364c94
       Addressable: 1
-    - Name: RoomSettings
-      Guid: c7da86fd007374faf8f6d102f02bf54a
-      Addressable: 1
-    - Name: DonationWindow
-      Guid: 676c296c243b84a5f9f7e7dfe21e5992
-      Addressable: 1
-    - Name: RoomThumbnailPicker
-      Guid: 699c02fa08c6ef744826616c414b8ef0
-      Addressable: 1
-    - Name: InRoomZoomViewManager
-      Guid: c86938f871e16444d9df7a0b520ba279
-      Addressable: 1
-    - Name: ACProfilePage
-      Guid: c380b05ffaf00344c9d67fb02f857746
-      Addressable: 1
-    - Name: AcsentNetworkLobby
-      Guid: da6b6be4084b6d4418f97b12a14bac40
-      Addressable: 1
-    - Name: Acsent_CardSelectorUI
-      Guid: c9c27de4cf5ff4e478dee026d9e0534b
-      Addressable: 1
-    - Name: MeetingsView
-      Guid: e73fbe5ffd94f464497fc1b97902f3ac
-      Addressable: 1
     - Name: CardSelectorUI
       Guid: a3d03f0b547b630498c84f9364ff1335
       Addressable: 1
@@ -164,10 +152,7 @@ MonoBehaviour:
     - Name: DialInDialog
       Guid: 3dda83381fbacfe4e85c9cbef097af37
       Addressable: 1
-    - Name: RoomCustomization
-      Guid: 6dd568dd73ace7f48b43d072320242ef
-      Addressable: 1
-    - Name: RoomCustomizationZoomView
+    - Name: PropCustomizationUI
       Guid: e0e6985727d354247bb2cd203a5f2850
       Addressable: 1
     - Name: BoothsAvatarUI
@@ -185,11 +170,59 @@ MonoBehaviour:
     - Name: InRoomAvatarEmotions
       Guid: 58827fd6bb767e94099990afc49c87c0
       Addressable: 1
-    - Name: JourneyPath
-      Guid: 187353a867ebe074b858ab1302236cda
+    - Name: ZoomView
+      Guid: 646b997f6a3274683b5d7002559a2b07
       Addressable: 1
-    - Name: PropEditing
-      Guid: e9d3416130cad20449ef1bbc54be0e28
+    - Name: ResourceEditWindow
+      Guid: 6949308c6df3d40e48a9057b717b5c05
+      Addressable: 1
+    - Name: ProfileUI
+      Guid: 278ffb9890af94cc69a507a313028947
+      Addressable: 1
+    - Name: InRoomAvatarEmotions
+      Guid: 58827fd6bb767e94099990afc49c87c0
+      Addressable: 1
+    - Name: AvatarCustomization
+      Guid: 9e6c2dde155eb134885e7281131e93e6
+      Addressable: 1
+    - Name: TexhibitionAuthentication
+      Guid: 71be58bb8e15c454da533f8a1c2114dd
+      Addressable: 1
+    - Name: DeepPavlovUI
+      Guid: 475b16fe6a69e464ca904f0b17a6cb4f
+      Addressable: 1
+    - Name: RoomSettingsUI
+      Guid: 7328015c40199bb41866a5d5b462ae94
+      Addressable: 1
+    - Name: AvatarCustomizationUI
+      Guid: 276522de6224a1d48b34d29eb1dfe8c4
+      Addressable: 1
+    - Name: ShareRoom
+      Guid: acb645b9cd4ecf7498312f533b2840a5
+      Addressable: 1
+    - Name: SnapshotMaker
+      Guid: 0fc5a7cec6a3f1c448713145a91a2108
+      Addressable: 1
+    - Name: PropCustomizationUI
+      Guid: e0e6985727d354247bb2cd203a5f2850
+      Addressable: 1
+    - Name: ManagePropTeamDialog
+      Guid: 067c7622c6b24788ae5c838fcc55ddfd
+      Addressable: 1
+    - Name: ContactsPicker
+      Guid: 8d26eaa65870d477ead53d837bc3cbbc
+      Addressable: 1
+    - Name: ReportAbuse
+      Guid: 040ae7a1a1908544aa2fce7e1df08ab2
+      Addressable: 1
+    - Name: Teleportation
+      Guid: 14e3301ad5f18a14398e35af29f7fe00
+      Addressable: 1
+    - Name: RightNavigationBar
+      Guid: ef4a2314e1b9bd848a9ac64f3d5128b4
+      Addressable: 1
+    - Name: Lightmapping
+      Guid: d06eef76159b05b45b886d9d3e54f12a
       Addressable: 1
     Platforms:
     - BuildTargets: 090000000d0000000500000002000000
@@ -208,9 +241,6 @@ MonoBehaviour:
         Addressable: 0
       - Name: StorePage
         Guid: 42e59143c9ba34314907c2fd3fdf7012
-        Addressable: 0
-      - Name: ShareWindow
-        Guid: acb645b9cd4ecf7498312f533b2840a5
         Addressable: 0
     - BuildTargets: 14000000
       Scenes:

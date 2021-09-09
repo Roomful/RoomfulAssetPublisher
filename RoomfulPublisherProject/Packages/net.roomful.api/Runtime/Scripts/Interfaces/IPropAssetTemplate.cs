@@ -11,7 +11,15 @@ namespace net.roomful.api
         List<ContentType> ContentTypes { get; }
         bool CanStack { get; }
         bool HasVariants { get; }
+
+        /// <summary>
+        /// Count of thumbnails component marked as logos.
+        /// </summary>
         int LogoCount { get; }
+
+        /// <summary>
+        /// Count of thumbnails component marked as non logos.
+        /// </summary>
         int ThumbnailCount { get; }
         float MaxScale { get; }
         float MinScale { get; }

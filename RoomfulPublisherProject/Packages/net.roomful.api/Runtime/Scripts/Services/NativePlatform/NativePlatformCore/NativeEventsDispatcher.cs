@@ -17,7 +17,10 @@ namespace net.roomful.api.native
         public event Action<string> OnVideochatVideoStreamRemoved;
         public event Action<MuteAllModel> OnMuteAllEvent;
         public event Action<VideoChatHandStatusModel> OnHandStatusChangedEvent;
+        public event Action<ChangeUserPermissionsModel> OnUserPermissionChanged;  
         public event Action OnVideoChatHasBeenClosed;
+        public event Action OnVideoChatControlsUpdated;
+        public event Action<string> OnVideoChatClosedForAll;
 
         public void RequestSetMicrophoneStatus(MicStatusModel inputData) {
             OnSetMicrophoneStatusRequest?.Invoke(inputData);
@@ -55,8 +58,20 @@ namespace net.roomful.api.native
             OnHandStatusChangedEvent?.Invoke(model);
         }
 
+        public void NotifyUserPermissionsChanged(ChangeUserPermissionsModel model) {
+            OnUserPermissionChanged?.Invoke(model);
+        }
+
         public void NotifyVideoStreamRemoved(string videoChatId) {
             OnVideochatVideoStreamRemoved?.Invoke(videoChatId);
+        }
+
+        public void NotifyVideoChatControlsUpdated() {
+            OnVideoChatControlsUpdated?.Invoke();
+        }
+
+        public void NotifyVideoChatClosedForAll (string videochatId) {
+            OnVideoChatClosedForAll?.Invoke(videochatId);
         }
     }
 }

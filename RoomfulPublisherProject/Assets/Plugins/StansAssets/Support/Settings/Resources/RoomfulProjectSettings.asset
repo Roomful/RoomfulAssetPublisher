@@ -20,84 +20,95 @@ MonoBehaviour:
     - Picture
     - Frame
     Icon: {fileID: 2800000, guid: d39d7b4683fb547748fbcd00674f5d39, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Text Panels
     Tags:
     - Wall
     - Text Panel
     Icon: {fileID: 2800000, guid: 198ecd830e3be425ab4b77bee9393b5a, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Wall Furniture
     Tags:
     - Wall
     - Furniture
     Icon: {fileID: 2800000, guid: 95c5d0b1b2be92d489e18ee6ab705432, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Wall Decoration
     Tags:
     - Wall
     - Decoration
     Icon: {fileID: 2800000, guid: 1d4d51a8272934a44afb63f41b04b392, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Furniture
     Tags:
     - Floor
     - Furniture
     Icon: {fileID: 2800000, guid: ec889dd64827a394592014e778e69bdd, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Decoration
     Tags:
     - Floor
     - Decoration
     Icon: {fileID: 2800000, guid: 27bfb24039d14ed449d8f417c472a741, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Seating
     Tags:
     - Seating
     Icon: {fileID: 2800000, guid: 22ed6d5d210f44a689fee0fbbc4de6e0, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Tables
     Tags:
     - Table
     Icon: {fileID: 2800000, guid: 687133731fe18447e9277c2f2a92a352, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Room Links
     Tags: []
     Icon: {fileID: 2800000, guid: 5ac37ca1228804d1bac63b8e5dcf1e6d, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Admin
     Tags:
     - test
     Icon: {fileID: 2800000, guid: fd8b16097e43a5c4a95e77457fcd904f, type: 3}
+    ForAdminsOnly: 1
   - IsOpen: 0
     Title: Booths
     Tags:
     - Booth
     Icon: {fileID: 2800000, guid: a037f892340c3534b828ea83444bb58f, type: 3}
+    ForAdminsOnly: 1
   - IsOpen: 0
     Title: Cars
     Tags:
     - Car
     Icon: {fileID: 2800000, guid: aa4551c89431a0e40b7b2688440002f2, type: 3}
+    ForAdminsOnly: 1
   - IsOpen: 0
     Title: Devices
     Tags:
     - Device
     Icon: {fileID: 2800000, guid: 1dbda0a5a4546414b8565583208b7f35, type: 3}
+    ForAdminsOnly: 0
   - IsOpen: 0
     Title: Avatars
     Tags:
     - Avatar
     Icon: {fileID: 2800000, guid: 6f907b9af39703e498baa1845d7b1204, type: 3}
+    ForAdminsOnly: 1
   PropEditorTabs:
-  - IsOpen: 1
+  - IsOpen: 0
     Title: Similar Objects
     Tags: []
     Icon: {fileID: 2800000, guid: aa4551c89431a0e40b7b2688440002f2, type: 3}
-  - IsOpen: 1
-    Title: Variants
-    Tags: []
-    Icon: {fileID: 2800000, guid: 25bf0ecec55cf984fadadf8ef76e7528, type: 3}
+    ForAdminsOnly: 0
   InternalAssets:
   - Title: Blackboard
     Icon: {fileID: 2800000, guid: 26b4ac913f2285a44b073b30dc08006b, type: 3}
@@ -144,15 +155,6 @@ MonoBehaviour:
     ContentTypes: 
     CanStack: 0
     IsOpen: 0
-  - Title: ChromakeyVieoPlayer
-    Icon: {fileID: 2800000, guid: e48e4a884f6c5764d9d901792b2e1bdc, type: 3}
-    Prefab: {fileID: 1890705425852758, guid: 8e76cf30595d9a347a318d2ead347f83, type: 3}
-    categoryIndex: 9
-    InvokeType: 1
-    Placing: 1
-    ContentTypes: 02000000
-    CanStack: 0
-    IsOpen: 1
   - Title: TransparentImageCanvas
     Icon: {fileID: 2800000, guid: 4ab271f428ce91e42971892396ecaddb, type: 3}
     Prefab: {fileID: 1890705425852758, guid: 28d11de603aa0984284a3b1a7f82f273, type: 3}

@@ -6,6 +6,7 @@ namespace net.roomful.api {
         string InternalId { get; set; }
         string Type { get; set; }
         string Name { get; set; }
+        string Description { get; set; }
         int UnreadCounter { get; set; }
         string Thumbnail { get; set; }
         ChatChannel.ChatChannelType ChannelType { get; set; }

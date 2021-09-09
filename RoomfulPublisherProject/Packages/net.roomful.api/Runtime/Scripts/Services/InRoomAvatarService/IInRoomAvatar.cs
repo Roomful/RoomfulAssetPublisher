@@ -47,7 +47,7 @@ namespace net.roomful.api.avatars
         ///<summary>
         /// Dictionary of avatar animations names-lengths
         ///</summary>
-        Dictionary<string, float> Animations { get; }
+        IReadOnlyDictionary<string, float> Animations { get; }
 
         ///<summary>
         /// Return bounds of the avatar's game object
@@ -70,31 +70,39 @@ namespace net.roomful.api.avatars
         void SetRadius(float radius);
 
         ///<summary>
-        /// Teleport avatar at given position
-        ///</summary>
-        ///<param name="pos">Position to teleport</param>
-        bool SetPosition(Vector3 pos);
-
-        ///<summary>
         /// When the avatars is performing avoidance, avatars of lower priority are ignored.
         /// The valid range is from 0 to 99 where: Most important = 0. Least important = 99. Default = 50.
         ///</summary>
         void SetAvoidancePriority(int priority);
 
+        ///<summary>
+        /// Teleport avatar at given position
+        ///</summary>
+        ///<param name="pos">Position to teleport</param>
+        /// <param name="callback">Callback when moving complete. Flag tells whether the destination has been reached</param>
+        void Teleport(Vector3 pos, Action<AvatarMovingResult> callback = null);
+
+        ///<summary>
+        /// Teleport avatar at given position
+        ///</summary>
+        /// <param name="marker">Target position marker</param>
+        /// <param name="callback">Callback when moving complete. Flag tells whether the destination has been reached</param>
+        void Teleport(IAvatarPositionMarker marker, Action<AvatarMovingResult> callback = null);
+
         /// <summary>
         ///  Сommand to move the avatar in a given position
         /// </summary>
-        /// <param name="pos">Position to move</param>
-        /// <param name="reachedCallback">Callback when reaching the destination</param>
-        /// <param name="canNotReachedCallback">Callback when can not reaching the destination</param>
+        /// <param name="destination">Position to move</param>
+        /// <param name="callback">Callback when moving complete. Flag tells whether the destination has been reached</param>
         /// <param name="teleportIfCanNotReached"></param>
-        void SetDestination(Vector3 pos, Action reachedCallback = null, Action canNotReachedCallback = null, bool teleportIfCanNotReached = false);
+        void SetDestination(Vector3 destination, Action<AvatarMovingResult> callback = null, bool teleportIfCanNotReached = false);
 
         ///<summary>
         /// Сommand to move the avatar in a given position marker take a pose
         /// <param name="marker">Target position marker</param>
+        /// <param name="callback">Callback when moving complete. Flag tells whether the destination has been reached</param>
         ///</summary>
-        void SetDestination(IAvatarPositionMarker marker);
+        void SetDestination(IAvatarPositionMarker marker, Action<AvatarMovingResult> callback = null);
 
         /// <summary>
         ///  Сommand to look at target position
@@ -113,13 +121,12 @@ namespace net.roomful.api.avatars
         /// </summary>
         /// <param name="duration">Duration of the idle</param>
         /// <param name="callback">Idle complete callback</param>
-        void SetIdle(float duration, Action callback = null);
-
+        void SetIdle(float duration = 1.0f, Action callback = null);
 
         ///<summary>
         /// Set avatar's animator triger
         ///</summary>
-        void SetAnimation(string triggerName);
+        void SetAnimation(string triggerName, float duration = 3.0f);
 
         ///<summary>
         ///
@@ -140,5 +147,15 @@ namespace net.roomful.api.avatars
         ///
         ///</summary>
         IAvatarUIElementUser GetAvatarUIElementUser(IUserTemplateSimple userTemplate);
+
+        ///<summary>
+        /// Prohibits the use of nav mesh.
+        ///</summary>
+        void DisableNavMeshUsage();
+
+        ///<summary>
+        /// Specifies which NavMesh areas are passable.
+        ///</summary>
+        void SetAreaMask(int areaMask);
     }
 }

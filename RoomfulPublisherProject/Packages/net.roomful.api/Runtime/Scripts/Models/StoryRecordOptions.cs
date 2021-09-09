@@ -14,6 +14,7 @@ namespace net.roomful.api {
 		public bool CaptureMic = false;
 
         public bool ManualFrameSwitch = false;
-    }
+        public int FrameIndex = 0;
+	}
 
 }

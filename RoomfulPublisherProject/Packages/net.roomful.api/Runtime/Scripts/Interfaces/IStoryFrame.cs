@@ -22,11 +22,8 @@ namespace net.roomful.api
         float DurationWithTransition { get; }
         float PreferredDuration { get; }
         bool CanBeShownInZoomView { get; }
-        int TotalComments { get; }
         bool ContainsVideo { get; }
         bool SuppressBackgroundMusic { get; }
-        bool HasCommentsToPlay { get; }
-        float CommentsShowTime { get; }
         IFrameShowEffect ShowEffect { get; set; }
         FrameTransition Transition { get; set;}
         Dictionary<string, object> ToDictionary();

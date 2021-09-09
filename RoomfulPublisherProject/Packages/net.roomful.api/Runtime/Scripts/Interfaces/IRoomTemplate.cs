@@ -20,13 +20,13 @@ namespace net.roomful.api
         string AmbientAudioResourceId { get; }
         IReadOnlyList<IEmojiReaction> Reactions { get; }
         bool HasOwnReaction { get; }
+        int TotalAvailableReactions { get; }
         IEnvironmentAssetTemplate Environment { get; }
         IReadOnlyList<IUserTemplate> Owners { get; }
         IReadOnlyList<IRoomStory> Stories { get; }
         PermissionTemplate Permissions { get; }
         IReadOnlyList<IRoomStory> PublishedStories { get; }
         IVideoChatSettings VideoChatSettings { get; }
-        IAvatarsLocationSettings AvatarsLocationSettings { get; }
         int BotsCount { get; }
         void GetThumbnail(Action<Texture2D> callback);
         void GetThumbnail(ThumbnailSize size, Action<Texture2D> callback);

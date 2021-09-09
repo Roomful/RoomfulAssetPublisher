@@ -43,6 +43,8 @@ namespace net.roomful.api
             set => SetUrl(value);
         }
 
+        public bool IsEmpty => string.IsNullOrEmpty(Url);
+
         public Type UrlType { get; private set; }
 
         public void Open() {

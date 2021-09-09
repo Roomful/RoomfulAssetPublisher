@@ -128,7 +128,7 @@ namespace SA.Common {
 					string[] SplittedVersionCode = versionCode.Split (new char[] {'.'});
 					MajorVersion = System.Convert.ToInt32(SplittedVersionCode[0]);
 				} catch (Exception ex) {
-					U.LogWarning("FB_SDK_MajorVersionCode failed: " + ex.Message);
+					Debug.LogWarning($"FB_SDK_MajorVersionCode failed: {ex.Message}");
 				}
 				#endif
 				return MajorVersion;

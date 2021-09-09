@@ -21,21 +21,11 @@ namespace net.roomful.api {
         }
 
 		public PermissionTemplate(JSONData permissionsData) {
-            if (permissionsData.HasValue("comment")) {
-				m_permissionComment = permissionsData.GetValue<bool>("comment");
-			}
-			if (permissionsData.HasValue("contribute")) {
-				m_permissionContribute = permissionsData.GetValue<bool>("contribute");
-			}
-			if (permissionsData.HasValue("edit")) {
-				m_permissionEdit = permissionsData.GetValue<bool>("edit");
-			}
-			if (permissionsData.HasValue("manage")) {
-				m_permissionManage = permissionsData.GetValue<bool>("manage");
-			}
-            if (permissionsData.HasValue("view")) {
-                m_permissionView = permissionsData.GetValue<bool>("view");
-            }
+			m_permissionComment = permissionsData.GetValueSafe<bool>("comment");
+			m_permissionContribute = permissionsData.GetValueSafe<bool>("contribute");
+			m_permissionEdit = permissionsData.GetValueSafe<bool>("edit");
+			m_permissionManage = permissionsData.GetValueSafe<bool>("manage");
+			m_permissionView = permissionsData.GetValueSafe<bool>("view");
         }
 
 		public Dictionary<string, object> ToDictionary() {

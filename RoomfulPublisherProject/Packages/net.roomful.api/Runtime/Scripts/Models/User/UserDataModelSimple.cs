@@ -11,7 +11,7 @@ namespace net.roomful.api
         public Texture2D Avatar { get; set; }
         public string AvatarUrl { get; set; } = string.Empty;
         public int Counter { get; }
-        public IUserRoomPosition RoomPosition { get; set; }
+
         public string CompanyName { get; set; } = string.Empty;
         public string CompanyTitle { get; set; } = string.Empty;
         public Avatar3DInfo Avatar3DInfo { get; set; }
@@ -42,9 +42,6 @@ namespace net.roomful.api
                 Counter = userInfo.GetValue<int>("counter");
             }
 
-            if (userInfo.HasValue("roomPosition")) {
-                RoomPosition = new UserRoomPosition(new JSONData(userInfo.GetValue<Dictionary<string, object>>("roomPosition")));
-            }
 
             if (userInfo.HasValue("companyName")) {
                 CompanyName = userInfo.GetValue<string>("companyName");

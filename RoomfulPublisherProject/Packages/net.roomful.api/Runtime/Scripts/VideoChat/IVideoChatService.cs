@@ -6,7 +6,10 @@ namespace net.roomful.api
     {
         event Action OnChatStatusUpdatedEvent;
         IVideoChat ActiveChat { get; }
+        IVideoChatStatus RoomVideoChatStatus { get; }
         bool IsChatActive { get; }
+
+        void StartOrJoinCurrentRoomChat();
         void StopActiveVideoChat();
     }
 }

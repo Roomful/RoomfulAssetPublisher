@@ -9,16 +9,11 @@ namespace net.roomful.api {
         PropEventTrigger EnumEventName { get; set; }
         PropAction EnumActionName { get; set; }
         ContentType ObjectContentType { get; }
-        List<IPropEventsActionsModel> ChildActions { get; }
         //Data fields
         string UsedPropId { get; set; }
         string UsedRoomId { get; set; }
-        string UsedNetworkId { get; }
         string UsedStorylineId { get; set; }
-        int UsedQuestionId { get; set; }
-        int UsedQuizId { get; }
         string UsedSegmentId { get; set; }
-        Dictionary<string, object> AnimationData { get; }
         void Clear();
     }
 }

@@ -6,13 +6,19 @@ namespace net.roomful.api.socket
     public class SocketRequestCallback : ISocketRequestCallback
     {
         public JSONData JSON { get; private set; }
+        public bool IsSuccess { get; private set; }
+        public SocketError Error { get; private set; }
 
-        public void HandleData(JSONData data) {
+        public bool HasError => Error != null;
+
+        public virtual void HandleData(JSONData data) {
+            IsSuccess = true;
             JSON = data;
         }
 
-        public void HandleError(SocketError error) {
-
+        public virtual void HandleError(SocketError error) {
+            Error = error;
+            IsSuccess = false;
         }
     }
 }

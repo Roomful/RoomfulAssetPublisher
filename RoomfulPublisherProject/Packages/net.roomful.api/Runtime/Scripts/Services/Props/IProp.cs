@@ -44,6 +44,8 @@ namespace net.roomful.api.props
         /// </summary>
         IReadOnlyList<IProp> Children { get; }
 
+        bool AllowEdit { get; }
+
         /// <summary>
         /// Focus pointer.
         /// Pointer should be used as the look target when you want to look at the prop.
@@ -65,11 +67,10 @@ namespace net.roomful.api.props
         IReadOnlyList<Animator> AnimatorControllers { get; }
 
         bool HasAnimators { get; }
-        bool HasFocusPointers { get; }
-        int ResourcesCount { get; }
 
-        void RunAnimationWithTriggerName(string triggerName);
         void RunAnimator();
+        void StopAnimator();
+        void ResetAnimators();
 
         /// <summary>
         /// Gets a value that indicates whether this prop is loading.
@@ -79,18 +80,13 @@ namespace net.roomful.api.props
         T GetPropComponent<T>() where T : IPropComponent;
 
         T[] GetPropComponents<T>() where T : IPropComponent;
+        IEnumerable<IPropComponent> PropComponents { get; }
 
         IAssetLoader GetActiveLoader();
 
         bool IsGameObjectDestroyed();
 
         void SetActive(bool active);
-
-        /// <summary>
-        /// Defines if prop has active collision
-        /// TODO this is very heavy method, and should be moved to prop editor implementation.
-        /// </summary>
-        bool HasActiveCollision { get; }
 
         /// <summary>
         /// The function is quite heavy.

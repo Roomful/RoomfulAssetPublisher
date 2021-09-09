@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SA.Foundation.Events;
+using net.roomful.api.sa;
 
 namespace SA.Common.Patterns
 {

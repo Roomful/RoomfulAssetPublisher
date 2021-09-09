@@ -13,11 +13,9 @@ namespace net.roomful.api
         string CompanyTitle { get; }
         Avatar3DInfo Avatar3DInfo { get; }
         int Counter { get; }
-        IUserRoomPosition UserRoomPosition { get; }
         string GetShortenName();
         void SetFirstName(string name);
         void SetLastName(string lastName);
         void SetCompany(string companyName, string companyTitle);
-        void UseAsRoomVisitor();
     }
 }
