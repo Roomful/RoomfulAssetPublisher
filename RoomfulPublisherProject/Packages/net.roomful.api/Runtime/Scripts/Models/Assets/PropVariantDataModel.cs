@@ -37,6 +37,8 @@ namespace net.roomful.api
         /// </summary>
         public Color DefaultColor { get; set; } = Color.white;
 
+        public int SortOrder { get; set; }
+
         public PropVariantDataModel() { }
 
         public PropVariantDataModel(JSONData metaData):base(metaData) {

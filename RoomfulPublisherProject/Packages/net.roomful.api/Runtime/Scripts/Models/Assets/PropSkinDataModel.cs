@@ -10,6 +10,7 @@ namespace net.roomful.api
         public string VariantId { get; set; } = string.Empty;
         public bool IsDefault { get; set; }
         public bool HeavySkin { get; set; }
+        public int SortOrder { get; set; }
         public string AssetId { get; set; } = string.Empty;
 
         public List<AssetUrl> Urls { get; set; } = new List<AssetUrl>();
