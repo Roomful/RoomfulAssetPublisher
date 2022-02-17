@@ -2,5 +2,8 @@
 
 namespace net.roomful.api.appMenu
 {
+    /// <summary>
+    /// Provide API to interact with the Room UI.
+    /// </summary>
     public interface IRoomUI { }
 }

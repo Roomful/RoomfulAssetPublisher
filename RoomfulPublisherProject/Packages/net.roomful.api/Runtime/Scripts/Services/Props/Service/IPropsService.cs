@@ -99,7 +99,7 @@ namespace net.roomful.api.props
         /// <param name="propTemplateId">Prop template id.</param>
         /// <param name="contentUpdateBuilder">Update content builder.</param>
         /// <param name="supportUndo">Use `false` if this update actions should be skipped in undo.</param>
-        void UpdatePropPropContent(string propTemplateId, PropContentUpdateBuilder contentUpdateBuilder, bool supportUndo = true);
+        void UpdatePropContent(string propTemplateId, PropContentUpdateBuilder contentUpdateBuilder, bool supportUndo = true);
 
         /// <summary>
         /// Save Current prop transformation to the server.
@@ -126,7 +126,8 @@ namespace net.roomful.api.props
         /// </summary>
         /// <param name="propTemplateId">Prop template id</param>
         /// <param name="supportUndo">Use `false` if this update actions should be skipped in undo.</param>
-        void ServerCreateProp(string propTemplateId, bool supportUndo = true);
+        /// <param name="moveResourcesToRoomOnUndo">Defines if resource should be moved to room on undo.</param>
+        void ServerCreateProp(string propTemplateId, bool supportUndo = true, bool moveResourcesToRoomOnUndo = false);
 
         /// <summary>
         /// Loads prop asset by asset id.
@@ -166,6 +167,16 @@ namespace net.roomful.api.props
         /// Allows to override application prop click behaviour
         /// </summary>
         IPropsInput Input { get; }
+
+        /// <summary>
+        /// Add content to a prop.
+        /// The default way to add content to a prop, if you need something custom,
+        /// see the <see cref="PropContentUpdateBuilder"/>.
+        /// </summary>
+        /// <param name="propId">Id of the target prop.</param>
+        /// <param name="res">The resource to add.</param>
+        /// <param name="source">The source where resource was added from.</param>
+        void AddContent(string propId, IResource res, ResourceAddSource source = ResourceAddSource.Unknown);
 
         /// <summary>
         /// Request to Update prop thumbnails resolution.

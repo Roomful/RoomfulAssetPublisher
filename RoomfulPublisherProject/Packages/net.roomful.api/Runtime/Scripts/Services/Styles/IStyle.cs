@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace net.roomful.api.styles
 {
@@ -12,9 +13,18 @@ namespace net.roomful.api.styles
         /// </summary>
         IReadOnlyList<IStylePanel> ActivePanels { get; }
 
+
+        /// <summary>
+        /// Currently active panels in the style.
+        /// </summary>
+        IReadOnlyList<IStylePanel> AvailablePanels { get; }
+
         /// <summary>
         /// Style template Id.
         /// </summary>
         IStyleTemplate Template { get; }
+
+        Vector3 LeftBorderVertex { get; }
+        Vector3 RightBorderVertex { get; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace net.roomful.api.props
+﻿using System.Collections.Generic;
+
+namespace net.roomful.api.props
 {
     // ReSharper disable once InconsistentNaming
     public static class IPropExtensions
@@ -34,6 +36,11 @@
 
         public static bool HasPropComponent<T>(this IProp prop) where T : IPropComponent {
             return prop.GetPropComponent<T>() != null;
+        }
+
+        public static bool IsHolderOfContentWithType(this IProp prop, ContentType type) {
+            var typesList = new List<ContentType>(prop.Asset.ContentTypes);
+            return typesList.Contains(type);
         }
     }
 }

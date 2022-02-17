@@ -15,27 +15,21 @@ namespace net.roomful.api.room
         SimpleView = 0,
         RoomBuilder = 2,
         DecoratorEditor = 3,
-        SingleObjectEditor = 4,
-        /// <summary>
-        /// Add photos panel UI mode
-        /// </summary>
-        SortingList = 6,
 
         /// <summary>
         /// For creating room thumbnail (snapshot)
         /// </summary>
-        Settings = 8,
-        QuestionnaireEditor = 10,
         StoryLineEditor = 13,
         StoryLinePlayer = 16,
         StorylineSidePanel = 15,
         InvitationPanel = 17,
         StoryLineWizard = 18,
-        RoomInfo = 20,
-        HelpMenu = 21,
         MultiObjectEditor = 25,
 
         // Mode for any custom state of UI
-        EmptyUIMode
+        EmptyUIMode,
+        EmptyUIModeWithInputEnabled,
+        EmptyUIModeWithSidePanelEnabled,
+        EmptyUIModeWithSidePanelAndRoomInputEnabled,
     }
 }

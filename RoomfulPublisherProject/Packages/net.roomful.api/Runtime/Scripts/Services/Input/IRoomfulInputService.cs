@@ -12,5 +12,7 @@ namespace net.roomful.api
 
         void EnableRoomInput();
         void DisabledRoomInput();
+
+        bool IsRoomInputEnabled { get; }
     }
 }

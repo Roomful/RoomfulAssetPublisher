@@ -1,3 +1,5 @@
+using net.roomful.api.assets;
+
 namespace net.roomful.api.networks
 {
     public interface IUserRelatedNetworkTemplate : ITemplate

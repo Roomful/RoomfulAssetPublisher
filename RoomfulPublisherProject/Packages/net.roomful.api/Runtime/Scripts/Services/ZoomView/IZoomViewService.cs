@@ -20,7 +20,7 @@ namespace net.roomful.api.zoom
         /// Event is fired when zoom view is closed.
         /// Event contains last active zoom view context.
         /// </summary>
-        event Action<ZoomViewContext> OnZoomViewClosed;
+        event Action<ZoomViewCloseContext> OnZoomViewClosed;
 
         void RegisterPropLinksProvider(IZoomViewPropLinksProvider provider);
         void UnRegisterPropLinksProvider(IZoomViewPropLinksProvider provider);
@@ -34,16 +34,31 @@ namespace net.roomful.api.zoom
         void OpenZoomView(ZoomViewContext context);
 
         /// <summary>
+        /// Show native zoom view for a prop.
+        /// </summary>
+        /// <param name="prop">Target prop.</param>
+        void ShowNativeZoomView(IProp prop);
+
+        /// <summary>
         /// Register own custom zoom view controller.
         /// </summary>
         /// <param name="viewController"></param>
         void RegisterView(IZoomViewController viewController);
 
         /// <summary>
+        /// Returns app URL for the specified zoom view url context;
+        /// </summary>
+        /// <param name="context">zoom view context url representation.</param>
+        /// <returns>App url for the provided context.</returns>
+        string GetUrlForContext(ZoomViewUrlContext context);
+
+        /// <summary>
         /// Current Zoom View context.
         /// Context is defined is what is showed right now by the zoom view.
         /// </summary>
         ZoomViewContext Context { get; }
+
+        void SkipCameraFocusForTheNextZoomViewUrl();
 
         /// <summary>
         /// Deactivate zoom view

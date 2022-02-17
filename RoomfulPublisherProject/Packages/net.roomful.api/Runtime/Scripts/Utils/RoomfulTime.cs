@@ -19,5 +19,11 @@ namespace net.roomful.api
                 ? MIN_RFC339_VALUE 
                 : dateTime.ToString(RFC3339_FORMAT, DateTimeFormatInfo.InvariantInfo);
         }
+        
+        public static string DateTimeOffsetToRfc3339(DateTimeOffset dateTime) {
+            return dateTime == DateTimeOffset.MinValue 
+                ? MIN_RFC339_VALUE 
+                : dateTime.ToString(RFC3339_FORMAT, DateTimeFormatInfo.InvariantInfo);
+        }
     }
 }

@@ -1,40 +1,39 @@
 using System;
 using System.Collections.Generic;
+using net.roomful.api.assets;
 
 namespace net.roomful.api
 {
-    public interface IResource : ITemplate, ICloneable
+    public interface IResource : ITemplate
     {
-        void SetId(string id);
         DateTime LastUpdate { get; }
-        string Title { get; set; }
-        string Description { get; set; }
+        string Title { get; }
+        string Description { get; }
         string Category { get; }
-        string Location { get; set; }
-        string Date { get; set; }
+        string Location { get; }
+        string Date { get; }
         Dictionary<string, object> Params { get; }
+        ContentStatus Status { get; }
         ContentType Type { get; }
-        void UpdateMeta(IResource tpl);
+        string ConvertedFromType { get; }
+       // void UpdateMeta(IResource tpl);
         ResourceMetadata Meta { get; }
-        int TotalAvailableReactions { get; set; }
-        List<IEmojiReaction> Reactions { get; }
-        Emoji Reaction { get; set; }
+        int TotalAvailableReactions { get;}
+        IReadOnlyList<IEmojiReaction> Reactions { get; }
+        Emoji OwnReaction { get; }
         string ThumbnailWebURL { get; }
-        bool IsEmpty { get; }
-        bool IsLocal { get; }
-        bool IsDefault { get; }
+
+        /// <summary>
+        /// If this resource was created like a link we will have
+        /// id of the original resource in this property.
+        /// </summary>
+        string LinkId { get; }
         EnumThumbnailTag ThumbnailTag { get; set; }
         bool FromTemplate { get; }
-        ResourceData ResourceData { get; }
-        Dictionary<string, object> ServerParams { get; }
         Dictionary<string, object> ToDictionary();
         T GetParam<T>(ResourceEnum.ParamsKeys paramKey, bool serverParam = false);
         void AddParam(ResourceEnum.ParamsKeys paramKey, object paramValue);
-        bool ContainsParam(ResourceEnum.ParamsKeys paramKey, bool serverParam = false);
-        IResourceViewInfo ViewInfo { get; }
-        void SetTitle(string title);
-        void SetDescription(string descr);
-        void SetLocationName(string name);
-        void SetUserReaction(Emoji reaction);
+        bool ContainsParam(ResourceEnum.ParamsKeys paramKey);
+        bool ContainsServerParam(string paramKey);
     }
 }

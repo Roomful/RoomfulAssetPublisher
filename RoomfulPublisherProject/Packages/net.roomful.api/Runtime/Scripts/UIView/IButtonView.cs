@@ -16,12 +16,18 @@ namespace net.roomful.api.ui
         /// <summary>
         /// Simulate button click.
         /// </summary>
-        void SimulateClick();
+        /// <param name="withNotify">Notify Side panel about click action?</param>
+        void SimulateClick(bool withNotify = false);
 
         /// <summary>
         /// User to set if button is interactable.
         /// </summary>
         bool Interactable { get; set; }
+
+        /// <summary>
+        /// Button Label.
+        /// </summary>
+        string Label { get; }
 
         /// <summary>
         /// Set button text.
@@ -60,5 +66,7 @@ namespace net.roomful.api.ui
         /// Use this method if you need to load a button icon for the <see cref="SetIcon"/> method.
         /// </summary>
         void HidePreloader();
+        
+        void AnimateIcon(bool value);
     }
 }

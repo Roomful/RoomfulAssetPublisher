@@ -21,8 +21,22 @@ namespace RF.Room.Teleportation
         }
     }
 
+    public struct TeleportationArgs
+    {
+        /// <summary>
+        /// Camera target position
+        /// </summary>
+        public Vector3 TargetPosition;
+        public Vector3 TargetRotation;
+    }
+
     public interface ITeleportationService
     {
+        /// <summary>
+        /// Fires when camera FlyTo is complete
+        /// </summary>
+        event Action<TeleportationArgs> OnTeleportationStarted;
+
         /// <summary>
         /// Set state of a teleportation logic. Circle follows pointer, double click teleports to hit position.
         /// By default active when default Camera behaviour is active.

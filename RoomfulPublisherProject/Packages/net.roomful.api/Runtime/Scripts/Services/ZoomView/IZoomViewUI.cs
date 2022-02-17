@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using net.roomful.api.appMenu;
 using net.roomful.api.ui;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ namespace net.roomful.api.zoom
         IButtonView PrevButton { get; }
         IButtonView EnterButton { get; }
         IButtonView WebLinkButton { get; }
+        IButtonView BackButton { get; }
 
         /// <summary>
         /// If you want to face your side bar has zoom view tab, you might need that.
@@ -32,18 +34,19 @@ namespace net.roomful.api.zoom
         /// </summary>
         void AddToggledButtonClickCallback(Action<IButtonView> callback);
 
-        IButtonView AddButton(ButtonData data);
+        IButtonView AddButton(ButtonData data, params ButtonOption[] options);
         IButtonView AddButtonToTab(string tabName, ButtonData data);
         void HideTab(string tabName);
         void ShowTab(string tabName);
         void SetIconForTab(string tabName, Texture2D icon);
         void RemoveButton(IButtonView button);
         void ShowSideMenu(IButtonView button, IEnumerable<ContextMenuButtonData> buttons);
+        void ShowSideMenu(IButtonView button, RectTransform customMenuRoot, bool deleteWhenClose = false);
         void HideSideMenu(IButtonView button);
         void SetButtonToggleState(IButtonView button, bool isActive);
         void AddTabDelegate(IZoomViewUITabDelegate @delegate);
         void RemoveTabDelegate(IZoomViewUITabDelegate @delegate);
         void SetButtonAnimatedState(IButtonView button, bool state);
-        void AddBottomRightLayoutElement(LayoutElement layoutElement, ElementOrderPriority priority = ElementOrderPriority.End);
+        void AddBottomRightLayoutElement(LayoutElement layoutElement);
     }
 }

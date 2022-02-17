@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using net.roomful.api.props;
 using net.roomful.api.sa;
+using net.roomful.api.story;
 using UnityEngine;
 
 // Copyright Roomful 2013-2020. All rights reserved.
@@ -15,10 +15,10 @@ namespace net.roomful.api.native
         //--------------------------------------
 
         void InitNativeAPI(string accessToken, string serverUrl);
-        SA_Event OnKeyboardWillAppear { get; }
         void SetCurrentUserInfo(IUserTemplate user);
 
         INativePluginEvents Events { get; }
+        SA_Event OnKeyboardWillAppear { get; }
 
         //--------------------------------------
         //  WEB  Platforms API
@@ -30,7 +30,6 @@ namespace net.roomful.api.native
         void SendToken(string token);
         void RoomLoadFailed();
         void SetDeviceId(string id);
-        void ShowZoomView(ZoomViewModel zoomViewModel);
         void GenerateHistoryItem(string route, long timestamp);
         WebglPlatform GetWebglPlatform();
 
@@ -40,17 +39,10 @@ namespace net.roomful.api.native
 
         Action OnNativeContentPickerClosed { get; set; }
 
-        void ShowSortingTablePicker(ContentPickerParams pickerParams);
         void ShowPicker(ContentPickerParams pickerParams);
+        void ConnectWallet();
 
-        // New methods for picker old should be deleted --- --- ---
-        void ShowSortingTablePicker(ContentPickerParams pickerParams, Action<string> callback);
-        void ShowPicker(ContentPickerParams pickerParams, Action<string> callback);
-        //  --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-        void ShowVideoCapture(Action<List<IResource>> callback, string title = "", string additionalParam = "");
-        void ShowAudioCapture(Action<List<IResource>> callback, string title = "", string additionalParam = "");
-        void GetLocalThumbnail(IResource res, ThumbnailSize size, Action<byte[]> callback);
+        void ShowAudioCapture(Action<AudioResource> callback);
         void ConvertAudioToWav(string resourceId, AudioClip clip, Action<byte[]> callback);
 
         //--------------------------------------
@@ -59,13 +51,8 @@ namespace net.roomful.api.native
 
         void PreviewResource(IResource resource, Action callback = null);
         void ShowWebView(UrlLink urlLink);
-        void ShowYoutubeWebView(UrlLink link, Action callback = null);
-        void HideModalWindow();
-        //--------------------------------------
-        //  Upload
-        //--------------------------------------
-
-        void RequestUpload(IResource[] res);
+        void ShowYoutubeWebView(UrlLink link);
+        void ShowZoomView(WebZoomViewOpenParams webZoomViewOpenParams);
 
         //--------------------------------------
         //  Chat
@@ -93,15 +80,11 @@ namespace net.roomful.api.native
         bool GetVideoChatControlsVisibility();
 
         //--------------------------------------
-        //  Resources
-        //--------------------------------------
-        void VisitorJoinedRoom(string roomId, IUserTemplate user);
-
-        //--------------------------------------
         //  Other
         //--------------------------------------
 
         bool IsFacebook { get; set; }
+        bool IsUserInputPerformed { get; set; }
         bool ZoomViewDebugMode { get; set; }
         string DeviceId { get; }
         void CopyToClipboard(string text);
@@ -117,15 +100,16 @@ namespace net.roomful.api.native
 
         void ShareRoom(string url, Texture2D text);
         void NotifyRoomEnter(IRoomTemplate template);
-        Uri LaunchUrl { get; set; }
+        string LaunchUrl { get; set; }
         SA_Event<string> OnPaymentClosed { get; }
-        void SetBrowserCursor(CursorType cursorType);
-        void OpenFullVersion();
         void ShowPaymentBox(string token);
-        void ShowManageContentUI(ZoomViewModel zoomViewModel);
-        void UpdateRoomResource(string roomId, string propId, IResource resource);
-        void OpenWebGLFullScreen(bool value);
 
+        /// <summary>
+        /// Will close any active native modal window/view.
+        /// If no window/view is on display -> nothing should happen.
+        /// </summary>
+        void CloseNativeView();
+        void UpdateRoomResource(string roomId, string propId, IResource resource);
 
         //--------------------------------------
         //  Props

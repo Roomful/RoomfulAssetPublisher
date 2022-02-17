@@ -5,7 +5,14 @@
     /// </summary>
     public interface IPanelView
     {
+        /// <summary>
+        /// Show panel.
+        /// </summary>
         void Show();
+
+        /// <summary>
+        /// Hide panel.
+        /// </summary>
         void Hide();
     }
 }

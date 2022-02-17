@@ -1,6 +1,6 @@
 ﻿// Copyright Roomful 2013-2020. All rights reserved.
 
-using net.roomful.api;
+using net.roomful.api.activity;
 using net.roomful.api.app;
 using net.roomful.api.appMenu;
 using net.roomful.api.assets;
@@ -8,6 +8,7 @@ using net.roomful.api.authentication;
 using net.roomful.api.avatars;
 using net.roomful.api.avatars.emotions;
 using net.roomful.api.cameras;
+using net.roomful.api.colorization;
 using net.roomful.api.lobby;
 using net.roomful.api.localization;
 using net.roomful.api.native;
@@ -18,49 +19,64 @@ using net.roomful.api.profile;
 using net.roomful.api.props;
 using net.roomful.api.resources;
 using net.roomful.api.room;
+using net.roomful.api.scenes;
+using net.roomful.api.settings;
 using net.roomful.api.socket;
 using net.roomful.api.styles;
+using net.roomful.api.textChat;
+using net.roomful.api.ui;
 using net.roomful.api.videoPlayer;
 using net.roomful.api.zoom;
 using RF.Room.Teleportation;
 using UnityEngine;
 
-namespace net.roomful
+namespace net.roomful.api
 {
     public static partial class Roomful
     {
         /// <summary>
-        /// Services provides user related events and API to interact with users.
+        /// IUserService provides user related events and API to interact with users.
         /// </summary>
         public static IUsersService UsersService { get; private set; }
 
         /// <summary>
-        /// Roomful Session info
+        /// Roomful application Session info.
         /// </summary>
         public static ISession Session { get; private set; }
 
         /// <summary>
-        /// Services provides prop related events and API to interact with props.
+        /// Common Roomful UI tools and effects.
+        /// </summary>
+        public static IUIService UI { get; private set; }
+
+        /// <summary>
+        /// Service is used to load additive scenes.
+        /// </summary>
+        public static ISceneService Scenes { get; private set; }
+
+        /// <summary>
+        /// IPropsService provides prop related events and API to interact with props.
         /// </summary>
         public static IPropsService PropsService { get; private set; }
 
         /// <summary>
-        /// An Accesses point to Roomful input.
+        /// IRoomfulInputService provides Roomful input interfaces for keyboards, mouse, etc.
         /// </summary>
         public static IRoomfulInputService Input { get; private set; }
 
         /// <summary>
-        /// An Accesses point to the Room camera.
+        /// IRoomCameraService is an accesses point to the Room camera.
         /// </summary>
         public static IRoomCameraService CameraService { get; private set; }
 
         /// <summary>
-        /// Service for teleportation purposes
+        /// ITeleportationService provides interface for teleportation within the room
         /// </summary>
         public static ITeleportationService TeleportationService { get; private set; }
 
         /// <summary>
-        /// Platform native functions accesses point.
+        /// INativePlatform service provides common interface for all native platforms
+        /// TODO: rename INativePlatform to INativePlatformService
         /// </summary>
         public static INativePlatform Native { get; private set; }
 
@@ -121,11 +137,16 @@ namespace net.roomful
         /// Service to inject custom Room Settings
         /// </summary>
         public static IRoomSettingsUIService RoomSettingsUIService { get; private set; }
-        
+
         /// <summary>
         /// Service to inject custom Room Info
         /// </summary>
         public static IRoomInfoUIService RoomInfoUIService { get; private set; }
+
+        /// <summary>
+        /// Service to inject custom Resource Settings
+        /// </summary>
+        public static IResourcesSettingsUIService ResourceSettingsUIService { get; private set; }
 
         /// <summary>
         /// Service allows subscription to the zoom view events and adding custom behaviour.
@@ -143,39 +164,51 @@ namespace net.roomful
         public static IResourcesService ResourcesService { get; private set; }
 
         /// <summary>
-        /// Gives access to the app Menu
+        /// Use to access to the app Menu (Left side menu of the application)
         /// </summary>
         public static IAppMenuService AppMenuService { get; private set; }
 
         /// <summary>
-        /// Gives access to the text chat api
+        /// Use to access to the text chat api
         /// </summary>
         public static IPublicTextChatService TextChat { get; private set; }
 
         /// <summary>
-        /// Used to display users profile
+        /// Use to display users profile
         /// </summary>
         public static IProfileService ProfileService { get; private set; }
 
         /// <summary>
-        /// Use to monitor networks events.
+        /// Use to monitor and access networks.
         /// </summary>
         public static INetworksService NetworksService { get; private set; }
 
         /// <summary>
         /// Roomful payment service.
         /// </summary>
-        public static  IPaymentService Payment  { get; private set; }
+        public static IPaymentService Payment { get; private set; }
 
         /// <summary>
-        /// Used for track video players state.
+        /// Use to track video players state.
         /// </summary>
-        public static  IVideoPlayerService VideoPlayerService  { get; private set; }
+        public static IVideoPlayerService VideoPlayerService { get; private set; }
 
         /// <summary>
         /// Provides info about users current location in Roomful.
         /// </summary>
-        public static  IUsersTrackingService UsersTracking  { get; private set; }
+        public static IUsersTrackingService UsersTracking { get; private set; }
+
+        /// <summary>
+        /// Provides an ability to work and process application routes.
+        /// </summary>
+        public static IRoutesService RoutesService { get; private set; }
+
+        /// <summary>
+        /// Describes user activity notifications in the application.
+        /// </summary>
+        public static IActivityService Activity { get; private set; }
+
+        public static IColorizationService ColorizationService { get; private set; }
 
         public static RoomfulPlatform Platform {
             get {
@@ -189,6 +222,12 @@ namespace net.roomful
                         return RoomfulPlatform.Editor;
                 }
             }
+        }
+
+        public static string WebAPIUrl => s_webAPIUrl;
+        private static string s_webAPIUrl;
+        public static void SetWebAPIUrl(string webApiUrl) {
+            s_webAPIUrl = webApiUrl;
         }
     }
 }

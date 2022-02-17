@@ -21,6 +21,7 @@ namespace net.roomful.api.native
         public event Action OnVideoChatHasBeenClosed;
         public event Action OnVideoChatControlsUpdated;
         public event Action<string> OnVideoChatClosedForAll;
+        public event Action OnUserInputPerfomed;
 
         public void RequestSetMicrophoneStatus(MicStatusModel inputData) {
             OnSetMicrophoneStatusRequest?.Invoke(inputData);
@@ -72,6 +73,10 @@ namespace net.roomful.api.native
 
         public void NotifyVideoChatClosedForAll (string videochatId) {
             OnVideoChatClosedForAll?.Invoke(videochatId);
+        }
+
+        public void NotifyUserInputPerformed() {
+            OnUserInputPerfomed?.Invoke();
         }
     }
 }

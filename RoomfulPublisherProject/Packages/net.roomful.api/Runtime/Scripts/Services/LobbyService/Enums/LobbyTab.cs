@@ -33,6 +33,8 @@ namespace net.roomful.api.lobby
         Activity,
         HomeHistory,
         HomeInvites,
-        HomeRecomendations
+        HomeRecomendations,
+        Events,
+        None,
     }
 }

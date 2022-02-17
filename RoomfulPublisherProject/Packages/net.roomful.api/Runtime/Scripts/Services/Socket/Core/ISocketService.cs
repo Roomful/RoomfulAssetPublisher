@@ -28,6 +28,14 @@ namespace net.roomful.api.socket
         void Send(ISocketPackage socketPackage);
 
         /// <summary>
+        /// Disconnect Socket.
+        /// </summary>
+        /// <param name="deactivateConnectionWatcher">
+        /// If connection watcher is deactivated, there will be no connection attempt.
+        /// </param>
+        void Disconnect(bool deactivateConnectionWatcher = true);
+
+        /// <summary>
         /// Subscribes to the server side socket event.
         /// </summary>
         /// <param name="onSocketEvent">Action is triggered on socket event.</param>

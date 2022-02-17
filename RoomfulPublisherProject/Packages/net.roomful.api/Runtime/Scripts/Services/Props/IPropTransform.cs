@@ -50,6 +50,17 @@ namespace net.roomful.api.props
         Bounds ObjectBounds { get; }
 
         /// <summary>
+        /// Bounds calculated from Renderers that prop contains, including all children.
+        /// Please use this method efficiently, because it's quite heavy.
+        /// </summary>
+        Bounds RendererBounds { get; }
+
+        /// <summary>
+        /// RendererBounds without rotation consideration.
+        /// </summary>
+        Bounds NormalizedRendererBounds { get; }
+
+        /// <summary>
         /// Prop transform Forward vector
         /// </summary>
         Vector3 Forward { get; }

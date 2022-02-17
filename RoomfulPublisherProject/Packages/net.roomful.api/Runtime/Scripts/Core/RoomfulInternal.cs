@@ -1,4 +1,4 @@
-using net.roomful.api;
+using net.roomful.api.activity;
 using net.roomful.api.app;
 using net.roomful.api.appMenu;
 using net.roomful.api.assets;
@@ -6,6 +6,7 @@ using net.roomful.api.authentication;
 using net.roomful.api.avatars;
 using net.roomful.api.avatars.emotions;
 using net.roomful.api.cameras;
+using net.roomful.api.colorization;
 using net.roomful.api.lobby;
 using net.roomful.api.localization;
 using net.roomful.api.native;
@@ -16,13 +17,17 @@ using net.roomful.api.profile;
 using net.roomful.api.props;
 using net.roomful.api.resources;
 using net.roomful.api.room;
+using net.roomful.api.scenes;
+using net.roomful.api.settings;
 using net.roomful.api.socket;
 using net.roomful.api.styles;
+using net.roomful.api.textChat;
+using net.roomful.api.ui;
 using net.roomful.api.videoPlayer;
 using net.roomful.api.zoom;
 using RF.Room.Teleportation;
 
-namespace net.roomful
+namespace net.roomful.api
 {
     // TODO all functions here has to be internal.
     public static partial class Roomful
@@ -90,7 +95,11 @@ namespace net.roomful
         public static void SetRoomSettingsUIService(IRoomSettingsUIService roomSettingsUIService) {
             RoomSettingsUIService = roomSettingsUIService;
         }
-        
+
+        public static void SetResourceSettingsUIService(IResourcesSettingsUIService roomSettingsUIService) {
+            ResourceSettingsUIService = roomSettingsUIService;
+        }
+
         public static void SetRoomInfoUIService(IRoomInfoUIService roomInfoUIService) {
             RoomInfoUIService = roomInfoUIService;
         }
@@ -139,8 +148,28 @@ namespace net.roomful
             VideoPlayerService = videoPlayerService;
         }
 
-        public static void SetUsersTrackingService(IUsersTrackingService usersTrackingService ) {
+        public static void SetUsersTrackingService(IUsersTrackingService usersTrackingService) {
             UsersTracking = usersTrackingService;
+        }
+
+        public static void SetRoutesService(IRoutesService routesService) {
+            RoutesService = routesService;
+        }
+
+        public static void SetActivityService(IActivityService activity) {
+            Activity = activity;
+        }
+
+        public static void SetColorizationService(IColorizationService colorizationService) {
+            ColorizationService = colorizationService;
+        }
+
+        public static void SetSceneService(ISceneService sceneService) {
+            Scenes = sceneService;
+        }
+
+        public static void SetUIService(IUIService uiService) {
+            UI = uiService;
         }
     }
 }

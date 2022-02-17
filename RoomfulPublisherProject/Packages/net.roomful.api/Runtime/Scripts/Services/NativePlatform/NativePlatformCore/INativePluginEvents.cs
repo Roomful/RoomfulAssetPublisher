@@ -83,5 +83,10 @@ namespace net.roomful.api.native
         /// </summary>
         /// <returns>Returns video chat id</returns>
         event Action<string> OnVideoChatClosedForAll;
+
+        /// <summary>
+        /// Notifies that the user has made the first gesture.
+        /// </summary>
+        event Action OnUserInputPerfomed;
     }
 }

@@ -1,3 +1,5 @@
+using System;
+
 namespace net.roomful.api.profile
 {
     /// <summary>
@@ -5,6 +7,11 @@ namespace net.roomful.api.profile
     /// </summary>
     public interface IProfileService
     {
+        /// <summary>
+        /// Returns `true` when profile view is open and `false` otherwise.
+        /// </summary>
+        bool IsOpen { get; }
+
         /// <summary>
         /// Open profile page for specified user.
         /// </summary>
@@ -15,5 +22,7 @@ namespace net.roomful.api.profile
         /// Hides profile if it was open.
         /// </summary>
         void Hide();
+
+        IDisposable RegisterController(IProfileViewController controller);
     }
 }
