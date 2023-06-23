@@ -27,7 +27,7 @@ namespace SA.Android.App
         /// Picker state, see <see cref="AN_WheelPickerState"/> for more info.
         /// </summary>
         public AN_WheelPickerState State =>
-            EnumUtility.TryParseEnum<AN_WheelPickerState>(m_State, out var  state) 
+            EnumUtility.TryParse<AN_WheelPickerState>(m_State, out var  state) 
                 ? state 
                 : AN_WheelPickerState.Canceled;
     }

@@ -1,0 +1,10 @@
+{
+  "name": "net.roomful.core",
+  "displayName": "Roomful - Core",
+  "version": "1.9.6",
+  "unity": "2018.4",
+  "description": "Roomful Core package.",
+  "dependencies": {
+    "com.stansassets.foundation": "1.0.27"
+  }
+}

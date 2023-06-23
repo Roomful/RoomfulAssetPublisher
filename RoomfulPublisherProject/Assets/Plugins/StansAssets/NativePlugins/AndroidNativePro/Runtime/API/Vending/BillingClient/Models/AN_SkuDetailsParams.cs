@@ -79,6 +79,6 @@ namespace SA.Android.Vending.BillingClient
         /// <summary>
         /// SKUs type we are querying for.
         /// </summary>
-        public AN_BillingClient.SkuType SkuType => EnumUtility.ParseEnum<AN_BillingClient.SkuType>(m_Builder.m_Type);
+        public AN_BillingClient.SkuType SkuType => EnumUtility.ParseOrDefault<AN_BillingClient.SkuType>(m_Builder.m_Type);
     }
 }

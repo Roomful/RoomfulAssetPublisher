@@ -88,7 +88,7 @@ namespace SA.Android.Vending.BillingClient
         /// <summary>
         /// Type of the purchased product
         /// </summary>
-        public AN_BillingClient.SkuType Type => EnumUtility.ParseEnum<AN_BillingClient.SkuType>(m_Type);
+        public AN_BillingClient.SkuType Type => EnumUtility.ParseOrDefault<AN_BillingClient.SkuType>(m_Type);
 
         /// <summary>
         /// Returns the payload specified when the purchase was acknowledged or consumed.

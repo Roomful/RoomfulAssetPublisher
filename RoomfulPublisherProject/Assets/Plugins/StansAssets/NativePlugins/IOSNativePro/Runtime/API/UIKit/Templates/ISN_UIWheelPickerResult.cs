@@ -25,7 +25,7 @@ namespace SA.iOS.UIKit
         /// Get current state of ISN_UIWheelPicker callback.
         /// </summary>
         public ISN_UIWheelPickerStates State =>
-            EnumUtility.TryParseEnum<ISN_UIWheelPickerStates>(m_State, out var  state) 
+            EnumUtility.TryParse<ISN_UIWheelPickerStates>(m_State, out var  state) 
                 ? state 
                 : ISN_UIWheelPickerStates.Canceled;
     }

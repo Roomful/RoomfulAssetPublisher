@@ -49,11 +49,11 @@ namespace SA.iOS.CloudKit
         /// <summary>
         /// Get state from ISN_CKResult
         /// </summary>
-        public ISN_CKResultType State => EnumUtility.TryParseEnum <ISN_CKResultType> (m_State, out var state) ? state : ISN_CKResultType.Error;
+        public ISN_CKResultType State => EnumUtility.TryParse <ISN_CKResultType> (m_State, out var state) ? state : ISN_CKResultType.Error;
 
         /// <summary>
         /// Get account state from ISN_CKResult
         /// </summary>
-        public ISN_CKAccountStatus AccountState => EnumUtility.TryParseEnum <ISN_CKAccountStatus> (m_Description, out var state) ? state : ISN_CKAccountStatus.CKAccountStatusCouldNotDetermine;
+        public ISN_CKAccountStatus AccountState => EnumUtility.TryParse <ISN_CKAccountStatus> (m_Description, out var state) ? state : ISN_CKAccountStatus.CKAccountStatusCouldNotDetermine;
     }
 }

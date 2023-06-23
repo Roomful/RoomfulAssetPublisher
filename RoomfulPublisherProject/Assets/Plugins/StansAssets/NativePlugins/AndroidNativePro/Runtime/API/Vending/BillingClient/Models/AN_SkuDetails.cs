@@ -61,7 +61,7 @@ namespace SA.Android.Vending.BillingClient
         /// </summary>
         public AN_BillingClient.SkuType Type
         {
-            get => EnumUtility.ParseEnum<AN_BillingClient.SkuType>(m_Type);
+            get => EnumUtility.ParseOrDefault<AN_BillingClient.SkuType>(m_Type);
             set => m_Type = value.ToString();
         }
 
