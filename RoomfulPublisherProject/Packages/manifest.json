@@ -11,6 +11,7 @@
   "dependencies": {
     "com.stansassets.foundation": "1.0.21",
     "com.stansassets.mobile": "0.0.3",
+    "com.stansassets.newtonjson": "12.0.101",
     "com.stansassets.plugins-dev-kit": "1.0.3",
     "com.stansassets.xcode-project": "0.0.3-preview",
     "com.unity.2d.sprite": "1.0.0",
@@ -27,8 +28,8 @@
     "com.unity.timeline": "1.2.18",
     "com.unity.ugui": "1.0.0",
     "com.unity.xr.legacyinputhelpers": "2.1.9",
-    "net.roomful.api": "ssh://git@github.com/Roomful/net.roomful.api.git#1.9.9",
-    "net.roomful.assets": "ssh://git@github.com/Roomful/net.roomful.assets.git#2.29.1",
+    "net.roomful.api": "ssh://git@github.com/Roomful/net.roomful.api.git#1.9.10",
+    "net.roomful.assets": "ssh://git@github.com/Roomful/net.roomful.assets.git#2.19.2",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
