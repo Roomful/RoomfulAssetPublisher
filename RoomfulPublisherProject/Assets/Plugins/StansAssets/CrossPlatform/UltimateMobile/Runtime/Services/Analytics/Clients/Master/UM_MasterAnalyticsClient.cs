@@ -21,7 +21,6 @@ namespace SA.CrossPlatform.Analytics
             //client will not do anything.
             m_Clients = new List<UM_IAnalyticsClient>();
             m_Clients.Add(new UM_FirebaseAnalyticsClient());
-            m_Clients.Add(new UM_UnityAnalyticsClient());
 #if SA_FACEBOOK
             m_Clients.Add(new UM_FacebookAnalyticsClient());
 #endif
