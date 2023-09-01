@@ -193,14 +193,14 @@
       "url": "https://packages.unity.com"
     },
     "net.roomful.api": {
-      "version": "ssh://git@github.com/Roomful/net.roomful.api.git#1.9.10",
+      "version": "ssh://git@github.com/Roomful/net.roomful.api.git#2.0.0",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "49d3b650f16c7c6187ee7d81733dbed2031ff39a"
+      "hash": "37a535fe2d194fc8108c7a7c506e7c459923bc51"
     },
     "net.roomful.assets": {
-      "version": "ssh://git@github.com/Roomful/net.roomful.assets.git#2.29.3",
+      "version": "ssh://git@github.com/Roomful/net.roomful.assets.git#2.29.10",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -209,7 +209,7 @@
         "com.unity.render-pipelines.universal": "7.5.3",
         "com.unity.editorcoroutines": "1.0.0"
       },
-      "hash": "d40c65d28ff71029a23c3a3e9250d48e8b2dae09"
+      "hash": "2426a7fe8cff06705cfcaf49aaff48c026a55d60"
     },
     "net.roomful.core": {
       "version": "file:net.roomful.core",
