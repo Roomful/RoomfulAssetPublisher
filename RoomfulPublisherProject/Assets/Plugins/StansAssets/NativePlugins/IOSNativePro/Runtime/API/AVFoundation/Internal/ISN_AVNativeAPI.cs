@@ -131,7 +131,7 @@ namespace SA.iOS.AVFoundation.Internal
             {
 #if UNITY_IPHONE
                 var categoryName = _ISN_AV_AudioSessionCategory();
-                return EnumUtility.ParseEnum<ISN_AVAudioSessionCategory>(categoryName);
+                return EnumUtility.ParseOrDefault<ISN_AVAudioSessionCategory>(categoryName);
 #else
                 return ISN_AVAudioSessionCategory.SoloAmbient;
 #endif
