@@ -209,7 +209,7 @@
       "hash": "37a535fe2d194fc8108c7a7c506e7c459923bc51"
     },
     "net.roomful.assets": {
-      "version": "ssh://git@github.com/Roomful/net.roomful.assets.git#2.33.1",
+      "version": "ssh://git@github.com/Roomful/net.roomful.assets.git#2.38.1",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -218,7 +218,7 @@
         "com.unity.render-pipelines.universal": "7.5.3",
         "com.unity.editorcoroutines": "1.0.0"
       },
-      "hash": "5bdb9ce3f6add43e8ff82a4d537b0a83bb6193b9"
+      "hash": "c4b9f700cdd5c89da25e99d4691998f3b3a95899"
     },
     "net.roomful.core": {
       "version": "file:net.roomful.core",
