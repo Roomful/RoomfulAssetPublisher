@@ -1,0 +1,145 @@
+fileFormatVersion: 2
+guid: 000d0a43bfea747ed8414dd751df5baf
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: active_slot
+    100002: cube_slot
+    100004: //RootNode
+    100006: icon_selected_background
+    100008: line_connector_upper_and_lower
+    100010: line_connector_upper_and_lower 1
+    100012: line_upper_and_lower
+    100014: line_upper_and_lower 1
+    100016: minus
+    100018: plus
+    400000: active_slot
+    400002: cube_slot
+    400004: //RootNode
+    400006: icon_selected_background
+    400008: line_connector_upper_and_lower
+    400010: line_connector_upper_and_lower 1
+    400012: line_upper_and_lower
+    400014: line_upper_and_lower 1
+    400016: minus
+    400018: plus
+    2100000: 'Material #2124209731'
+    2100002: 'Material #2124209735'
+    2100004: 'Material #2124209732'
+    2100006: 'Material #2124209733'
+    2100008: 'Material #2124209738'
+    2100010: 'Material #2124209737'
+    2100012: 'Material #2124209740'
+    2300000: active_slot
+    2300002: cube_slot
+    2300004: icon_selected_background
+    2300006: line_connector_upper_and_lower
+    2300008: line_connector_upper_and_lower 1
+    2300010: line_upper_and_lower
+    2300012: line_upper_and_lower 1
+    2300014: minus
+    2300016: plus
+    3300000: active_slot
+    3300002: cube_slot
+    3300004: icon_selected_background
+    3300006: line_connector_upper_and_lower
+    3300008: line_connector_upper_and_lower 1
+    3300010: line_upper_and_lower
+    3300012: line_upper_and_lower 1
+    3300014: minus
+    3300016: plus
+    4300000: cube_slot
+    4300002: icon_selected_background
+    4300004: line_connector_upper_and_lower
+    4300006: line_upper_and_lower
+    4300008: line_connector_upper_and_lower
+    4300010: line_upper_and_lower
+    4300012: minus
+    4300014: plus
+    4300016: active_slot
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

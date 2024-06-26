@@ -1,0 +1,17 @@
+{
+    "name": "com.naturemanufacture.lake-polygon.editor",
+    "references": [
+        "com.naturemanufacture.spline-system.runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

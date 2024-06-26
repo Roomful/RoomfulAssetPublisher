@@ -1,0 +1,23 @@
+{
+  "name": "net.roomful.assets",
+  "displayName": "Roomful - Asset Publisher",
+  "version": "2.38.1",
+  "unity": "2019.4",
+  "description": "Roomful Asset Publisher.",
+  "license": "MIT",
+  "author": {
+    "name": "Roomful",
+    "email": "support@roomful.net",
+    "url": "https://roomful.net/"
+  },
+  "dependencies": {
+    "com.stansassets.foundation": "1.0.18",
+    "com.stansassets.plugins-dev-kit": "0.0.5-preview",
+    "com.unity.render-pipelines.universal": "7.5.3",
+    "com.unity.editorcoroutines": "1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:Roomful/net.roomful.assets.git"
+  }
+}

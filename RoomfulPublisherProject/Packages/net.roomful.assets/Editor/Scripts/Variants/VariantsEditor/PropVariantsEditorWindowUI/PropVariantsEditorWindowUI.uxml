@@ -1,0 +1,125 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements"
+         xmlns:sa="StansAssets.Foundation.UIElements">
+    <ui:VisualElement class="root">
+        <ui:VisualElement name="NoPropAsset" class="no-prop-assets">
+            <ui:Label text="[No Prop Assets in Edit mode]" class="no-prop-assets-text"/>
+        </ui:VisualElement>
+        <!--Variants list block -->
+        <ui:VisualElement name="VariantsListBlock" class="variants-list-block">
+            <ui:VisualElement name="VariantsListHeader" class="block-header">
+                <ui:Label text="Variants:" class="block-header-text"/>
+                <ui:VisualElement class="flexible-space"/>
+                <ui:Button name="VariantListUpdate" class="btn-left"/>
+                <ui:Button name="VariantListAdd" text="+" class="btn-add btn-right"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="VariantsList" class="variants-list"/>
+            <ui:VisualElement class="row loading" name="LoadingSpinnerVariant">
+                <sa:LoadingSpinner class="loading-spinner"/>
+                <ui:Label text="Loading variants"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- Prop Variant Info block -->
+        <ui:VisualElement name="VariantInfoBlock" class="variants-info-block">
+            <ui:VisualElement name="VariantInfo" class="variant-info row">
+                <ui:VisualElement name="VariantInfoPanel" class="variant-info-panel">
+                    <ui:Label text="Prop Variant Info" class="variant-info-panel-text"/>
+                    <ui:VisualElement name="PropVariantId">
+                        <ui:Label text="Id:"/>
+                    </ui:VisualElement>
+                    <ui:TextField name="PropVariantName" class="variant-name"/>
+
+                    <ui:VisualElement>
+                        <ui:Label text="Sort Order:"/>
+                    </ui:VisualElement>
+                    <uie:IntegerField name="PropVariantSortingOrder" class="variant-name"/>
+                    <ui:VisualElement name="DefaultSkinColorPanel">
+                        <ui:Toggle name="PropVariantHasColorSupport" label="Variant supports color"/>
+                        <uie:ColorField label="Default Color" name="DefaultSkinColor"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="row">
+                        <uie:ObjectField name="PropVariantIcon" type="UnityEngine.Texture2D"
+                                         allow-scene-objects="false" class="variant-icon">
+                        </uie:ObjectField>
+                        <ui:VisualElement>
+                            <ui:Toggle name="PropVariantIconToggle" label="Use Editor Camera"/>
+                            <ui:Button name="PropVariantIconButton" text="Make Icon"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="flexible-space"/>
+                <ui:VisualElement name="VariantInfoButtons" class="variant-info-buttons">
+                    <ui:Button name="PropVariantRemove" text="Remove"/>
+                    <ui:Button name="PropVariantSave" text="Save"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="SkinListHeader" class="block-header">
+                <ui:Label text="Skins:" class="block-header-text"/>
+                <ui:VisualElement class="flexible-space"/>
+                <ui:Button name="SkinListUpdate" class="btn-left"/>
+                <ui:Button name="SkinListAdd" text="+" class="btn-add btn-right"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="SkinsList" class="variants-list"/>
+            <ui:VisualElement class="row loading" name="LoadingSpinnerSkin">
+                <sa:LoadingSpinner class="loading-spinner"/>
+                <ui:Label text="Loading skins"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- Prop skin Info block -->
+        <ui:VisualElement name="SkinInfoBlock" class="skin-info-block">
+            <ui:VisualElement name="SkinInfo" class="variant-info row">
+                <ui:VisualElement name="SkinInfoPanel" class="variant-info-panel">
+                    <ui:Label text="Prop Skin Info" class="variant-info-panel-text"/>
+                    <ui:VisualElement name="PropSkinId">
+                        <ui:Label text="Id:"/>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement>
+                        <ui:Label text="Sort Order:"/>
+                    </ui:VisualElement>
+                    <uie:IntegerField name="PropSkinNameSortOrder" class="variant-name"/>
+                    <ui:VisualElement name="Platforms">
+                        <ui:Label text="Platforms:"/>
+                    </ui:VisualElement>
+                    <ui:TextField name="PropSkinName" class="variant-name"/>
+
+
+                    <ui:Toggle name="PropSkinDefaultToggle" label="Is Default" class="toggle-default"/>
+                    <ui:Toggle name="PropSkinHeavyToggle" label="Heavy Skin" class="toggle-default"/>
+                    <ui:Toggle name="PropSkinDebugToggle" label="Debug Mode" class="toggle-default"/>
+                    <ui:Toggle name="ColorOnlySkinToggle" label="Color Only" class="toggle-default"/>
+
+                    <uie:ColorField label="Skin Color" name="SkinColorOverride"/>
+
+                    <ui:VisualElement class="row">
+                        <uie:ObjectField name="PropSkinIcon" type="UnityEngine.Texture2D" allow-scene-objects="false"
+                                         class="variant-icon">
+                        </uie:ObjectField>
+                        <ui:VisualElement class="">
+                            <ui:Toggle name="PropSkinCameraToggle" label="Use Editor Camera"/>
+                            <ui:Toggle name="PropSkinUnrelatedObjectsToggle" label="Disable Unrelated objects"/>
+                            <ui:Button name="PropSkinIconButton" text="Make Icon"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="flexible-space"/>
+                <ui:VisualElement name="SkinInfoButtons" class="variant-info-buttons">
+                    <ui:Button name="PropSkinRemove" text="Remove"/>
+                    <ui:Button name="PropSkinEdit" text="Edit"/>
+                    <ui:Button name="PropSkinDownload" text="Download"/>
+                    <ui:Button name="PropSkinSave" text="Upload"/>
+                    <ui:Button name="PropSkinUpdateMeta" text="Update Metadata"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="SkinInfoButtonDone" class="variant-info-buttons">
+                    <ui:Button name="PropSkinDone" text="Done"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="HierarchyTreeHeader" class="block-header">
+                <ui:Label text="Game objects hierarchy:" class="block-header-text"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="HierarchyTree" class="variants-list">
+                <ui:IMGUIContainer name="HierarchyTreeIMGUI">
+                </ui:IMGUIContainer>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

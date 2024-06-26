@@ -1,0 +1,23 @@
+{
+    "name": "net.roomful.assets.runtime",
+    "rootNamespace": "",
+    "references": [
+        "com.naturemanufacture.spline-system.runtime",
+        "Kronnect.HighlightPlus.Runtime",
+        "net.roomful.api",
+        "net.roomful.core",
+        "net.roomful.assets",
+        "StansAssets.Foundation",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

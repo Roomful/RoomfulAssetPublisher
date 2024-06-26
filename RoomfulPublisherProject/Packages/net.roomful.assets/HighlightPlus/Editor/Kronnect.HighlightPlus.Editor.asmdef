@@ -1,0 +1,19 @@
+{
+    "name": "Kronnect.HighlightPlus.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Kronnect.HighlightPlus.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

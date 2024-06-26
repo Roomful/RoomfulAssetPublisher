@@ -1,0 +1,177 @@
+﻿.root {
+    flex-direction: row;
+    height: 1000px;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.no-prop-assets {
+    width: 100%;
+    height: 100%;
+}
+
+.no-prop-assets-text {
+    font-size: 25px;
+    margin-top: 1%;
+    margin-left: 30%;
+}
+
+.variants-list-block,
+.variants-info-block,
+.skin-info-block {
+    height: 100%;
+    flex-grow: 0;
+    border-right-width: 1px;
+}
+
+.variants-list-block {
+    width: 15%;
+    min-width: 120px;
+}
+
+.variants-info-block {
+    width: 30%;
+    min-width: 290px;
+}
+
+.skin-info-block {
+    width: 55%;
+    border-right-width: 0;
+}
+
+.block-header {
+    flex-direction: row;
+    height: 20px;
+    padding: 0;
+    padding-left: 2px;
+    border-bottom-width: 1px;
+}
+
+.block-header-text {
+    margin-top: 2px;
+    margin-left: 2px;
+    padding: 0;
+}
+
+.flexible-space {
+    flex-grow: 1;
+}
+
+.btn-edit {
+
+    background-image: resource('edit.png');
+}
+
+.btn-update {
+    background-image: resource('refresh_black');
+}
+
+.btn-add {
+    font-size: 15px;
+    -unity-font-style: bold;
+}
+
+.btn-left,
+.btn-right {
+    border-radius: 0;
+    border-width: 0;
+    margin: 0;
+    padding: 3px;
+    width: 20px;
+}
+
+.variant-icon {
+    width: 90px;
+    height: 70px;
+    margin-left: 0;
+}
+
+.btn-left {
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+
+.variants-list {
+    flex-grow: 0;
+}
+
+.variant-info {
+    flex-grow: 0;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.variant-info-panel {
+    padding-left: 5px;
+}
+
+.variant-info-panel-text {
+    font-size: 20px;
+    -unity-font-style: bold;
+    margin: 0 0 5px 0;
+}
+
+.variant-name {
+    margin-left: 0;
+}
+
+.loading {
+    margin: 3px 0 0 3px;
+}
+
+.loading-spinner {
+    margin: 0 2px 0 0;
+}
+
+
+.variant-item {
+    padding-right: 0;
+    margin: 0;
+    border-radius: 0;
+    border-width: 0;
+    -unity-text-align: middle-left;
+}
+
+.toggle-label {
+    min-width: 0;
+    margin-right: 10px;
+}
+
+.toggle-label-default {
+    min-width: 0;
+    margin-right: 29px;
+}
+
+.toggle-label-camera-skin {
+    min-width: 0;
+    margin-right: 50px;
+}
+
+#PropSkinName {
+    margin-bottom: 10px;
+}
+
+.refresh-variants-error {
+    margin: 5px 0 0 3px;
+    font-size: 13px;
+    white-space: normal;
+}
+
+
+#DefaultSkinColorPanel {
+    margin: 10px 0 10px 0;
+}
+
+#PropVariantHasColorSupport {
+    margin-left: 2px;
+}
+
+.default-color-imgui {
+    max-width: 45px;
+}
+
+#HierarchyTree, #HierarchyTreeIMGUI {
+    flex-grow: 1;
+}

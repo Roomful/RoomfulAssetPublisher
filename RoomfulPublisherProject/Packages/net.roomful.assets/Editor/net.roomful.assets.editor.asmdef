@@ -1,0 +1,31 @@
+{
+    "name": "net.roomful.assets.editor",
+    "rootNamespace": "",
+    "references": [
+        "Kronnect.HighlightPlus.Runtime",
+        "net.roomful.api",
+        "net.roomful.core",
+        "net.roomful.assets",
+        "net.roomful.assets.runtime",
+        "StansAssets.Foundation",
+        "StansAssets.Foundation.Editor",
+        "StansAssets.Plugins",
+        "StansAssets.Plugins.Editor",
+        "Unity.EditorCoroutines.Editor",
+        "Unity.RenderPipelines.Core.Editor",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Editor",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

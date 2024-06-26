@@ -1,0 +1,7 @@
+{
+  "name": "net.roomful.api",
+  "displayName": "Roomful - API",
+  "version": "1.9.11",
+  "unity": "2018.4",
+  "description": "Roomful API package."
+}

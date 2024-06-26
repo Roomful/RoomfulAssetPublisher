@@ -1,0 +1,23 @@
+﻿.block-header {
+    background-color: rgb(138, 138, 138);
+    border-bottom-color: rgb(140, 140, 140);
+}
+
+.variants-list-block,
+.variants-info-block,
+.skin-info-block {
+    background-color: rgb(174, 174, 174);
+    border-right-color: rgb(140, 140, 140);
+}
+
+.variant-info {
+    border-bottom-color: rgb(140, 140, 140);
+}
+
+.variant-item {
+    background-color: rgb(174, 174, 174);
+}
+
+.variant-item-selected {
+    background-color: rgba(62, 125, 231, 0.5);
+}

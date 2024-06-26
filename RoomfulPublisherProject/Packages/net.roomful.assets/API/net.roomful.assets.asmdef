@@ -1,0 +1,19 @@
+{
+    "name": "net.roomful.assets",
+    "references": [
+        "net.roomful.api",
+        "net.roomful.core",
+        "StansAssets.Foundation",
+        "Unity.TextMeshPro",
+        "net.roomful.ios"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
