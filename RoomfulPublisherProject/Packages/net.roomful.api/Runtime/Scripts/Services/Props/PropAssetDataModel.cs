@@ -12,6 +12,11 @@ namespace net.roomful.api
         public float MaxSize { get; set; } = 2f;
         public Vector3 Size { get; set; } = Vector3.one;
         public bool CanStack { get; set; } = false;
+        
+        /// <summary>
+        /// Will display prop skins in the sporting table
+        /// </summary>
+        public bool DisplaySkins { get; set; } = false;
         public bool HasVariants { get; set; } = false;
         public int LogoCount { get; set; }
         public int ThumbnailCount { get; set; }
@@ -50,6 +55,10 @@ namespace net.roomful.api
             if (assetData.HasValue("hasVariants")) {
                 HasVariants = assetData.GetValue<bool>("hasVariants");
             }
+            
+            if (assetData.HasValue("displaySkins")) {
+                DisplaySkins = assetData.GetValue<bool>("displaySkins");
+            }
 
             if (assetData.HasValue("assetBundleMeta")) {
                 var bundleMeta = new JSONData(assetData.GetValue<Dictionary<string, object>>("assetBundleMeta"));
@@ -75,6 +84,7 @@ namespace net.roomful.api
             data.Add("minScale", MinSize);
             data.Add("maxScale", MaxSize);
             data.Add("canStack", CanStack);
+            data.Add("displaySkins", DisplaySkins);
 
             var sizeData = new Dictionary<string, object>();
             sizeData.Add("x", Size.x);

@@ -29,6 +29,11 @@ namespace net.roomful.assets
             get => m_DataModel.CanStack;
             set => m_DataModel.CanStack = value;
         }
+        
+        public bool DisplaySkins {
+            get => m_DataModel.DisplaySkins;
+            set => m_DataModel.DisplaySkins = value;
+        }
 
         public Vector3 Size {
             get => m_DataModel.Size;
