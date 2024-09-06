@@ -1,5 +1,6 @@
 using net.roomful.api;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace net.roomful.assets
 {
@@ -27,9 +28,12 @@ namespace net.roomful.assets
                     sceneStyle.AddMaterial(material);
                 }
             }
+            var decals = GetComponentsInChildren<DecalProjector>();
+            foreach (var decal in decals)
+            {
+                sceneStyle.AddMaterial(decal.material);
+            }
             
-            var graphics = transform.Find("Graphics");
-            sceneStyle.SetGraphics(graphics);
         }
         
         public void Validate()
