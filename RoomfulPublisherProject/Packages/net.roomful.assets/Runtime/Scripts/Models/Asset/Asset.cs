@@ -132,7 +132,7 @@ namespace net.roomful.assets
             }
         }
 
-        public GameObject Environment {
+        public virtual GameObject Environment {
             get {
 
                 var rig = GameObject.Find("Environment");

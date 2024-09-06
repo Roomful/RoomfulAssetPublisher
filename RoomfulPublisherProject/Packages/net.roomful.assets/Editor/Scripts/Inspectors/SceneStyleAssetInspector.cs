@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,6 +20,14 @@ namespace net.roomful.assets.editor
 
         public override void OnInspectorGUI()
         {
+            var env = FindObjectOfType<Environment>();
+            if (env != null)
+            {
+                Debug.Log(env, env);
+                env.hideFlags = HideFlags.None;
+                GameObject.DestroyImmediate(env);
+            }
+
             EditorGUI.BeginChangeCheck();
             {
                 EditorGUILayout.PropertyField(m_StyleId);

@@ -36,6 +36,8 @@ namespace net.roomful.assets
             
         }
         
+        public override GameObject Environment => null;
+
         public void Validate()
         {
             Debug.Log("Validate");
