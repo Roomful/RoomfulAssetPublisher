@@ -3,16 +3,16 @@ using UnityEditor;
 
 namespace net.roomful.assets.editor
 {
-    internal static class Validation
+    static class Validation
     {
-        internal static readonly List<BuildTarget> s_allowedTargets = new List<BuildTarget>();
+        internal static readonly List<BuildTarget> AllowedTargets = new List<BuildTarget>();
 
         static Validation() {
-            s_allowedTargets.Add(BuildTarget.iOS);
-            s_allowedTargets.Add(BuildTarget.WebGL);
-            s_allowedTargets.Add(BuildTarget.Android);
-            s_allowedTargets.Add(BuildTarget.StandaloneWindows64);
-            s_allowedTargets.Add(BuildTarget.StandaloneOSX);
+            AllowedTargets.Add(BuildTarget.iOS);
+            AllowedTargets.Add(BuildTarget.WebGL);
+            AllowedTargets.Add(BuildTarget.Android);
+            AllowedTargets.Add(BuildTarget.StandaloneWindows64);
+            AllowedTargets.Add(BuildTarget.StandaloneOSX);
         }
 
         public static bool Run(EnvironmentAsset asset) {
@@ -23,7 +23,7 @@ namespace net.roomful.assets.editor
             return true;
         }
 
-        public static bool Run(StyleAsset asset) {
+        public static bool Run(BaseStyleAsset asset) {
             if (!IsValidAsset(asset, 512)) {
                 return false;
             }

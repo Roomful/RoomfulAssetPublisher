@@ -2,10 +2,12 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using System;
+using net.roomful.api;
 using Object = UnityEngine.Object;
 
 namespace net.roomful.assets.editor
-{ abstract class BundleManager<T, TAsset> : IBundleManager where T : AssetTemplate where TAsset : IAsset
+{ 
+    abstract class BundleManager<T, TAsset> : IBundleManager where T : AssetTemplate where TAsset : IAsset
     {
         public event Action OnUploaded = delegate { };
 
@@ -102,15 +104,15 @@ namespace net.roomful.assets.editor
         // Private Methods
         //--------------------------------------
 
-        private void UploadNewAsset(TAsset asset) {
+        void UploadNewAsset(TAsset asset) {
             UploadAsset(GenerateMeta_Create_Request(asset), asset);
         }
 
-        private void UploadExistingAsset(TAsset asset) {
+        void UploadExistingAsset(TAsset asset) {
             UploadAsset(GenerateMeta_Update_Request(asset), asset);
         }
 
-        private void UploadAsset(AssetMetadataRequest metaRequest, TAsset asset) {
+        void UploadAsset(AssetMetadataRequest metaRequest, TAsset asset) {
             // Removing generated borders, since we are checking for same names
             foreach (var gb in Object.FindObjectsOfType<GameObject>()) {
                 if (gb.name == BorderLayers.GeneratedBorder.ToString())
@@ -134,6 +136,8 @@ namespace net.roomful.assets.editor
             asset.PrepareForUpload();
             BundleUtility.SaveTemplateToFile(PersistentTemplatePath, asset.GetTemplate());
 
+            
+          
             metaRequest.PackageCallbackText = callback => {
                 asset.GetTemplate().Id = new AssetTemplate(callback).Id;
                 UploadAssetBundle(asset);
@@ -141,7 +145,7 @@ namespace net.roomful.assets.editor
             metaRequest.Send();
         }
 
-        private void DownloadAsset(T tpl) {
+        void DownloadAsset(T tpl) {
             if (AssetBundlesSettings.Instance.m_automaticCacheClean) {
                 BundleUtility.ClearLocalCache();
             }
@@ -221,21 +225,56 @@ namespace net.roomful.assets.editor
             new V1_MarkersCollector().SetAssetDatabase(assetDatabase).Run(asset);
         }
 
-        private void UploadAssetBundle(TAsset asset) {
-            var template = asset.GetTemplate();
-            UnityEditor.AssetDatabase.Refresh();
+        void UploadAssetBundle(TAsset asset) {
+              var template = asset.GetTemplate();
+              UnityEditor.AssetDatabase.Refresh();
 
-            var thumbnailUploader = new AssetThumbnailUploader(template);
-            thumbnailUploader.Upload(asset.GetIcon(), iconRes => {
-                template.Icon = iconRes;
-                AssetBundlesSettings.Instance.ReplaceSavedTemplate(template);
-                BundleUtility.SaveTemplateToFile(PersistentTemplatePath, template);
-                BundleUtility.GenerateUploadPrefab(asset);
-                
-                OriginalResourcesManager.UploadResourcesArchive(asset.GetTemplate().Id, asset.Title);
-                AssetsUploadLoop(0, template);
-            });
+              var thumbnailUploader = new AssetThumbnailUploader(template);
+              thumbnailUploader.Upload(asset.GetIcon(), iconRes => {
+                  template.Icon = iconRes;
+                  AssetBundlesSettings.Instance.ReplaceSavedTemplate(template);
+                  BundleUtility.SaveTemplateToFile(PersistentTemplatePath, template);
+
+                  if (asset is SceneStyleAsset)
+                  {
+                      GenerateUploadScene(asset);
+                  }
+                  else
+                  {
+                      BundleUtility.GenerateUploadPrefab(asset);
+                      OriginalResourcesManager.UploadResourcesArchive(asset.GetTemplate().Id, asset.Title);
+                  }
+                  
+                  AssetsUploadLoop(0, template);
+              });
         }
+
+        void GenerateUploadScene(TAsset asset)
+        {
+            var tpl = asset.GetTemplate();
+            var assetBundleName = $"{tpl.Title}_{tpl.Id}";
+            
+            var scenePath = $"{AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION}{assetBundleName}.unity";
+            EditorSceneManager.SaveScene(asset.gameObject.scene, scenePath, true);
+        }
+
+        void UploadScene(TAsset asset)
+        {
+            var tpl = asset.GetTemplate();
+            var assetBundleName = $"{tpl.Title}_{tpl.Id}";
+            var scenePath = $"{AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION}{assetBundleName}.unity";
+            
+            var buildMap = new AssetBundleBuild[1];
+            buildMap[0].assetBundleName = assetBundleName;
+            buildMap[0].assetNames = new[] { scenePath };
+            
+            var buildTarget = EditorUserBuildSettings.activeBuildTarget;
+            BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, buildMap, BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+
+            var assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetBundleName);
+            Debug.Log(assetBytes.Length);
+        }
+        
 
         protected void AssetsUploadLoop(int platformIndex, AssetTemplate tpl) {
             AssetBundlesSettings.Instance.UploadPlatformIndex = platformIndex;
@@ -244,14 +283,26 @@ namespace net.roomful.assets.editor
                 var buildTarget = AssetBundlesSettings.Instance.TargetPlatforms[platformIndex];
 
                 var assetBundleName = $"{tpl.Title}_{tpl.Id}";
-                var prefabPath = $"{AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION}{assetBundleName}.prefab";
-               
 
-                assetBundleName = assetBundleName.ToLower();
+                if (tpl is StyleAssetTemplate styleAssetTemplate && styleAssetTemplate.StyleType == StyleType.NonExtendable)
+                {
+                    var scenePath = $"{AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION}{assetBundleName}.unity";
+                    var buildMap = new AssetBundleBuild[1];
+                    buildMap[0].assetBundleName = assetBundleName;
+                    buildMap[0].assetNames = new[] { scenePath };
+                    BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, buildMap, BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+                }
+                else 
+                {
+                    var prefabPath = $"{AssetBundlesSettings.FULL_ASSETS_TEMP_LOCATION}{assetBundleName}.prefab";
+                    assetBundleName = assetBundleName.ToLower();
 
-                var assetImporter = AssetImporter.GetAtPath(prefabPath);
-                assetImporter.assetBundleName = assetBundleName;
-                BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+                    var assetImporter = AssetImporter.GetAtPath(prefabPath);
+                    assetImporter.assetBundleName = assetBundleName;
+                    BuildPipeline.BuildAssetBundles(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION, BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+
+                }
+                
                 ResumeUpload();
             }
         }
@@ -284,7 +335,10 @@ namespace net.roomful.assets.editor
             EditorProgressBar.AddProgress(tpl.Title, "Getting Asset Upload URL (" + platform + ")", 0.2f);
             GetUploadLink(tpl, platform, linkToUploadTo => {
                 EditorProgressBar.AddProgress(tpl.Title, "Uploading Asset (" + platform + ")", 0.2f);
+               
                 var assetBytes = System.IO.File.ReadAllBytes(AssetBundlesSettings.FULL_ASSETS_RESOURCES_LOCATION + "/" + assetBundleName);
+                
+                
                 var uploadRequest = new UploadAsset(linkToUploadTo, assetBytes);
 
                 var currentUploadProgress = EditorProgressBar.UploadProgress;
@@ -313,7 +367,7 @@ namespace net.roomful.assets.editor
             });
         }
 
-        private void FinishAssetUpload() {
+        void FinishAssetUpload() {
             var tpl = BundleUtility.LoadTemplateFromFile<T>(PersistentTemplatePath);
 
             BundleUtility.DeleteTempFiles();

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
@@ -10,17 +8,13 @@ using Object = UnityEngine.Object;
 namespace net.roomful.assets.editor
 {
     [InitializeOnLoad]
-    internal static class BundleService
+    static class BundleService
     {
-        private static readonly List<IBundleManager> s_bundles;
-        private const string REQUIRED_UNITY_VERSION = "2021.3.21";
-
-        //--------------------------------------
-        // Initialization
-        //--------------------------------------
+        static readonly List<IBundleManager> s_Bundles;
+        const string k_RequiredUnityVersion = "2021.3.21";
 
         static BundleService() {
-            s_bundles = new List<IBundleManager> {
+            s_Bundles = new List<IBundleManager> {
                 new PropBundleManager(),
                 new EnvironmentBundleManager(),
                 new StyleBundleManager(),
@@ -29,10 +23,6 @@ namespace net.roomful.assets.editor
 
             WebServer.OnRequestFailed += OnRequestFailed;
         }
-
-        //--------------------------------------
-        // Public Methods
-        //--------------------------------------
 
         public static void Create<T>(T tpl) where T : AssetTemplate {
             var bundle = GetBundleByTemplateType(typeof(T));
@@ -128,12 +118,12 @@ namespace net.roomful.assets.editor
             bundle.Upload(asset);
         }
 
-        private static bool IsUploadAllowed() {
+        static bool IsUploadAllowed() {
             
-            if (!Application.unityVersion.StartsWith(REQUIRED_UNITY_VERSION)) {
+            if (!Application.unityVersion.StartsWith(k_RequiredUnityVersion)) {
 
                 EditorUtility.DisplayDialog("Error!",
-                    $"Assets upload is only allowed with Unity {REQUIRED_UNITY_VERSION}",
+                    $"Assets upload is only allowed with Unity {k_RequiredUnityVersion}",
                     "Okay");
                 return false;
             }
@@ -142,7 +132,7 @@ namespace net.roomful.assets.editor
             if (AssetBundlesSettings.Instance.TargetPlatforms.Count > 0) {
                 foreach (var target in AssetBundlesSettings.Instance.TargetPlatforms) {
                     var buildTarget = target;
-                    if (!Validation.s_allowedTargets.Contains(buildTarget)) {
+                    if (!Validation.AllowedTargets.Contains(buildTarget)) {
                         EditorUtility.DisplayDialog("Error", buildTarget + " target is not supported", "Ok");
                         WindowManager.Wizzard.SwitchTab(WizardTabs.Platforms);
                         return false;
@@ -170,7 +160,7 @@ namespace net.roomful.assets.editor
 
         public static bool IsUploadInProgress {
             get {
-                foreach (var bundle in s_bundles) {
+                foreach (var bundle in s_Bundles) {
                     if (bundle.IsUploadInProgress) {
                         return true;
                     }
@@ -184,8 +174,8 @@ namespace net.roomful.assets.editor
         // Private Methods
         //--------------------------------------
 
-        private static IBundleManager GetBundleByTemplateType(Type type) {
-            foreach (var bundle in s_bundles) {
+        static IBundleManager GetBundleByTemplateType(Type type) {
+            foreach (var bundle in s_Bundles) {
                 if (bundle.TemplateType == type) {
                     return bundle;
                 }
@@ -194,12 +184,18 @@ namespace net.roomful.assets.editor
             return null;
         }
 
-        private static IBundleManager GetBundleByAssetType(Type type) {
-            foreach (var bundle in s_bundles) {
+        static IBundleManager GetBundleByAssetType(Type type) {
+            foreach (var bundle in s_Bundles) {
                 if (bundle.AssetType == type) {
                     return bundle;
                 }
             }
+
+            var baseType = type.BaseType;
+            if (baseType != null)
+            {
+                return GetBundleByAssetType(baseType);
+            } 
 
             return null;
         }
@@ -218,8 +214,8 @@ namespace net.roomful.assets.editor
         //--------------------------------------
 
         [UnityEditor.Callbacks.DidReloadScripts]
-        private static void OnScriptsReloaded() {
-            foreach (var bundle in s_bundles) {
+        static void OnScriptsReloaded() {
+            foreach (var bundle in s_Bundles) {
                 if (bundle.IsUploadInProgress) {
                     bundle.ResumeUpload();
                     return;

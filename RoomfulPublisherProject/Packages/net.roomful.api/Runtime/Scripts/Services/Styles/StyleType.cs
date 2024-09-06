@@ -4,5 +4,6 @@ namespace net.roomful.api
     {
         Default,
         NoMirror,
+        NonExtendable,
     }
 }

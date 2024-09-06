@@ -4,9 +4,9 @@ using net.roomful.assets.serialization;
 
 namespace net.roomful.assets
 {
-    internal abstract class Asset<T> : MonoBehaviour, IAsset where T : AssetTemplate, new()
+    abstract class Asset<T> : MonoBehaviour, IAsset where T : AssetTemplate, new()
     {
-        protected T _Template;
+        protected T m_Template;
 
         public Texture2D Icon;
 
@@ -42,13 +42,6 @@ namespace net.roomful.assets
             }
         }
 
-        protected void CleanUpSilhouette() {
-
-            foreach (var c in Components) {
-                c.RemoveSilhouette();
-            }
-        }
-
         protected virtual void PrepareComponentsForUpload() {
 
             foreach (var c in Components) {
@@ -74,7 +67,7 @@ namespace net.roomful.assets
           
             var renderers = transform.GetComponentsInChildren<Renderer>(true);
             foreach (var rnd in renderers) {
-                try {
+              //  try {
                     if (rnd != null) {
                         foreach (var mat in rnd.sharedMaterials) {
                             if (mat != null) {
@@ -84,11 +77,11 @@ namespace net.roomful.assets
                         }
                         rnd.sharedMaterials = new Material[0];
                     }
-                } catch (System.Exception ex) {
-                    Debug.LogError("Failed to Serialize Material", rnd.gameObject);
-                    Debug.LogError(ex.StackTrace);
-                    throw (new System.Exception("Serialisation Failed"));
-                }
+            //    } catch (System.Exception ex) {
+              //      Debug.LogError("Failed to Serialize Material", rnd.gameObject);
+             //       Debug.LogError(ex.StackTrace);
+         //           throw (new System.Exception("Serialisation Failed"));
+            //    }
             }
            
 
@@ -124,11 +117,11 @@ namespace net.roomful.assets
         // Get / Set
         //--------------------------------------
 
-        public T Template => _Template ?? (_Template = new T());
+        public T Template => m_Template ?? (m_Template = new T());
 
         public bool DrawGizmos { get; set; } = true;
 
-        private IEnumerable<IPropPublihserComponent> Components => GetComponentsInChildren<IPropPublihserComponent>();
+        IEnumerable<IPropPublihserComponent> Components => GetComponentsInChildren<IPropPublihserComponent>();
 
         public Component Component => this;
 

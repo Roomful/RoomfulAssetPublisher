@@ -100,7 +100,7 @@ namespace net.roomful.assets
             base.PrepareForUpload();
         }
 
-        public PropSkinUploadModel SkinModel => (PropSkinUploadModel) _Template;
+        public PropSkinUploadModel SkinModel => (PropSkinUploadModel) m_Template;
     }
 
     public class RequiredTransform : MonoBehaviour

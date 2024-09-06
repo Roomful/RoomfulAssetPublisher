@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets.editor
 {
-    internal class PropBundleManager : BundleManager<PropAssetTemplate, PropAsset>
+    class PropBundleManager : BundleManager<PropAssetTemplate, PropAsset>
     {
         protected override void CreateAsset(PropAssetTemplate tpl) {
             var createdProp = new GameObject(tpl.Title).AddComponent<PropAsset>();

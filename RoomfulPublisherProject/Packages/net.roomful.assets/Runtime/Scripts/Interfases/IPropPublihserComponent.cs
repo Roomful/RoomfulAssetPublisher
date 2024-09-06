@@ -5,7 +5,6 @@ namespace net.roomful.assets
     interface IPropPublihserComponent
     {
         void PrepareForUpload();
-        void RemoveSilhouette();
 
         void Update();
 

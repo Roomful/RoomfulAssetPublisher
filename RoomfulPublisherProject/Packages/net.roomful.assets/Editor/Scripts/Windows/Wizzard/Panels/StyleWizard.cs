@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace net.roomful.assets.editor
 {
-    class StyleWizard : AssetWizard<StyleAsset>
+    class StyleWizard : AssetWizard<BaseStyleAsset>
     {
         protected override void Create() {
             WindowManager.ShowCreateNewStyle();

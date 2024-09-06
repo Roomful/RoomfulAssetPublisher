@@ -126,12 +126,6 @@ namespace net.roomful.assets {
             DestroyImmediate(this);
         }
 
-        public void RemoveSilhouette() {
-            //do nothing
-        }
-
-
-
         public float Width => RectTransform.sizeDelta.x * transform.lossyScale.x;
 
         public float Height => RectTransform.sizeDelta.y * transform.lossyScale.y;

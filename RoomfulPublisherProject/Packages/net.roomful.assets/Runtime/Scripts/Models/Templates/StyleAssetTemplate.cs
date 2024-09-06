@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace net.roomful.assets
 {
-    internal class StyleAssetTemplate : AssetTemplate
+    class StyleAssetTemplate : AssetTemplate
     {
-        public StyleMetadata Metadata = null;
-        private StyleAssetDataModel m_dataModel;
+        public StyleMetadata Metadata;
+        StyleAssetDataModel m_dataModel;
         
         public StyleDoorsType DoorsType {
             get => m_dataModel.DoorsType;
@@ -46,7 +46,11 @@ namespace net.roomful.assets
         {
             var data = base.ToDictionary();
             m_dataModel.AppendDictionary(data);
-            data.Add("params", Metadata.ToDictionary());
+           
+            if (Metadata != null)
+            {
+                data.Add("params", Metadata.ToDictionary());
+            }
             return data;
         }
 

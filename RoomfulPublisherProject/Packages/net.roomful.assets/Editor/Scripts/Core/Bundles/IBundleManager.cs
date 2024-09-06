@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets.editor
 {
-    internal interface IBundleManager
+    interface IBundleManager
     {
         void Create(AssetTemplate tpl);
         void Upload(IAsset asset);

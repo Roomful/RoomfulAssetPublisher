@@ -7,18 +7,15 @@ namespace net.roomful.assets
 {
 
     [ExecuteInEditMode]
-    internal class StylePanel : MonoBehaviour
+    class StylePanel : MonoBehaviour
     {
 
-        public const string WALL_PARENT_NAME = "Wall";
-        public const string FLOOR_PARENT_NAME = "Floor";
-        public const string CEILING_PARENT_NAME = "Ceiling";
+        public const string WallParentName = "Wall";
+        public const string FloorParentName = "Floor";
+        public const string CeilingParentName = "Ceiling";
 
-
-        private Bounds m_bounds = new Bounds(Vector3.zero, Vector3.zero);
-
-
-
+        Bounds m_Bounds = new Bounds(Vector3.zero, Vector3.zero);
+        
         //--------------------------------------
         // Unity Editor
         //--------------------------------------
@@ -26,8 +23,7 @@ namespace net.roomful.assets
         void Awake() {
             IconRenderer.hideFlags = HideFlags.HideInInspector;
         }
-
-
+        
         void Update() {
 
             if(Style != null) {
@@ -50,7 +46,7 @@ namespace net.roomful.assets
             }
 
             Gizmos.color = Color.green;
-            GizmosDrawer.DrawCube(m_bounds.center, transform.rotation, m_bounds.size, Color.cyan);
+            GizmosDrawer.DrawCube(m_Bounds.center, transform.rotation, m_Bounds.size, Color.cyan);
 
 #if UNITY_EDITOR
             var style = new GUIStyle();
@@ -91,9 +87,9 @@ namespace net.roomful.assets
         // Get / Set
         //--------------------------------------
 
+        StyleAsset m_style = null;
 
-        private StyleAsset m_style = null;
-        private StyleAsset Style {
+        StyleAsset Style {
             get {
                 if(m_style == null) {
                     m_style = FindObjectOfType<StyleAsset>();
@@ -103,15 +99,15 @@ namespace net.roomful.assets
             }
         }
 
-        public Transform Wall => GetPanelPart(WALL_PARENT_NAME);
+        public Transform Wall => GetPanelPart(WallParentName);
 
-        public Transform Floor => GetPanelPart(FLOOR_PARENT_NAME);
+        public Transform Floor => GetPanelPart(FloorParentName);
 
-        public Transform Ceiling => GetPanelPart(CEILING_PARENT_NAME);
+        public Transform Ceiling => GetPanelPart(CeilingParentName);
 
-        public Bounds Bounds => m_bounds;
+        public Bounds Bounds => m_Bounds;
 
-        private BoxCollider PanelCollider {
+        BoxCollider PanelCollider {
             get {
                 var collider = gameObject.GetComponent<BoxCollider>();
                 if (collider == null) {
@@ -169,9 +165,9 @@ namespace net.roomful.assets
             }
         }
 
+        PanelBounds m_boundsManager = null;
 
-        private PanelBounds m_boundsManager = null;
-        private PanelBounds BoundsManager {
+        PanelBounds BoundsManager {
             get {
                 if (m_boundsManager == null) {
                     m_boundsManager = new PanelBounds();
@@ -186,7 +182,7 @@ namespace net.roomful.assets
         // Private Methods
         //--------------------------------------
 
-        private Transform GetPanelPart(string partName) {
+        Transform GetPanelPart(string partName) {
 
             var part = transform.Find(partName);
             if (part == null) {
@@ -197,11 +193,11 @@ namespace net.roomful.assets
             return part;
         }
 
-        private void UpdateBounds() {
-            m_bounds = BoundsManager.Calculate(gameObject);
+        void UpdateBounds() {
+            m_Bounds = BoundsManager.Calculate(gameObject);
 
-            PanelCollider.center = m_bounds.center - transform.position;
-            PanelCollider.size = m_bounds.size;
+            PanelCollider.center = m_Bounds.center - transform.position;
+            PanelCollider.size = m_Bounds.size;
         }
     }
 }

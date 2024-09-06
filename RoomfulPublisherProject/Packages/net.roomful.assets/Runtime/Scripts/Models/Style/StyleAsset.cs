@@ -5,20 +5,16 @@ using StansAssets.Foundation.Extensions;
 namespace net.roomful.assets
 {
     [ExecuteInEditMode]
-    internal class StyleAsset : Asset<StyleAssetTemplate>
+    class StyleAsset : BaseStyleAsset
     {
-        public bool ShowWalls = false;
-        public bool ShowEditUI = false;
-
-        public void SetTemplate(StyleAssetTemplate tpl) {
-            _Template = tpl;
-        }
+        public bool ShowWalls;
+        public bool ShowEditUI;
 
         //--------------------------------------
         // Unity Editor
         //--------------------------------------
 
-        public void Update() {
+        public virtual void Update() {
             CheckHierarchy();
         }
 
@@ -34,7 +30,6 @@ namespace net.roomful.assets
 
             Template.Metadata = new StyleMetadata(this);
 
-            CleanUpSilhouette();
             PrepareComponentsForUpload();
 
             ShowEditUI = false;
@@ -96,7 +91,7 @@ namespace net.roomful.assets
             }
         }
 
-        private void PlaceEditUI(GameObject defaultElements) {
+        void PlaceEditUI(GameObject defaultElements) {
             foreach (var panel in Panels) {
                 var removeUI = PrefabManager.CreatePrefab("Style/RemoveUI");
                 removeUI.transform.parent = defaultElements.transform;
@@ -105,7 +100,7 @@ namespace net.roomful.assets
             }
         }
 
-        private void PlaceWalls(GameObject DefaultElements) {
+        void PlaceWalls(GameObject DefaultElements) {
             var startWall = PrefabManager.CreatePrefab("Style/RoomGlassWall");
             startWall.transform.parent = DefaultElements.transform;
             startWall.transform.position = Panels[0].Bounds.GetVertex(SA_VertexX.Left, SA_VertexY.Bottom, SA_VertexZ.Front);

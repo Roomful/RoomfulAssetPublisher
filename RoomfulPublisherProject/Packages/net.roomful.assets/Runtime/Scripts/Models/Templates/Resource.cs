@@ -5,20 +5,20 @@ using net.roomful.api;
 
 namespace net.roomful.assets
 {
-    internal class Resource
+    class Resource
     {
-        private ResourceDataModel m_dataModel;
-        private Texture2D m_thumbnail = null;
-        private string m_thumbnailData = string.Empty;
+        ResourceDataModel m_DataModel;
+        Texture2D m_Thumbnail;
+        string m_ThumbnailData = string.Empty;
 
-        public string Id => m_dataModel.Id;
+        public string Id => m_DataModel.Id;
 
         //--------------------------------------
         //  Initialization
         //--------------------------------------
 
         public Resource() {
-            m_dataModel = new ResourceDataModel();
+            m_DataModel = new ResourceDataModel();
         }
 
         public Resource(string resourceData) {
@@ -30,17 +30,17 @@ namespace net.roomful.assets
             ParseTemplate(resourceInfo);
         }
 
-        private bool m_thumbnailLoadStarted = false;
+        bool m_thumbnailLoadStarted = false;
 
-        private void LoadThumbnail() {
+        void LoadThumbnail() {
             if (m_thumbnailLoadStarted) {
                 return;
             }
 
             m_thumbnailLoadStarted = true;
 
-            if (!string.IsNullOrEmpty(m_thumbnailData)) {
-                var byteData = Convert.FromBase64String(m_thumbnailData);
+            if (!string.IsNullOrEmpty(m_ThumbnailData)) {
+                var byteData = Convert.FromBase64String(m_ThumbnailData);
                 var texture = new Texture2D(2, 2);
                 texture.LoadImage(byteData);
                 OnThumbnailLoaded(texture);
@@ -49,7 +49,7 @@ namespace net.roomful.assets
                 return;
             }
 
-            var getAssetUrl = new GetResourceUrl(m_dataModel.Id);
+            var getAssetUrl = new GetResourceUrl(m_DataModel.Id);
             getAssetUrl.PackageCallbackText = assetUrl => {
                 var loadThumbnail = new DownloadIcon(assetUrl);
                 loadThumbnail.PackageCallbackData = data => {
@@ -57,7 +57,7 @@ namespace net.roomful.assets
                     texture.LoadImage(data);
             
                     var byteData = texture.EncodeToPNG();
-                    m_thumbnailData = Convert.ToBase64String(byteData);
+                    m_ThumbnailData = Convert.ToBase64String(byteData);
             
                     OnThumbnailLoaded(texture);
                     m_thumbnailLoadStarted = false;
@@ -79,35 +79,40 @@ namespace net.roomful.assets
             getAssetUrl.Send();
         }
 
-        private void FallBackToDefaultTexture() {
+        void FallBackToDefaultTexture() {
             var texture = new Texture2D(32, 32);
             OnThumbnailLoaded(texture);
         }
 
-        public Dictionary<string, object> ToDictionary() => m_dataModel.ToDictionary();
+        public Dictionary<string, object> ToDictionary() => m_DataModel.ToDictionary();
 
         public Texture2D Thumbnail {
             get {
-                if (m_thumbnail == null) {
-                    if (string.IsNullOrEmpty(m_dataModel.Id)) {
-                        m_thumbnail = new Texture2D(32, 32);
+                if (m_Thumbnail == null) {
+                    if (string.IsNullOrEmpty(m_DataModel.Id)) {
+                        m_Thumbnail = new Texture2D(32, 32);
                     }
                     else {
                         LoadThumbnail();
                     }
                 }
 
-                return m_thumbnail;
+                return m_Thumbnail;
             }
 
-            private set => m_thumbnail = value;
+            private set => m_Thumbnail = value;
         }
 
-        private void ParseTemplate(JSONData resourceInfo) {
-            m_dataModel = new ResourceDataModel(resourceInfo);
+        void ParseTemplate(JSONData resourceInfo) {
+            m_DataModel = new ResourceDataModel(resourceInfo);
         }
 
-        private void OnThumbnailLoaded(Texture2D tex) {
+        void OnThumbnailLoaded(Texture2D tex) {
+            Thumbnail = tex;
+        }
+
+        public void SetThumbnail(Texture2D tex)
+        {
             Thumbnail = tex;
         }
     }

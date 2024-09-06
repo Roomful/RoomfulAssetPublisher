@@ -77,7 +77,7 @@ namespace net.roomful.assets
         }
 
         public void SetTemplate(PropAssetTemplate tpl) {
-            _Template = tpl;
+            m_Template = tpl;
         }
 
         public Transform GetLayer(HierarchyLayers layer) {

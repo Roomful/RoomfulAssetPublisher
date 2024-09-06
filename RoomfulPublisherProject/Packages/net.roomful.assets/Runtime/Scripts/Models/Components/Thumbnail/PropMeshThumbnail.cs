@@ -39,7 +39,6 @@ namespace net.roomful.assets
         //--------------------------------------
 
         public void PrepareForUpload() {
-            RemoveSilhouette();
             Canvas.sharedMaterial.mainTexture = null;
             DestroyImmediate(this);
         }

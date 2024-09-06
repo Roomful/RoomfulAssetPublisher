@@ -2,7 +2,7 @@
 
 namespace net.roomful.assets
 {
-    internal interface IAsset : IAssetBundle
+    interface IAsset : IAssetBundle
     {
         AssetTemplate GetTemplate();
         Texture2D GetIcon();

@@ -20,7 +20,7 @@ namespace net.roomful.assets
         }
 
         public void SetTemplate(EnvironmentAssetTemplate tpl) {
-            _Template = tpl;
+            m_Template = tpl;
         }
 
         //--------------------------------------
@@ -37,7 +37,6 @@ namespace net.roomful.assets
 
         [ContextMenu("Prepare For Upload")]
         public override void PrepareForUpload() {
-            CleanUpSilhouette();
             PrepareComponentsForUpload();
         }
 

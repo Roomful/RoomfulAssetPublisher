@@ -2,23 +2,22 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
 namespace net.roomful.assets
 {
-    internal class AssetBundlesSettings : ScriptableObject
+    class AssetBundlesSettings : ScriptableObject
     {
         //--------------------------------------
         // Constants
         //--------------------------------------
 
-        private const string SETTINGS_ASSET_EXTENSION = ".asset";
+        const string SETTINGS_ASSET_EXTENSION = ".asset";
 
-        private const string PACKAGE_NAME = "net.roomful.assets";
-        private const string PACKAGE_LOCATION = "Packages/" + PACKAGE_NAME + "/";
-        private const string PLUGINS_EDITOR_ROOMFUL = "Plugins/Roomful/Editor/";
+        const string PACKAGE_NAME = "net.roomful.assets";
+        const string PACKAGE_LOCATION = "Packages/" + PACKAGE_NAME + "/";
+        const string PLUGINS_EDITOR_ROOMFUL = "Plugins/Roomful/Editor/";
 
-        private const string SETTINGS_LOCATION = PLUGINS_EDITOR_ROOMFUL + "Settings/Resources/";
+        const string SETTINGS_LOCATION = PLUGINS_EDITOR_ROOMFUL + "Settings/Resources/";
         public const string ASSETS_TEMP_LOCATION = PLUGINS_EDITOR_ROOMFUL + "Temp/";
         public const string ASSETS_RESOURCES_LOCATION = PLUGINS_EDITOR_ROOMFUL + "Bundles/";
 
@@ -38,7 +37,7 @@ namespace net.roomful.assets
         // Session Data
         //--------------------------------------
 
-        [SerializeField] private string m_sessionId = string.Empty;
+        [SerializeField] string m_sessionId = string.Empty;
 
         [SerializeField] public List<PropAssetTemplate> m_localPropTemplates = new List<PropAssetTemplate>();
         [SerializeField] public List<StyleAssetTemplate> m_localStyleTemplates = new List<StyleAssetTemplate>();
@@ -63,11 +62,11 @@ namespace net.roomful.assets
         public bool m_automaticCacheClean = true;
 
 #if UNITY_EDITOR
-        [SerializeField] private List<UnityEditor.BuildTarget> m_targetPlatforms = new List<UnityEditor.BuildTarget>();
+        [SerializeField] List<UnityEditor.BuildTarget> m_targetPlatforms = new List<UnityEditor.BuildTarget>();
         public List<UnityEditor.BuildTarget> TargetPlatforms => m_targetPlatforms;
 #endif
 
-        private static AssetBundlesSettings s_instance = null;
+        static AssetBundlesSettings s_instance = null;
 
         public static AssetBundlesSettings Instance {
             get {
@@ -156,7 +155,7 @@ namespace net.roomful.assets
         // Private Methods
         //--------------------------------------
 
-        private void ReplaceTemplateInList<T>(AssetTemplate tpl, List<T> templates) where T : AssetTemplate {
+        void ReplaceTemplateInList<T>(AssetTemplate tpl, List<T> templates) where T : AssetTemplate {
             for (var i = 0; i < templates.Count; i++) {
                 if (templates[i].Id.Equals(tpl.Id)) {
                     templates[i] = (T) tpl;
@@ -165,7 +164,7 @@ namespace net.roomful.assets
             }
         }
 
-        private void RemoveTemplateFromList<T>(AssetTemplate tpl, List<T> templates) where T : AssetTemplate {
+        void RemoveTemplateFromList<T>(AssetTemplate tpl, List<T> templates) where T : AssetTemplate {
             for (var i = 0; i < templates.Count; i++) {
                 if (templates[i].Id.Equals(tpl.Id)) {
                     templates.Remove(templates[i]);

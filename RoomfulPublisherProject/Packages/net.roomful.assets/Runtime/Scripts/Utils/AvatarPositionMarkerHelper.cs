@@ -7,9 +7,7 @@ namespace net.roomful.assets.editor
         public void PrepareForUpload() {
             Destroy(gameObject);
         }
-
-        public void RemoveSilhouette() {}
-
+        
         public void Update() { }
 
         public PropComponentUpdatePriority UpdatePriority { get; } = PropComponentUpdatePriority.Lowest;

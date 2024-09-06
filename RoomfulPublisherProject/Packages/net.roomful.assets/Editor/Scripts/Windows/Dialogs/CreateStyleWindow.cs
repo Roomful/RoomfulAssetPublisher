@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using net.roomful.api;
+using UnityEngine;
 using UnityEditor;
 
 namespace net.roomful.assets.editor
 {
-    internal class CreateStyleWindow : EditorWindow
+    class CreateStyleWindow : EditorWindow
     {
-        private StyleAssetTemplate m_assetTemplate = new StyleAssetTemplate();
+        StyleAssetTemplate m_AssetTemplate = new StyleAssetTemplate();
 
         void OnGUI() {
             var wizardIcon = IconManager.GetIcon(Icon.wizard);
@@ -16,8 +17,11 @@ namespace net.roomful.assets.editor
             EditorGUI.LabelField(new Rect(100, 10, 300, 40), headerContent);
 
             EditorGUI.LabelField(new Rect(100, 50, 300, 16), "Name:");
-            m_assetTemplate.Title = EditorGUI.TextField(new Rect(160, 50, 190, 16), m_assetTemplate.Title);
+            m_AssetTemplate.Title = EditorGUI.TextField(new Rect(160, 50, 190, 16), m_AssetTemplate.Title);
 
+            EditorGUI.LabelField(new Rect(100, 70, 300, 16), "Type:");
+            m_AssetTemplate.StyleType = (StyleType)EditorGUI.EnumPopup(new Rect(160, 70, 190, 16), m_AssetTemplate.StyleType);
+            
             GUILayout.Space(110f);
             GUILayout.BeginHorizontal();
             {
@@ -29,7 +33,7 @@ namespace net.roomful.assets.editor
 
                 var create = GUILayout.Button("Create", EditorStyles.miniButton, GUILayout.Width(80));
                 if (create) {
-                    BundleService.Create(m_assetTemplate);
+                    BundleService.Create(m_AssetTemplate);
                     Dismiss();
                 }
 
@@ -38,8 +42,8 @@ namespace net.roomful.assets.editor
             GUILayout.EndHorizontal();
         }
 
-        private void Dismiss() {
-            m_assetTemplate = new StyleAssetTemplate();
+        void Dismiss() {
+            m_AssetTemplate = new StyleAssetTemplate();
             Close();
         }
     }

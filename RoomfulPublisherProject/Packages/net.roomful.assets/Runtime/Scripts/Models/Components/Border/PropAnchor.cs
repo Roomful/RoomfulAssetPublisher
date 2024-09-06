@@ -85,9 +85,7 @@ namespace net.roomful.assets
         public void PrepareForUpload() {
             DestroyImmediate(this);
         }
-
-        public void RemoveSilhouette() { }
-
+        
         public PropComponentUpdatePriority UpdatePriority => PropComponentUpdatePriority.Lowest;
 
         private SerializedAnchor Settings {
