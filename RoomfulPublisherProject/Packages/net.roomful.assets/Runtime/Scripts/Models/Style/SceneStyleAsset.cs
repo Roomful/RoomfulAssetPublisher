@@ -1,4 +1,6 @@
+using System.Linq;
 using net.roomful.api;
+using net.roomful.assets.serialization;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -34,6 +36,8 @@ namespace net.roomful.assets
                 sceneStyle.AddMaterial(decal.material);
             }
             
+            var reflectiveFloors = GetComponentsInChildren<SerializedReflectiveFloor>();
+            sceneStyle.SetReflectiveFloors(reflectiveFloors.ToList());
         }
         
         public override GameObject Environment => null;
