@@ -16,11 +16,11 @@ namespace net.roomful.assets.editor
             }
         }
 
-        public void DrawGizmosSwitch() {
+        protected void DrawGizmosSwitch() {
             Asset.DrawGizmos = EditorGUILayout.Toggle("Draw Gizmos", Asset.DrawGizmos);
         }
 
-        public void DrawActionButtons() {
+        protected void DrawActionButtons(bool drawRefreshButton = true) {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Actions: ", EditorStyles.boldLabel);
             GUILayout.BeginHorizontal();
@@ -44,9 +44,12 @@ namespace net.roomful.assets.editor
                         BundleService.Upload(Asset);
                     }
 
-                    var refresh = GUILayout.Button("Refresh", EditorStyles.miniButton, GUILayout.Width(120));
-                    if (refresh) {
-                        BundleService.Download(Template);
+                    if (drawRefreshButton)
+                    {
+                        var refresh = GUILayout.Button("Refresh", EditorStyles.miniButton, GUILayout.Width(120));
+                        if (refresh) {
+                            BundleService.Download(Template);
+                        }
                     }
                 }
             }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using net.roomful.api;
 using net.roomful.assets.serialization;
@@ -11,6 +13,10 @@ namespace net.roomful.assets
         [SerializeField] string m_StyleId;
         [SerializeField] string m_Title;
         [SerializeField] Texture2D m_Thumbnail;
+        [SerializeField] Vector3 m_HomePosition;
+        [SerializeField] float m_Price;
+        [SerializeField] int m_SortingScore;
+        [SerializeField] List<string> m_Tags;
         
         [ContextMenu("PrepareForUpload")]
         public override void PrepareForUpload()
@@ -45,26 +51,26 @@ namespace net.roomful.assets
         public void Validate()
         {
             Debug.Log("Validate");
-            if (Template.StyleType != StyleType.NonExtendable)
-            {
-                Template.StyleType = StyleType.NonExtendable;
-            }
+            Template.StyleType = StyleType.NonExtendable;
+            Template.DoorsType = StyleDoorsType.None;
 
-            if (!string.IsNullOrEmpty(m_StyleId))
+            if (!string.IsNullOrEmpty(m_StyleId) || !string.IsNullOrEmpty(m_Title))
             {
                 Template.Id = m_StyleId;
-            }
-            
-            if (!string.IsNullOrEmpty(m_Title))
-            {
                 Template.Title = m_Title;
                 gameObject.name = m_Title;
-            }
-
-            if (m_Thumbnail != null)
-            {
+                
+                Template.HomePosition = m_HomePosition;
+                Template.Price = Convert.ToDecimal(m_Price);
+                Template.Score = m_SortingScore;
+                
+                Template.Tags.Clear();
+                Template.Tags.AddRange(m_Tags);
+                
                 Template.Icon.SetThumbnail(m_Thumbnail);
+                Icon = Template.Icon.Thumbnail;
             }
+            
         }
     }
 }

@@ -8,13 +8,11 @@ namespace net.roomful.assets
     {
         [SerializeField] List<Material> m_Materials = new List<Material>();
         [SerializeField] List<string> m_MaterialShaders = new List<string>();
-        [SerializeField] List<string> m_MaterialKeywords = new List<string>();
+        [SerializeField] List<SerializedReflectiveFloor> m_ReflectiveFloors = new List<SerializedReflectiveFloor>();
+
         
         public IReadOnlyList<Material> Materials => m_Materials;
         public IReadOnlyList<string> MaterialShaders => m_MaterialShaders;
-        public IReadOnlyList<string> MaterialKeywords => m_MaterialKeywords;
-        
-        [SerializeField] List<SerializedReflectiveFloor> m_ReflectiveFloors = new List<SerializedReflectiveFloor>();
         public  List<SerializedReflectiveFloor> ReflectiveFloors => m_ReflectiveFloors;
         
 
@@ -22,7 +20,6 @@ namespace net.roomful.assets
         {
             m_Materials.Clear();
             m_MaterialShaders.Clear();
-            m_MaterialKeywords.Clear();
             m_ReflectiveFloors.Clear();
         }
         
@@ -32,7 +29,6 @@ namespace net.roomful.assets
             {
                 m_Materials.Add(material);
                 m_MaterialShaders.Add(material.shader.name);
-                m_MaterialKeywords.Add(string.Join("_", material.shaderKeywords));
             }
         }
 
