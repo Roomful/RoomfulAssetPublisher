@@ -52,63 +52,71 @@ namespace net.roomful.assets.editor
 
         protected void DrawStatus()
         {
-            EditorGUI.BeginChangeCheck();
-            using (new IMGUIBeginHorizontal())
+            using (new IMGUIEnable(!string.IsNullOrEmpty(AssetTemplate.Id)))
             {
-                EditorGUILayout.LabelField("Status: ", GUILayout.Width(100));
-                AssetTemplate.Status = (AssetStatus) EditorGUILayout.Popup((int)AssetTemplate.Status, m_StatusOptions, GUILayout.Width(240));
-            }
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                m_UpdateRequestInProgress = true;
-                var updateStatus = new UpdateStatus(AssetTemplate.Id, AssetTemplate.Status);
-                updateStatus.Send(result =>
+                EditorGUI.BeginChangeCheck();
+                using (new IMGUIBeginHorizontal())
                 {
-                    m_UpdateRequestInProgress = false;
-                    if (result.IsSucceeded)
+                    EditorGUILayout.LabelField("Status: ", GUILayout.Width(100));
+                    AssetTemplate.Status = (AssetStatus) EditorGUILayout.Popup((int)AssetTemplate.Status, m_StatusOptions, GUILayout.Width(240));
+                }
+
+                if (EditorGUI.EndChangeCheck())
+                {
+                    m_UpdateRequestInProgress = true;
+                    var updateStatus = new UpdateStatus(AssetTemplate.Id, AssetTemplate.Status);
+                    updateStatus.Send(result =>
                     {
-                        EditorUtility.DisplayDialog(
-                            "Completed", $"{AssetTemplate.Title} status updated to '{AssetTemplate.Status}'", "Ok");
-                    }
-                });
+                        m_UpdateRequestInProgress = false;
+                        if (result.IsSucceeded)
+                        {
+                            EditorUtility.DisplayDialog(
+                                "Completed", $"{AssetTemplate.Title} status updated to '{AssetTemplate.Status}'", "Ok");
+                        }
+                    });
+                }
             }
+            
         }
         
         protected void DrawNetwork()
         {
-            EditorGUI.BeginChangeCheck();
+            using (new IMGUIEnable(!string.IsNullOrEmpty(AssetTemplate.Id)))
+            {
+                EditorGUI.BeginChangeCheck();
 
-            var network = RoomfulPublisher.Session.Networks.GetNetwork(AssetTemplate.NetworkId);
-            if (network == null)
-            {
-                Debug.LogWarning("Failed to identify asset network: " + AssetTemplate.NetworkId);
-                return;
-            }
-            var index = RoomfulPublisher.Session.Networks.Names.ToList().IndexOf(network.Name);
-            using (new IMGUIBeginHorizontal())
-            {
-                EditorGUILayout.LabelField("Network: ", GUILayout.Width(100));
-                index = EditorGUILayout.Popup(index, RoomfulPublisher.Session.Networks.Names.ToArray(), GUILayout.Width(240));
-            }
-            
-            if (EditorGUI.EndChangeCheck())
-            {
-                
-                m_UpdateRequestInProgress = true;
-                var newNetwork = RoomfulPublisher.Session.Networks.Models[index];
-                AssetTemplate.NetworkId = newNetwork.Id;
-                
-                var updateStatus = new UpdateOwnership(AssetTemplate.Id, newNetwork.Id);
-                updateStatus.Send(result =>
+                var network = RoomfulPublisher.Session.Networks.GetNetwork(AssetTemplate.NetworkId);
+                if (network == null)
                 {
-                    m_UpdateRequestInProgress = false;
-                    if (result.IsSucceeded)
+                    Debug.LogWarning("Failed to identify asset network: " + AssetTemplate.NetworkId);
+                    return;
+                }
+
+                var index = RoomfulPublisher.Session.Networks.Names.ToList().IndexOf(network.Name);
+                using (new IMGUIBeginHorizontal())
+                {
+                    EditorGUILayout.LabelField("Network: ", GUILayout.Width(100));
+                    index = EditorGUILayout.Popup(index, RoomfulPublisher.Session.Networks.Names.ToArray(), GUILayout.Width(240));
+                }
+
+                if (EditorGUI.EndChangeCheck())
+                {
+
+                    m_UpdateRequestInProgress = true;
+                    var newNetwork = RoomfulPublisher.Session.Networks.Models[index];
+                    AssetTemplate.NetworkId = newNetwork.Id;
+
+                    var updateStatus = new UpdateOwnership(AssetTemplate.Id, newNetwork.Id);
+                    updateStatus.Send(result =>
                     {
-                        EditorUtility.DisplayDialog(
-                            "Completed", $"{AssetTemplate.Title} has been transferred to '{newNetwork.Name}'", "Ok");
-                    }
-                });
+                        m_UpdateRequestInProgress = false;
+                        if (result.IsSucceeded)
+                        {
+                            EditorUtility.DisplayDialog(
+                                "Completed", $"{AssetTemplate.Title} has been transferred to '{newNetwork.Name}'", "Ok");
+                        }
+                    });
+                }
             }
         }
 

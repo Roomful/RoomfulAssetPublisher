@@ -6,6 +6,7 @@ namespace net.roomful.assets.editor
     {
         void Create(AssetTemplate tpl);
         void Upload(IAsset asset);
+        void ReUpload(IAsset asset);
         void UpdateMeta(IAsset asset);
         void Download(AssetTemplate tpl);
 

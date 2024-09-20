@@ -117,6 +117,14 @@ namespace net.roomful.assets.editor
             var bundle = GetBundleByAssetType(typeof(TAsset));
             bundle.Upload(asset);
         }
+        
+        public static void ReUpload<TAsset>(TAsset asset) where TAsset : IAsset {
+            if (!IsUploadAllowed())
+                return;
+
+            var bundle = GetBundleByAssetType(typeof(TAsset));
+            bundle.ReUpload(asset);
+        }
 
         static bool IsUploadAllowed() {
             

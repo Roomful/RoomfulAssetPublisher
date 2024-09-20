@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using net.roomful.api;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +9,9 @@ namespace net.roomful.assets.editor
     class StylesList : AssetsList<StyleAssetTemplate>
     {
         protected override int SearchPreloaderOffset => -17;
-        
+
+        protected override bool AllowDownloadSelectedAsset => m_SelectedAsset.StyleType != StyleType.NonExtendable;
+
         public StylesList(EditorWindow window) : base(window) { }
 
         protected override void CreateNewAsset() {

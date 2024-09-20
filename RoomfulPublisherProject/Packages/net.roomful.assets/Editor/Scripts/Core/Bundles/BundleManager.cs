@@ -40,6 +40,8 @@ namespace net.roomful.assets.editor
                 var thumbnailUploader = new AssetThumbnailUploader(assetTemplate);
                 thumbnailUploader.Upload(asset.GetIcon(), iconRes => {
                     assetTemplate.Icon = iconRes;
+                    
+                    EditorUtility.DisplayDialog("Updated", $"{asset.Title} metadata updated", "OK");
                 });
             };
             metaRequest.Send();
@@ -70,6 +72,12 @@ namespace net.roomful.assets.editor
             else {
                 UploadExistingAsset((TAsset) asset);
             }
+        }
+        
+        public void ReUpload(IAsset asset)
+        {
+            PrepareForUpload((TAsset) asset);
+            UploadAssetBundle((TAsset) asset);
         }
 
         //--------------------------------------
@@ -111,8 +119,26 @@ namespace net.roomful.assets.editor
         void UploadExistingAsset(TAsset asset) {
             UploadAsset(GenerateMeta_Update_Request(asset), asset);
         }
+       
 
-        void UploadAsset(AssetMetadataRequest metaRequest, TAsset asset) {
+        void UploadAsset(AssetMetadataRequest metaRequest, TAsset asset)
+        {
+            PrepareForUpload(asset);
+            metaRequest.PackageCallbackText = callback => {
+                var template = asset.GetTemplate();
+                template.Id = new AssetTemplate(callback).Id;
+               
+                var thumbnailUploader = new AssetThumbnailUploader(template);
+                thumbnailUploader.Upload(asset.GetIcon(), iconRes => {
+                    template.Icon = iconRes;
+                    UploadAssetBundle(asset);
+                });
+            };
+            metaRequest.Send();
+        }
+
+        void PrepareForUpload(TAsset asset)
+        {
             // Removing generated borders, since we are checking for same names
             foreach (var gb in Object.FindObjectsOfType<GameObject>()) {
                 if (gb.name == BorderLayers.GeneratedBorder.ToString())
@@ -135,14 +161,6 @@ namespace net.roomful.assets.editor
 
             asset.PrepareForUpload();
             BundleUtility.SaveTemplateToFile(PersistentTemplatePath, asset.GetTemplate());
-
-            
-          
-            metaRequest.PackageCallbackText = callback => {
-                asset.GetTemplate().Id = new AssetTemplate(callback).Id;
-                UploadAssetBundle(asset);
-            };
-            metaRequest.Send();
         }
 
         void DownloadAsset(T tpl) {
@@ -229,24 +247,20 @@ namespace net.roomful.assets.editor
               var template = asset.GetTemplate();
               UnityEditor.AssetDatabase.Refresh();
 
-              var thumbnailUploader = new AssetThumbnailUploader(template);
-              thumbnailUploader.Upload(asset.GetIcon(), iconRes => {
-                  template.Icon = iconRes;
-                  AssetBundlesSettings.Instance.ReplaceSavedTemplate(template);
-                  BundleUtility.SaveTemplateToFile(PersistentTemplatePath, template);
+              AssetBundlesSettings.Instance.ReplaceSavedTemplate(template);
+              BundleUtility.SaveTemplateToFile(PersistentTemplatePath, template);
 
-                  if (asset is SceneStyleAsset)
-                  {
-                      GenerateUploadScene(asset);
-                  }
-                  else
-                  {
-                      BundleUtility.GenerateUploadPrefab(asset);
-                      OriginalResourcesManager.UploadResourcesArchive(asset.GetTemplate().Id, asset.Title);
-                  }
+              if (asset is SceneStyleAsset)
+              {
+                  GenerateUploadScene(asset);
+              }
+              else
+              {
+                  BundleUtility.GenerateUploadPrefab(asset);
+                  OriginalResourcesManager.UploadResourcesArchive(asset.GetTemplate().Id, asset.Title);
+              }
                   
-                  AssetsUploadLoop(0, template);
-              });
+              AssetsUploadLoop(0, template);
         }
 
         void GenerateUploadScene(TAsset asset)

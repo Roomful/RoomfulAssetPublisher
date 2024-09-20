@@ -15,6 +15,7 @@ namespace net.roomful.assets.editor
         protected int m_NetworkSelectedIndex;
         protected SeartchRequestType m_SearchType = SeartchRequestType.ByName;
         protected string m_SearchPattern = string.Empty;
+        protected virtual bool AllowDownloadSelectedAsset => true;
 
         Vector2 m_KeyScrollPos;
         int m_ItemsPreloaderAngle;
@@ -139,14 +140,34 @@ namespace net.roomful.assets.editor
             if (m_SelectedAsset != null) {
                 using (new IMGUIBeginHorizontal(GUILayout.ExpandWidth(true))) {
                     GUILayout.Label("Actions", WizardWindow.Constants.settingsBoxTitle);
-                    var edit = Resources.Load("edit") as Texture2D;
-                    var editAsset = GUILayout.Button(edit, WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20), GUILayout.Height(20));
-                    if (editAsset) {
-                        BundleService.Create(m_SelectedAsset);
+                    var download = Resources.Load("download") as Texture2D;
+
+                    var downloadContent = new GUIContent
+                    {
+                        text = string.Empty,
+                        tooltip = "Download",
+                        image = download,
+                    };
+
+                    if(AllowDownloadSelectedAsset)
+                    {
+                        var editAsset = GUILayout.Button(downloadContent, WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20), GUILayout.Height(20));
+                        if (editAsset) {
+                            BundleService.Download(m_SelectedAsset);
+                        }
                     }
+                   
 
                     var trash = Resources.Load("trash") as Texture2D;
-                    var removeAsset = GUILayout.Button(trash, WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20), GUILayout.Height(20));
+                    
+                    var deleteContent = new GUIContent
+                    {
+                        text = string.Empty,
+                        tooltip = "Delete",
+                        image = trash,
+                    };
+                    
+                    var removeAsset = GUILayout.Button(deleteContent, WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(20), GUILayout.Height(20));
                     if (removeAsset) {
                         if (EditorUtility.DisplayDialog("Delete " + m_SelectedAsset.Title, "Are you sure you want to remove this asset?", "Remove", "Cancel")) {
                             RequestManager.RemoveAsset(m_SelectedAsset);
@@ -157,9 +178,9 @@ namespace net.roomful.assets.editor
 
                 using (new IMGUIBeginHorizontal(GUILayout.ExpandWidth(true))) {
                     GUILayout.Label("Selected Asset", WizardWindow.Constants.settingsBoxTitle);
-                    var openAsset = GUILayout.Button("Download", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(68), GUILayout.Height(20));
+                    var openAsset = GUILayout.Button("Edit Meta", WizardWindow.Constants.settingsBoxTitle, GUILayout.Width(68), GUILayout.Height(20));
                     if (openAsset) {
-                        BundleService.Download(m_SelectedAsset);
+                        BundleService.Create(m_SelectedAsset);
                     }
                 }
 

@@ -30,7 +30,6 @@ namespace net.roomful.assets.editor
             GUILayout.BeginVertical(GUILayout.Width(370));
             {
                 DrawTitleFiled();
-
                 using (new IMGUIBeginHorizontal()) {
                     EditorGUILayout.LabelField("Home X: ", GUILayout.Width(100));
                     var homePosition = Asset.Template.HomePosition;

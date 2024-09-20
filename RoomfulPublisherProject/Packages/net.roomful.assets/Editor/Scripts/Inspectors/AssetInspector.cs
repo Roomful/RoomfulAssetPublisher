@@ -41,7 +41,12 @@ namespace net.roomful.assets.editor
                 else {
                     var reUpload = GUILayout.Button("Re Upload", EditorStyles.miniButton, GUILayout.Width(120));
                     if (reUpload) {
-                        BundleService.Upload(Asset);
+                        BundleService.ReUpload(Asset);
+                    }
+                    
+                    var updateMeta = GUILayout.Button("Update Meta", EditorStyles.miniButton, GUILayout.Width(120));
+                    if (updateMeta) {
+                        BundleService.UpdateMeta(Asset);
                     }
 
                     if (drawRefreshButton)

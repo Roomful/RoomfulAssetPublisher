@@ -50,7 +50,6 @@ namespace net.roomful.assets
 
         public void Validate()
         {
-            Debug.Log("Validate");
             Template.StyleType = StyleType.NonExtendable;
             Template.DoorsType = StyleDoorsType.None;
 

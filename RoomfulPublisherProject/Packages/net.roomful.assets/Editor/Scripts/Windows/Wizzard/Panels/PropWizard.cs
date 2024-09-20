@@ -66,7 +66,7 @@ namespace net.roomful.assets.editor
 
                 Asset.Template.CanStack = YesNoFiled("Can Stack", Asset.Template.CanStack, 100, 240);
                 Asset.Template.DisplaySkins = YesNoFiled("Skins as Props", Asset.Template.DisplaySkins, 100, 240);
-
+                
                 DrawStatus();
                 DrawNetwork();
             }
