@@ -39,6 +39,11 @@ namespace net.roomful.assets
             get => m_dataModel.HasColorSupport;
             set => m_dataModel.HasColorSupport = value;
         }
+        
+        public bool IsHidden {
+            get => m_dataModel.IsHidden;
+            set => m_dataModel.IsHidden = value;
+        }
 
         public Color DefaultColor {
             get => m_dataModel.DefaultColor;

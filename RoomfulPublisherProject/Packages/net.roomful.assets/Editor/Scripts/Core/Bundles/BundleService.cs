@@ -11,7 +11,7 @@ namespace net.roomful.assets.editor
     static class BundleService
     {
         static readonly List<IBundleManager> s_Bundles;
-        const string k_RequiredUnityVersion = "2021.3.21";
+        const string k_RequiredUnityVersion = "2021.3.43";
 
         static BundleService() {
             s_Bundles = new List<IBundleManager> {

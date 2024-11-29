@@ -47,6 +47,11 @@ namespace net.roomful.assets
             get => m_dataModel.IsDefault;
             set => m_dataModel.IsDefault = value;
         }
+        
+        public bool IsHidden {
+            get => m_dataModel.IsHidden;
+            set => m_dataModel.IsHidden = value;
+        }
 
         public bool HeavySkin {
             get => m_dataModel.HeavySkin;

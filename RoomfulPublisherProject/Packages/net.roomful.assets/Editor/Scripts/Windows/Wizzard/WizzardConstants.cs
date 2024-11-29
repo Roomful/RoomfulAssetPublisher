@@ -27,8 +27,8 @@ namespace net.roomful.assets.editor
             sectionScrollView.overflow.bottom++;
 
             toolbarStyle = GUI.skin.FindStyle("Toolbar");
-            toolbarSearchTextFieldStyle = GUI.skin.FindStyle("ToolbarSeachTextField");
-            toolbarSearchCancelButtonStyle = GUI.skin.FindStyle("ToolbarSeachCancelButton");
+            toolbarSearchTextFieldStyle = GUI.skin.FindStyle("ToolbarSearchTextField");
+            toolbarSearchCancelButtonStyle = GUI.skin.FindStyle("ToolbarSearchCancelButton");
 
             sectionHeader.fontStyle = FontStyle.Bold;
             sectionHeader.fontSize = 18;

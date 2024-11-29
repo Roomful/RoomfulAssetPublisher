@@ -14,9 +14,9 @@ namespace net.roomful.assets.serialization
         [SerializeField] private int m_OccupiedById;
 
         public AvatarPositionType PositionType => m_positionType;
-        public Vector3 Position => transform.position;
-        public Vector3 Forward => transform.forward;
-        public Vector3 EulerAngles => transform.eulerAngles;
+        public Vector3 Position => transform != null ? transform.position : default;
+        public Vector3 Forward => transform != null ? transform.forward : default;
+        public Vector3 EulerAngles => transform != null ?  transform.eulerAngles : default;
         public int OccupiedById
         {
             get => m_OccupiedById;

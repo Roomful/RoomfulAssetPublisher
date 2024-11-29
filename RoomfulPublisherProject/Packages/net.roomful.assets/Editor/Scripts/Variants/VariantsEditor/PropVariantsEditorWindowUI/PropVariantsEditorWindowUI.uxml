@@ -32,7 +32,9 @@
                         <ui:Label text="Sort Order:"/>
                     </ui:VisualElement>
                     <uie:IntegerField name="PropVariantSortingOrder" class="variant-name"/>
+                    
                     <ui:VisualElement name="DefaultSkinColorPanel">
+                        <ui:Toggle name="PropVariantIsHidden" label="Is Hidden"/>
                         <ui:Toggle name="PropVariantHasColorSupport" label="Variant supports color"/>
                         <uie:ColorField label="Default Color" name="DefaultSkinColor"/>
                     </ui:VisualElement>
@@ -84,6 +86,7 @@
 
 
                     <ui:Toggle name="PropSkinDefaultToggle" label="Is Default" class="toggle-default"/>
+                    <ui:Toggle name="PropSkinHiddenToggle" label="Is Hidden" class="toggle-default"/>
                     <ui:Toggle name="PropSkinHeavyToggle" label="Heavy Skin" class="toggle-default"/>
                     <ui:Toggle name="PropSkinDebugToggle" label="Debug Mode" class="toggle-default"/>
                     <ui:Toggle name="ColorOnlySkinToggle" label="Color Only" class="toggle-default"/>

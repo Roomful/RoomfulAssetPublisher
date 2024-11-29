@@ -10,7 +10,7 @@ namespace net.roomful.assets {
 	
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(RectTransform))]
-	internal class RoomfulText : MonoBehaviour, IPropPublihserComponent
+	class RoomfulText : MonoBehaviour, IPropPublihserComponent
     {
 		public enum AlignmentVertical {
 			Upper,

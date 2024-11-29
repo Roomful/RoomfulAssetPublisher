@@ -41,8 +41,10 @@ namespace net.roomful.assets.editor
         private VisualElement m_hierarchyTree;
         private IMGUIContainer m_hierarchyTreeIMGUI;
         private Toggle m_propSkinDefaultToggle;
+        private Toggle m_propSkinHiddenToggle;
         private Toggle m_propSkinHeavyToggle;
         private Toggle m_propVariantHasColorSupport;
+        private Toggle m_propVariantIsHidden;
         private ColorField m_defaultColor;
 
         private Toggle m_colorOnlySkinToggle;
@@ -171,6 +173,13 @@ namespace net.roomful.assets.editor
                 SelectedVariant.HasColorSupport = e.newValue;
                 ShowDefaultColor(e.newValue);
             });
+            
+            m_propVariantIsHidden = this.Q<Toggle>("PropVariantIsHidden");
+            m_propVariantIsHidden.Children().FirstOrDefault()?.AddToClassList("toggle-label");
+            m_propVariantIsHidden.RegisterValueChangedCallback(e => {
+                SelectedVariant.IsHidden = e.newValue;
+            });
+
 
             m_defaultColor = this.Q<ColorField>("DefaultSkinColor");
             m_defaultColor.RegisterValueChangedCallback(e => {
@@ -278,10 +287,15 @@ namespace net.roomful.assets.editor
             var propSkinIconButton = this.Q<Button>("PropSkinIconButton");
             propSkinIconButton.clicked += CreateSkinPreviewIcon;
             m_propSkinDefaultToggle = this.Q<Toggle>("PropSkinDefaultToggle");
-            //m_propSkinDefaultToggle.Children().FirstOrDefault()?.AddToClassList("toggle-label-default");
             m_propSkinDefaultToggle.RegisterValueChangedCallback(e => {
                 SelectedSkin.IsDefault = e.newValue;
             });
+            
+            m_propSkinHiddenToggle  = this.Q<Toggle>("PropSkinHiddenToggle");
+            m_propSkinHiddenToggle.RegisterValueChangedCallback(e => {
+                SelectedSkin.IsHidden = e.newValue;
+            });
+            
             m_propSkinHeavyToggle = this.Q<Toggle>("PropSkinHeavyToggle");
             m_propSkinHeavyToggle.RegisterValueChangedCallback(e => {
                 SelectedSkin.HeavySkin = e.newValue;
@@ -461,6 +475,7 @@ namespace net.roomful.assets.editor
 
             RefreshSkins();
             m_propVariantHasColorSupport.value = SelectedVariant.HasColorSupport;
+            m_propVariantIsHidden.value = SelectedVariant.IsHidden;
 
             ShowDefaultColor(SelectedVariant.HasColorSupport);
             m_defaultColor.value = SelectedVariant.DefaultColor;
@@ -484,6 +499,7 @@ namespace net.roomful.assets.editor
             m_platforms.Clear();
             m_platforms.Add(new SelectableLabel { text = string.Concat("Platforms: ", string.Join(",", SelectedSkin.AvailablePlatforms)) });
             m_propSkinDefaultToggle.value = SelectedSkin.IsDefault;
+            m_propSkinHiddenToggle.value = SelectedSkin.IsHidden;
             m_propSkinHeavyToggle.value = SelectedSkin.HeavySkin;
             m_propSkinIcon.SetValueWithoutNotify(SelectedSkin.Thumbnail);
             RefreshTree();

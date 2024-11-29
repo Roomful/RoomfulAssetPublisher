@@ -32,6 +32,11 @@ namespace net.roomful.api
         /// Variant thumbnail.
         /// </summary>
         public ResourceDataModel ThumbnailData { get; set; }
+        
+        /// <summary>
+        /// Skins is only visible for an asset admins.
+        /// </summary>
+        public bool IsHidden { get; set; }
 
         /// <summary>
         /// Variant supports color.
@@ -61,6 +66,10 @@ namespace net.roomful.api
 
             if (metaData.HasValue("sortOrder")) {
                 SortOrder = metaData.GetValue<int>("sortOrder");
+            }
+            
+            if (metaData.HasValue("isHidden")) {
+                IsHidden = metaData.GetValue<bool>("isHidden");
             }
 
             if (metaData.HasValue("hasColorSupport")) {
@@ -99,6 +108,8 @@ namespace net.roomful.api
             data.Add("defaultColor", defaultColor);
 
             data.Add("sortOrder", SortOrder);
+            data.Add("isHidden", IsHidden);
+           
             data.Add("hasColorSupport", HasColorSupport);
             data.Add("gameobjects", gameobjects);
             return data;

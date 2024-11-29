@@ -1,7 +1,56 @@
-# 2.38.1 
+# 2.44.0 
+ ### Minor changes
++ feat: shader variant collection (#123)
+<!-- Draft init version [2.43.3] -->
+---
+ # 2.43.3 
+ ### Patches
++ fix: search toolbar style name fixed for unity 2021.3.43
++ chore: required unity version updated
+---
+ # 2.43.2 
+ ### Patches
++ fix: added null ref check for transform inside AvatarPositionMarker (#122)
+---
+ # 2.43.1 
+ ### Patches
++ chore: shaders meta updated.
+---
+ # 2.43.0 
+ ### Minor changes
++ feat: ability to upload without meta requests, shaders are now moved to assets package.
+---
+ # 2.42.0 
+ ### Minor changes
++ feat: added component to indicate Prop with teleport using map (#121)
+---
+ # 2.41.1 
+ ### Patches
++ fix: SceneStyle.cs
+---
+ # 2.41.0 
+ ### Minor changes
++ feat: style scene shader serialization.
+---
+ # 2.40.1 
+ ### Patches
++ fix: MaterialShaders public property added.
+---
+ # 2.40.0 
+ ### Minor changes
++ feat: more scene style serialized properties.
+---
+ # 2.39.0 
+ ### Minor changes
++ feat: styles as scene v1
+---
+ # 2.38.2 
+ ### Patches
++ chore: skins as props option added.
+---
+ # 2.38.1 
  ### Patches
 + fix: fixed components serialisation on deactivated game objects.
-<!-- Draft init version [2.38.0] -->
 ---
  # 2.38.0 
  ### Minor changes

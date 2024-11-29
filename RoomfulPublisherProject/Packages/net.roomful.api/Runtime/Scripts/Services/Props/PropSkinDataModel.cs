@@ -21,6 +21,11 @@ namespace net.roomful.api
         /// The bigger sort order number means the skin will have higher priority (will be displayed on top.)
         /// </summary>
         public int SortOrder { get; set; }
+        
+        /// <summary>
+        /// Skins is only visible for an asset admins.
+        /// </summary>
+        public bool IsHidden { get; set; }
 
         /// <summary>
         /// Variant default color.
@@ -68,6 +73,10 @@ namespace net.roomful.api
                     a = defaultColor.GetValue<float>("b")
                 };
             }
+            
+            if (metaData.HasValue("isHidden")) {
+                IsHidden = metaData.GetValue<bool>("isHidden");
+            }
 
             if (metaData.HasValue("thumbnail")) {
                 var resInfo = new JSONData(metaData.GetValue<Dictionary<string, object>>("thumbnail"));
@@ -98,6 +107,8 @@ namespace net.roomful.api
             data.Add("isDefault", IsDefault);
             data.Add("simplifiedSkin", HeavySkin);
             data.Add("colorOnly", ColorOnly);
+            data.Add("isHidden", IsHidden);
+          
             data.Add("assetId", AssetId);
 
             var overrideColor = new Dictionary<string, object>();
